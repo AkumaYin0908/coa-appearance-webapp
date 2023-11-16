@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -39,6 +41,12 @@ public class User {
     @Size(min = 10,max = 50, message = "must have at least 20 characters but not more than 50 characters")
     @Column(name="position")
     private String position;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name="user_role",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Collection<Role> roles;
 
     public User(String userName, String password, boolean active, String name, String position) {
         this.userName = userName;
