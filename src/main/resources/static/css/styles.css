@@ -1,0 +1,32 @@
+
+
+.input-group{
+    margin-bottom:1rem;
+    font-family:"Roboto Mono","Source Code Pro", sans-serif;
+}
+
+.card-header{
+    padding:1rem;
+    font-family:"Source Code Pro", "Roboto Mono", sans-serif;
+    font-size:1rem;
+}
+
+
+h1,h2,h3,h4,h5,h6{
+font-family : "Source Code Pro", sans-serif;
+}
+
+#main-div.container{
+    margin-top : 5rem;
+}
+
+.footer-div{
+       text-align: center;
+       position: relative;
+       margin-top : 5rem;
+       bottom: 0;
+       width: 100%;
+       padding: 10px;
+       color: grey;
+
+}

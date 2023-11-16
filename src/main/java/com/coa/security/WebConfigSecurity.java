@@ -39,6 +39,7 @@ public class WebConfigSecurity {
                             .requestMatchers("/css/**").permitAll()
                             .requestMatchers("/js/**").permitAll()
                             .requestMatchers("/register/**").permitAll()
+                            .requestMatchers("/images/**").permitAll()
                             .requestMatchers("/fragments/**").permitAll()
                             .requestMatchers("/").hasRole("EMPLOYEE")
 
