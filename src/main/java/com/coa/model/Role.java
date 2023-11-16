@@ -2,6 +2,8 @@ package com.coa.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +20,8 @@ public class Role {
 
     @Column(name="name")
     private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

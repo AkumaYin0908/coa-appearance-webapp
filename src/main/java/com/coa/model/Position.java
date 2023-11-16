@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -23,6 +25,9 @@ public class Position {
     @NotBlank(message = "must not be blank")
     @Size(min=10,message = "must have at least 10 characters")
     private String name;
+
+    @OneToMany(mappedBy = "position",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    List<Visitor> visitors;
 
     public Position(String name) {
         this.name = name;

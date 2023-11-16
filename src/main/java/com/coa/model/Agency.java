@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -24,6 +26,8 @@ public class Agency {
     @Size(min=10,message = "must have at least 10 characters")
     private String name;
 
+    @OneToMany(mappedBy = "agency",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    private List<Visitor> visitors;
 
     public Agency(String name) {
         this.name = name;

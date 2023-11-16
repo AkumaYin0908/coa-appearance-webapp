@@ -19,7 +19,7 @@ public class Appearance {
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "visitor")
     private Visitor visitor;
 
     @Column(name = "date_from")
@@ -29,7 +29,7 @@ public class Appearance {
     private LocalDate dateTo;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "purpose")
     private Purpose purpose;
 
     @Column(name = "date_issued")

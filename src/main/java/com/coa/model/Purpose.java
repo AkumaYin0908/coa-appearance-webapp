@@ -27,7 +27,7 @@ public class Purpose {
     private String purpose;
 
     @OneToMany(mappedBy = "purpose", cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    private Set<Appearance> appearanceSet
+    private Set<Appearance> appearanceSet;
 
 
 
