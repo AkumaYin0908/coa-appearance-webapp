@@ -31,7 +31,7 @@ public class WebConfigSecurity {
     }
 
     @Bean
-    public SecurityFilterChain getFilterChain(HttpSecurity httpSecurity, AuthenticationSuccessHandler authenticationSuccessHandler)
+    public SecurityFilterChain getFilterChain(HttpSecurity httpSecurity, UserService userService)
             throws Exception {
 
             httpSecurity.authorizeHttpRequests(configurer ->
@@ -47,7 +47,7 @@ public class WebConfigSecurity {
             )
                     .formLogin(login -> login.loginPage("/login")
                             .loginProcessingUrl("/authenticate")
-                            .successHandler(authenticationSuccessHandler)
+                            .successHandler(new CustomAuthenticationSuccessHandler(userService))
                             .permitAll()
                     )
                     .logout(LogoutConfigurer::permitAll)

@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService {
        User dbUser=new User();
        dbUser.setUserName(user.getUserName());
        dbUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-       dbUser.setRoles(Arrays.asList(roleRepository.findByRoleName("EMPLOYEE")));
+       dbUser.setName(user.getName());
+       dbUser.setPosition(user.getPosition());
        dbUser.setRoles(List.of(roleRepository.findByRoleName("EMPLOYEE")));
        dbUser.setActive(true);
 
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
         Collection<SimpleGrantedAuthority> authorities =mapRolesToAuthorities(user.getRoles());
 
-       return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),authorities);
+       return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
