@@ -1,5 +1,136 @@
 
 
+*{
+    list-style : none;
+    text-decoration : none !important;
+    margin : 0;
+    padding : 0;
+    box-sizing : border-box;
+    font-family:"Source Code Pro","Roboto Mono", sans-serif;
+
+}
+
+*{
+     font-family:"Source Code Pro", "Roboto Mono", sans-serif;
+}
+
+
+.navbar{
+    top : 0;
+    z-index: 2 !important;
+}
+
+.navbar-nav{
+    padding: 0 1rem;
+}
+
+
+.offcanvas {
+    z-index: 0 !important;
+    height : 100%;
+    top : 0;
+    left: 0;
+    width : 14rem;
+    padding : 20px 0;
+    background : rgb(0,71,171) !important;
+    transition: all 0.5s ease;
+}
+
+.offcanvas .profile{
+
+    margin :   5rem 30px 2rem;
+    text-align : center;
+}
+
+.offcanvas .profile img{
+    display: block;
+    width : 100px;
+    height : 100px;
+    border-radius : 50%;
+    margin: 0 auto;
+}
+
+.offcanvas .profile  h4{
+    color : rgb(255,255,255);
+    margin: 10px 0 5px;
+}
+
+.offcanvas .profile  p{
+ 	color: rgb(206, 240, 253);
+ 	font-size: 14px;
+ 	margin-bottom : 0;
+ }
+
+ .offcanvas .profile  a{
+ 	color: rgb(255,255,255);
+ 	font-size: 12px;
+ }
+
+  .offcanvas .profile  a:hover{
+  	color: rgb(55, 57, 59);
+
+  }
+
+.offcanvas .side-buttons ul{
+    padding : 0;
+}
+
+.offcanvas .side-buttons ul li a{
+    display : block;
+    padding : 13px;
+    border-bottom : 1px solid #10558d;
+    color : rgb(255,255,255);
+    font-size : 1rem;
+    position : relative;
+}
+
+.offcanvas .side-buttons ul li a .icon{
+    color : rgb(255,255,255);
+    width : 30px;
+    display : inline-block;
+}
+
+.offcanvas .side-buttons ul li a:hover,
+.offcanvas .side-buttons ul li a.active{
+    color : rgb(0,71,171);
+
+    background : white;
+    boder-right : 2px solid rgb(5, 68,104);
+}
+
+.offcanvas .side-buttons ul li a:hover .icon,
+.offcanvas .side-buttons ul li a.active .icon{
+    color : rgb(0, 71, 171);
+}
+
+
+.offcanvas .side-buttons ul li a:hover:before,
+.offcanvas .side-buttons ul li a.active:before{
+    display : block;
+}
+
+
+.fa-user{
+    margin-right : 5px;
+}
+
+.navbar-collapse{
+    text-align: right;
+}
+
+.offcanvas-size-xl {
+    --bs-offcanvas-width: min(95vw, 600px) !important;
+}
+.offcanvas-size-xxl {
+    --bs-offcanvas-width: min(95vw, 90vw) !important;
+}
+.offcanvas-size-md { /* add Responsivenes to default offcanvas */
+    --bs-offcanvas-width: min(95vw, 400px) !important;
+}
+.offcanvas-size-sm {
+    --bs-offcanvas-width: min(95vw, 250px) !important;
+}
+
 .input-group{
     margin-bottom:1rem;
     font-family:"Roboto Mono","Source Code Pro", sans-serif;
@@ -28,5 +159,68 @@ font-family : "Source Code Pro", sans-serif;
        width: 100%;
        padding: 10px;
        color: grey;
+
+}
+
+.search{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 15rem;
+    height: 42.5px;
+    background: white;
+    box-sizing: border-box;
+    border-radius: 25px;
+    padding: 5px;
+}
+
+
+#keyword {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width :15rem;
+    height: 42.5px;
+    line-height: 30px;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px 0 50px;
+
+}
+
+
+
+.fa-search {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 42.5px;
+    height: 42.5px;
+    position: absolute;
+    top: 0;
+    left: 0; /* Change right to left */
+    border-radius: 50%;
+    color: #07051a;
+    text-align: center;
+    font-size: 1.2em;
+
+}
+
+.search:hover {
+    cursor: pointer;
+}
+
+
+
+.search:hover .fa-search {
+    background: #07051a;
+    color: white;
+}
+
+.form-control{
+     width : 3rem;
+     height: 42.5px;
+     line-height: 30px;
+     font-size: 1em;
+     border-radius: 20px;
 
 }

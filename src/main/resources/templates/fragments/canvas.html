@@ -1,9 +1,52 @@
-<div class=" container-lg offcanvas offcanvas-size-sm offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="side-panel" aria-labelledby="Side Panel">
 
-  <div class="container-fluid offcanvas-body">
-    <a class="side-link py-3" type="button" href="index.html"><i class="fa-solid fa-chalkboard-user"></i> Dashboard</a>
-    <a class="side-link py-3" type="button" href="coa-supplies/supplies.html" target="viewport"><i class="fa-solid fa-boxes-packing"></i> Supplies Management</a>
-    <a class="side-link py-3" type="button" href="coa-appearance/appearance.html" target="viewport"><i class="fa-solid fa-file-signature"></i> Certificate of Appearance</a>
 
+  <div  th:fragment="canvas" class="offcanvas offcanvas-size-sm offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="canvas-panel" aria-labelledby="Canvas Panel">
+    <div class="profile" th:object="${session.user}">
+        <img th:src="@{/images/user.png}" alt="profile picture">
+        <h4  th:text="*{name}"></h4>
+        <p th:text="*{position}"></p>
+        <a href="#">User settings</a>
+
+    </div>
+    <div class="side-buttons">
+      <ul>
+        <li>
+          <a id = "dashboardButton" th:href="@{/dashboard}">
+            <span class="icon"><i class="fa-solid fa-house"></i></span>
+            <span class="item">Home</span>
+          </a>
+        </li>
+
+        <li>
+          <a  id = "visitorButton" th:href="@{/visitors}">
+            <span class="icon"><i class="fa-solid fa-users"></i></span>
+            <span class="item">Visitors</span>
+          </a>
+        </li>
+
+        <li>
+          <a   id= "appearanceHistoryButton" href="#">
+            <span class="icon"><i class="fa-solid fa-certificate"></i></span>
+            <span class="item">Appearance History</span>
+          </a>
+        </li>
+
+        <li sec:authorize="hasRole('ADMIN')">
+          <a   id="appSettingButton" href="#">
+            <span class="icon"><i class="fa-solid fa-gear"></i></span>
+            <span class="item">App Settings</span>
+          </a>
+        </li>
+
+        <li >
+
+          <a  id="logoutButton">
+            <span class="icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+            <span class="item">Logout</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
   </div>
-</div>
+
