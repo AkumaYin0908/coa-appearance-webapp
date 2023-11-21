@@ -5,18 +5,46 @@
 </head>
 <body>
  <div th:replace="fragments/navigation :: navigation"></div>
-<div class="container" id="mainContent">
-    <div class="row">
-        <div class="col-md-8">
-            <div layout:fragment="content"></div>
-        </div>
 
-        <div class="col-md-4">
-            <div th:replace="fragments/canvas :: canvas"></div>
-        </div>
-    </div>
 
-</div>
+     <section>
+         <div  th:replace="fragments/canvas :: canvas">
+     </section>
+
+      <section>
+          <div id="main-content" layout:fragment="content"></div>
+      </section>
+
+
+
+ <!-- Logout Modal -->
+ <div class="modal text-center " data-bs-theme="dark"  id = "confirmLogout">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title text-light">Logout Confirmation</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                 </button>
+             </div>
+             <div class="modal-body">
+                 <span id="confirmText" class="text-light"></span>
+             </div>
+
+
+             <div class="modal-footer">
+                 <!-- https://www.codejava.net/frameworks/spring-boot/spring-security-logout-link -->
+                 <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+                     <input type="submit" name ="logout" value="Logout">
+                 </form>
+
+                 <a id="logoutButtonModal" href="/" type="button" class="btn btn-danger">Yes</a>
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+             </div>
+
+         </div>
+     </div>
+ </div>
 
 
  <!--Font Awesome-->

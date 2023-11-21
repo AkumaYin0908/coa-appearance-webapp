@@ -1,6 +1,6 @@
 
 
-  <div  th:fragment="canvas" class="offcanvas offcanvas-size-sm offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="canvas-panel" aria-labelledby="Canvas Panel">
+  <div  th:fragment="canvas" class="offcanvas offcanvas-size-sm offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="canvas-panel" aria-labelledby="Canvas Panel">
     <div class="profile" th:object="${session.user}">
         <img th:src="@{/images/user.png}" alt="profile picture">
         <h4  th:text="*{name}"></h4>
