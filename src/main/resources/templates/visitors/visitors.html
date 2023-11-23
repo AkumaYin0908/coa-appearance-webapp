@@ -6,23 +6,27 @@
    <title>Visitors</title>
 </head>
 <body>
-<div layout:fragment="content" class="card">
 
 
-    <div class="container-fluid mt-6">
-        <div th:if ="${message != null}" class="alert alert warning alert dismissible fade show text-center message" role="alert"
-        th:text="${message}">
-            <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"></span>
-            </button>
-        </div>
+<div layout:fragment="content">
+
+
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"
+         role="alert">
+        [[${message}]]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"></span>
+        </button>
     </div>
+
+
+    <div class="card">
 
     <div class="card-header">
         <div class="row mb-2 d-flex justify-content-end">
 
                 <div class="btn-add col-auto">
-                    <button  class="btn btn-md btn-success" th:href="@{/visitors/visitor-form}" alt="Add new visitor"><i class="fa-solid fa-plus"></i> Add Visitor</button>
+                    <button type="button" id="addVisitorButton" class="btn btn-md btn-success"  data-bs-target="#addVisitorModal" data-bs-toggle="modal" alt="Add new visitor"><i class="fa-solid fa-plus"></i> Add Visitor</button>
                 </div>
 
                 <div class="col-2 col-md-2 col-sm-2">
@@ -56,8 +60,8 @@
                 <tr>
                     <th th:replace="fragments/sorting :: sorting(id, No)"></th>
                     <th th:replace="fragments/sorting :: sorting(name,Name)"></th>
-                    <th th:replace="fragments/sorting :: sorting(position.name,Position)"></th>
-                    <th th:replace="fragments/sorting :: sorting(agency.name,Agency)"></th>
+                    <th th:replace="fragments/sorting :: sorting(position,Position)"></th>
+                    <th th:replace="fragments/sorting :: sorting(agency,Agency)"></th>
                    <!-- <th th:replace="fragments/sorting :: sorting(agency.name,Last Appeared on)"></th> -->
                     <th scope="col">Actions</th>
                 </tr>
@@ -66,8 +70,8 @@
                     <tr th:each="visitor : ${visitors}">
                         <th scope="row" th:text="${visitor.id}"></th>
                         <td th:text="${visitor.name}"></td>
-                        <td th:text="${visitor.position.name}"></td>
-                        <td th:text="${visitor.agency.name}"></td>
+                        <td th:text="${visitor.position}"></td>
+                        <td th:text="${visitor.agency}"></td>
                         <td>
 
                             <a th:href="@{/visitors/visitor-form}" id="createAppearanceButton"
@@ -127,35 +131,56 @@
     </ul>
 </nav>
 </div>
+
 </div>
-<!-- Add Visitor modal -->
-<div class="modal fade" id = "addVisitorModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">New Visitor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <!-- <span aria-hidden="true"></span> -->
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <form th:action="@{/visitors/save}" method="POST">
 
-                    </form>
-                </div>
 
-            </div>
+    <!-- Add Visitor Modal -->
+    <div class="modal fade" data-bs-theme="dark" id="addVisitorModal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form th:action="@{visitors/save}" method="POST" th:object="${formVisitorDTO}">
 
-            <div class="modal-footer">
-                <a type="button" id="btnYes" class="btn btn-danger">Yes</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                    <div class="modal-header">
+                        <h5 class="modal-title text-light">New Visitor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" th:field="*{id}">
+
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{name}" class="form-control" id="visitorName" placeholder="Name">
+                                <label class="text-secondary" for="visitorName">Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{position}" class="form-control" id="visitorPosition" placeholder="Position">
+                                <label class="text-secondary" for="visitorPosition">Position</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{agency}" class=" form-control" id="visitorAgency" placeholder="Agency">
+                                <label class="text-secondary" for="visitorAgency">Agency</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" id="btnAdd" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
-</div>
-
 
 
 <!-- Delete modal -->
@@ -180,8 +205,6 @@
     </div>
 </div>
 </div>
-
-
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/visitor.js}" type="text/javascript"></script>

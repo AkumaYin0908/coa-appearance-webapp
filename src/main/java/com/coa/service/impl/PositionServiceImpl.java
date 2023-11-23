@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +27,9 @@ public class PositionServiceImpl implements PositionService {
     public Position findPositionByName(String name) throws PositionNotFoundException {
         Optional<Position> result=positionRepository.findPositionByName(name);
 
-        return result.isPresent() ? result.get() :
-                result.orElseThrow(() -> new PositionNotFoundException(name + " not found!" ));
+
+        return result.orElse(null);
+
     }
 
     @Override

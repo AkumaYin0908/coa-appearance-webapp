@@ -17,9 +17,7 @@ $(document).ready(function(){
 
     $("#logoutButton").on("click", function(event){
         event.preventDefault();
-        $("#confirmText").html("Are you sure you want to logout?");
         $("#confirmLogout").modal('show');
-
     });
 
     $("#logoutButtonModal").on("click",function(event){

@@ -2,6 +2,10 @@ package com.coa.controller;
 
 
 import com.coa.dto.VisitorDTO;
+import com.coa.exception.AgencyNotFoundException;
+import com.coa.exception.PositionNotFoundException;
+import com.coa.model.Agency;
+import com.coa.model.Position;
 import com.coa.model.Visitor;
 import com.coa.service.AgencyService;
 import com.coa.service.PositionService;
@@ -15,7 +19,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,7 +71,8 @@ public class VisitorController {
                                     visitor.getAgency().getName()))
                     .toList();
 
-
+            VisitorDTO formVisitorDTO = new VisitorDTO();
+            model.addAttribute("formVisitorDTO",formVisitorDTO);
             model.addAttribute("visitors",visitorsDTO);
             model.addAttribute("currentPage", visitorPage.getNumber() + 1);
             model.addAttribute("totalItems",visitorPage.getTotalElements());
@@ -81,6 +88,40 @@ public class VisitorController {
             model.addAttribute("message", ex.getMessage());
         }
 
-        return "visitors";
+        return "visitors/visitors";
+    }
+
+
+    @PostMapping("/visitors/save")
+    public String saveVisitor(VisitorDTO visitorDTO, RedirectAttributes redirectAttributes){
+
+
+        try{
+            Visitor visitor=new Visitor();
+            visitor.setName(visitorDTO.getName());
+
+            String position=visitorDTO.getPosition();
+            Position tempPosition=positionService.findPositionByName(position);
+
+            if(tempPosition == null){
+                tempPosition=new Position(visitorDTO.getPosition());
+            }
+
+            String agency = visitorDTO.getAgency();
+            Agency tempAgency=agencyService.findAgencyByName(agency);
+            if(tempAgency==null){
+                tempAgency=new Agency(visitorDTO.getAgency());
+            }
+
+            visitor.setPosition(tempPosition);
+            visitor.setAgency(tempAgency);
+            visitorService.save(visitor);
+            redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been added!");
+
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
+        }
+
+        return "redirect:/visitors";
     }
 }

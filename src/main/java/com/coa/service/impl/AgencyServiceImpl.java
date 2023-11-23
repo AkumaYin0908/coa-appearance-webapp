@@ -44,8 +44,7 @@ public class AgencyServiceImpl  implements AgencyService {
     public Agency findAgencyByName(String name) throws AgencyNotFoundException {
         Optional<Agency> result=agencyRepository.findAgencyName(name);
 
-        return result.isPresent() ? result.get() :
-                result.orElseThrow(()->new AgencyNotFoundException(name + " not found!"));
+       return result.orElse(null);
 
     }
 

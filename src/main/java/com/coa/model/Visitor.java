@@ -20,8 +20,6 @@ public class Visitor {
     private Long id;
 
     @Column(name="name")
-    @NotBlank(message = "must not be blank")
-    @Size(min=10,message = "must have at least 10 characters")
     private String name;
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})

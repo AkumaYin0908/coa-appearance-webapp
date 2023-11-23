@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "leader")
+@Table(name = "position")
 public class Position {
 
 
@@ -22,8 +22,6 @@ public class Position {
     private Long id;
 
     @Column(name="name")
-    @NotBlank(message = "must not be blank")
-    @Size(min=10,message = "must have at least 10 characters")
     private String name;
 
     @OneToMany(mappedBy = "position",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
