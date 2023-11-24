@@ -33,7 +33,7 @@ public class User {
     private boolean active;
 
     @NotNull(message = "required")
-    @Size(min = 3,max = 50, message = "must have at least 10 characters but not more than 50 characters")
+    @Size(min = 5,max = 50, message = "must have at least 10 characters but not more than 50 characters")
     @Column(name="name")
     private String name;
 

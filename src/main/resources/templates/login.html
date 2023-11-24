@@ -34,11 +34,17 @@
                     <!--div for login error  and logout notification if occurred-->
                     <div class="form-group">
 
+                        <!-- will display after registration is successful -->
+                        <div th:if ="${registrationSuccessful != null}">
+                            <div class="alert alert-success col-xs-auto">
+                                [[${registrationSuccessful}]]
+                            </div>
+                        </div>
+
                         <!--will display if error occured like invalid username and password -->
                         <div th:if ="${param.error}">
-
                             <div class="alert alert-danger col-xs-auto">
-                                Invalid username and password
+                                Invalid username or password
                             </div>
                         </div>
                         <!--will display if the user has logged out -->

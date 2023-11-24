@@ -62,6 +62,7 @@ public class RegisterController {
 
         //create user account and store to the database
         userService.save(user);
+        model.addAttribute("registrationSuccessful", "Registration successful!");
 
         httpSession.setAttribute("user",user);
         return "login";

@@ -15,19 +15,16 @@ $("#btnDelete").on("click",function(event){
 
 $("#btnClear").on("click", function(event){
         event.preventDefault();
-        $("#keyword").text("");
+        $("#searchName").text("");
 
-        window.location ="[[@{/visitors}]]";
+        window.location.href ="/visitors";
     });
 
-$("#pageSize").on("change",function(){
+$("#pageSize").on("change",function(event){
+    event.preventDefault();
     $("#searchForm").submit();
 });
 
-/*
-$("#addVisitorButton").on("click",function(event){
-    $("#myModal").modal('show');
 
-}); */
 
 });
