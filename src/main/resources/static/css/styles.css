@@ -229,7 +229,8 @@ div.btn-clear{
 
 .ui-autocomplete {
     background: #212529;
-    border-radius: 8px;
+    border-radius: 2px;
+    border : 0.5px solid #495057;
     width : 85%;
 }
 .ui-autocomplete.source:hover {
