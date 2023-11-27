@@ -19,7 +19,7 @@ public class Visitor {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="name")
+    @Column(name="name",unique = true)
     private String name;
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})

@@ -180,14 +180,13 @@ font-family : "Source Code Pro", sans-serif;
        color: grey;
 
 }
-alert.message{
-    display : none
-    position : absolute; !important
+.message{
+    position : fixed !important;
     top : 40px;
     left :78%;
     right: 5px;
     width: 20%;
-    z-index : 4;
+    z-index : 999;
 
 
 }
@@ -226,3 +225,19 @@ div.btn-clear{
 .fa-trash-can{
     color : #E0E0E0;
 }
+
+
+.ui-autocomplete {
+    background: #212529;
+    border-radius: 8px;
+    width : 85%;
+}
+.ui-autocomplete.source:hover {
+    background: white;
+    color : #212529;
+}
+
+.ui-menu .ui-menu-item {
+    background:#212529;
+    color : white;
+    }

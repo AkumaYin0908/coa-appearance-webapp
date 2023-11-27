@@ -4,30 +4,56 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
    <title>Visitors</title>
+
+
 </head>
 <body>
 
 
 <div layout:fragment="content">
 
+    <script th:inline="javascript">
 
-    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"
-         role="alert">
-        [[${message}]]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true"></span>
-        </button>
-    </div>
+        var position_data = /*[[${positions}]]*/'novalue';
+        var agencies_data = /*[[${agencies}]]*/'novalue';
+
+        $(document).ready(function(){
+
+
+        $("#visitorPosition").autocomplete({
+        minLength : 1,
+        source : position_data
+        });
+
+        $("#editVisitorPosition").autocomplete({
+        minLength : 1,
+        source : position_data
+        });
+
+
+
+        $("#visitorAgency").autocomplete({
+        minLength : 1,
+        source : agencies_data,
+        });
+
+        $("#editVisitorAgency").autocomplete({
+        minLength : 1,
+        source : agencies_data,
+        });
+
+
+        });
+    </script>
+
 
 
     <div class="card">
-
-    <div class="card-header">
+    <div class="card-header pt-3">
         <div class="container text-center mt-6 pt-6">
         <div class="row justify-content-md-center mb-2">
             <div class="col-md-2 mt-1">
-                <button type="button" id="addVisitorButton" class="btn btn-sm btn-success"
-                        data-bs-target="#addVisitorModal" data-bs-toggle="modal" alt="Add new visitor">
+                <button type="button" id="addVisitorButton" class="btn btn-sm btn-success">
                     <i class="fa-solid fa-plus"></i> Add Visitor</button>
             </div>
 
@@ -57,7 +83,6 @@
     </div>
     </div>
 
-
     <div class="card-body">
         <div th:if="${visitors.size() > 0}">
             <table class="table table-striped table-responsive-xl">
@@ -79,14 +104,23 @@
                         <td th:text="${visitor.agency}"></td>
                         <td>
 
-                            <a type="button" class= "btn btn-sm btn-success" th:href="@{/visitors/visitor-form}" id="createAppearanceButton"
+                            <a type="button" class= "btn btn-sm btn-success" th:href="@{/appearance/appearance-form}" id="createAppearanceButton"
                                title="New Appearance"><span class = "label-new">New</span></a>
 
-                            <a  type="button" th:href="@{'/visitors/'+${visitor.id}}" id="editVisitorButton"
-                               title="Edit this visitor" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a type="button" title="Edit this visitor" class="btn-edit btn btn-sm btn-warning"
+                            th:visitorId="${visitor.id}"
+                            th:visitorName="${visitor.name}"
+                            th:visitorPosition = "${visitor.position}"
+                            th:visitorAgency="${visitor.agency}">
 
-                            <a type="button" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}" id="btnDelete"
-                               title="Delete this visitor" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+
+                            <a type="button" sec:authorize="hasRole('ADMIN')" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"
+                               title="Delete this visitor" class="btn-delete btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+
+                            <a type="button"  th:href="@{'/appearances/history/' + ${visitor.id}}" id="btnHistory"
+                               title="Appearance History" class="btn btn-sm btn-secondary"><i class="fa-solid fa-timeline"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -98,7 +132,7 @@
         </div>
     </div>
 
-<div class="card-footer">
+<div class="card-footer pt-3 pb-0">
 <!--Pagination-->
 <nav aria-label="Pagination" th:if="${totalPages > 0}">
     <ul class="pagination justify-content-center">
@@ -137,40 +171,49 @@
 
 </div>
 
-
     <!-- Add Visitor Modal -->
-    <div class="modal fade" data-bs-theme="dark" id="addVisitorModal" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal" data-bs-theme="dark" id="addVisitorModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form th:action="@{visitors/save}" method="POST" th:object="${formVisitorDTO}">
-
-
                     <div class="modal-header">
                         <h5 class="modal-title text-light">New Visitor</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <button id="addModalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"></span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                <form th:action="@{visitors/save}" method="POST" th:object="${addFormVisitorDTO}" enctype="multipart/form-data">
+                    <span id="addModalErrorHolder" th:text="${addModalError}"></span>
+                    <div class="modal-body ui-front">
+                        <div class="col-xs-auto">
+                            <!-- check for error -->
+                            <div  id="addModalDiv" th:if="${addModalError != null}">
+                                <div class="alert alert-danger col-xs-auto">
+                                    <span th:text="${addModalError}"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <input type="hidden" th:field="*{id}">
 
                             <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{name}" class="form-control" id="visitorName" placeholder="Name">
+                                <input type="text" th:field="*{name}" class="form-control" id="visitorName"
+                                       required minlength="5" maxlength="100" placeholder="Name">
                                 <label class="text-secondary" for="visitorName">Name</label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{position}" class="form-control" id="visitorPosition" placeholder="Position">
+                                <input type="text" th:field="*{position}" class="form-control" id="visitorPosition"
+                                       required minlength="5" maxlength="100" placeholder="Position">
                                 <label class="text-secondary" for="visitorPosition">Position</label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{agency}" class=" form-control" id="visitorAgency" placeholder="Agency">
+                                <input type="text" th:field="*{agency}" class=" form-control" id="visitorAgency"
+                                       required minlength="5" maxlength="100" placeholder="Agency">
                                 <label class="text-secondary" for="visitorAgency">Agency</label>
                             </div>
                         </div>
@@ -185,19 +228,76 @@
         </div>
     </div>
 
+    <!-- Edit Visitor Modal -->
+    <div  class="modal" data-bs-theme="dark" id="editVisitorModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light">Edit Visitor</h5>
+                    <button type="button" id="editModalCloseButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <form th:action="@{visitors/update}" method="POST"   th:object="${editFormVisitorDTO}">
+                    <span id="editModalErrorHolder" th:text="${editModalError}"></span>
 
-<!-- Delete modal -->
-<div class="modal text-center" id = "confirmModal">
+                    <div class="modal-body ui-front">
+                        <div class="col-xs-auto">
+                            <!-- check for error -->
+                            <div id="editModalDiv" th:if="${editModalError != null}">
+                                <div class="alert alert-danger col-xs-auto">
+                                    <span th:text="${editModalError}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input id="editVisitorId" type="hidden" th:field="*{id}">
+
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{name}" class="form-control" id="editVisitorName"
+                                       required minlength="5" maxlength="100" placeholder="Name">
+                                <label class="text-secondary" for="visitorName">Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{position}" class="form-control" id="editVisitorPosition"
+                                       required minlength="5" maxlength="100" placeholder="Position">
+                                <label class="text-secondary" for="visitorPosition">Position</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{agency}" class=" form-control" id="editVisitorAgency"
+                                       required minlength="5" maxlength="100" placeholder="Agency">
+                                <label class="text-secondary" for="visitorAgency">Agency</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" id="btnEdit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Delete Visitor Modal -->
+<div class="modal text-center" data-bs-theme="dark" id = "deleteVisitorModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete Confirmation</h5>
+                <h5 class="modal-title text-light">Delete Confirmation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <!-- <span aria-hidden="true"></span> -->
                 </button>
             </div>
             <div class="modal-body">
-                <span id="confirmText"></span>
+                <span id="confirmText" class="text-light"></span>
             </div>
 
             <div class="modal-footer">

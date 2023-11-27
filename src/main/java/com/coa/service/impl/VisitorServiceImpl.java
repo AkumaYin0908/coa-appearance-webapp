@@ -1,6 +1,6 @@
 package com.coa.service.impl;
 
-import com.coa.exception.VisitorNotFoundException;
+import com.coa.dto.VisitorDTO;
 import com.coa.model.Visitor;
 import com.coa.repository.VisitorRepository;
 import com.coa.service.VisitorService;
@@ -36,19 +36,36 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public Visitor findById(Long id) throws VisitorNotFoundException {
+    public Visitor findById(Long id)  {
        Optional<Visitor> result=visitorRepository.findById(id);
 
-       return result.isPresent() ? result.get() :
-               result.orElseThrow(()->new VisitorNotFoundException("Visitor with id no. " + id + " not found!"));
+       return result.orElse(null);
     }
 
     @Override
-    public Visitor findVisitorByName(String name) throws VisitorNotFoundException {
-        Optional<Visitor> result=visitorRepository.findVisitorByName(name);
+    public Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) {
+        VisitorDTO visitorDTO;
+        Visitor visitor=findById(id);
+        visitorDTO=new VisitorDTO(
+                visitor.getId(),
+                visitor.getName(),
+                visitor.getPosition().getName(),
+                visitor.getAgency().getName()
+        );
+        return Optional.of(visitorDTO);
 
-        return result.isPresent() ? result.get() :
-                result.orElseThrow(() -> new VisitorNotFoundException(name + " not found!"));
+    }
+
+    @Override
+    public Visitor findVisitorByName(String name)  {
+        Optional<Visitor> result=visitorRepository.findVisitorByName(name);
+        return result.orElse(null);
+    }
+
+    @Override
+    public Visitor findVisitorByName(Long id, String name)  {
+        Optional<Visitor> result=visitorRepository.findVisitorByName(id, name);
+        return result.orElse(null);
     }
 
 

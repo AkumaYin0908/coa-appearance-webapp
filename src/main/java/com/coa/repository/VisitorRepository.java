@@ -18,4 +18,9 @@ public interface VisitorRepository extends JpaRepository<Visitor,Long> {
 
     @Query("Select v from Visitor v where v.name = :name")
     Optional<Visitor> findVisitorByName(@Param("name")String name);
+
+
+
+    @Query("Select v from Visitor v where v.id <> :id AND v.name = :name")
+    Optional<Visitor> findVisitorByName(@Param("id") Long id, @Param("name")String name);
 }

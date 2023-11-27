@@ -1,7 +1,6 @@
 package com.coa.service.impl;
 
 
-import com.coa.exception.AgencyNotFoundException;
 
 import com.coa.model.Agency;
 import com.coa.repository.AgencyRepository;
@@ -33,15 +32,14 @@ public class AgencyServiceImpl  implements AgencyService {
     }
 
     @Override
-    public Agency findBy(Long id) throws AgencyNotFoundException {
+    public Agency findBy(Long id) {
         Optional<Agency> result=agencyRepository.findById(id);
 
-        return result.isPresent() ? result.get() :
-                result.orElseThrow(() -> new AgencyNotFoundException("Visitor with id no. " + id + " not found!"));
+       return result.orElse(null);
     }
 
     @Override
-    public Agency findAgencyByName(String name) throws AgencyNotFoundException {
+    public Agency findAgencyByName(String name){
         Optional<Agency> result=agencyRepository.findAgencyName(name);
 
        return result.orElse(null);

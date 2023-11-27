@@ -19,12 +19,9 @@ public class Leader {
     private Long id;
 
     @Column(name="name")
-    @NotBlank(message = "must not be blank")
-    @Size(min=10,message = "must have at least 10 characters")
     private String name;
 
-    @NotBlank(message = "must not be blank")
-    @Size(min=10,message = "must have at least 10 characters")
+
     @Column(name="position")
     private String position;
 

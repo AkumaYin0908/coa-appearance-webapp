@@ -1,17 +1,69 @@
+
+
+
 $(document).ready(function(){
 $("#visitorButton").addClass("active");
 
-$("#btnDelete").on("click",function(event){
+let message=$("#message");
+
+if(message != ""){
+    $(".alert").fadeToggle(3000);
+}
+
+let addModalError=$("#addModalErrorHolder").text();
+    if(addModalError != ""){
+        $("#addVisitorModal").modal('show');
+    }
+let editModalError=$("#editModalErrorHolder").text();
+    if(editModalError != ""){
+        $("#editVisitorModal").modal('show');
+    }
+
+$(".btn-delete").on("click",function(event){
     event.preventDefault();
     link=$(this);
 
     visitorName=link.attr("visitorName");
     $("#btnYes").attr("href",link.attr("href"));
     $("#confirmText").html("Do you want to delete <strong>" + visitorName + "\<\/strong\>?");
-    $("#confirmModal").modal('show');
+    $("#deleteVisitorModal").modal('show');
 
 
 });
+
+$("#addVisitorButton").on("click",function(event){
+    event.preventDefault();
+    $("#addVisitorModal").modal('show');
+});
+
+$("#addModalCloseButton").on("click",function(event){
+    event.preventDefault();
+    $("#addModalDiv").hide();
+     $("#visitorId").val("");
+     $("#visitorName").val("");
+     $("#visitorPosition").val("");
+     $("#visitorAgency").val("");
+});
+
+
+$("#editModalCloseButton").on("click",function(event){
+    event.preventDefault();
+    $("#editModalDiv").hide();
+
+});
+$(".btn-edit").on("click",function(event){
+    event.preventDefault();
+    let visitor=$(this);
+
+    $("#editVisitorId").val(visitor.attr("visitorId"));
+    $("#editVisitorName").val(visitor.attr("visitorName"));
+    $("#editVisitorPosition").val(visitor.attr("visitorPosition"));
+    $("#editVisitorAgency").val(visitor.attr("visitorAgency"));
+
+
+    $("#editVisitorModal").modal('show');
+});
+
 
 $("#btnClear").on("click", function(event){
         event.preventDefault();

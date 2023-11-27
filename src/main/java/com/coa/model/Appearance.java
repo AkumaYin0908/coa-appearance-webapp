@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -22,18 +23,24 @@ public class Appearance {
     @JoinColumn(name = "visitor")
     private Visitor visitor;
 
+
+    @Column(name = "date_issued")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateIssued;
+
     @Column(name = "date_from")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFrom;
 
     @Column(name="date_to")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateTo;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "purpose")
     private Purpose purpose;
 
-    @Column(name = "date_issued")
-    private LocalDate dateIssued;
+
 
     public Appearance(Visitor visitor, LocalDate dateFrom, LocalDate dateTo, Purpose purpose, LocalDate dateIssued) {
         this.visitor = visitor;
