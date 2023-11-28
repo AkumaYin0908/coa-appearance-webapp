@@ -26,14 +26,78 @@
     $(document).ready(function(){
     
         
-     $("#dateIssued").datepicker({
-        defaultDate : +7,
-        altFormat : "yyyy-mm-dd",
-        dateFormat :"MM dd, yy"
-     });
- 
- 
+    //  $("#dateIssued").datepicker({
+    //     defaultDate : new Date(),
+    //     altFormat : "yyyy-mm-dd",
+    //     dateFormat :"MM dd, yy"
+    //  }).$("#dateIssued").datepicker("setDate", new Date());
+
+   
+$('#dateIssued').datepicker(
+    $.extend({
+        defaultDate: new Date(),        
+        altFormat : "yy-mm-dd",
+        dateFormat: "MM dd, yy"
+    })
+    ).datepicker("setDate", new Date());
+
+// $('#dateFrom').datepicker(
+//     $.extend({
+//         defaultDate: new Date(),        
+//         altFormat : "yy-mm-dd",
+//         dateFormat: "MM dd, yy",
+//         onSelect :function(dateText, inst){
+
+//         $('#dateTo').datepicker('setDate', dateText);
+//         }
+//     })
+//     ).datepicker("setDate", new Date());
+
+// $('#dateTo').datepicker(
+//     $.extend({
+//         defaultDate: $("#dateFrom").datepicker('getDate'),        
+//         altFormat : "yy-mm-dd",
+//         dateFormat: "MM dd, yy"
+//     })
+//     ).datepicker("setDate", $("#dateFrom").datepicker('getDate'));
+
+
+
+    $(function(){
+        let dateFormat="MM dd, yy",
+        dateFrom = $("#dateFrom")
+        .datepicker({
+            dateFormat:"MM dd, yy",
+            changeMonth: true,
+            changeYear : true,
+            numberOfMonths: 1
+    }).datepicker("setDate",$("#dateIssued").datepicker("getDate")).on("change", function(){
+        dateTo.datepicker("option", "minDate", getDate(this));
+    }),
+     dateTo=$("#dateTo").datepicker({ 
+            dateFormat:"MM dd, yy",
+            changeMonth: true,
+            changeYear : true,
+            numberOfMonths: 1
+    }).datepicker("setDate",dateFrom.datepicker("getDate")).on("change", function(){
+       dateFrom.datepicker("option","maxDate",getDate(this)); 
     });
+
+     function getDate(element){
+        var date;
+        try{
+            date=$.datepicker.parseDate(dateFormat,element.value);
+        }catch(error){
+            date=null;
+        }
+        return date;
+    }
+    });
+
+
+    });
+    
+   
     </script>
 
     <!-- JQuery UI CSS -->
@@ -46,8 +110,8 @@ href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jq
 
 
     <div class="col-lg-8 col-md-8 align-self-center container-fluid my-5">
-     <form th:action="@{/visitors/save}" method="POST" class="form-horizontal bg-dark" th:object="${formVisitorDTO}">
-            <div class="container border border-black p-3" data-bs-theme="dark">
+            <div class="container border border-black p-3 bg-dark" data-bs-theme="dark">
+            <form th:action="@{/visitors/save}" method="POST" class="form-horizontal" style="background-color: rgba(255,255,255,0);" th:object="${formVisitorDTO}">
                 <div class="container py-2 my-3 border-bottom border-secondary">
                 
                 <div class="row">
@@ -75,12 +139,35 @@ href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jq
             <div class="row">
                 <div class="col">
                     <div class="form-group ">
-                        <input type="hidden" th:field="*{id}" id="visitorId">
+                        <input type="hidden" th:field="*{id}" id="appearanceId">
+                        <div class="row">
+                            <div class="col">
+                                <div class="md-form form-floating mb-3 ui-front">
+                                    <input th:field="*{dateIssued}" class="form-control" id="dateIssued"
+                                    minlength="5" maxlength="100" placeholder="Date Issued">
+                                    <label class="text-secondary" for="dateIssued">Date Issued</label>
+                                </div>
+                            </div>
 
-                        <div class="md-form form-floating mb-3 ui-front">
-                            <input th:field="*{dateIssued}" class="form-control" id="dateIssued"
-                                  minlength="5" maxlength="100" placeholder="Date Issued">
-                            <label class="text-secondary" for="dateIssued">Date Issued</label>
+                            <div class="col offset-md-1">
+                                <div class="md-form form-floating mb-3 ui-front">
+                                    <input th:field="*{dateFrom}" name="dateFrom" class="form-control" id="dateFrom"
+                                    minlength="5" maxlength="100" placeholder="From">
+                                    <label class="text-secondary" for="dateFrom">From</label>
+                                </div>
+                            </div>
+
+                               <div class="col">
+                                <div class="md-form form-floating mb-3 ui-front">
+                                    <input th:field="*{dateTo}" name = "dateTo" class="form-control" id="dateTo"
+                                    minlength="5" maxlength="100" placeholder="To">
+                                    <label class="text-secondary" for="dateTo">To</label>
+                                </div>
+                            </div>
+
+
+
+                        
                         </div>
                     </div>
 
