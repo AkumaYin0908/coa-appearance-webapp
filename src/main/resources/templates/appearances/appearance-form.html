@@ -12,6 +12,33 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+    <!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--must be always above the index.js-->
+
+
+
+<!-- JQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+<script>
+    $(document).ready(function(){
+    
+        
+     $("#dateIssued").datepicker({
+        defaultDate : +7,
+        altFormat : "yyyy-mm-dd",
+        dateFormat :"MM dd, yy"
+     });
+ 
+ 
+    });
+    </script>
+
+    <!-- JQuery UI CSS -->
+<link rel="stylesheet"
+href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 </head>
 <body>
 
@@ -45,16 +72,22 @@
 <!--                                    <span th:text="${visitorError}"></span>-->
 <!--                                </div>-->
 <!--                        </div>-->
+            <div class="row">
+                <div class="col">
+                    <div class="form-group ">
+                        <input type="hidden" th:field="*{id}" id="visitorId">
 
-                        <div class="form-group">
-                            <input type="hidden" th:field="*{id}" id="visitorId">
-
-                            <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{name}" class="form-control" id="visitorName"
-                                      minlength="5" maxlength="100" placeholder="Name">
-                                <label class="text-secondary" for="visitorName">Name</label>
-                            </div>
+                        <div class="md-form form-floating mb-3 ui-front">
+                            <input th:field="*{dateIssued}" class="form-control" id="dateIssued"
+                                  minlength="5" maxlength="100" placeholder="Date Issued">
+                            <label class="text-secondary" for="dateIssued">Date Issued</label>
                         </div>
+                    </div>
+
+                </div>
+
+            </div>
+                        
 
                         <div class="form-group">
 
@@ -94,11 +127,11 @@
 </div>
 
 
+
 <!--Font Awesome-->
 <script src="https://kit.fontawesome.com/0c170eb2fd.js" crossorigin="anonymous"></script>
 
-<!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--must be always above the index.js-->
+
 
 <!--Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
