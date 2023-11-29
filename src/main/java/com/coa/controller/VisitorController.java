@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -104,40 +104,44 @@ public class VisitorController {
         return "visitors/visitors";
     }
 
-
-
-
-
-
     @PostMapping("/visitors/save")
     public String saveVisitor(@ModelAttribute("formVisitorDTO") VisitorDTO visitorDTO, RedirectAttributes redirectAttributes){
         try{
 
             String name=visitorDTO.getName();
-            Visitor visitor=visitorService.findVisitorByName(name);
+            Optional<Visitor> optionalVisitor=visitorService.findVisitorByName(name);
 
-            if(visitor!=null){
-                redirectAttributes.addFlashAttribute("addModalError", "Visitor's name already exists!");
+            if(optionalVisitor.isPresent()){
+                redirectAttributes.addFlashAttribute("addModalMessage", "Visitor's name already exists!");
                 return  "redirect:/visitors";
+
             }else{
-                visitor=new Visitor();
+
+
+                Visitor visitor=new Visitor();
                 visitor.setName(visitorDTO.getName());
 
-                String position=visitorDTO.getPosition();
-                Position tempPosition=positionService.findPositionByName(position);
 
-                if(tempPosition == null){
-                    tempPosition=new Position(visitorDTO.getPosition());
+                String position=visitorDTO.getPosition();
+                Optional<Position> tempPositionOptional=positionService.findPositionByName(position);
+
+                if(tempPositionOptional.isPresent()){
+                    visitor.setPosition(tempPositionOptional.get());
+                }else{
+                    visitor.setPosition(new Position(visitorDTO.getPosition()));
                 }
+
 
                 String agency = visitorDTO.getAgency();
-                Agency tempAgency=agencyService.findAgencyByName(agency);
-                if(tempAgency == null){
-                    tempAgency=new Agency(visitorDTO.getAgency());
+                Optional<Agency> tempAgencyOptional=agencyService.findAgencyByName(agency);
+
+                if(tempAgencyOptional.isPresent()){
+                    visitor.setAgency(tempAgencyOptional.get());
+                }else{
+                    visitor.setAgency(new Agency(visitorDTO.getAgency()));
                 }
 
-                visitor.setPosition(tempPosition);
-                visitor.setAgency(tempAgency);
+
                 visitorService.save(visitor);
                 redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been added!");
             }
@@ -152,57 +156,79 @@ public class VisitorController {
     @GetMapping("/visitors/delete/{id}")
     public String deleteVisitor(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         try{
-            Visitor visitor=visitorService.findById(id);
+           Optional<Visitor> optionalVisitor=visitorService.findById(id);
 
-            String visitorName=visitor.getName();
+            if(optionalVisitor.isPresent()){
+                Visitor visitor=optionalVisitor.get();
 
-            visitorService.deleteById(id);
+                String visitorName=visitor.getName();
+                visitorService.deleteById(id);
+                redirectAttributes.addFlashAttribute("message", visitorName + " has been deleted.");
+            }
 
-            redirectAttributes.addFlashAttribute("message", visitorName + " has been deleted.");
         } catch (Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
         }
         return "redirect:/visitors";
     }
 
-    @GetMapping("/visitors/getVisitor/{id}")
-    public void editVisitor(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
-            VisitorDTO visitor=visitorService.findAndMapToVisitorDTO(id).orElse(null);
-            redirectAttributes.addFlashAttribute("editFormVisitorDTO",visitor);
-
-    }
+//    @GetMapping("/visitors/getVisitor/{id}")
+//    public void editVisitor(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
+//
+//            try{
+//                Optional<VisitorDTO> optionalVisitorDTO=visitorService.findAndMapToVisitorDTO(id);
+//
+//                if(optionalVisitorDTO.isPresent()){
+//                    VisitorDTO visitor=optionalVisitorDTO.get();
+//                    redirectAttributes.addFlashAttribute("editFormVisitorDTO",visitor);
+//                }
+//
+//
+//            }catch (Exception ex){
+//                redirectAttributes.addFlashAttribute("message",ex.getMessage());
+//            }
+//
+//
+//    }
     @PostMapping("/visitors/update")
     public String updateVisitor(@ModelAttribute("formVisitorDTO") VisitorDTO visitorDTO,RedirectAttributes redirectAttributes, Model model){
 
         try{
 
-            Visitor visitor=visitorService.findVisitorByName(
+            Optional<Visitor> optionalVisitor=visitorService.findVisitorByName(
                     visitorDTO.getId(),visitorDTO.getName());
 
-            if(visitor!=null){
+
+            if(optionalVisitor.isPresent()){
                 editFormVisitorDTO=visitorDTO;
                 redirectAttributes.addFlashAttribute("editModalError", "Visitor's name already exists!");
                 return  "redirect:/visitors";
             }else{
-                visitor=new Visitor();
+                Visitor visitor=new Visitor();
                 visitor.setId(visitorDTO.getId());
                 visitor.setName(visitorDTO.getName());
 
-                String position=visitorDTO.getPosition();
-                Position tempPosition=positionService.findPositionByName(position);
 
-                if(tempPosition == null){
-                    tempPosition=new Position(visitorDTO.getPosition());
+
+                String position=visitorDTO.getPosition();
+                Optional<Position> tempPositionOptional=positionService.findPositionByName(position);
+
+                if(tempPositionOptional.isPresent()){
+                    visitor.setPosition(tempPositionOptional.get());
+                }else{
+                    visitor.setPosition(new Position(visitorDTO.getPosition()));
                 }
+
 
                 String agency = visitorDTO.getAgency();
-                Agency tempAgency=agencyService.findAgencyByName(agency);
-                if(tempAgency == null){
-                    tempAgency=new Agency(visitorDTO.getAgency());
+                Optional<Agency> tempAgencyOptional=agencyService.findAgencyByName(agency);
+
+                if(tempAgencyOptional.isPresent()){
+                    visitor.setAgency(tempAgencyOptional.get());
+                }else{
+                    visitor.setAgency(new Agency(visitorDTO.getAgency()));
                 }
 
-                visitor.setPosition(tempPosition);
-                visitor.setAgency(tempAgency);
                 visitorService.save(visitor);
                 editFormVisitorDTO=new VisitorDTO();
                 redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been updated!");

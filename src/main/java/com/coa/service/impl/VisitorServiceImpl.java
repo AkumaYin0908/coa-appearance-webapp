@@ -1,6 +1,7 @@
 package com.coa.service.impl;
 
 import com.coa.dto.VisitorDTO;
+import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Visitor;
 import com.coa.repository.VisitorRepository;
 import com.coa.service.VisitorService;
@@ -36,36 +37,41 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public Visitor findById(Long id)  {
-       Optional<Visitor> result=visitorRepository.findById(id);
+    public Optional<Visitor> findById(Long id) throws VisitorNotFoundException {
+        return visitorRepository.findById(id);
 
-       return result.orElse(null);
-    }
-
-    @Override
-    public Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) {
-        VisitorDTO visitorDTO;
-        Visitor visitor=findById(id);
-        visitorDTO=new VisitorDTO(
-                visitor.getId(),
-                visitor.getName(),
-                visitor.getPosition().getName(),
-                visitor.getAgency().getName()
-        );
-        return Optional.of(visitorDTO);
 
     }
 
     @Override
-    public Visitor findVisitorByName(String name)  {
+    public Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException {
+        VisitorDTO visitorDTO = null;
+        Optional<Visitor> optionalVisitor=findById(id);
+
+        if(optionalVisitor.isPresent()){
+            Visitor visitor=optionalVisitor.get();
+            visitorDTO=new VisitorDTO(
+                    visitor.getId(),
+                    visitor.getName(),
+                    visitor.getPosition().getName(),
+                    visitor.getAgency().getName()
+            );
+        }
+
+        return Optional.ofNullable(visitorDTO);
+
+    }
+
+    @Override
+    public Optional<Visitor> findVisitorByName(String name) throws VisitorNotFoundException {
         Optional<Visitor> result=visitorRepository.findVisitorByName(name);
-        return result.orElse(null);
+        return Optional.ofNullable(result.orElseThrow(() -> new VisitorNotFoundException(name + " does not exist!")));
     }
 
     @Override
-    public Visitor findVisitorByName(Long id, String name)  {
+    public Optional<Visitor> findVisitorByName(Long id, String name) throws VisitorNotFoundException {
         Optional<Visitor> result=visitorRepository.findVisitorByName(id, name);
-        return result.orElse(null);
+        return Optional.ofNullable(result.orElseThrow(() -> new VisitorNotFoundException(name + " does not exist!")));
     }
 
 

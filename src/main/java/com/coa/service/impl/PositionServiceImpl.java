@@ -1,5 +1,6 @@
 package com.coa.service.impl;
 
+import com.coa.exceptions.PositionNotFoundException;
 import com.coa.model.Position;
 import com.coa.repository.PositionRepository;
 import com.coa.service.PositionService;
@@ -23,11 +24,8 @@ public class PositionServiceImpl implements PositionService {
 
 
     @Override
-    public Position findPositionByName(String name) {
-        Optional<Position> result=positionRepository.findPositionByName(name);
-
-
-        return result.orElse(null);
+    public Optional<Position> findPositionByName(String name) throws PositionNotFoundException {
+        return positionRepository.findPositionByName(name);
 
     }
 

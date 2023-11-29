@@ -1,6 +1,7 @@
 package com.coa.service;
 
 import com.coa.dto.VisitorDTO;
+import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Visitor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +17,14 @@ public interface VisitorService {
     Page<Visitor> findAll(Pageable pageable);
 
     List<Visitor> listAll();
-    Visitor findById(Long id);
+    Optional<Visitor> findById(Long id) throws VisitorNotFoundException;
 
-    Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) ;
+    Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException;
 
-    Visitor findVisitorByName(String name);
+   Optional<Visitor> findVisitorByName(String name) throws VisitorNotFoundException;
 
 
-    Visitor findVisitorByName(Long id, String name);
+    Optional<Visitor> findVisitorByName(Long id, String name) throws VisitorNotFoundException;
 
     void save(Visitor visitor);
 

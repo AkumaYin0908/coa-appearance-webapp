@@ -16,14 +16,16 @@ public class AppearanceDTO {
     private String position;
     private String agency;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
     private LocalDate dateIssued;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFrom;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateTo;
 
     private String purpose;
+
+    private String StringDate;
+
+
 }

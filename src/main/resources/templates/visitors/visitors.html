@@ -182,13 +182,13 @@
                         </button>
                     </div>
                 <form th:action="@{visitors/save}" method="POST" th:object="${addFormVisitorDTO}" enctype="multipart/form-data">
-                    <span id="addModalErrorHolder" th:text="${addModalError}"></span>
+                    <span id="addModalMessageHolder" th:text="${addModalMessage}"></span>
                     <div class="modal-body ui-front">
                         <div class="col-xs-auto">
                             <!-- check for error -->
-                            <div  id="addModalDiv" th:if="${addModalError != null}">
+                            <div  id="addModalDiv" th:if="${addModalMessage != null}">
                                 <div class="alert alert-danger col-xs-auto">
-                                    <span th:text="${addModalError}"></span>
+                                    <span th:text="${addModalMessage}"></span>
                                 </div>
                             </div>
                         </div>

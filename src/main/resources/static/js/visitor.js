@@ -10,7 +10,7 @@ if(message != ""){
     $(".alert").fadeToggle(3000);
 }
 
-let addModalError=$("#addModalErrorHolder").text();
+let addModalMessage=$("#addModalMessageHolder").text();
     if(addModalError != ""){
         $("#addVisitorModal").modal('show');
     }
