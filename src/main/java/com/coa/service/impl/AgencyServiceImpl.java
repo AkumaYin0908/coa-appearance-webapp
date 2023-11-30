@@ -28,7 +28,7 @@ public class AgencyServiceImpl  implements AgencyService {
     }
 
     @Override
-    public List<Agency> listAll() {
+    public List<Agency> findAll() {
         return agencyRepository.findAll();
     }
 

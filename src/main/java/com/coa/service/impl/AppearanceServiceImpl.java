@@ -36,10 +36,8 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public Appearance findById(Long id) {
-        Optional<Appearance> result =appearanceRepository.findById(id);
-
-        return result.orElse(null);
+    public Optional<Appearance> findById(Long id) {
+        return appearanceRepository.findById(id);
     }
 
     @Override
@@ -48,8 +46,8 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public Appearance findAppearanceByVisitor(Visitor visitor) {
-        return null;
+    public List<Appearance> listAppearanceByVisitor(Visitor visitor) {
+        return appearanceRepository.listAppearanceByVisitor(visitor);
     }
 
     @Override

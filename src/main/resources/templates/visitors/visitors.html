@@ -104,7 +104,7 @@
                         <td th:text="${visitor.agency}"></td>
                         <td>
 
-                            <a type="button" class= "btn btn-sm btn-success" th:href="@{/appearance/appearance-form}" id="createAppearanceButton"
+                            <a type="button" class= "btn btn-sm btn-success" th:href="@{'/appearances/appearance-form/' + ${visitor.id}}" id="createAppearanceButton"
                                title="New Appearance"><span class = "label-new">New</span></a>
 
                             <a type="button" title="Edit this visitor" class="btn-edit btn btn-sm btn-warning"

@@ -14,6 +14,6 @@ public interface PositionService {
 
     Optional<Position> findPositionByName(String name) throws PositionNotFoundException;
     Page<Position> findAll(Pageable pageable);
-    List<Position> listAll();
+    List<Position> findAll();
     void save(Position position);
 }

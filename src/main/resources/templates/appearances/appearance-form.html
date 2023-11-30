@@ -4,83 +4,42 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Appearance Form</title>
+</head>
+<body>
 
-    <!--Bootstrap CSS-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<div layout:fragment="content">
 
-    <!--Google Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro&display=swap" rel="stylesheet">
-
-    <!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!--must be always above the index.js-->
-
-
-
-<!-- JQuery UI -->
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-<script>
+    <script>
     $(document).ready(function(){
-    
-        
-    //  $("#dateIssued").datepicker({
-    //     defaultDate : new Date(),
-    //     altFormat : "yyyy-mm-dd",
-    //     dateFormat :"MM dd, yy"
-    //  }).$("#dateIssued").datepicker("setDate", new Date());
 
-   
-$('#dateIssued').datepicker(
-    $.extend({
-        defaultDate: new Date(),        
-        altFormat : "yy-mm-dd",
-        dateFormat: "MM dd, yy"
-    })
+    $('#dateIssued').datepicker(
+        $.extend({
+            defaultDate: new Date(),
+            altFormat : "yy-mm-dd",
+            dateFormat: "MM dd, yy"
+        })
     ).datepicker("setDate", new Date());
-
-// $('#dateFrom').datepicker(
-//     $.extend({
-//         defaultDate: new Date(),        
-//         altFormat : "yy-mm-dd",
-//         dateFormat: "MM dd, yy",
-//         onSelect :function(dateText, inst){
-
-//         $('#dateTo').datepicker('setDate', dateText);
-//         }
-//     })
-//     ).datepicker("setDate", new Date());
-
-// $('#dateTo').datepicker(
-//     $.extend({
-//         defaultDate: $("#dateFrom").datepicker('getDate'),        
-//         altFormat : "yy-mm-dd",
-//         dateFormat: "MM dd, yy"
-//     })
-//     ).datepicker("setDate", $("#dateFrom").datepicker('getDate'));
-
-
 
     $(function(){
         let dateFormat="MM dd, yy",
         dateFrom = $("#dateFrom")
         .datepicker({
             dateFormat:"MM dd, yy",
+            altFormat : "yy-mm-dd",
             changeMonth: true,
             changeYear : true,
             numberOfMonths: 1
     }).datepicker("setDate",$("#dateIssued").datepicker("getDate")).on("change", function(){
         dateTo.datepicker("option", "minDate", getDate(this));
     }),
-     dateTo=$("#dateTo").datepicker({ 
+     dateTo=$("#dateTo").datepicker({
             dateFormat:"MM dd, yy",
+            altFormat : "yy-mm-dd",
             changeMonth: true,
             changeYear : true,
             numberOfMonths: 1
     }).datepicker("setDate",dateFrom.datepicker("getDate")).on("change", function(){
-       dateFrom.datepicker("option","maxDate",getDate(this)); 
+       dateFrom.datepicker("option","maxDate",getDate(this));
     });
 
      function getDate(element){
@@ -96,103 +55,72 @@ $('#dateIssued').datepicker(
 
 
     });
-    
-   
+
+
     </script>
 
-    <!-- JQuery UI CSS -->
-<link rel="stylesheet"
-href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-</head>
-<body>
-
-<div layout:fragment="content">
 
 
     <div class="col-lg-8 col-md-8 align-self-center container-fluid my-5">
-            <div class="container border border-black p-3 bg-dark" data-bs-theme="dark">
-            <form th:action="@{/visitors/save}" method="POST" class="form-horizontal" style="background-color: rgba(255,255,255,0);" th:object="${formVisitorDTO}">
+        <div class="container border border-black p-3 bg-dark" data-bs-theme="dark">
+            <form th:action="@{/visitors/save}" method="POST" class="form-horizontal" style="background-color: rgba(255,255,255,0);" th:object="${appearanceDTO}">
                 <div class="container py-2 my-3 border-bottom border-secondary">
                 
+                    <div class="row">
+                        <div class="col-auto text-light" style="font-size: 2rem;">
+                            New Appearance for : <span th:text="*{name}"></span>
+                        </div>
+                    </div>
+                    <hr class="border border-secondary border-1 opacity-50">
+
+                    <div class="row">
+                        <div class="col text-light">
+                        Position: <span th:text="*{position}"></span>
+                        </div>
+                          <div class="col text-light">
+                        Agency: <span th:text="*{agency} "></span>
+                        </div>
+                    </div>
+                </div>
+               <div class="container">
                 <div class="row">
-                    <div class="col-auto text-light" style="font-size: 2rem;">
-                        New Appearance for : <span>John Philip Apulog</span>
-                    </div>
-                </div>
-                <hr class="border border-secondary border-1 opacity-50">
-                  
-                <div class="row">
-                    <div class="col text-light">
-                    Position: <span>Administrative Assistant IV</span>
-                    </div>
-                      <div class="col text-light">
-                    Agency: <span>Department of Information and Communication Technology</span>
-                    </div>
-                </div>
-            </div>
-                <div class="container">
-<!--                        <div th:if="${visitorError != null}">-->
-<!--                                <div class="alert alert-danger col-xs-auto">-->
-<!--                                    <span th:text="${visitorError}"></span>-->
-<!--                                </div>-->
-<!--                        </div>-->
-            <div class="row">
-                <div class="col">
-                    <div class="form-group ">
-                        <input type="hidden" th:field="*{id}" id="appearanceId">
-                        <div class="row">
-                            <div class="col">
-                                <div class="md-form form-floating mb-3 ui-front">
-                                    <input th:field="*{dateIssued}" class="form-control" id="dateIssued"
-                                    minlength="5" maxlength="100" placeholder="Date Issued">
-                                    <label class="text-secondary" for="dateIssued">Date Issued</label>
+                    <div class="col">
+                        <div class="form-group ">
+                            <input type="hidden" th:field="*{id}" id="appearanceId">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="md-form form-floating mb-3 ui-front">
+                                        <input th:field="*{dateIssued}" class="form-control" id="dateIssued"
+                                        minlength="5" maxlength="100" placeholder="Date Issued">
+                                        <label class="text-secondary" for="dateIssued">Date Issued</label>
+                                    </div>
+                                </div>
+
+                                <div class="col offset-md-1">
+                                    <div class="md-form form-floating mb-3 ui-front">
+                                        <input th:field="*{dateFrom}" name="dateFrom" class="form-control" id="dateFrom"
+                                        minlength="5" maxlength="100" placeholder="From">
+                                        <label class="text-secondary" for="dateFrom">From</label>
+                                    </div>
+                                </div>
+
+                                   <div class="col">
+                                    <div class="md-form form-floating mb-3 ui-front">
+                                        <input th:field="*{dateTo}" name = "dateTo" class="form-control" id="dateTo"
+                                        minlength="5" maxlength="100" placeholder="To">
+                                        <label class="text-secondary" for="dateTo">To</label>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col offset-md-1">
-                                <div class="md-form form-floating mb-3 ui-front">
-                                    <input th:field="*{dateFrom}" name="dateFrom" class="form-control" id="dateFrom"
-                                    minlength="5" maxlength="100" placeholder="From">
-                                    <label class="text-secondary" for="dateFrom">From</label>
-                                </div>
+                            <div class="md-form form-floating mb-3 ui-front">
+                                <textarea class="form-control" th:field="*{purpose}" placeholder="State the purpose of appearance here." id ="purposeTextArea" style="height: 100px;"></textarea>
+                                <label class="text-secondary" for ="purposeTextArea">Purpose</label>
                             </div>
-
-                               <div class="col">
-                                <div class="md-form form-floating mb-3 ui-front">
-                                    <input th:field="*{dateTo}" name = "dateTo" class="form-control" id="dateTo"
-                                    minlength="5" maxlength="100" placeholder="To">
-                                    <label class="text-secondary" for="dateTo">To</label>
-                                </div>
-                            </div>
-
-
-
-                        
                         </div>
                     </div>
 
                 </div>
-
-            </div>
-                        
-
-                        <div class="form-group">
-
-                            <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{position}" class="form-control" id="visitorPosition"
-                                       minlength="5" maxlength="100" placeholder="Position">
-                                <label class="text-secondary" for="visitorPosition">Position</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-
-                            <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{agency}" class=" form-control" id="visitorAgency"
-                                       minlength="5" maxlength="100" placeholder="Agency">
-                                <label class="text-secondary" for="visitorAgency">Agency</label>
-                            </div>
-                        </div>
 
                         <div class="container border-top border-secondary p-3">
                             <div class="d-flex justify-content-center">
@@ -202,14 +130,14 @@ href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jq
                                     </div>
 
                                     <div class="col">
-                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                        <button type="button" th:href="@{/visitors}" class="btn btn-danger">Cancel</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 

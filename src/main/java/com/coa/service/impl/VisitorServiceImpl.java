@@ -32,7 +32,7 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public List<Visitor> listAll() {
+    public List<Visitor> findAll() {
         return visitorRepository.findAll();
     }
 

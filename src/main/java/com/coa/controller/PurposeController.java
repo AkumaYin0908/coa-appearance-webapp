@@ -18,6 +18,6 @@ public class PurposeController {
 
     @GetMapping("/positions/getAll")
     public List<Position> getPositions(){
-        return positionService.listAll();
+        return positionService.findAll();
     }
 }

@@ -76,10 +76,10 @@ public class VisitorController {
                     .toList();
 
 
-            List<String> positions=positionService.listAll().stream()
+            List<String> positions=positionService.findAll().stream()
                     .map(Position::getName).toList();
 
-            List<String> agencies=agencyService.listAll().stream()
+            List<String> agencies=agencyService.findAll().stream()
                     .map(Agency::getName).toList();
 
             System.out.println(positions);

@@ -18,11 +18,11 @@ public interface AppearanceService {
 
     List<Appearance> listAll();
 
-    Appearance findById(Long id);
+    Optional<Appearance> findById(Long id);
 
     Optional<AppearanceDTO> findAndMapToAppearanceDTO(Long id);
 
-    Appearance findAppearanceByVisitor(Visitor visitor);
+    List<Appearance> listAppearanceByVisitor(Visitor visitor);
 
     void save(Appearance appearance);
 

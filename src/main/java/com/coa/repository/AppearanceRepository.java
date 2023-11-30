@@ -19,6 +19,6 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
     Page<Appearance> findByVisitorNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 
 
-    @Query("SELECT a FROM Appearance a WHERE a.visitor = :id")
-    List<Visitor> listAppearanceByVisitor(@Param("id") Long id);
+    @Query("SELECT a FROM Appearance a WHERE a.visitor = :visitor")
+    List<Appearance> listAppearanceByVisitor(@Param("visitor") Visitor visitor);
 }
