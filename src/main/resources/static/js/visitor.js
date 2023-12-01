@@ -4,14 +4,10 @@
 $(document).ready(function(){
 $("#visitorButton").addClass("active");
 
-let message=$("#message");
 
-if(message != ""){
-    $(".alert").fadeToggle(3000);
-}
 
 let addModalMessage=$("#addModalMessageHolder").text();
-    if(addModalError != ""){
+    if(addModalMessage != ""){
         $("#addVisitorModal").modal('show');
     }
 let editModalError=$("#editModalErrorHolder").text();

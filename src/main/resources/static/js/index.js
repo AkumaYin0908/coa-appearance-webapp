@@ -1,5 +1,10 @@
 $(document).ready(function(){
 
+let message=$("#message");
+
+//if(message != ""){
+//    $(".alert").fadeToggle(5000);
+//}
     let buttons = $("li a");
 
     buttons.on("click",function(){

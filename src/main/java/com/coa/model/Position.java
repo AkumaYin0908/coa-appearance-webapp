@@ -5,14 +5,18 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
 @Data
+
 @NoArgsConstructor
 @Entity
 @Table(name = "position")
+@ToString(exclude = "visitors")
 public class Position {
 
 

@@ -52,11 +52,11 @@ public class AppearanceServiceImpl implements AppearanceService {
 
     @Override
     public void save(Appearance appearance) {
-
+        appearanceRepository.save(appearance);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        appearanceRepository.deleteById(id);
     }
 }

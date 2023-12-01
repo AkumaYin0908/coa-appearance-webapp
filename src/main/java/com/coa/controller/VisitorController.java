@@ -10,12 +10,14 @@ import com.coa.service.PositionService;
 import com.coa.service.VisitorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +40,12 @@ public class VisitorController {
 
 
 
+
+    @InitBinder
+    public void getInitBinder(WebDataBinder webDataBinder){
+        StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
+        webDataBinder.registerCustomEditor(String.class,stringTrimmerEditor);
+    }
 
     @GetMapping("/visitors")
     public String showVisitors(Model model, @RequestParam(required = false) String searchName,
@@ -208,8 +216,6 @@ public class VisitorController {
                 visitor.setId(visitorDTO.getId());
                 visitor.setName(visitorDTO.getName());
 
-
-
                 String position=visitorDTO.getPosition();
                 Optional<Position> tempPositionOptional=positionService.findPositionByName(position);
 
@@ -236,6 +242,7 @@ public class VisitorController {
 
         }catch (Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
+
         }
         return "redirect:/visitors";
 

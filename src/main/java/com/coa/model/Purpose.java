@@ -21,7 +21,7 @@ public class Purpose {
     @Column(name ="id")
     private Long id;
 
-    @Column(name="name")
+    @Column(name="purpose")
     private String purpose;
 
     @OneToMany(mappedBy = "purpose", cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})

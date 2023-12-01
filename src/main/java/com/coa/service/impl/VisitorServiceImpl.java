@@ -64,14 +64,12 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public Optional<Visitor> findVisitorByName(String name) throws VisitorNotFoundException {
-        Optional<Visitor> result=visitorRepository.findVisitorByName(name);
-        return Optional.ofNullable(result.orElseThrow(() -> new VisitorNotFoundException(name + " does not exist!")));
+        return visitorRepository.findVisitorByName(name);
     }
 
     @Override
     public Optional<Visitor> findVisitorByName(Long id, String name) throws VisitorNotFoundException {
-        Optional<Visitor> result=visitorRepository.findVisitorByName(id, name);
-        return Optional.ofNullable(result.orElseThrow(() -> new VisitorNotFoundException(name + " does not exist!")));
+       return visitorRepository.findVisitorByName(id,name);
     }
 
 

@@ -9,14 +9,15 @@ import com.coa.service.AppearanceService;
 import com.coa.service.PurposeService;
 import com.coa.service.VisitorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,11 +31,23 @@ public class AppearanceController {
     private final AppearanceService appearanceService;
     private final PurposeService purposeService;
 
+
+    private static DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+
+    @InitBinder
+    public void getInitBinder(WebDataBinder webDataBinder){
+        StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
+        webDataBinder.registerCustomEditor(String.class,stringTrimmerEditor);
+    }
+
+
+    private Long visitorId;
     @GetMapping("/appearance-form/{id}")
-    public String showApperanceForm(@PathVariable("id")Long id, Model model, RedirectAttributes redirectAttributes){
+    public String showAppearanceForm(@PathVariable("id")Long id, Model model){
         try{
             Optional<Visitor> optionalVisitor =visitorService.findById(id);
-
+            System.out.println(optionalVisitor.get());
+            visitorId=id;
             if(optionalVisitor.isPresent()){
                 Visitor visitor=optionalVisitor.get();
                 AppearanceDTO appearanceDTO = new AppearanceDTO();
@@ -46,28 +59,34 @@ public class AppearanceController {
 
                 model.addAttribute("appearanceDTO", appearanceDTO);
                 model.addAttribute("purposes",purposes);
-                return "appearances/appearance-form";
             }else{
                 throw new VisitorNotFoundException(String.format("Visitor with id: %d not found@",id));
             }
         }catch (Exception ex){
-            redirectAttributes.addFlashAttribute("message", ex.getMessage());
+            model.addAttribute("message", ex.getMessage());
+
             return "redirect:/visitors";
         }
+        return "appearances/appearance-form";
+
 
     }
 
 
     @PostMapping("/save")
-    public String saveAppearance(@ModelAttribute("appearanceDTO")AppearanceDTO appearanceDTO, RedirectAttributes redirectAttributes){
+    public String saveAppearance(@ModelAttribute("appearanceDTO") AppearanceDTO appearanceDTO, RedirectAttributes redirectAttributes){
 
         try{
+
             Appearance appearance=new Appearance();
-
+            System.out.println(appearanceDTO);
             Optional<Visitor> visitorOptional=visitorService.findVisitorByName(appearanceDTO.getName());
-            Visitor visitor =visitorOptional.get();
+            Visitor visitor=new Visitor();
+            if(visitorOptional.isPresent()){
+                visitor=visitorOptional.get();
+            }
 
-
+            appearance.setVisitor(visitor);
             Optional<Purpose> purposeOptional = purposeService.findByPurpose(appearanceDTO.getPurpose());
             Purpose purpose;
             if(purposeOptional.isPresent()){
@@ -77,18 +96,31 @@ public class AppearanceController {
                 purpose = new Purpose(appearanceDTO.getPurpose());
                 appearance.setPurpose(purpose);
             }
-            appearance.setDateIssued(appearanceDTO.getDateIssued());
+            LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
+            LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
+            LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
+            System.out.println(dateIssued);
+            System.out.println(dateFrom);
+            System.out.println(dateTo);
 
-            LocalDate dateFrom = appearanceDTO.getDateFrom();
-            LocalDate dateTo = appearanceDTO.getDateTo();
-
-
-
+            boolean isValid=validateDate(dateIssued,dateFrom,dateTo);
+            System.out.println(isValid);
+            if(isValid){
+                appearance.setDateIssued(dateIssued);
+                appearance.setDateFrom(dateFrom);
+                appearance.setDateTo(dateTo);
+            }else{
+                redirectAttributes.addFlashAttribute("message","Invalid dating of appearance!");
+                return String.format("redirect:/appearances/appearance-form/%d",visitorId);
+            }
+            appearanceService.save(appearance);
+            redirectAttributes.addFlashAttribute("message",String.format("New appearance has been made for %s!",appearanceDTO.getName()));
         }catch(Exception ex){
+            redirectAttributes.addFlashAttribute("message",ex.getMessage());
+            ex.printStackTrace();
 
         }
-
-
+        return "redirect:/visitors";
 
     }
 
@@ -122,7 +154,19 @@ public class AppearanceController {
     }
 
     private boolean validateDate(LocalDate dateIssued, LocalDate dateFrom, LocalDate dateTo){
-        return dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued);
+        if(dateFrom.equals(dateTo)) {
+            if(dateFrom.isBefore(dateIssued) || dateTo.isBefore(dateIssued)){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            if (dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
 
