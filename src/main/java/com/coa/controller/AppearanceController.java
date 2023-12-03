@@ -1,6 +1,7 @@
 package com.coa.controller;
 
 import com.coa.dto.AppearanceDTO;
+import com.coa.dto.VisitorDTO;
 import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Purpose;
@@ -9,13 +10,17 @@ import com.coa.service.AppearanceService;
 import com.coa.service.PurposeService;
 import com.coa.service.VisitorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,7 +37,11 @@ public class AppearanceController {
     private final PurposeService purposeService;
 
 
-    private static DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+    private AppearanceDTO editFormAppearanceDTO = new AppearanceDTO();
+    @Value("${pageNums}")
+    private List<Integer> pageNums;
+
+    private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
     @InitBinder
     public void getInitBinder(WebDataBinder webDataBinder){
@@ -46,22 +55,20 @@ public class AppearanceController {
     public String showAppearanceForm(@PathVariable("id")Long id, Model model){
         try{
             Optional<Visitor> optionalVisitor =visitorService.findById(id);
-            System.out.println(optionalVisitor.get());
             visitorId=id;
-            if(optionalVisitor.isPresent()){
-                Visitor visitor=optionalVisitor.get();
-                AppearanceDTO appearanceDTO = new AppearanceDTO();
-                appearanceDTO.setName(visitor.getName());
-                appearanceDTO.setPosition(visitor.getPosition().getName());
-                appearanceDTO.setAgency(visitor.getAgency().getName());
+            Visitor visitor = optionalVisitor.get();
+            AppearanceDTO appearanceDTO = new AppearanceDTO();
+            appearanceDTO.setName(visitor.getName());
+            appearanceDTO.setPosition(visitor.getPosition().getName());
+            appearanceDTO.setAgency(visitor.getAgency().getName());
 
-                List<Purpose> purposes=purposeService.findAll();
+            List<String> purposes=purposeService.findAll().stream()
+                    .map(Purpose::getPurpose).toList();
 
-                model.addAttribute("appearanceDTO", appearanceDTO);
-                model.addAttribute("purposes",purposes);
-            }else{
-                throw new VisitorNotFoundException(String.format("Visitor with id: %d not found@",id));
-            }
+
+            model.addAttribute("editFormAppearanceDTO",editFormAppearanceDTO);
+            model.addAttribute("appearanceDTO", appearanceDTO);
+            model.addAttribute("purposes",purposes);
         }catch (Exception ex){
             model.addAttribute("message", ex.getMessage());
 
@@ -72,12 +79,12 @@ public class AppearanceController {
 
     }
 
-
     @PostMapping("/save")
-    public String saveAppearance(@ModelAttribute("appearanceDTO") AppearanceDTO appearanceDTO, RedirectAttributes redirectAttributes){
+    public String saveAppearance(@ModelAttribute("appearanceDTO") AppearanceDTO appearanceDTO,
+                                 @RequestParam("save")String save, RedirectAttributes redirectAttributes){
 
         try{
-
+            System.out.println(save);
             Appearance appearance=new Appearance();
             System.out.println(appearanceDTO);
             Optional<Visitor> visitorOptional=visitorService.findVisitorByName(appearanceDTO.getName());
@@ -113,8 +120,15 @@ public class AppearanceController {
                 redirectAttributes.addFlashAttribute("message","Invalid dating of appearance!");
                 return String.format("redirect:/appearances/appearance-form/%d",visitorId);
             }
-            appearanceService.save(appearance);
-            redirectAttributes.addFlashAttribute("message",String.format("New appearance has been made for %s!",appearanceDTO.getName()));
+
+            if(save.equals("SaveOnly")) {
+                appearanceService.save(appearance);
+                redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
+            }else{
+                appearanceService.save(appearance);
+                redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
+                return "/dashboard";
+            }
         }catch(Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
             ex.printStackTrace();
@@ -123,36 +137,77 @@ public class AppearanceController {
         return "redirect:/visitors";
 
     }
+    @GetMapping("/{id}/appearance-history")
+    public String showAppearanceHistory(@PathVariable("id")Long id, Model model, @RequestParam(required = false) String searchDate,
+                                        @RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "id,asc") String[] sort){
 
-    private String getFormattedDateRange(LocalDate dateFrom, LocalDate dateTo){
-        DateTimeFormatter  dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-        String firstDate ="";
-        String lastDate="";
+        try{
+            String sortField=sort[0];
+            String sortDirection = sort[1];
 
-        String formattedDateRange="";
+            Sort.Direction direction=sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
 
-        LocalDate[]dates={dateFrom,dateTo};
+            Sort.Order order=new Sort.Order(direction,sortField);
 
-        if(dateFrom.getMonth().equals(dateTo.getMonth())){
-            if(dateFrom.equals(dateTo)){
-                formattedDateRange=dateTimeFormatter.format(dateFrom);
+            Pageable pageable = PageRequest.of(page-1, size,Sort.by(order));
+
+            Optional<Visitor> visitorOptional = visitorService.findById(id);
+            Visitor visitor;
+
+            if(visitorOptional.isPresent()){
+                visitor=visitorOptional.get();
             }else{
-                DateTimeFormatter firstDayFormat= DateTimeFormatter.ofPattern("MMMM d");
-                DateTimeFormatter lastDayFormat= DateTimeFormatter.ofPattern("d, yyyy");
-
-                firstDate=firstDayFormat.format(dates[0]);
-                lastDate=lastDayFormat.format(dates[1]);
-                formattedDateRange=String.format("%s - %s",firstDate,lastDate);
+                throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
             }
-        }else{
-            firstDate=dateTimeFormatter.format(dates[0]);
-            lastDate=dateTimeFormatter.format(dates[1]);
-            formattedDateRange=String.format("%s - %s",firstDate,lastDate);
+
+
+            Page<Appearance> appearancePage;
+
+            if(searchDate == null || searchDate.isEmpty()){
+                appearancePage=appearanceService.findAppearanceByVisitor(visitor,pageable);
+            }else{
+                LocalDate dateIssued=LocalDate.parse(searchDate,dateTimeFormatter);
+                appearancePage=appearanceService.findByDateIssued(dateIssued,pageable);
+                model.addAttribute("searchDate",searchDate);
+            }
+
+            VisitorDTO  visitorDTO = new VisitorDTO(visitor.getId(),
+                    visitor.getName(),
+                    visitor.getPosition().getName(),
+                    visitor.getAgency().getName());
+
+            List<AppearanceDTO> appearanceDTOS=appearancePage.getContent()
+                    .stream()
+                    .map(appearance -> new AppearanceDTO(appearance.getId(),
+                            appearance.getDateIssued().format(dateTimeFormatter),
+                            appearance.getDateFrom().format(dateTimeFormatter),
+                            appearance.getDateTo().format(dateTimeFormatter),
+                            appearance.getPurpose().getPurpose()))
+                    .toList();
+
+            List<String> purposes=purposeService.findAll().stream()
+                    .map(Purpose::getPurpose).toList();
+
+            model.addAttribute("editFormAppearanceDTO", editFormAppearanceDTO);
+            model.addAttribute("purposes", purposes);
+            model.addAttribute("appearances",appearanceDTOS);
+            model.addAttribute("visitor", visitorDTO);
+            model.addAttribute("currentPage", appearancePage.getNumber() + 1);
+            model.addAttribute("totalItems",appearancePage.getTotalElements());
+            model.addAttribute("totalPages",appearancePage.getTotalPages());
+            model.addAttribute("pageSize", size);
+            model.addAttribute("sortField", sortField);
+            model.addAttribute("sortDirection", sortDirection);
+            model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+            model.addAttribute("pageNums",pageNums);
+        }catch (Exception ex){
+            model.addAttribute("message", ex.getMessage());
+            ex.printStackTrace();
         }
-
-        return formattedDateRange;
+        return "appearances/appearance-history";
     }
-
     private boolean validateDate(LocalDate dateIssued, LocalDate dateFrom, LocalDate dateTo){
         if(dateFrom.equals(dateTo)) {
             if(dateFrom.isBefore(dateIssued) || dateTo.isBefore(dateIssued)){
@@ -161,11 +216,7 @@ public class AppearanceController {
                 return true;
             }
         }else{
-            if (dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued)) {
-                return true;
-            } else {
-                return false;
-            }
+            return dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued);
         }
     }
 

@@ -8,8 +8,10 @@ import com.coa.service.AppearanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,9 +48,15 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public List<Appearance> listAppearanceByVisitor(Visitor visitor) {
-        return appearanceRepository.listAppearanceByVisitor(visitor);
+    public Page<Appearance> findAppearanceByVisitor(Visitor visitor,  Pageable pageable) {
+        return appearanceRepository.findAppearanceByVisitor(visitor,pageable);
     }
+
+    @Override
+    public Page<Appearance> findByDateIssued(LocalDate dateIssued, Pageable pageable) {
+        return appearanceRepository.findByDateIssued(dateIssued,pageable);
+    }
+
 
     @Override
     public void save(Appearance appearance) {

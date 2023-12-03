@@ -74,7 +74,7 @@ public class VisitorController {
 
 
 
-            List<VisitorDTO> visitorsDTO = visitorPage.getContent()
+            List<VisitorDTO> visitorDTOS = visitorPage.getContent()
                     .stream()
                     .map(visitor ->
                             new VisitorDTO(visitor.getId(),
@@ -90,11 +90,10 @@ public class VisitorController {
             List<String> agencies=agencyService.findAll().stream()
                     .map(Agency::getName).toList();
 
-            System.out.println(positions);
-            System.out.println(agencies);
+
             model.addAttribute("addFormVisitorDTO",new VisitorDTO());
             model.addAttribute("editFormVisitorDTO",editFormVisitorDTO);
-            model.addAttribute("visitors",visitorsDTO);
+            model.addAttribute("visitors",visitorDTOS);
             model.addAttribute("positions",positions);
             model.addAttribute("agencies",agencies);
             model.addAttribute("currentPage", visitorPage.getNumber() + 1);
@@ -180,24 +179,6 @@ public class VisitorController {
         return "redirect:/visitors";
     }
 
-//    @GetMapping("/visitors/getVisitor/{id}")
-//    public void editVisitor(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
-//
-//            try{
-//                Optional<VisitorDTO> optionalVisitorDTO=visitorService.findAndMapToVisitorDTO(id);
-//
-//                if(optionalVisitorDTO.isPresent()){
-//                    VisitorDTO visitor=optionalVisitorDTO.get();
-//                    redirectAttributes.addFlashAttribute("editFormVisitorDTO",visitor);
-//                }
-//
-//
-//            }catch (Exception ex){
-//                redirectAttributes.addFlashAttribute("message",ex.getMessage());
-//            }
-//
-//
-//    }
     @PostMapping("/visitors/update")
     public String updateVisitor(@ModelAttribute("formVisitorDTO") VisitorDTO visitorDTO,RedirectAttributes redirectAttributes, Model model){
 
@@ -209,7 +190,7 @@ public class VisitorController {
 
             if(optionalVisitor.isPresent()){
                 editFormVisitorDTO=visitorDTO;
-                redirectAttributes.addFlashAttribute("editModalError", "Visitor's name already exists!");
+                redirectAttributes.addFlashAttribute("editModalMessage", "Visitor's name already exists!");
                 return  "redirect:/visitors";
             }else{
                 Visitor visitor=new Visitor();

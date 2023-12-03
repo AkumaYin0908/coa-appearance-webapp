@@ -18,6 +18,7 @@
         var position_data = /*[[${positions}]]*/'novalue';
         var agencies_data = /*[[${agencies}]]*/'novalue';
 
+
         $(document).ready(function(){
 
 
@@ -35,12 +36,12 @@
 
         $("#visitorAgency").autocomplete({
         minLength : 1,
-        source : agencies_data,
+        source : agencies_data
         });
 
         $("#editVisitorAgency").autocomplete({
         minLength : 1,
-        source : agencies_data,
+        source : agencies_data
         });
 
 
@@ -120,7 +121,7 @@
                             <a type="button" sec:authorize="hasRole('ADMIN')" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"
                                title="Delete this visitor" class="btn-delete btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
 
-                            <a type="button"  th:href="@{'/appearances/history/' + ${visitor.id}}" id="btnHistory"
+                            <a type="button"  th:href="@{/appearances/{id}/appearance-history(id=${visitor.id})}" id="btnHistory"
                                title="Appearance History" class="btn btn-sm btn-secondary"><i class="fa-solid fa-timeline"></i></a>
                         </td>
                     </tr>
@@ -240,14 +241,14 @@
                     </button>
                 </div>
                 <form th:action="@{visitors/update}" method="POST"   th:object="${editFormVisitorDTO}">
-                    <span id="editModalErrorHolder" th:text="${editModalError}"></span>
+                    <span id="editModalMessageHolder" th:text="${editModalMessage}"></span>
 
                     <div class="modal-body ui-front">
                         <div class="col-xs-auto">
                             <!-- check for error -->
-                            <div id="editModalDiv" th:if="${editModalError != null}">
+                            <div id="editModalDiv" th:if="${editModalMessage != null}">
                                 <div class="alert alert-danger col-xs-auto">
-                                    <span th:text="${editModalError}"></span>
+                                    <span th:text="${editModalMessage}"></span>
                                 </div>
                             </div>
                         </div>

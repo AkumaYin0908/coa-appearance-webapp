@@ -1,17 +1,13 @@
 
-
-
 $(document).ready(function(){
 $("#visitorButton").addClass("active");
-
-
 
 let addModalMessage=$("#addModalMessageHolder").text();
     if(addModalMessage != ""){
         $("#addVisitorModal").modal('show');
     }
-let editModalError=$("#editModalErrorHolder").text();
-    if(editModalError != ""){
+let editModalMessage=$("#editModalMessageHolder").text();
+    if(editModalMessage != ""){
         $("#editVisitorModal").modal('show');
     }
 

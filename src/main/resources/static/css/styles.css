@@ -231,7 +231,7 @@ div.btn-clear{
     background: #212529;
     border-radius: 2px;
     border : 0.5px solid #495057;
-    width : 85%;
+    /*width : 85%;*/
 }
 .ui-autocomplete.source:hover {
     background: white;
@@ -242,3 +242,18 @@ div.btn-clear{
     background:#212529;
     color : white;
     }
+
+div #appearanceForm{
+    border-radius : 10px;
+}
+
+span .name{
+    font-family : 'Roboto Mono';
+    font-size : 3rem;
+    font-weight : 900;
+    text-shadow: 2px 2px black;
+}
+
+#ui-datepicker-div {
+z-index: 10000 !important;
+}
