@@ -36,7 +36,6 @@ $(document).ready(function(){
         $("#editAppearanceDateTo").val(appearance.attr("appearanceDateTo"));
         $("#editAppearancePurpose").val(appearance.attr("appearancePurpose"));
 
-
         $("#editAppearanceModal").modal('show');
     });
 

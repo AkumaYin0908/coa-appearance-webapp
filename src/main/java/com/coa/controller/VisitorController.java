@@ -112,7 +112,7 @@ public class VisitorController {
     }
 
     @PostMapping("/visitors/save")
-    public String saveVisitor(@ModelAttribute("formVisitorDTO") VisitorDTO visitorDTO, RedirectAttributes redirectAttributes){
+    public String saveVisitor(@ModelAttribute("addFormVisitorDTO") VisitorDTO visitorDTO, RedirectAttributes redirectAttributes){
         try{
 
             String name=visitorDTO.getName();
@@ -180,7 +180,7 @@ public class VisitorController {
     }
 
     @PostMapping("/visitors/update")
-    public String updateVisitor(@ModelAttribute("formVisitorDTO") VisitorDTO visitorDTO,RedirectAttributes redirectAttributes, Model model){
+    public String updateVisitor(@ModelAttribute("editFormVisitorDTO") VisitorDTO visitorDTO,RedirectAttributes redirectAttributes, Model model){
 
         try{
 

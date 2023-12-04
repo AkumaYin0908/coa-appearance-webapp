@@ -178,7 +178,7 @@
                         <span aria-hidden="true"></span>
                     </button>
                 </div>
-                <form th:action="@{appearances/update}" method="POST"   th:object="${editFormAppearanceDTO}">
+                <form th:action="@{/appearances/update}" method="POST"   th:object="${editFormAppearanceDTO}">
                     <span id="editModalMessageHolder" th:text="${editModalMessage}"></span>
 
                     <div class="modal-body">
@@ -191,7 +191,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <input  type="hidden" th:field="${id}" id="editAppearanceId">
+                            <input  type="hidden" th:field="*{id}" id="editAppearanceId">
 
                             <div class="md-form form-floating mb-3">
                                 <input type="text" th:field="*{dateIssued}" class="form-control" id="editAppearanceDateIssued"
@@ -210,7 +210,7 @@
 
                         <div class="form-group">
                             <div class="md-form form-floating mb-3">
-                                <input type="text" th:field="*{agency}" class=" form-control" id="editAppearanceDateTo"
+                                <input type="text" th:field="*{dateTo}" class=" form-control" id="editAppearanceDateTo"
                                        placeholder="To">
                                 <label class="text-secondary" for="editAppearanceDateTo">To</label>
                             </div>

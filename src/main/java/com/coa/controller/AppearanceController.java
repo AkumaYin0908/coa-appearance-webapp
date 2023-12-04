@@ -2,6 +2,7 @@ package com.coa.controller;
 
 import com.coa.dto.AppearanceDTO;
 import com.coa.dto.VisitorDTO;
+import com.coa.exceptions.ApperanceNotFoundException;
 import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Purpose;
@@ -56,7 +57,14 @@ public class AppearanceController {
         try{
             Optional<Visitor> optionalVisitor =visitorService.findById(id);
             visitorId=id;
-            Visitor visitor = optionalVisitor.get();
+            Visitor visitor;
+
+            if(optionalVisitor.isPresent()){
+                visitor = optionalVisitor.get();
+            }else{
+                throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
+            }
+
             AppearanceDTO appearanceDTO = new AppearanceDTO();
             appearanceDTO.setName(visitor.getName());
             appearanceDTO.setPosition(visitor.getPosition().getName());
@@ -106,12 +114,9 @@ public class AppearanceController {
             LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
             LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
             LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
-            System.out.println(dateIssued);
-            System.out.println(dateFrom);
-            System.out.println(dateTo);
 
             boolean isValid=validateDate(dateIssued,dateFrom,dateTo);
-            System.out.println(isValid);
+
             if(isValid){
                 appearance.setDateIssued(dateIssued);
                 appearance.setDateFrom(dateFrom);
@@ -146,7 +151,7 @@ public class AppearanceController {
         try{
             String sortField=sort[0];
             String sortDirection = sort[1];
-
+            visitorId=id;
             Sort.Direction direction=sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
 
             Sort.Order order=new Sort.Order(direction,sortField);
@@ -207,6 +212,74 @@ public class AppearanceController {
             ex.printStackTrace();
         }
         return "appearances/appearance-history";
+    }
+
+
+
+    @PostMapping("/update")
+    public String updateAppearance(@ModelAttribute("editFormAppearanceDTO") AppearanceDTO appearanceDTO, RedirectAttributes redirectAttributes, Model model){
+        System.out.println(appearanceDTO.getId());
+       try{
+           Optional<Appearance> optionalAppearance = appearanceService.findById(appearanceDTO.getId());
+
+           if(optionalAppearance.isPresent()){
+             Appearance appearance=new Appearance();
+             appearance.setId(appearanceDTO.getId());
+
+
+               LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
+               LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
+               LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
+
+               boolean isValid=validateDate(dateIssued,dateFrom,dateTo);
+
+               if(isValid){
+                   appearance.setDateIssued(dateIssued);
+                   appearance.setDateFrom(dateFrom);
+                   appearance.setDateTo(dateTo);
+               }else{
+                   editFormAppearanceDTO=appearanceDTO;
+                   redirectAttributes.addFlashAttribute("message","Invalid dating of appearance!");
+                   return String.format("redirect:/appearances/%d/appearance-history", visitorId);
+               }
+
+
+             appearance.setDateIssued(LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter));
+             appearance.setDateFrom(LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter));
+             appearance.setDateTo(LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter));
+
+
+             Optional<Purpose> purposeOptional = purposeService.findByPurpose(appearanceDTO.getPurpose());
+
+             if(purposeOptional.isPresent()){
+                 appearance.setPurpose(purposeOptional.get());
+             }else{
+                 appearance.setPurpose(new Purpose(appearanceDTO.getPurpose()));
+             }
+
+             Optional<Visitor> visitorOptional=visitorService.findById(visitorId);
+
+             if(visitorOptional.isPresent()){
+                 appearance.setVisitor(visitorOptional.get());
+             }else{
+                 throw new VisitorNotFoundException("Visitor with id : " + visitorId + " not found!");
+             }
+
+             appearanceService.save(appearance);
+             editFormAppearanceDTO = new AppearanceDTO();
+             redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
+
+
+           }else{
+               throw new ApperanceNotFoundException("Appearance not found!");
+
+           }
+
+       }catch (Exception ex){
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
+            ex.printStackTrace();
+       }
+       return String.format("redirect:/appearances/%d/appearance-history", visitorId);
     }
     private boolean validateDate(LocalDate dateIssued, LocalDate dateFrom, LocalDate dateTo){
         if(dateFrom.equals(dateTo)) {
