@@ -18,7 +18,7 @@
         $("td:nth-child(1),th:nth-child(1)").hide();
 
         $("#editAppearancePurpose").autocomplete({
-            minLength : 1,
+            minLength : 4,
             source : purpose_data
         });
     });
@@ -57,8 +57,8 @@
                             <form th:action="@{'/appearances/' + ${visitor.id} + '/appearance-history'}" id="searchForm">
                                 <div class="row">
                                     <div class="col-8 p-0">
-                                        <input id = "searchDate" type="search" name="searchDate" th:value="${searchDate}"
-                                            placeholder="Enter keyword" required class="border border-secondary form-control">
+                                        <input id = "searchPurpose" type="search" name="searchPurpose" th:value="${searchPurpose}"
+                                            placeholder="Enter purpose" required class="border border-secondary form-control">
                                     </div>
                                     <div class="col-auto  p-1 mt-auto">
                                         <button type="submit" class="btn-search btn btn-sm btn-primary"> <i class="fa fa-search"></i></button>

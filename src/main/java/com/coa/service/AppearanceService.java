@@ -2,10 +2,13 @@ package com.coa.service;
 
 import com.coa.dto.AppearanceDTO;
 import com.coa.model.Appearance;
+import com.coa.model.Purpose;
 import com.coa.model.Visitor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,6 +34,17 @@ public interface AppearanceService {
     void save(Appearance appearance);
 
     void deleteById(Long id);
+
+    Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Pageable pageable);
+
+
+    Page<Appearance> findAppearanceByMonthDateIssued(int month, Pageable pageable);
+
+
+    Page<Appearance> findAppearanceByYearDateIssued(int year, Pageable pageable);
+
+
+    List<Integer> findAllDistinctYear();
 
 
 }

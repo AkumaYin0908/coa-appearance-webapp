@@ -67,4 +67,24 @@ public class AppearanceServiceImpl implements AppearanceService {
     public void deleteById(Long id) {
         appearanceRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Pageable pageable) {
+        return appearanceRepository.findByPurposeContainingIgnoreCase(purpose,pageable);
+    }
+
+    @Override
+    public Page<Appearance> findAppearanceByMonthDateIssued(int month, Pageable pageable) {
+        return appearanceRepository.findAppearanceByMonthDateIssued(month, pageable);
+    }
+
+    @Override
+    public Page<Appearance> findAppearanceByYearDateIssued(int year, Pageable pageable) {
+       return appearanceRepository.findAppearanceByYearDateIssued(year, pageable);
+    }
+
+    @Override
+    public List<Integer> findAllDistinctYear() {
+        return appearanceRepository.findAllDistinctYear();
+    }
 }

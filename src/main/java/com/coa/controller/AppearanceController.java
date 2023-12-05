@@ -23,6 +23,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,8 @@ public class AppearanceController {
     private AppearanceDTO editFormAppearanceDTO = new AppearanceDTO();
     @Value("${pageNums}")
     private List<Integer> pageNums;
+
+
 
     private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
@@ -102,13 +105,21 @@ public class AppearanceController {
             }
 
             appearance.setVisitor(visitor);
-            Optional<Purpose> purposeOptional = purposeService.findByPurpose(appearanceDTO.getPurpose());
+
+            String purposeString =appearanceDTO.getPurpose();
+
+            if(purposeString.endsWith(".")){
+
+                purposeString=purposeString.substring(0,purposeString.length()-1);
+            }
+
+            Optional<Purpose> purposeOptional = purposeService.findByPurpose(purposeString);
             Purpose purpose;
             if(purposeOptional.isPresent()){
                 purpose=purposeOptional.get();
                 appearance.setPurpose(purpose);
             }else{
-                purpose = new Purpose(appearanceDTO.getPurpose());
+                purpose = new Purpose(purposeString);
                 appearance.setPurpose(purpose);
             }
             LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
@@ -143,12 +154,16 @@ public class AppearanceController {
 
     }
     @GetMapping("/{id}/appearance-history")
-    public String showAppearanceHistory(@PathVariable("id")Long id, Model model, @RequestParam(required = false) String searchDate,
+    public String showAppearanceHistory(@PathVariable("id")Long id, Model model, @RequestParam(required = false) String searchPurpose,
+                                        @RequestParam(required = false) String selectedMonth,
+                                        @RequestParam(required = false) String selectedYear,
                                         @RequestParam(defaultValue = "1") int page,
                                         @RequestParam(defaultValue = "10") int size,
                                         @RequestParam(defaultValue = "id,asc") String[] sort){
 
         try{
+            List<Integer> years=appearanceService.findAllDistinctYear();
+
             String sortField=sort[0];
             String sortDirection = sort[1];
             visitorId=id;
@@ -170,12 +185,27 @@ public class AppearanceController {
 
             Page<Appearance> appearancePage;
 
-            if(searchDate == null || searchDate.isEmpty()){
+
+
+            if(searchPurpose == null || searchPurpose.isEmpty()){
                 appearancePage=appearanceService.findAppearanceByVisitor(visitor,pageable);
             }else{
-                LocalDate dateIssued=LocalDate.parse(searchDate,dateTimeFormatter);
-                appearancePage=appearanceService.findByDateIssued(dateIssued,pageable);
-                model.addAttribute("searchDate",searchDate);
+
+                appearancePage=appearanceService.findByPurposeContainingIgnoreCase(searchPurpose,pageable);
+                model.addAttribute("searchPurpose",searchPurpose);
+            }
+
+            if(selectedMonth != null && !selectedMonth.isEmpty()){
+
+                int month = parseMonth(selectedMonth);
+                appearancePage=appearanceService.findAppearanceByMonthDateIssued(month,pageable);
+                model.addAttribute("selectedMonth",selectedMonth);
+            }
+
+            if(selectedYear !=null && !selectedYear.isEmpty()){
+                int year=Integer.parseInt(selectedYear);
+                appearancePage=appearanceService.findAppearanceByYearDateIssued(year,pageable);
+                model.addAttribute("selectedYear", selectedYear);
             }
 
             VisitorDTO  visitorDTO = new VisitorDTO(visitor.getId(),
@@ -197,6 +227,8 @@ public class AppearanceController {
 
             model.addAttribute("editFormAppearanceDTO", editFormAppearanceDTO);
             model.addAttribute("purposes", purposes);
+            model.addAttribute("months", Month.values());
+            model.addAttribute("years", years);
             model.addAttribute("appearances",appearanceDTOS);
             model.addAttribute("visitor", visitorDTO);
             model.addAttribute("currentPage", appearancePage.getNumber() + 1);
@@ -249,12 +281,18 @@ public class AppearanceController {
              appearance.setDateTo(LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter));
 
 
-             Optional<Purpose> purposeOptional = purposeService.findByPurpose(appearanceDTO.getPurpose());
+               String purposeString =appearanceDTO.getPurpose();
+
+               if(purposeString.endsWith(".")){
+                   purposeString=purposeString.substring(0,purposeString.length()-1);
+               }
+
+             Optional<Purpose> purposeOptional = purposeService.findByPurpose(purposeString);
 
              if(purposeOptional.isPresent()){
                  appearance.setPurpose(purposeOptional.get());
              }else{
-                 appearance.setPurpose(new Purpose(appearanceDTO.getPurpose()));
+                 appearance.setPurpose(new Purpose(purposeString));
              }
 
              Optional<Visitor> visitorOptional=visitorService.findById(visitorId);
@@ -283,14 +321,20 @@ public class AppearanceController {
     }
     private boolean validateDate(LocalDate dateIssued, LocalDate dateFrom, LocalDate dateTo){
         if(dateFrom.equals(dateTo)) {
-            if(dateFrom.isBefore(dateIssued) || dateTo.isBefore(dateIssued)){
-                return false;
-            }else{
-                return true;
-            }
+            return !dateFrom.isBefore(dateIssued) && !dateTo.isBefore(dateIssued);
         }else{
             return dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued);
         }
+    }
+
+
+    private int parseMonth(String selectedMonth){
+        for(Month month : Month.values()){
+            if(selectedMonth.equalsIgnoreCase(month.name())){
+                return  month.getValue();
+            }
+        }
+        return 0;
     }
 
 
