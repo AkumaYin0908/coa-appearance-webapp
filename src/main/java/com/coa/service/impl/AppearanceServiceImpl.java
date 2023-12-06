@@ -53,8 +53,8 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public Page<Appearance> findByDateIssued(LocalDate dateIssued, Pageable pageable) {
-        return appearanceRepository.findByDateIssued(dateIssued,pageable);
+    public Page<Appearance> findByDateIssued(LocalDate dateIssued, Visitor visitor, Pageable pageable) {
+        return appearanceRepository.findByDateIssued(dateIssued, visitor, pageable);
     }
 
 
@@ -69,18 +69,38 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Pageable pageable) {
-        return appearanceRepository.findByPurposeContainingIgnoreCase(purpose,pageable);
+    public Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Visitor visitor,Pageable pageable) {
+        return appearanceRepository.findByPurposeContainingIgnoreCase(purpose,visitor,pageable);
     }
 
     @Override
-    public Page<Appearance> findAppearanceByMonthDateIssued(int month, Pageable pageable) {
-        return appearanceRepository.findAppearanceByMonthDateIssued(month, pageable);
+    public Page<Appearance> findAppearanceByMonthDateIssued(Integer month, Visitor visitor, Pageable pageable) {
+        return appearanceRepository.findAppearanceByMonthDateIssued(month, visitor, pageable);
     }
 
     @Override
-    public Page<Appearance> findAppearanceByYearDateIssued(int year, Pageable pageable) {
-       return appearanceRepository.findAppearanceByYearDateIssued(year, pageable);
+    public Page<Appearance> findAppearanceByYearDateIssued(Integer year,Visitor visitor, Pageable pageable) {
+       return appearanceRepository.findAppearanceByYearDateIssued(year, visitor, pageable);
+    }
+
+    @Override
+    public Page<Appearance> findByPurposeAndMonthAndYearContainingIgnoreCase(String purpose, Integer month, Integer year,Visitor visitor, Pageable pageable) {
+        return appearanceRepository.findByPurposeAndMonthAndYearContainingIgnoreCase(purpose, month, year, visitor, pageable);
+    }
+
+    @Override
+    public Page<Appearance> findAppearanceByMonthAndYearDateIssued(Integer month, Integer year, Visitor visitor, Pageable pageable) {
+        return appearanceRepository.findAppearanceByMonthAndYearDateIssued(month, year, visitor, pageable);
+    }
+
+    @Override
+    public Page<Appearance> findByPurposeAndMonthContainingIgnoreCase(String purpose, Integer month, Visitor visitor, Pageable pageable) {
+        return appearanceRepository.findByPurposeAndMonthContainingIgnoreCase(purpose, month, visitor, pageable);
+    }
+
+    @Override
+    public Page<Appearance> findByPurposeAndYearContainingIgnoreCase(String purpose, Integer year, Visitor visitor,Pageable pageable) {
+        return appearanceRepository.findByPurposeAndYearContainingIgnoreCase(purpose, year, visitor, pageable);
     }
 
     @Override

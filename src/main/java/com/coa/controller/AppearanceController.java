@@ -155,10 +155,10 @@ public class AppearanceController {
     }
     @GetMapping("/{id}/appearance-history")
     public String showAppearanceHistory(@PathVariable("id")Long id, Model model, @RequestParam(required = false) String searchPurpose,
-                                        @RequestParam(required = false) String selectedMonth,
-                                        @RequestParam(required = false) String selectedYear,
+                                        @RequestParam(required = false,defaultValue = "0") Integer selectedMonth,
+                                        @RequestParam(required = false,defaultValue = "0") Integer selectedYear,
                                         @RequestParam(defaultValue = "1") int page,
-                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "1") int size,
                                         @RequestParam(defaultValue = "id,asc") String[] sort){
 
         try{
@@ -186,25 +186,63 @@ public class AppearanceController {
             Page<Appearance> appearancePage;
 
 
-
-            if(searchPurpose == null || searchPurpose.isEmpty()){
+            if((searchPurpose == null || searchPurpose.isEmpty())
+                 && (selectedMonth == null || selectedMonth == 0)
+                && (selectedYear == null || selectedYear == 0)){
                 appearancePage=appearanceService.findAppearanceByVisitor(visitor,pageable);
             }else{
 
-                appearancePage=appearanceService.findByPurposeContainingIgnoreCase(searchPurpose,pageable);
+                appearancePage=appearanceService.findByPurposeContainingIgnoreCase(searchPurpose,visitor,pageable);
+                System.out.println(appearancePage.getContent());
                 model.addAttribute("searchPurpose",searchPurpose);
             }
 
-            if(selectedMonth != null && !selectedMonth.isEmpty()){
+            if(selectedMonth != null && selectedMonth != 0){
 
-                int month = parseMonth(selectedMonth);
-                appearancePage=appearanceService.findAppearanceByMonthDateIssued(month,pageable);
+                appearancePage=appearanceService.findAppearanceByMonthDateIssued(selectedMonth,visitor,pageable);
                 model.addAttribute("selectedMonth",selectedMonth);
             }
 
-            if(selectedYear !=null && !selectedYear.isEmpty()){
-                int year=Integer.parseInt(selectedYear);
-                appearancePage=appearanceService.findAppearanceByYearDateIssued(year,pageable);
+            if(selectedYear != null && selectedYear !=0){
+
+                appearancePage=appearanceService.findAppearanceByYearDateIssued(selectedYear,visitor,pageable);
+                model.addAttribute("selectedYear", selectedYear);
+            }
+
+            if((searchPurpose == null || searchPurpose.isEmpty())
+                    && (selectedMonth != null && selectedMonth != 0)
+                    && (selectedYear != null && selectedYear !=0)
+            ){
+                appearancePage=appearanceService.findAppearanceByMonthAndYearDateIssued(selectedMonth,selectedYear,visitor,pageable);
+                model.addAttribute("selectedMonth",selectedMonth);
+                model.addAttribute("selectedYear", selectedYear);
+            }
+
+
+
+            if(!(searchPurpose == null || searchPurpose.isEmpty())
+                    && (selectedMonth != null && selectedMonth != 0)
+                    && (selectedYear != null && selectedYear !=0)){
+                appearancePage=appearanceService.findByPurposeAndMonthAndYearContainingIgnoreCase(searchPurpose,selectedMonth,selectedYear,visitor,pageable);
+                model.addAttribute("searchPurpose",searchPurpose);
+                model.addAttribute("selectedMonth",selectedMonth);
+                model.addAttribute("selectedYear", selectedYear);
+            }
+
+
+            if(!(searchPurpose == null || searchPurpose.isEmpty())
+                    && (selectedMonth != null && selectedMonth != 0)
+                    && !(selectedYear != null && selectedYear !=0)){
+                appearancePage=appearanceService.findByPurposeAndMonthContainingIgnoreCase(searchPurpose,selectedMonth,visitor,pageable);
+                model.addAttribute("searchPurpose",searchPurpose);
+                model.addAttribute("selectedMonth",selectedMonth);
+            }
+
+            if(!(searchPurpose == null || searchPurpose.isEmpty())
+                    && !(selectedMonth != null && selectedMonth != 0)
+                    && (selectedYear != null && selectedYear !=0)){
+                appearancePage=appearanceService.findByPurposeAndYearContainingIgnoreCase(searchPurpose,selectedYear,visitor,pageable);
+                model.addAttribute("searchPurpose",searchPurpose);
                 model.addAttribute("selectedYear", selectedYear);
             }
 
@@ -328,14 +366,14 @@ public class AppearanceController {
     }
 
 
-    private int parseMonth(String selectedMonth){
-        for(Month month : Month.values()){
-            if(selectedMonth.equalsIgnoreCase(month.name())){
-                return  month.getValue();
-            }
-        }
-        return 0;
-    }
+//    private int parseMonth(String selectedMonth){
+//        for(Month month : Month.values()){
+//            if(selectedMonth.equalsIgnoreCase(month.name())){
+//                return  month.getValue();
+//            }
+//        }
+//        return 0;
+//    }
 
 
 }

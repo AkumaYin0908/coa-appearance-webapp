@@ -21,6 +21,11 @@
             minLength : 4,
             source : purpose_data
         });
+
+        $("#searchPurpose").autocomplete({
+            minLength : 1,
+            source : purpose_data
+        });
     });
    </script>
 
@@ -51,9 +56,22 @@
             <div class="card p-0">
                 <div class="card-header pt-3">
                     <div class="container text-center mt-6 pt-6">
-                    <div class="row justify-content-md-center mb-2">
+                    <div class="row  mb-2">
 
-                        <div class="col-md-4">
+                        <div class="col-md-2">
+                            <select form="searchForm" name="selectedMonth" th:value = "${selectedMonth}" id ="month" class="border border-secondary form-control" style="width: 100%;">
+                                <option th:value="0" >Select Month</option>
+                                <option th:each="month :${months}" th:value="${month.value}" th:text="${month.name}" th:selected="${month.value == selectedMonth}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select form="searchForm" name="selectedYear" th:value = "${selectedYear}" id ="year" class="border border-secondary form-control" style="width: 100%;">
+                                <option th:value="0" >Select Year</option>
+                                <option th:each="year :${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 offset-md-1">
                             <form th:action="@{'/appearances/' + ${visitor.id} + '/appearance-history'}" id="searchForm">
                                 <div class="row">
                                     <div class="col-8 p-0">
@@ -66,7 +84,7 @@
                                 </div>
                             </form>
                         </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 offset-md-1">
                                 <select form="searchForm" name="size" th:value="${pageSize}" id="pageSize" class="border border-secondary form-control" style="width: 100%;">
                                     <option th:each="pageNum :${pageNums}" th:value="${pageNum}" th:text="${pageNum}" th:selected="${pageNum == pageSize}"></option>
                                 </select>
@@ -131,11 +149,11 @@
                 <ul class="pagination justify-content-center">
 
                     <li class="page-item" th:classapend="${currentPage == 1} ? 'disabled'">
-                        <a th:replace="fragments/appearance/paging :: paging(1,${visitor.id},'<<', 'First Page')"></a>
+                        <a th:replace="/fragments/appearance/paging :: paging(1,'<<', 'First Page')"></a>
                     </li>
 
                     <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
-                        <a th:replace="fragments/appearance/paging :: paging(${currentPage - 1},${visitor.id}, 'Prev','Previous Page')"></a>
+                        <a th:replace="/fragments/appearance/paging :: paging(${currentPage - 1}, 'Prev','Previous Page')"></a>
                     </li>
 
                     <li class="page-item disabled" th:if="${currentPage - 4 > 1}">
@@ -144,7 +162,7 @@
 
                     <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
                         th:each ="page : ${#numbers.sequence(currentPage > 4 ? currentPage - 4 : 1, currentPage + 4 < totalPages ? currentPage + 4 : totalPages)}">
-                        <a th:replace="fragments/appearance/paging :: paging(${page},${visitor.id}, ${page}, 'Page')"></a>
+                        <a th:replace="/fragments/appearance/paging :: paging(${page}, ${page}, 'Page')"></a>
                     </li>
 
                     <li class="page-item disabled" th:if="${currentPage + 4 < totalPages}">
@@ -152,11 +170,11 @@
                     </li>
 
                     <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                        <a th:replace="fragments/appearance/paging :: paging(${currentPage + 1},${visitor.id},'Next', 'Next Page')"></a>
+                        <a th:replace="/fragments/appearance/paging :: paging(${currentPage + 1},'Next', 'Next Page')"></a>
                     </li>
 
                     <li class ="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                        <a th:replace="fragments/appearance/paging :: paging(${totalPages},${visitor.id}, '>>', 'Last Page')"></a>
+                        <a th:replace="/fragments/appearance/paging :: paging(${totalPages}, '>>', 'Last Page')"></a>
                     </li>
                 </ul>
             </nav>

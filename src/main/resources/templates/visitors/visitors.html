@@ -118,7 +118,8 @@
                             <i class="fa-solid fa-pen-to-square"></i>
                             </a>
 
-                            <a type="button" sec:authorize="hasRole('ADMIN')" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"
+<!--                            <a type="button" sec:authorize="hasRole('ADMIN')" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"-->
+                            <a type="button"  th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"
                                title="Delete this visitor" class="btn-delete btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
 
                             <a type="button"  th:href="@{/appearances/{id}/appearance-history(id=${visitor.id})}" id="btnHistory"

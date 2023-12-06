@@ -29,19 +29,30 @@ public interface AppearanceService {
 
     Page<Appearance> findAppearanceByVisitor(Visitor visitor,  Pageable pageable);
 
-    Page<Appearance> findByDateIssued(LocalDate dateIssued, Pageable pageable);
+    Page<Appearance> findByDateIssued(LocalDate dateIssued, Visitor visitor, Pageable pageable);
 
     void save(Appearance appearance);
 
     void deleteById(Long id);
 
-    Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Pageable pageable);
+    Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Visitor visitor, Pageable pageable);
 
 
-    Page<Appearance> findAppearanceByMonthDateIssued(int month, Pageable pageable);
+    Page<Appearance> findAppearanceByMonthDateIssued(Integer month, Visitor visitor,Pageable pageable);
 
 
-    Page<Appearance> findAppearanceByYearDateIssued(int year, Pageable pageable);
+    Page<Appearance> findAppearanceByYearDateIssued(Integer year, Visitor visitor,Pageable pageable);
+
+    Page<Appearance> findByPurposeAndMonthAndYearContainingIgnoreCase(String purpose, Integer  month, Integer year, Visitor visitor, Pageable pageable);
+
+    Page<Appearance> findAppearanceByMonthAndYearDateIssued(Integer  month, Integer year, Visitor visitor, Pageable pageable);
+
+
+
+    Page<Appearance> findByPurposeAndMonthContainingIgnoreCase(String purpose,Integer  month, Visitor visitor, Pageable pageable);
+
+
+    Page<Appearance> findByPurposeAndYearContainingIgnoreCase(String purpose, Integer year, Visitor visitor, Pageable pageable);
 
 
     List<Integer> findAllDistinctYear();

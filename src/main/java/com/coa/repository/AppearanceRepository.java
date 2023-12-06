@@ -23,20 +23,33 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
     @Query("SELECT a FROM Appearance a WHERE a.visitor.name = :name")
     Page<Appearance> findByVisitorNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 
-    @Query("SELECT a FROM Appearance a WHERE a.purpose.purpose = :purpose")
-    Page<Appearance> findByPurposeContainingIgnoreCase(@Param("purpose")String purpose, Pageable pageable);
+    @Query("SELECT a FROM Appearance a WHERE a.purpose.purpose = :purpose AND a.visitor = :visitor")
+    Page<Appearance> findByPurposeContainingIgnoreCase(@Param("purpose")String purpose , @Param("visitor")Visitor visitor, Pageable pageable);
 
-    @Query("SELECT a FROM Appearance a WHERE a.dateIssued = :dateIssued")
-    Page<Appearance> findByDateIssued(@Param("dateIssued")LocalDate dateIssued, Pageable pageable);
+    @Query("SELECT a FROM Appearance a WHERE a.purpose.purpose = :purpose AND MONTH(a.dateIssued) = :month AND a.visitor = :visitor")
+    Page<Appearance> findByPurposeAndMonthContainingIgnoreCase(@Param("purpose")String purpose,@Param("month") Integer  month, @Param("visitor")Visitor visitor, Pageable pageable);
+
+    @Query("SELECT a FROM Appearance a WHERE a.purpose.purpose = :purpose AND YEAR(a.dateIssued) = :year AND a.visitor = :visitor")
+    Page<Appearance> findByPurposeAndYearContainingIgnoreCase(@Param("purpose")String purpose, @Param("year")Integer year, @Param("visitor")Visitor visitor, Pageable pageable);
+
+
+    @Query("SELECT a FROM Appearance a WHERE a.purpose.purpose = :purpose AND MONTH(a.dateIssued) = :month AND YEAR(a.dateIssued) = :year AND a.visitor = :visitor")
+    Page<Appearance> findByPurposeAndMonthAndYearContainingIgnoreCase(@Param("purpose")String purpose,@Param("month") Integer  month, @Param("year")Integer year, @Param("visitor")Visitor visitor, Pageable pageable);
+
+    @Query("SELECT a FROM Appearance a WHERE a.dateIssued = :dateIssued AND a.visitor = :visitor")
+    Page<Appearance> findByDateIssued(@Param("dateIssued")LocalDate dateIssued, @Param("visitor")Visitor visitor, Pageable pageable);
 
     @Query("SELECT a FROM Appearance a WHERE a.visitor = :visitor ORDER BY a.dateIssued ASC")
     Page<Appearance> findAppearanceByVisitor(@Param("visitor") Visitor visitor,  Pageable pageable);
 
-    @Query("SELECT a FROM Appearance a  WHERE MONTH(a.dateIssued) = :month")
-    Page<Appearance> findAppearanceByMonthDateIssued(@Param("month") int month, Pageable pageable);
+    @Query("SELECT a FROM Appearance a  WHERE MONTH(a.dateIssued) = :month AND a.visitor = :visitor")
+    Page<Appearance> findAppearanceByMonthDateIssued(@Param("month") Integer  month, Visitor visitor, Pageable pageable);
 
-    @Query("SELECT a FROM Appearance a WHERE YEAR(a.dateIssued = :year")
-    Page<Appearance> findAppearanceByYearDateIssued(@Param("year") int year, Pageable pageable);
+    @Query("SELECT a FROM Appearance a  WHERE MONTH(a.dateIssued) = :month AND YEAR(a.dateIssued) = :year AND a.visitor = :visitor")
+    Page<Appearance> findAppearanceByMonthAndYearDateIssued(@Param("month") Integer  month, @Param("year")Integer year, @Param("visitor")Visitor visitor, Pageable pageable);
+
+    @Query("SELECT a FROM Appearance a WHERE YEAR(a.dateIssued) = :year AND a.visitor = :visitor")
+    Page<Appearance> findAppearanceByYearDateIssued(@Param("year") Integer year, @Param("visitor")Visitor visitor, Pageable pageable);
 
     @Query("SELECT DISTINCT YEAR(a.dateIssued) FROM Appearance a ORDER BY YEAR(a.dateIssued) ASC")
     List<Integer> findAllDistinctYear();

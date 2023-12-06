@@ -80,5 +80,21 @@ $(document).ready(function(){
     }
 
     });
+
+
+ $("#pageSize").on("change",function(event){
+        event.preventDefault();
+        $("#searchForm").submit();
+    });
+
+    $("#month").on("change",function(event){
+        event.preventDefault();
+        $("#searchForm").submit();
+    });
+
+    $("#year").on("change",function(event){
+        event.preventDefault();
+        $("#searchForm").submit();
+    });
 });
 
