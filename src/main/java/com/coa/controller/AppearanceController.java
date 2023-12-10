@@ -158,8 +158,8 @@ public class AppearanceController {
                                         @RequestParam(required = false,defaultValue = "0") Integer selectedMonth,
                                         @RequestParam(required = false,defaultValue = "0") Integer selectedYear,
                                         @RequestParam(defaultValue = "1") int page,
-                                        @RequestParam(defaultValue = "1") int size,
-                                        @RequestParam(defaultValue = "id,asc") String[] sort){
+                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "id, asc") String[] sort){
 
         try{
             List<Integer> years=appearanceService.findAllDistinctYear();

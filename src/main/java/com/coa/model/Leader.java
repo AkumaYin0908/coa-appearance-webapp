@@ -34,4 +34,8 @@ public class Leader {
         this.position = position;
         this.inCharge = inCharge;
     }
+
+    public Leader(boolean inCharge){
+        this.inCharge=inCharge;
+    }
 }

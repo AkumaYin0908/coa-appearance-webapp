@@ -11,20 +11,20 @@
 <div layout:fragment="content">
 
    <script th:inline="javascript">
-    var purpose_data = /*[[${purposes}]]*/'novalue';
+    var purposes = /*[[${purposes}]]*/'novalue';
 
     $(document).ready(function(){
-        console.log(purpose_data);
+
         $("td:nth-child(1),th:nth-child(1)").hide();
 
         $("#editAppearancePurpose").autocomplete({
             minLength : 4,
-            source : purpose_data
+            source : purposes
         });
 
         $("#searchPurpose").autocomplete({
             minLength : 1,
-            source : purpose_data
+            source : purposes
         });
     });
    </script>
@@ -91,7 +91,7 @@
                             </div>
 
                         <div class="btn-clear col-1 col-md-1 col-sm-1 mt-1">
-                            <button  id="btnClear" class="btn btn-sm btn-secondary">Clear</button>
+                            <button  id="btnClear" class="btn btn-sm btn-secondary" th:visitorId="${visitor.id}">Clear</button>
                         </div>
                     </div>
                 </div>
@@ -102,17 +102,17 @@
                         <table class="table table-striped table-responsive-xl">
                             <thead class="table-dark">
                             <tr>
-                                <th class="visually-hidden" th:replace="/fragments/appearance/sorting :: sorting(id, No)"></th>
-                                <th th:replace="/fragments/appearance/sorting :: sorting('dateIssued','Date Issued')"></th>
-                                <th th:replace="/fragments/appearance/sorting :: sorting('dateFrom','From')"></th>
-                                <th th:replace="/fragments/appearance/sorting :: sorting('dateTo','To')"></th>
-                                <th th:replace="/fragments/appearance/sorting :: sorting('purpose','Purpose')"></th>
+                                <th th:replace="/fragments/appearance/sorting :: sorting(id, No)"></th>
+                                <th th:replace="/fragments/appearance/sorting :: sorting(dateIssued,'Date Issued')"></th>
+                                <th th:replace="/fragments/appearance/sorting :: sorting(dateFrom,'From')"></th>
+                                <th th:replace="/fragments/appearance/sorting :: sorting(dateTo,'To')"></th>
+                                <th th:replace="/fragments/appearance/sorting :: sorting(purpose,'Purpose')"></th>
                                 <th scope="col">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="appearance : ${appearances}">
-                                    <th scope="row" th:text="${appearance.id}" class="visually-hidden"></th>
+                                    <th scope="row" th:text="${appearance.id}"></th>
                                     <td th:text="${appearance.dateIssued}"></td>
                                     <td th:text="${appearance.dateFrom}"></td>
                                     <td th:text="${appearance.dateTo}"></td>

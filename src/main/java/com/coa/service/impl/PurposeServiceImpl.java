@@ -3,6 +3,7 @@ package com.coa.service.impl;
 import com.coa.model.Purpose;
 import com.coa.repository.PurposeRepository;
 import com.coa.service.PurposeService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class PurposeServiceImpl implements PurposeService {
     }
 
     @Override
+    @Transactional
     public void save(Purpose purpose) {
         purposeRepository.save(purpose);
     }

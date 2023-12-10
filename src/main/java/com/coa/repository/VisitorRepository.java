@@ -16,11 +16,11 @@ public interface VisitorRepository extends JpaRepository<Visitor,Long> {
     Page<Visitor> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
 
-    @Query("Select v from Visitor v where v.name = :name")
+    @Query("SELECT v FROM Visitor v WHERE v.name = :name")
     Optional<Visitor> findVisitorByName(@Param("name")String name);
 
 
 
-    @Query("Select v from Visitor v where v.id <> :id AND v.name = :name")
+    @Query("SELECT v FROM Visitor v WHERE v.id <> :id AND v.name = :name")
     Optional<Visitor> findVisitorByName(@Param("id") Long id, @Param("name")String name);
 }

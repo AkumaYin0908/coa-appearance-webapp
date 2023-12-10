@@ -82,6 +82,21 @@ $(document).ready(function(){
     });
 
 
+    $("#btnClear").on("click", function(event){
+        event.preventDefault();
+
+        $("#searchPurpose").text("");
+
+        $("#month").text("Select Month");
+
+        $("#year").text("Select Year");
+
+        visitorId=$(this).attr("visitorId");
+
+        window.location.href ="/appearances/" + visitorId + "/appearance-history";
+    });
+
+
  $("#pageSize").on("change",function(event){
         event.preventDefault();
         $("#searchForm").submit();

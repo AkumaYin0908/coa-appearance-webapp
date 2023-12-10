@@ -25,6 +25,7 @@ $(".btn-delete").on("click",function(event){
 
 $("#addVisitorButton").on("click",function(event){
     event.preventDefault();
+
     $("#addVisitorModal").modal('show');
 });
 

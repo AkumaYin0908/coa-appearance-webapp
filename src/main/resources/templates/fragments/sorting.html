@@ -1,5 +1,5 @@
-<th scope="col" th:fragment="sorting(field, label)">
-  <a th:href="@{'/visitors?' + ${searchName != null && searchName != '' ? 'searchName=' + searchName + '&' : ''}
+<th scope="col" th:fragment="sorting(endpoint, field, label)">
+  <a th:href="@{endpoint + '?' + ${searchName != null && searchName != '' ? 'searchName=' + searchName + '&' : ''}
   +'page=' + ${currentPage} + '&size=' + ${pageSize}
   + ${sortField != null ? '&sort=' + field + ',' + (sortField == field ? reverseSortDirection : sortDirection) : ''}}" th:text="${label}"></a>
   <span th:if="${sortField == field}"

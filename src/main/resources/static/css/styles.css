@@ -45,6 +45,9 @@ body {
 div.norecord{
     z-index : 0;
 }
+
+/* Sidebar Menu */
+
 .offcanvas {
     z-index: 1 !important;
     height : 100%;
@@ -52,7 +55,8 @@ div.norecord{
     left: 0;
     width : 14rem;
     padding : 20px 0;
-    background : rgb(0,71,171) !important;
+    background : rgba(0,71,171,0.8) !important;
+    backdrop-filter : blur(15px);
     transition: all 0.5s ease;
 }
 
@@ -82,12 +86,12 @@ div.norecord{
  }
 
  .offcanvas .profile  a{
- 	color: rgb(255,255,255);
+ 	color: rgba(255,255,255,0.5);
  	font-size: 12px;
  }
 
   .offcanvas .profile  a:hover{
-  	color: rgb(55, 57, 59);
+  	color: rgba(55, 57, 59,0.5);
 
   }
 
@@ -105,7 +109,7 @@ div.norecord{
 }
 
 .offcanvas .side-buttons ul li a .icon{
-    color : rgb(255,255,255);
+    color : rgba(255,255,255,0.5);
     width : 30px;
     display : inline-block;
 }
@@ -127,6 +131,28 @@ div.norecord{
 .offcanvas .side-buttons ul li a:hover:before,
 .offcanvas .side-buttons ul li a.active:before{
     display : block;
+}
+
+
+.side-buttons li .dropdown{
+    position: absolute;
+    right: 0;
+    margin: 5px 10px;
+    transition: 0.3s ease;
+}
+
+.side-buttons li .sub-menu{
+    display: none;
+
+}
+
+.side-buttons li .sub-menu .sub-item{
+    padding: 5px 5px 5px 50px;
+}
+
+
+.rotate{
+   transform: rotate(90deg) ;
 }
 
 
@@ -257,3 +283,53 @@ span .name{
 #ui-datepicker-div {
 z-index: 10000 !important;
 }
+
+.search-container{
+    width:100%;
+    display: flex;
+    align-items: center;
+
+}
+
+.search-bar{
+    width : 100%;
+    max-width: 100%;
+    background: rgba(255,255,255,0.2);
+    display : flex;
+    align-items: center;
+    border-radius: 60px;
+    padding : 10px 20px;
+}
+
+.search-bar input{
+    background: transparent;
+    flex : 1;
+    border : 0;
+    outline : none;
+    padding: 4px 2px;
+    font-family : "Source Code Pro", sans-serif;
+    font-size : 1rem;
+    color: white;
+}
+::placeholder{
+    color : white;
+}
+
+.search-bar button .fa-search{
+    width : 20px;
+}
+
+.search-bar button{
+    border : 0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: rgb(207, 207, 207);
+    cursor: pointer;
+
+}
+
+.search-bar button:hover{
+    background: rgb(255,255,255);
+}
+

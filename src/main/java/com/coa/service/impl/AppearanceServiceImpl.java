@@ -5,6 +5,7 @@ import com.coa.model.Appearance;
 import com.coa.model.Visitor;
 import com.coa.repository.AppearanceRepository;
 import com.coa.service.AppearanceService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -59,11 +60,13 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
     @Override
+    @Transactional
     public void save(Appearance appearance) {
         appearanceRepository.save(appearance);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         appearanceRepository.deleteById(id);
     }

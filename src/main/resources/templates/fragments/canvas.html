@@ -41,13 +41,19 @@
 
 <!--        <li sec:authorize="hasRole('ADMIN')">-->
         <li>
-          <a   id="appSettingButton" href="#">
+          <a id="appSettingButton" class = "sub-button">
             <span class="icon"><i class="fa-solid fa-gear"></i></span>
             <span class="item">App Settings</span>
+            <i class="fa-solid fa-angle-right dropdown"></i>
           </a>
+          <div class="sub-menu">
+            <a th:href="@{/settings/leaders}" id="leaderSettingButton" class="sub-item">Leaders</a>
+            <a th:href="@{/settings/users}"  id = "userSettingButton" class="sub-item">Users</a>
+          </div>
         </li>
 
-        <li >
+
+        <li>
 
           <a  id="logoutButton">
             <span class="icon"><i class="fa-solid fa-right-from-bracket"></i></span>

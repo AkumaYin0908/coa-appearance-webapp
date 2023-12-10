@@ -2,9 +2,9 @@ $(document).ready(function(){
 
 let message=$("#message");
 
-//if(message != ""){
-//    $(".alert").fadeToggle(5000);
-//}
+if(message != ""){
+    $("#messageHolder #message").fadeToggle(10000);
+}
     let buttons = $("li a");
 
     buttons.on("click",function(){
@@ -30,5 +30,10 @@ let message=$("#message");
                 document.logoutForm.submit();
             });
 
+
+    $(".sub-button").on("click", function(){
+        $(this).next(".sub-menu").slideToggle();
+        $(this).find(".dropdown").toggleClass("rotate");
+    });
 
 });

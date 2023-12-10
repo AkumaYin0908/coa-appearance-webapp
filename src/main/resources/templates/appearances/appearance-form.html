@@ -13,11 +13,11 @@
 
     <script th:inline="javascript">
 
-        var purpose_data = /*[[${purposes}]]*/'novalue';
+        var purposes = /*[[${purposes}]]*/'novalue';
         $(document).ready(function(){
            $("#purposeTextArea").autocomplete({
             minLength : 1,
-            source : purpose_data
+            source : purposes
         });
 
         });

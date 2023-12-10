@@ -8,7 +8,242 @@
 <body>
 <div layout:fragment = "content">
 
+    <script th:inline="javascript">
+        var visitors=/*[[${visitors}]]*/'novalue';
+        var leaderNames = /*[[${leaderNames}]]*/'novalue';
+
+        $(document).ready(function(){
+
+        $("#searchText").autocomplete({
+            minLength : 3,
+            source : visitors
+        });
+
+        $("#leaderName").autocomplete({
+            minLength : 2,
+            source : leaderNames
+        });
+
+
+
+        });
+    </script>
+
+
+    <div class="container mt-5">
+
+        <div class="card mt-5 mb-5 bg-secondary" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+            <div class="card-body search-container">
+                <form th:action="@{/dashboard}" class="search-bar">
+                    <input id="searchText" type="text" placeholder="Create new appearance for...." name="searchName" th:value="${searchName}">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+
+                </form>
+
+
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col">
+                <div class="card" style="box-shadow: -1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+                    <div class="card-body">
+                        <div class= " p-0 text-center text-light bg-success" style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem; border-radius: 3px; width: 8rem;">
+                            <span>Current Leader</span>
+                        </div>
+                        <div class="text-center bg-dark text-light my-1 p-1" style="border-radius: 4px;">
+                            <span class=" leader-label h5 mt-1" style=" font-family: 'Source Code Pro', sans-serif; font-size: 2rem;"  th:text="${leader.name}"></span>
+                        </div>
+                        <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
+                        <div class="d-flex justify-content-end mt-2 mb-0">
+                            <a type="button" id ="changeLeaderButton" style="text-decoration:none;" class="text-primary"><i class="fa-solid fa-user-gear"></i> Change Leader</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+                    <div class="card-body">
+                        <div class= " p-0 text-center text-light bg-success" style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem; border-radius: 3px; width: 8rem;">
+                            <span>Current User</span>
+                        </div>
+                        <div class="text-center bg-dark text-light my-1 p-1" style="border-radius: 4px;">
+                            <span class=" leader-label h5 mt-1" style=" font-family: 'Source Code Pro', sans-serif; font-size: 2rem;" >John Philip Apulog</span>
+                        </div>
+                        <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
+                        <div class=" mt-2  mb-0">
+
+                            <div class="row">
+                                <div class="col  offset-md-4 text-end">
+                                    <a type="button" href="#" style="text-decoration:none;" class="text-primary"><i class="fa-solid fa-gear"></i> User Profile</a>
+                                </div>
+
+                                <div class="col-auto text-end">
+                                    <a type="button" href="#" style="text-decoration:none;" class="text-primary"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+            <div class="card mt-5 mb-3" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+                <div class="card-body">
+                    <button id="addVisitorButton"  class="btn btn-secondary" style="width : 100%;"><i class="fa-solid fa-user-plus"></i>  Create new visitor</button>
+                </div>
+            </div>
+
+
+
+
+            <div class="card mt-4" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+                <div class="container mt-3 " style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
+                    Appearance History
+                </div>
+                <div class="card-body">
+                    <table class="table  table-responsive-md" style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
+                        <thead>
+                        <tr>
+                            <th>Date Issued</th>
+                            <th>Name</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Purpose</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>November 12, 2023</td>
+                            <td>John Philip Apulog</td>
+                            <td>November 12, 2023</td>
+                            <td>November 18, 2023</td>
+                            <td>to attend orientation</td>
+
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="card mt-4" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+
+                <div class="card-body">
+                    chart
+                </div>
+            </div>
+
+        </div>
+
+
+    <!-- Add Visitor Modal -->
+    <div class="modal" data-bs-theme="dark" id="addVisitorModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light">New Visitor</h5>
+                    <button id="addModalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <form th:action="@{visitors/save}" method="POST" th:object="${addFormVisitorDTO}" enctype="multipart/form-data">
+                    <span id="addModalMessageHolder" th:text="${addModalMessage}"></span>
+                    <div class="modal-body ui-front">
+                        <div class="col-xs-auto">
+                            <!-- check for error -->
+                            <div  id="addModalDiv" th:if="${addModalMessage != null}">
+                                <div class="alert alert-danger col-xs-auto">
+                                    <span th:text="${addModalMessage}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" th:field="*{id}">
+
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{name}" class="form-control" id="visitorName"
+                                       required minlength="5" maxlength="100" placeholder="Name">
+                                <label class="text-secondary" for="visitorName">Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{position}" class="form-control" id="visitorPosition"
+                                       required minlength="5" maxlength="100" placeholder="Position">
+                                <label class="text-secondary" for="visitorPosition">Position</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="md-form form-floating mb-3">
+                                <input type="text" th:field="*{agency}" class=" form-control" id="visitorAgency"
+                                       required minlength="5" maxlength="100" placeholder="Agency">
+                                <label class="text-secondary" for="visitorAgency">Agency</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" name="direction" value="dashboard" id="btnAdd" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Leader Modal -->
+    <div class="modal" data-bs-theme="dark" id="changeLeaderModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-light">Change Leader</h5>
+                    <button id="changeModalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <form th:action="@{/settings/leaders/changeLeader}" method="POST" enctype="multipart/form-data">
+                    <span id="changeModalMessageHolder" th:text="${changeModalMessage}"></span>
+                    <div class="modal-body ui-front">
+                        <div class="col-xs-auto">
+                            <!-- check for error -->
+                            <div  id="changeModalDiv" th:if="${changeModalMessage != null}">
+                                <div class="alert alert-danger col-xs-auto">
+                                    <span th:text="${changeModalMessage}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="md-form form-floating mb-3">
+                                <input type="hidden" name="leaderName"  th:value = "${leader.name}" id="currentLeaderName">
+
+                                <input type="text" name="name" class="form-control" id="leaderName"
+                                       required minlength="5" maxlength="100" placeholder="Name">
+                                <label class="text-secondary" for="leaderName">Name</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit"  name="direction" value="leaders" id="btnChange" class="btn btn-primary">Set</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
+
 
 <th:block layout:fragment="script">
 

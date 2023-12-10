@@ -1,6 +1,7 @@
 package com.coa.controller;
 
 
+import com.coa.exceptions.UserNotFoundException;
 import com.coa.model.User;
 import com.coa.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,19 +55,24 @@ public class RegisterController {
         }
 
         //check the database if user already exists
-        User existingUser=userService.findByUserName(userName);
+        Optional<User> optionalUser = userService.findByUserName(userName);
 
-        if(existingUser!=null){
-            model.addAttribute("user",new User());
+        if(optionalUser.isPresent()){
+            model.addAttribute("user",user);
             model.addAttribute("registrationError","Username already exists");
             return "registration";
+        }else{
+
+            //create user account and store to the database
+            userService.save(user);
+            model.addAttribute("registrationSuccessful", "Registration successful!");
+
+            httpSession.setAttribute("user",user);
         }
 
-        //create user account and store to the database
-        userService.save(user);
-        model.addAttribute("registrationSuccessful", "Registration successful!");
 
-        httpSession.setAttribute("user",user);
+
+
         return "login";
     }
 }

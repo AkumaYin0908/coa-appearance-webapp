@@ -50,7 +50,7 @@ public class VisitorController {
     @GetMapping("/visitors")
     public String showVisitors(Model model, @RequestParam(required = false) String searchName,
                                @RequestParam(defaultValue = "1") int page,
-                               @RequestParam(defaultValue = "1") int size,
+                               @RequestParam(defaultValue = "10") int size,
                                @RequestParam(defaultValue = "id,asc") String[] sort){
 
         try{
@@ -97,7 +97,6 @@ public class VisitorController {
             model.addAttribute("positions",positions);
             model.addAttribute("agencies",agencies);
             model.addAttribute("currentPage", visitorPage.getNumber() + 1);
-            model.addAttribute("totalItems",visitorPage.getTotalElements());
             model.addAttribute("totalPages",visitorPage.getTotalPages());
             model.addAttribute("pageSize",size);
             model.addAttribute("sortField", sortField);
@@ -112,7 +111,7 @@ public class VisitorController {
     }
 
     @PostMapping("/visitors/save")
-    public String saveVisitor(@ModelAttribute("addFormVisitorDTO") VisitorDTO visitorDTO, RedirectAttributes redirectAttributes){
+    public String saveVisitor(@ModelAttribute("addFormVisitorDTO") VisitorDTO visitorDTO, @RequestParam("direction")String direction, RedirectAttributes redirectAttributes){
         try{
 
             String name=visitorDTO.getName();
@@ -120,7 +119,7 @@ public class VisitorController {
 
             if(optionalVisitor.isPresent()){
                 redirectAttributes.addFlashAttribute("addModalMessage", "Visitor's name already exists!");
-                return  "redirect:/visitors";
+                return  String.format("redirect:/%s",direction);
 
             }else{
 
@@ -157,7 +156,7 @@ public class VisitorController {
             ex.printStackTrace();
         }
 
-        return "redirect:/visitors";
+        return  String.format("redirect:/%s",direction);
     }
 
     @GetMapping("/visitors/delete/{id}")
@@ -180,7 +179,7 @@ public class VisitorController {
     }
 
     @PostMapping("/visitors/update")
-    public String updateVisitor(@ModelAttribute("editFormVisitorDTO") VisitorDTO visitorDTO,RedirectAttributes redirectAttributes, Model model){
+    public String updateVisitor(@ModelAttribute("editFormVisitorDTO") VisitorDTO visitorDTO,RedirectAttributes redirectAttributes){
 
         try{
 

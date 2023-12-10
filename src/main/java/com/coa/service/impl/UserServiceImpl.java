@@ -7,6 +7,8 @@ import com.coa.repository.UserRepository;
 import com.coa.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,9 +27,23 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
+    @Override
+    public Page<User> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+        return userRepository.findByNameContainingIgnoreCase(name,pageable);
+    }
 
     @Override
-    public User findByUserName(String userName) {
+    public Page<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findByUserName(String userName) {
         return  userRepository.findByUserName(userName);
     }
 
@@ -47,10 +63,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       User user=userRepository.findByUserName(username);
+    public void deleteById(Long userId) {
+        userRepository.deleteById(userId);
+    }
 
-       if(user==null){
+    @Override
+    @Transactional
+    public void updateActiveStatus(Long userId, boolean active) {
+        userRepository.updateActiveStatus(userId,active);
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+       Optional<User> optionalUser=userRepository.findByUserName(username);
+        User user;
+       if(optionalUser.isPresent()){
+          user=optionalUser.get();
+       }else{
            throw new UsernameNotFoundException("Username does not exist. Please try again");
        }
 
