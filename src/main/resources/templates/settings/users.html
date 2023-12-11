@@ -27,7 +27,10 @@
     <div class="card-header pt-3">
       <div class="container text-center mt-6 pt-6">
         <div class="row justify-content-md-center mb-2">
-
+          <div class="col-md-2 mt-1">
+            <button type="button" id="addUserButton" class="btn btn-sm btn-success">
+              <i class="fa-solid fa-plus"></i> Create User</button>
+          </div>
           <div class="col-md-4">
             <form th:action="@{/settings/users}" id="searchForm">
               <div class="row">
@@ -63,6 +66,7 @@
             <th th:replace="fragments/sorting :: sorting('/settings/users', name,Name)"></th>
             <th th:replace="fragments/sorting :: sorting('/settings/users', userName,UserName)"></th>
             <th th:replace="fragments/sorting :: sorting('/settings/users', position,Position)"></th>
+            <th th:replace="fragments/sorting :: sorting('/settings/users', roles,Roles)"></th>
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
@@ -73,6 +77,13 @@
             <td th:text="${user.name}"></td>
             <td th:text="${user.userName}"></td>
             <td th:text="${user.position}"></td>
+            <td>
+              <ul>
+                <li th:each="role: ${user.roles}" th:text="${role.name}"></li>
+
+              </ul>
+
+            </td>
 
 
             <td>
@@ -84,12 +95,20 @@
                  th:href="@{'/settings/users/' + ${user.userId}  + '/active/true'}"
                  title="Activate this user"></a>
 
-
             </td>
             <td>
 
+              <a type="button" title="Change user's password" class="btn-changePassword btn btn-sm btn-warning"><i class="fa-solid fa-key"></i></a>
 
-              <a type="button" title="Manage user's roles" class="btn-delete btn btn-sm btn-warning"> <i class="fa-solid fa-list-check"></i> Manage</a>
+              <a type="button" title="Edit this leader" class="btn-edit btn btn-sm btn-warning"
+                 th:userId="${user.userId}"
+                 th:name="${user.name}"
+                 th:userName = "${user.userName}"
+                 th:position ="${user.position}"
+                 th:active="${user.active}">
+                <script th:inline="javascript">var userRoles=/*[[${user.roles}]]*/ [] </script>
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
 
               <a type="button"  th:href="@{'/settings/users/delete/' + ${user.userId}}" th:userName="${user.userName}"
                  title="Delete this user" class="btn-delete btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
@@ -144,9 +163,162 @@
 
   </div>
 
+  <!-- Add User Modal -->
+  <div class="modal" data-bs-theme="dark" id="addUserModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-light">New User</h5>
+          <button id="addModalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <form th:action="@{/register/processRegistration}" method="POST" th:object="${user}" enctype="multipart/form-data">
+
+          <span id="addModalMessageHolder" th:text="${registrationError}"></span>
+          <div class="modal-body ui-front">
+            <div class="col-xs-auto">
+              <!-- check for error -->
+              <div  id="addModalDiv" th:if="${registrationError != null}">
+                <div class="alert alert-danger col-xs-auto">
+                  <span th:text="${registrationError}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+
+              <div class="md-form form-floating mb-3">
+                <input type="text" th:field="*{userName}" class="form-control" id="userName"
+                       required minlength="5" placeholder="UserName">
+                <label class="text-secondary" for="userName">UserName</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="md-form form-floating mb-3">
+                <input type="password" th:field="*{password}" class="form-control" id="userPassword"
+                       required minlength="8"  placeholder="Password">
+                <label class="text-secondary" for="userPassword">Password</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="md-form form-floating mb-3">
+                <input type="text" th:field="*{name}" class="form-control" id="name"
+                       required minlength="5"  maxlength="50"  placeholder="Name">
+                <label class="text-secondary" for="name">Name</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="md-form form-floating mb-3">
+                <input type="text" th:field="*{position}" class="form-control" id="userPosition"
+                       required minlength="10" maxlength="50" placeholder="Position">
+                <label class="text-secondary" for="userPosition">Position</label>
+              </div>
+            </div>
 
 
-  <!-- Delete Leader Modal -->
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" name ="direction" value="settings/users"  id="btnRegister" class="btn btn-primary">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal" data-bs-theme="dark" id="editUserModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-light">New User</h5>
+          <button id="editModalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <form th:action="@{/settings/users/update}" method="POST" th:object="${user}" enctype="multipart/form-data">
+
+          <span id="editModalMessageHolder" th:text="${registrationError}"></span>
+          <div class="modal-body ui-front">
+            <div class="col-xs-auto">
+              <!-- check for error -->
+              <div  id="editModalDiv" th:if="${registrationError != null}">
+                <div class="alert alert-danger col-xs-auto">
+                  <span th:text="${registrationError}"></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+
+              <div class="md-form form-floating mb-3">
+                <input id="editUserId" type="hidden" th:field="*{userId}">
+
+                <input type="text" th:field="*{userName}" class="form-control" id="editUserName"
+                       required minlength="5" placeholder="UserName">
+                <label class="text-secondary" for="userName">UserName</label>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <div class="md-form form-floating mb-3">
+                <input type="text" th:field="*{name}" class="form-control" id="editName"
+                       required minlength="5"  maxlength="50"  placeholder="Name">
+                <label class="text-secondary" for="name">Name</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="md-form form-floating mb-3">
+                <input type="text" th:field="*{position}" class="form-control" id="editUserPosition"
+                       required minlength="10" maxlength="50" placeholder="Position">
+                <label class="text-secondary" for="userPosition">Position</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="md-form mb-3 ps-5">
+                <div class="row">
+
+                  <div class="col">
+                    <label class="text-secondary" for="editUserActive">Active</label>
+                    <input type="checkbox" th:field="*{active}"  id="editUserActive">
+                  </div>
+
+                  <div class="col">
+                    <ul>
+                      <li th:each="role : ${roles}">
+                        <label class="text-light" th:for="${role.name}" th:text="${role.name}"></label>
+                        <input type="checkbox" th:id="${role.roleId}" th:name="${role.name}">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+
+
+            </div>
+
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" name ="direction" value="settings/users"  id="btnEdit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Delete User Modal -->
   <div class="modal text-center" data-bs-theme="dark" id = "deleteUserModal">
     <div class="modal-dialog">
       <div class="modal-content">

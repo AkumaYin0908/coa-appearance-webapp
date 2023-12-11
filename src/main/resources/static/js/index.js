@@ -3,7 +3,7 @@ $(document).ready(function(){
 let message=$("#message");
 
 if(message != ""){
-    $("#messageHolder #message").fadeToggle(10000);
+    $("#messageHolder").fadeToggle(10000);
 }
     let buttons = $("li a");
 

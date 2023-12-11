@@ -12,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -43,36 +41,29 @@ public class RegisterController {
 
 
     @PostMapping("/register/processRegistration")
-    public String processRegistration(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
-                                      HttpSession httpSession, Model model){
+    public String processRegistration(@ModelAttribute("user") User user,
+                                      HttpSession httpSession, Model model, RedirectAttributes redirectAttributes, @RequestParam("direction")String direction){
 
         String userName= user.getUserName();
-
-
-        //form validation
-        if(bindingResult.hasErrors()){
-            return "registration";
-        }
 
         //check the database if user already exists
         Optional<User> optionalUser = userService.findByUserName(userName);
 
         if(optionalUser.isPresent()){
             model.addAttribute("user",user);
-            model.addAttribute("registrationError","Username already exists");
-            return "registration";
+          redirectAttributes.addFlashAttribute("registrationError","Username already exists");
+           return String.format("redirect:/%s",direction);
         }else{
 
             //create user account and store to the database
-            userService.save(user);
-            model.addAttribute("registrationSuccessful", "Registration successful!");
-
-            httpSession.setAttribute("user",user);
+           userService.save(user);
+           redirectAttributes.addFlashAttribute("message", "Registration successful!");
+           httpSession.setAttribute("user",user);
         }
 
 
 
 
-        return "login";
+        return String.format("redirect:/%s",direction);
     }
 }

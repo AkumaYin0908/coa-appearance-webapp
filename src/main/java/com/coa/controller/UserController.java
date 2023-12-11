@@ -1,7 +1,9 @@
 package com.coa.controller;
 
 
+import com.coa.model.Role;
 import com.coa.model.User;
+import com.coa.repository.RoleRepository;
 import com.coa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,7 @@ public class UserController {
 
 
     private final UserService userService;
+    private final RoleRepository roleRepository;
 
 
 
@@ -41,6 +45,8 @@ public class UserController {
                             @RequestParam(defaultValue = "userId,asc") String[] sort){
 
         try{
+
+
             String sortField = sort[0];
             String sortDirection = sort[1];
 
@@ -60,8 +66,11 @@ public class UserController {
             }
 
             List<User> users = userPage.getContent();
-            System.out.println(users);
+            List<Role> roles=roleRepository.findAll();
+
+            model.addAttribute("user", new User());
             model.addAttribute("users",users);
+            model.addAttribute("roles",roles);
             model.addAttribute("currentPage", userPage.getNumber() + 1);
             model.addAttribute("totalPages",userPage.getTotalPages());
             model.addAttribute("pageSize",size);
@@ -85,6 +94,8 @@ public class UserController {
                 user=optionalUser.get();
 
                 String userFullName = user.getName();
+
+                user.getRoles().clear();
                 userService.deleteById(id);
                 redirectAttributes.addFlashAttribute("message", userFullName + " has been deleted.");
             }

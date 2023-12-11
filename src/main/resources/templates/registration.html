@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" th:field="*{Name}" placeholder="Name" class="form-control">
+                    <input type="text" th:field="*{name}" placeholder="Name" class="form-control">
                 </div>
 
                 <div th:if="${#fields.hasErrors('name')}" class="alert alert-danger">
@@ -73,7 +73,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-6 controls">
-                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="submit"  name ="direction" value="registration" class="btn btn-primary">Register</button>
                     </div>
                 </div>
             </form>

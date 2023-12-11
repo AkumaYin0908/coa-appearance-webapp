@@ -55,7 +55,7 @@ $(document).ready(function(){
         $("#editLeaderName").val(leader.attr("leaderName"))
         $("#editLeaderPosition").val(leader.attr("leaderPosition"));
 
-        let inCharge = leader.attr("leaderInCharge") === 'true';
+        let inCharge = leader.attr("leaderInCharge") === "true";
         $("#editLeaderInCharge").prop("checked",inCharge);
 
         $("#editLeaderModal").modal("show");
