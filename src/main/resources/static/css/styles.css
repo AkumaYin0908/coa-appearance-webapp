@@ -340,3 +340,6 @@ ul{
     padding :0 !important;
 }
 
+div .roleList li{
+    display: inline-block;
+}

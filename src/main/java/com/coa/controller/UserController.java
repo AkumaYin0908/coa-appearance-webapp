@@ -66,6 +66,8 @@ public class UserController {
             }
 
             List<User> users = userPage.getContent();
+
+            System.out.println(users);
             List<Role> roles=roleRepository.findAll();
 
             model.addAttribute("user", new User());

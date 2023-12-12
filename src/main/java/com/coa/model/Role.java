@@ -24,4 +24,12 @@ public class Role {
     public Role(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"roleId\" :" + String.format("\"%s\"",roleId) +
+                ", \"name\" :" + String.format("\"%s\"",name) +
+                '}';
+    }
 }

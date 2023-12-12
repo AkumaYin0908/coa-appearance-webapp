@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
 
     $(".btn-delete").on("click", function(event){
@@ -9,6 +11,7 @@ $(document).ready(function(){
         $("#confirmText").html("Do you want to delete <strong>" + userName + "\<\/strong>?");
         $("#deleteUserModal").modal("show");
     });
+
 
 
     $("#addUserButton").on("click",function(event){
@@ -25,6 +28,23 @@ $(document).ready(function(){
 
         let active=user.attr("active") === "true";
         $("#editUserActive").prop("checked",active);
+
+       var userRoles=JSON.parse(user.attr("data-user-roles"));
+
+
+
+
+
+        $(".role-list input[type=checkbox]").each(function() {
+            let checkBox = $(this);
+            let roleName = checkBox.attr("name");
+
+            // Check if the roleName exists in userRoles array
+            let roleExists = userRoles.some(role=> role.name === roleName);
+
+            // Set the checkbox state based on the result
+            checkBox.prop("checked", roleExists);
+        });
 
 
         $("#editUserModal").modal("show");
