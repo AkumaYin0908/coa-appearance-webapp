@@ -110,4 +110,9 @@ public class AppearanceServiceImpl implements AppearanceService {
     public List<Integer> findAllDistinctYear() {
         return appearanceRepository.findAllDistinctYear();
     }
+
+    @Override
+    public Page<Appearance> findAppearanceOrderByDateIssuedASC(Pageable pageable) {
+        return appearanceRepository.findAppearanceOrderByDateIssuedASC(pageable);
+    }
 }

@@ -32,12 +32,9 @@ $(document).ready(function(){
        var userRoles=JSON.parse(user.attr("data-user-roles"));
 
 
-
-
-
         $(".role-list input[type=checkbox]").each(function() {
             let checkBox = $(this);
-            let roleName = checkBox.attr("name");
+            let roleName = checkBox.val();
 
             // Check if the roleName exists in userRoles array
             let roleExists = userRoles.some(role=> role.name === roleName);

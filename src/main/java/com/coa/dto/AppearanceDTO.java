@@ -35,6 +35,17 @@ public class AppearanceDTO {
         this.purpose = purpose;
     }
 
+    public AppearanceDTO(Long id, String name, String position, String agency, String dateIssued, String dateFrom, String dateTo, String purpose) {
+        this.id = id;
+        this.name = name;
+        this.position = position;
+        this.agency = agency;
+        this.dateIssued = dateIssued;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.purpose = purpose;
+    }
+
     public String getFormattedStringDate() {
         return getFormattedDateRange(dateFrom,dateTo);
     }

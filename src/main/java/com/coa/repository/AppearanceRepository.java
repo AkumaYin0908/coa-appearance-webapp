@@ -49,4 +49,8 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
     List<Integer> findAllDistinctYear();
 
 
+    @Query("SELECT a FROM Appearance a ORDER BY YEAR(a.dateIssued) ASC")
+    Page<Appearance> findAppearanceOrderByDateIssuedASC(Pageable pageable);
+
+
 }

@@ -25,5 +25,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Modifying
     void updateActiveStatus(Long userId, boolean active);
 
+    
+
 
 }

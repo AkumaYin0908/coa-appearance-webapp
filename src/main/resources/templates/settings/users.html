@@ -240,15 +240,15 @@
             <span aria-hidden="true"></span>
           </button>
         </div>
-        <form th:action="@{/settings/users/update}" method="POST" th:object="${user}" enctype="multipart/form-data">
+        <form th:action="@{/settings/users/update}" method="POST" th:object="${editFormUser}" enctype="multipart/form-data">
 
-          <span id="editModalMessageHolder" th:text="${registrationError}"></span>
+          <span id="editModalMessageHolder" th:text="${editModalMessage}"></span>
           <div class="modal-body ui-front">
             <div class="col-xs-auto">
               <!-- check for error -->
-              <div  id="editModalDiv" th:if="${registrationError != null}">
+              <div  id="editModalDiv" th:if="${editModalMessage != null}">
                 <div class="alert alert-danger col-xs-auto">
-                  <span th:text="${registrationError}"></span>
+                  <span th:text="${editModalMessage}"></span>
                 </div>
               </div>
             </div>
@@ -294,7 +294,7 @@
                     <ul class="role-list">
                       <li th:each="role : ${roles}">
                         <label class="text-light" th:for="${role.name}" th:text="${role.name}"></label>
-                        <input type="checkbox" th:id="${role.roleId}" th:name="${role.name}">
+                        <input name="checkBoxValue" type="checkbox" th:id="${role.roleId}" th:value="${role.name}">
                       </li>
                     </ul>
                   </div>

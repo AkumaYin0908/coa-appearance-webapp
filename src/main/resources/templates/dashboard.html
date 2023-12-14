@@ -102,35 +102,82 @@
 
 
 
-            <div class="card mt-4" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+            <div class="card mt-4" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px; font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
                 <div class="container mt-3 " style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
                     Appearance History
                 </div>
                 <div class="card-body">
-                    <table class="table  table-responsive-md" style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
-                        <thead>
-                        <tr>
-                            <th>Date Issued</th>
-                            <th>Name</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Purpose</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>November 12, 2023</td>
-                            <td>John Philip Apulog</td>
-                            <td>November 12, 2023</td>
-                            <td>November 18, 2023</td>
-                            <td>to attend orientation</td>
+                    <div th:if="${appearances.size() > 0}">
+                        <table class="table">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Date Issued</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Agency</th>
+                                <th scope="col">Date Appeared</th>
+                                <th scope="col">Purpose</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="appearance : ${appearances}">
+                                <th scope="row" th:text="${appearance.id}"></th>
+                                <td th:text="${appearance.dateIssued}"></td>
+                                <td th:text="${appearance.name}"></td>
+                                <td th:text="${appearance.agency}"></td>
+                                <td th:text="${appearance.formattedStringDate}"></td>
+                                <td th:text="${appearance.purpose}"></td>
 
-                        </tr>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-
-                        </tbody>
-                    </table>
+                    <div th:unless ="${appearances.size() > 0}">
+                        <div class=" no-record alert alert-dark text-center" role="alert">No records found</div>
+                    </div>
                 </div>
+
+                <div class="dashboard-pagination card-footer d-flex justify-content-end">
+                    <!--Pagination-->
+                    <nav aria-label="Pagination" th:if="${totalPages > 0}">
+                        <ul class="pagination justify-content-center m-1">
+
+                            <li class="page-item" th:classapend="${currentPage == 1} ? 'disabled'">
+                                <a th:replace="fragments/paging :: paging('/dashboard', 1,'<<', 'First Page')"></a>
+                            </li>
+
+                            <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                                <a th:replace="fragments/paging :: paging('/dashboard', ${currentPage - 1}, 'Prev','Previous Page')"></a>
+                            </li>
+
+                            <li class="page-item disabled" th:if="${currentPage - 4 > 1}">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+
+                            <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+                                th:each ="page : ${#numbers.sequence(currentPage > 4 ? currentPage - 4 : 1, currentPage + 4 < totalPages ? currentPage + 4 : totalPages)}">
+                                <a th:replace="fragments/paging :: paging('/dashboard', ${page}, ${page}, 'Page')"></a>
+                            </li>
+
+                            <li class="page-item disabled" th:if="${currentPage + 4 < totalPages}">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+
+                            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                <a th:replace="fragments/paging :: paging('/dashboard', ${currentPage + 1},'Next', 'Next Page')"></a>
+                            </li>
+
+                            <li class ="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                <a th:replace="fragments/paging :: paging('/dashboard', ${totalPages}, '>>', 'Last Page')"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+
+
             </div>
 
 

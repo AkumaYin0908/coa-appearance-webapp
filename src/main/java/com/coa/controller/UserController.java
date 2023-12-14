@@ -14,12 +14,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +31,9 @@ public class UserController {
     private final RoleRepository roleRepository;
 
 
+
+
+    private User editFormUser = new User();
 
     @Value("${pageNums}")
     private List<Integer> pageNums;
@@ -71,6 +72,7 @@ public class UserController {
             List<Role> roles=roleRepository.findAll();
 
             model.addAttribute("user", new User());
+            model.addAttribute("editFormUser", editFormUser);
             model.addAttribute("users",users);
             model.addAttribute("roles",roles);
             model.addAttribute("currentPage", userPage.getNumber() + 1);
@@ -108,7 +110,39 @@ public class UserController {
         }
 
         return "redirect:/settings/users";
-       
+    }
+
+    @PostMapping("/users/update")
+    public String updateUser(@ModelAttribute("editFormUser")User user, @RequestParam(value = "checkBoxValue",required = false)String[] roleNames, RedirectAttributes redirectAttributes){
+            try{
+                Optional<User> optionalUser = userService.findByUserName(user.getUserName());
+
+                List<Role> roles=new ArrayList<>();
+
+                for(String roleName: roleNames){
+                    Role role=roleRepository.findByRoleName(roleName);
+
+                    if(role!=null){
+                        roles.add(role);
+                    }
+                }
+
+                System.out.println(roles);
+                if(optionalUser.isPresent()){
+                    editFormUser=user;
+                    redirectAttributes.addFlashAttribute("editModalMessage","Username already exist");
+                    return "redirect:/settings/users";
+                }else{
+
+                    userService.save(user);
+                    editFormUser=new User();
+                    redirectAttributes.addFlashAttribute("message", user.getUserName() + " has been updated!");
+                }
+            }catch (Exception ex){
+                    redirectAttributes.addFlashAttribute("message",ex.getMessage());
+            }
+
+            return "redirect:/settings/users";
     }
 
 }

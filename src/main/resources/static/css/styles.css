@@ -18,9 +18,6 @@ body {
 
 }
 
-*{
-     font-family:"Source Code Pro", "Roboto Mono", sans-serif;
-}
 
 
 .navbar{
@@ -340,6 +337,11 @@ ul{
     padding :0 !important;
 }
 
-div .roleList li{
+div .role-list li{
     display: inline-block;
+}
+
+div.dashboard-pagination nav ul li.page-item a.page-link{
+   font-size: 0.8rem !important;
+
 }

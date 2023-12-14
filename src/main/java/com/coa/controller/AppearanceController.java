@@ -271,6 +271,7 @@ public class AppearanceController {
             model.addAttribute("visitor", visitorDTO);
             model.addAttribute("currentPage", appearancePage.getNumber() + 1);
             model.addAttribute("totalItems",appearancePage.getTotalElements());
+            System.out.println(appearancePage.getTotalElements());
             model.addAttribute("totalPages",appearancePage.getTotalPages());
             model.addAttribute("pageSize", size);
             model.addAttribute("sortField", sortField);

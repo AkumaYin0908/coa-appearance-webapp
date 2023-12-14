@@ -57,5 +57,7 @@ public interface AppearanceService {
 
     List<Integer> findAllDistinctYear();
 
+    Page<Appearance> findAppearanceOrderByDateIssuedASC(Pageable pageable);
+
 
 }
