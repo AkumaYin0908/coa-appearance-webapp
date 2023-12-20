@@ -3,11 +3,14 @@ package com.coa.controller;
 import com.coa.dto.AppearanceDTO;
 import com.coa.dto.VisitorDTO;
 import com.coa.exceptions.ApperanceNotFoundException;
+import com.coa.exceptions.LeaderNotFoundException;
 import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Appearance;
+import com.coa.model.Leader;
 import com.coa.model.Purpose;
 import com.coa.model.Visitor;
 import com.coa.service.AppearanceService;
+import com.coa.service.LeaderService;
 import com.coa.service.PurposeService;
 import com.coa.service.VisitorService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,7 @@ public class AppearanceController {
     private final VisitorService visitorService;
     private final AppearanceService appearanceService;
     private final PurposeService purposeService;
+    private final LeaderService leaderService;
 
 
     private AppearanceDTO editFormAppearanceDTO = new AppearanceDTO();
@@ -92,12 +96,11 @@ public class AppearanceController {
 
     @PostMapping("/save")
     public String saveAppearance(@ModelAttribute("appearanceDTO") AppearanceDTO appearanceDTO,
-                                 @RequestParam("save")String save, RedirectAttributes redirectAttributes){
+                                 @RequestParam("save")String save, RedirectAttributes redirectAttributes, Model model){
 
         try{
-            System.out.println(save);
+
             Appearance appearance=new Appearance();
-            System.out.println(appearanceDTO);
             Optional<Visitor> visitorOptional=visitorService.findVisitorByName(appearanceDTO.getName());
             Visitor visitor=new Visitor();
             if(visitorOptional.isPresent()){
@@ -109,7 +112,6 @@ public class AppearanceController {
             String purposeString =appearanceDTO.getPurpose();
 
             if(purposeString.endsWith(".")){
-
                 purposeString=purposeString.substring(0,purposeString.length()-1);
             }
 
@@ -141,9 +143,19 @@ public class AppearanceController {
                 appearanceService.save(appearance);
                 redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
             }else{
+
                 appearanceService.save(appearance);
-                redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
-                return "/dashboard";
+                model.addAttribute("appearance",appearanceDTO);
+                Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
+
+                if(leaderOptional.isPresent()){
+                    model.addAttribute("leader",leaderOptional.get());
+                }else{
+                    throw new LeaderNotFoundException("No leader is currently active!");
+                }
+
+                return "appearances/certificate";
+
             }
         }catch(Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());

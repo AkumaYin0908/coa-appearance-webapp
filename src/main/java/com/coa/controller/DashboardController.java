@@ -64,7 +64,7 @@ public class DashboardController {
                 }
             }
 
-            Optional<Leader> leaderOptional = leaderService.findLeaderByInChargeStatus();
+            Optional<Leader> leaderOptional = leaderService.findLeaderByInChargeStatus(true);
             Leader leader;
             if(leaderOptional.isPresent()){
                 leader=leaderOptional.get();

@@ -50,8 +50,8 @@ public class LeaderServiceImpl implements LeaderService {
     }
 
     @Override
-    public Optional<Leader> findLeaderByInChargeStatus() throws LeaderNotFoundException {
-        return leaderRepository.findLeaderByInChargeStatus();
+    public Optional<Leader> findLeaderByInChargeStatus(boolean inCharge) throws LeaderNotFoundException {
+        return leaderRepository.findLeaderByInChargeStatus(inCharge);
     }
 
     @Override

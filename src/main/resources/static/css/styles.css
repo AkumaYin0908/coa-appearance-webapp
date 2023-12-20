@@ -50,7 +50,6 @@ div.norecord{
     height : 100%;
     top : 0;
     left: 0;
-    width : 14rem;
     padding : 20px 0;
     background : rgba(0,71,171,0.8) !important;
     backdrop-filter : blur(15px);

@@ -27,7 +27,7 @@ public interface LeaderService {
     List<Leader> findAll();
     Optional<Leader> findById(Long id) throws LeaderNotFoundException;
 
-    Optional<Leader> findLeaderByInChargeStatus() throws LeaderNotFoundException;
+    Optional<Leader> findLeaderByInChargeStatus(boolean inCharge) throws LeaderNotFoundException;
 
 
     void updateInCharge(Long id, boolean inCharge);

@@ -35,8 +35,8 @@ public interface LeaderRepository extends JpaRepository<Leader,Long> {
     void updateInChargeStatus(@Param("currentInCharge") Long  currentInCharge, @Param("newlyInCharge") Long newlyInCharge);
 
 
-    @Query("SELECT l FROM Leader l WHERE l.inCharge = true")
-    Optional<Leader> findLeaderByInChargeStatus();
+    @Query("SELECT l FROM Leader l WHERE l.inCharge = :inCharge")
+    Optional<Leader> findLeaderByInChargeStatus(@Param("inCharge")boolean inCharge);
     @Query("SELECT COUNT(l.inCharge) FROM Leader l where l.inCharge = true")
     Long countByInCharge();
 }
