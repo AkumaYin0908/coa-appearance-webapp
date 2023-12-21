@@ -1,6 +1,18 @@
 
     $(document).ready(function(){
 
+
+
+    function setPrint(){
+        const closePrint = () => {
+            document.body.removeChild(this);
+        };
+
+        this.contentWindow.onbeforeunload = closePrint;
+        this.contentWindow.onafterprint = closePrint;
+        this.contentWindow.print();
+    }
+
     $('#dateIssued').datepicker(
         $.extend({
             defaultDate: new Date(),

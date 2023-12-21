@@ -47,6 +47,7 @@
                             <div class="form-group ">
                                 <input type="hidden" th:field="*{id}" id="appearanceId">
                                 <input type="hidden" th:field="*{name}" id="appearanceName">
+
                                 <input type="hidden" th:field="*{position}" id="appearancePosition">
                                 <input type="hidden" th:field="*{agency}" id="appearanceAgency">
                                 <div class="row">
@@ -92,7 +93,8 @@
                                     </div>
 
                                     <div class="col-auto">
-                                        <button type="submit" name="save"  value="SaveAndPrint" class="btn btn-warning">Save and Print</button>
+                                        <a type="submit" th:href="@{'/appearances/certificate?leader=' + ${leader.id}  +'?appearance=' + *{name}}"
+                                                id="btnPrint"  th:target="_blank" name="save"  value="SaveAndPrint" class="btn btn-warning">Save and Print</a>
                                     </div>
 
                                     <div class="col">
@@ -106,6 +108,7 @@
             </form>
         </div>
     </div>
+
 </div>
 
 <th:block layout:fragment="script">

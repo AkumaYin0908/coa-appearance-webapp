@@ -80,9 +80,18 @@ public class AppearanceController {
             List<String> purposes=purposeService.findAll().stream()
                     .map(Purpose::getPurpose).toList();
 
+            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
+            Leader leader;
+            if(leaderOptional.isPresent()){
+                leader=leaderOptional.get();
+            }else{
+                throw new LeaderNotFoundException("No leader is currently active!");
+            }
+
 
             model.addAttribute("editFormAppearanceDTO",editFormAppearanceDTO);
             model.addAttribute("appearanceDTO", appearanceDTO);
+            model.addAttribute("leader",leader);
             model.addAttribute("purposes",purposes);
         }catch (Exception ex){
             model.addAttribute("message", ex.getMessage());
@@ -143,19 +152,10 @@ public class AppearanceController {
                 appearanceService.save(appearance);
                 redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
             }else{
-
                 appearanceService.save(appearance);
-                model.addAttribute("appearance",appearanceDTO);
-                Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
 
-                if(leaderOptional.isPresent()){
-                    model.addAttribute("leader",leaderOptional.get());
-                }else{
-                    throw new LeaderNotFoundException("No leader is currently active!");
-                }
-
-                return "appearances/certificate";
-
+                System.out.println("save and print");
+                redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
             }
         }catch(Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
@@ -353,17 +353,13 @@ public class AppearanceController {
              }else{
                  throw new VisitorNotFoundException("Visitor with id : " + visitorId + " not found!");
              }
-
              appearanceService.save(appearance);
              editFormAppearanceDTO = new AppearanceDTO();
              redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
-
-
            }else{
                throw new ApperanceNotFoundException("Appearance not found!");
 
            }
-
        }catch (Exception ex){
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
             ex.printStackTrace();
@@ -386,6 +382,87 @@ public class AppearanceController {
 //            }
 //        }
 //        return 0;
+//    }
+
+
+//    @GetMapping("/certificate?leader={leaderId}?appearance={name}")
+//    public String loadCertificate(@PathVariable("leaderId")Long leaderId, @PathVariable("id")Long id, Model model){
+//
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("Accessed");
+//       try {
+//           Optional<Leader> leaderOptional=leaderService.findById(leaderId);
+//           Leader leader;
+//           if(leaderOptional.isPresent()){
+//               leader=leaderOptional.get();
+//           }else{
+//               throw new LeaderNotFoundException("Leader not found!");
+//           }
+//
+//           Optional<AppearanceDTO> appearanceDTOOptional = appearanceService.findAndMapToAppearanceDTO(id);
+//
+//
+//           AppearanceDTO appearanceDTO;
+//
+//           if(appearanceDTOOptional.isPresent()){
+//               appearanceDTO=appearanceDTOOptional.get();
+//           }else{
+//               throw new ApperanceNotFoundException("Appearance not found!");
+//           }
+//
+//           model.addAttribute("appearance",appearanceDTO);
+//           model.addAttribute("leader",leader);
+//       }catch (Exception ex){
+//           model.addAttribute("message", ex.getMessage());
+//       }
+//
+//
+//        return "appearances/certificate";
+//    }
+
+
+//    @GetMapping("/certificate/{name}")
+//
+//    public String loadCertificate(@PathVariable("name")String name, Model model){
+//
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("Accessed");
+//        try {
+//            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
+//            Leader leader;
+//            if(leaderOptional.isPresent()){
+//                leader=leaderOptional.get();
+//            }else{
+//                throw new LeaderNotFoundException("Leader not found!");
+//            }
+//
+//            Optional<AppearanceDTO> appearanceDTOOptional = appearanceService.findAndMapToAppearanceDTO(name);
+//
+//
+//            AppearanceDTO appearanceDTO;
+//
+//            if(appearanceDTOOptional.isPresent()){
+//                appearanceDTO=appearanceDTOOptional.get();
+//            }else{
+//                throw new ApperanceNotFoundException("Appearance not found!");
+//            }
+//
+//            model.addAttribute("appearance",appearanceDTO);
+//            model.addAttribute("leader",leader);
+//        }catch (Exception ex){
+//            model.addAttribute("message", ex.getMessage());
+//        }
+//
+//
+//        return "appearances/certificate";
 //    }
 
 

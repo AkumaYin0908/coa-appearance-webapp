@@ -25,7 +25,7 @@ public interface AppearanceService {
 
     Optional<Appearance> findById(Long id);
 
-    Optional<AppearanceDTO> findAndMapToAppearanceDTO(Long id);
+    Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name);
 
     Page<Appearance> findAppearanceByVisitor(Visitor visitor,  Pageable pageable);
 

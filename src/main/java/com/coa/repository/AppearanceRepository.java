@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
@@ -51,6 +52,10 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
 
     @Query("SELECT a FROM Appearance a ORDER BY YEAR(a.dateIssued) ASC")
     Page<Appearance> findAppearanceOrderByDateIssuedASC(Pageable pageable);
+
+
+    @Query("SELECT a FROM Appearance a WHERE a.visitor.name= :name")
+    Optional<Appearance> findAppearanceByVisitorName(@Param("name") String name);
 
 
 }

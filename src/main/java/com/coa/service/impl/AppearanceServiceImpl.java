@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,11 @@ import java.util.Optional;
 public class AppearanceServiceImpl implements AppearanceService {
 
     private final AppearanceRepository appearanceRepository;
+
+
+
+
+    private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
     @Override
     public Page<Appearance> findByVisitorNameContainingIgnoreCase(String name, Pageable pageable) {
@@ -44,8 +50,27 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public Optional<AppearanceDTO> findAndMapToAppearanceDTO(Long id) {
-        return Optional.empty();
+    public Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name) {
+        Optional<Appearance> appearanceOptional=appearanceRepository.findAppearanceByVisitorName(name);
+        Optional<AppearanceDTO> appearanceDTOOptional;
+        if(appearanceOptional.isPresent()){
+            Appearance appearance = appearanceOptional.get();
+            AppearanceDTO appearanceDTO=new AppearanceDTO(
+                    appearance.getId(),
+                    appearance.getVisitor().getName(),
+                    appearance.getVisitor().getPosition().getName(),
+                    appearance.getVisitor().getAgency().getName(),
+                    appearance.getDateIssued().format(dateTimeFormatter),
+                    appearance.getDateFrom().format(dateTimeFormatter),
+                    appearance.getDateTo().format(dateTimeFormatter),
+                    appearance.getPurpose().getPurpose());
+
+            appearanceDTOOptional=Optional.of(appearanceDTO);
+
+        }else{
+            appearanceDTOOptional=Optional.empty();
+        }
+        return appearanceDTOOptional;
     }
 
     @Override
@@ -62,7 +87,7 @@ public class AppearanceServiceImpl implements AppearanceService {
     @Override
     @Transactional
     public void save(Appearance appearance) {
-        appearanceRepository.save(appearance);
+        appearanceRepository.saveAndFlush(appearance);
     }
 
     @Override
