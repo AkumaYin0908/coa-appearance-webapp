@@ -1,0 +1,31 @@
+div h2 {
+    font : 'Roboto Mono';
+    font-weight : 900;
+    text-shadow: 2px 2px black;
+}
+
+div a.link-primary{
+font-family : 'Roboto Mono',sans-serif;
+text-decoration:none;
+}
+
+div form.form-horizontal{
+    background-color: rgba(255,255,255,0);
+}
+
+div form.form-horizontal h5{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight : 700;
+}
+
+div select{
+    width: 100%;
+}
+
+div.form-group textarea{
+   height: 100px;
+}
+
+
+
+

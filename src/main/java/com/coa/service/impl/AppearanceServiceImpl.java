@@ -1,6 +1,7 @@
 package com.coa.service.impl;
 
 import com.coa.dto.AppearanceDTO;
+import com.coa.exceptions.ApperanceNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Visitor;
 import com.coa.repository.AppearanceRepository;
@@ -49,28 +50,54 @@ public class AppearanceServiceImpl implements AppearanceService {
         return appearanceRepository.findById(id);
     }
 
+//    @Override
+//    public Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name) {
+//        Optional<Appearance> appearanceOptional=appearanceRepository.findAppearanceByVisitorName(name);
+//        Optional<AppearanceDTO> appearanceDTOOptional;
+//        if(appearanceOptional.isPresent()){
+//            Appearance appearance = appearanceOptional.get();
+//            AppearanceDTO appearanceDTO=new AppearanceDTO(
+//                    appearance.getId(),
+//                    appearance.getVisitor().getName(),
+//                    appearance.getVisitor().getPosition().getName(),
+//                    appearance.getVisitor().getAgency().getName(),
+//                    appearance.getDateIssued().format(dateTimeFormatter),
+//                    appearance.getDateFrom().format(dateTimeFormatter),
+//                    appearance.getDateTo().format(dateTimeFormatter),
+//                    appearance.getPurpose().getPurpose());
+//
+//            appearanceDTOOptional=Optional.of(appearanceDTO);
+//
+//        }else{
+//            appearanceDTOOptional=Optional.empty();
+//        }
+//        return appearanceDTOOptional;
+//    }
+
     @Override
-    public Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name) {
-        Optional<Appearance> appearanceOptional=appearanceRepository.findAppearanceByVisitorName(name);
-        Optional<AppearanceDTO> appearanceDTOOptional;
-        if(appearanceOptional.isPresent()){
-            Appearance appearance = appearanceOptional.get();
-            AppearanceDTO appearanceDTO=new AppearanceDTO(
-                    appearance.getId(),
-                    appearance.getVisitor().getName(),
-                    appearance.getVisitor().getPosition().getName(),
-                    appearance.getVisitor().getAgency().getName(),
-                    appearance.getDateIssued().format(dateTimeFormatter),
-                    appearance.getDateFrom().format(dateTimeFormatter),
-                    appearance.getDateTo().format(dateTimeFormatter),
-                    appearance.getPurpose().getPurpose());
+    public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws ApperanceNotFoundException {
+       Optional<Appearance> appearanceOptional = appearanceRepository.findById(id);
+       AppearanceDTO appearanceDTO;
 
-            appearanceDTOOptional=Optional.of(appearanceDTO);
+       if(appearanceOptional.isPresent()){
+           Appearance appearance = appearanceOptional.get();
 
-        }else{
-            appearanceDTOOptional=Optional.empty();
-        }
-        return appearanceDTOOptional;
+           appearanceDTO=new AppearanceDTO(
+                   appearance.getId(),
+                   appearance.getVisitor().getName(),
+                   appearance.getVisitor().getPosition().getName(),
+                   appearance.getVisitor().getAgency().getName(),
+                   appearance.getDateIssued().format(dateTimeFormatter),
+                   appearance.getDateFrom().format(dateTimeFormatter),
+                   appearance.getDateTo().format(dateTimeFormatter),
+                   appearance.getPurpose().getPurpose());
+
+
+
+       }else{
+           throw new ApperanceNotFoundException("Appearance not found!");
+       }
+        return appearanceDTO;
     }
 
     @Override
@@ -86,8 +113,8 @@ public class AppearanceServiceImpl implements AppearanceService {
 
     @Override
     @Transactional
-    public void save(Appearance appearance) {
-        appearanceRepository.saveAndFlush(appearance);
+    public Appearance save(Appearance appearance) {
+        return appearanceRepository.saveAndFlush(appearance);
     }
 
     @Override
@@ -137,7 +164,7 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public Page<Appearance> findAppearanceOrderByDateIssuedASC(Pageable pageable) {
-        return appearanceRepository.findAppearanceOrderByDateIssuedASC(pageable);
+    public Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable) {
+        return appearanceRepository.findAppearanceOrderByDateIssuedDESC(pageable);
     }
 }

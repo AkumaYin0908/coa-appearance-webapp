@@ -6,6 +6,8 @@
 <head>
    <title>Visitors</title>
 
+    <link rel="stylesheet" th:href="@{/css/visitors.css}">
+
 
 </head>
 <body>
@@ -104,8 +106,13 @@
                         <td th:text="${visitor.agency}"></td>
                         <td>
 
-                            <a type="button" class= "btn btn-sm btn-success" th:href="@{'/appearances/appearance-form/' + ${visitor.id}}" id="createAppearanceButton"
-                               title="New Appearance"><span class = "label-new">New</span></a>
+<!--                            <a type="button" class= "btn btn-sm btn-success" th:href="@{'/appearances/appearance-form/' + ${visitor.id}}" id="createAppearanceButton"-->
+<!--                               title="New Appearance"><span class = "label-new">New</span></a>-->
+
+                            <form th:action="@{'/appearances/appearance-form/' + ${visitor.id}}" method="GET" id="createAppearance">
+                                <button type="submit" class= "btn btn-sm btn-success"  name="direction" th:value="visitors"
+                                        title="New Appearance"><span class = "label-new">New</span></button>
+                            </form>
 
                             <a type="button" title="Edit this visitor" class="btn-edit btn btn-sm btn-warning"
                             th:visitorId="${visitor.id}"

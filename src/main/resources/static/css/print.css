@@ -15,9 +15,28 @@
 
     body{
         color: #fff;
-        background-color: #000;
-        page-break-after: always;
+        background-color: rgb(30,30,30) !important;
+
     }
+
+    #appearance{
+        background-color: rgb(255,255,255);
+        box-shadow: 1px 1px 5px rgb(27,27,27);
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+    }
+
+    .btn-panel{
+            position: absolute;
+            top:10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2px;
+    }
+
 
 
     .header{

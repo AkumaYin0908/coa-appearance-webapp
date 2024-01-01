@@ -4,6 +4,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
 <head>
    <title>Dashboard</title>
+
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+
+
 </head>
 <body>
 <div layout:fragment = "content">
@@ -13,6 +17,8 @@
         var leaderNames = /*[[${leaderNames}]]*/'novalue';
 
         $(document).ready(function(){
+
+         $("td:nth-child(1),th:nth-child(1)").hide();
 
         $("#searchText").autocomplete({
             minLength : 3,
@@ -29,85 +35,53 @@
 
 
     <div class="container mt-5">
-
-        <div class="card mt-5 mb-5 bg-secondary" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+        <div class=" search-div card mt-5 mb-5 bg-secondary">
             <div class="card-body search-container">
                 <form th:action="@{/dashboard}" class="search-bar">
                     <input id="searchText" type="text" placeholder="Create new appearance for...." name="searchName" th:value="${searchName}">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-
+                    <button type="submit" name="direction" value="dashboard"><i class="fa fa-search"></i></button>
                 </form>
 
 
             </div>
         </div>
 
-        <div class="row mb-5">
-            <div class="col">
-                <div class="card" style="box-shadow: -1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+
+                <div class="card">
                     <div class="card-body">
-                        <div class= " p-0 text-center text-light bg-success" style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem; border-radius: 3px; width: 8rem;">
+                        <div class= "leader-label p-0 text-center text-light bg-success">
                             <span>Current Leader</span>
                         </div>
-                        <div class="text-center bg-dark text-light my-1 p-1" style="border-radius: 4px;">
-                            <span class=" leader-label h5 mt-1" style=" font-family: 'Source Code Pro', sans-serif; font-size: 2rem;"  th:text="${leader.name}"></span>
+                        <div class="leader-name text-center bg-dark text-light my-1 p-1">
+                            <span class="h3 mt-1" th:text="${leader.name}"></span>
                         </div>
                         <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
                         <div class="d-flex justify-content-end mt-2 mb-0">
-                            <a type="button" id ="changeLeaderButton" style="text-decoration:none;" class="text-primary"><i class="fa-solid fa-user-gear"></i> Change Leader</a>
+                            <a type="button" id ="changeLeaderButton"  class="text-primary"><i class="fa-solid fa-user-gear"></i> Change Leader</a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
-                    <div class="card-body">
-                        <div class= " p-0 text-center text-light bg-success" style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem; border-radius: 3px; width: 8rem;">
-                            <span>Current User</span>
-                        </div>
-                        <div class="text-center bg-dark text-light my-1 p-1" style="border-radius: 4px;">
-                            <span class=" leader-label h5 mt-1" style=" font-family: 'Source Code Pro', sans-serif; font-size: 2rem;" >John Philip Apulog</span>
-                        </div>
-                        <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
-                        <div class=" mt-2  mb-0">
-
-                            <div class="row">
-                                <div class="col  offset-md-4 text-end">
-                                    <a type="button" href="#" style="text-decoration:none;" class="text-primary"><i class="fa-solid fa-gear"></i> User Profile</a>
-                                </div>
-
-                                <div class="col-auto text-end">
-                                    <a type="button" href="#" style="text-decoration:none;" class="text-primary"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
 
 
 
-            <div class="card mt-5 mb-3" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;">
+
+            <div class=" new-visitor card mt-5 mb-3">
                 <div class="card-body">
-                    <button id="addVisitorButton"  class="btn btn-secondary" style="width : 100%;"><i class="fa-solid fa-user-plus"></i>  Create new visitor</button>
+                    <button id="addVisitorButton"  class="btn btn-secondary"><i class="fa-solid fa-user-plus"></i>  Create new visitor</button>
                 </div>
             </div>
 
 
 
 
-            <div class="card mt-4" style="box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px; font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
-                <div class="container mt-3 " style=" font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;">
+            <div id="appearanceTable" class="card mt-4 mb-4">
+                <div class="container mt-3 ">
                     Appearance History
                 </div>
                 <div class="card-body">
                     <div th:if="${appearances.size() > 0}">
                         <table class="table">
-                            <thead class="table-dark">
+                            <thead class="table">
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Date Issued</th>
@@ -260,7 +234,7 @@
 
                                 <input type="text" name="name" class="form-control" id="leaderName"
                                        required minlength="5" maxlength="100" placeholder="Name">
-                                <label class="text-secondary" for="leaderName">Name</label>
+                                <label id="nameLabel" class="text-secondary" for="leaderName">Name</label>
                             </div>
                         </div>
                     </div>

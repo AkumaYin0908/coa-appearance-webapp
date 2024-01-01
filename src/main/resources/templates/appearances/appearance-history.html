@@ -34,7 +34,7 @@
 
 <div class="col-lg-8 col-md-8 text-light align-self-center container-fluid my-5 py-4 bg-dark" style="border-radius: 10px;">
     <div class="container mb-4">
-        <a th:href="@{/visitors}" class="link-primary" style="font-family : 'Roboto Mono',sans-serif; text-decoration:none;"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
+        <a th:href="@{/visitors}" class="link-primary"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
     </div>
 
    <h5 class="text-dark-emphasis mb-2 ms-2" style=" font-family:Verdana, Geneva, Tahoma, sans-serif; font-weight : 700;">Appearance History of </h5>
@@ -44,8 +44,8 @@
                <h2 class="text-light" style=" font : 'Roboto Mono'; font-weight : 900; text-shadow: 2px 2px black;" th:text="${visitor.name}"></h2>
             </div>
             <div class="col">
-                <h6 class="text-secondary mb-0" style="font-family: 'Source Code Pro',sans-serif;" th:text="${visitor.position}"></h6>
-                <h6 class="text-secondary" style="font-family: 'Source Code Pro',sans-serif;" th:text="${visitor.agency}"></h6>
+                <h6 class="text-secondary mb-0"  th:text="${visitor.position}"></h6>
+                <h6 class="text-secondary"  th:text="${visitor.agency}"></h6>
             </div>
              <div class="col">
                 
@@ -59,13 +59,13 @@
                     <div class="row  mb-2">
 
                         <div class="col-md-2">
-                            <select form="searchForm" name="selectedMonth" th:value = "${selectedMonth}" id ="month" class="border border-secondary form-control" style="width: 100%;">
+                            <select form="searchForm" name="selectedMonth" th:value = "${selectedMonth}" id ="month" class="border border-secondary form-control">
                                 <option th:value="0" >Select Month</option>
                                 <option th:each="month :${months}" th:value="${month.value}" th:text="${month.name}" th:selected="${month.value == selectedMonth}"></option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select form="searchForm" name="selectedYear" th:value = "${selectedYear}" id ="year" class="border border-secondary form-control" style="width: 100%;">
+                            <select form="searchForm" name="selectedYear" th:value = "${selectedYear}" id ="year" class="border border-secondary form-control">
                                 <option th:value="0" >Select Year</option>
                                 <option th:each="year :${years}" th:value="${year}" th:text="${year}" th:selected="${year == selectedYear}"></option>
                             </select>
@@ -85,7 +85,7 @@
                             </form>
                         </div>
                             <div class="col-md-1 offset-md-1">
-                                <select form="searchForm" name="size" th:value="${pageSize}" id="pageSize" class="border border-secondary form-control" style="width: 100%;">
+                                <select form="searchForm" name="size" th:value="${pageSize}" id="pageSize" class="border border-secondary form-control">
                                     <option th:each="pageNum :${pageNums}" th:value="${pageNum}" th:text="${pageNum}" th:selected="${pageNum == pageSize}"></option>
                                 </select>
                             </div>
@@ -129,8 +129,8 @@
                                         <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
 
-                                        <a type="button" class= "btn btn-sm btn-success" href="#" id="printAppearanceButton"
-                                        title="Print Appearance"><i class="fa-solid fa-print"></i> Print</a>
+                                        <a type="button" class= "btn btn-sm btn-success" th:href="@{/appearances/certificate(leader=${leader.id},appearance=${appearance.id})}" id="printAppearanceButton"
+                                        title="Print Appearance"><i class="fa-solid fa-print"></i></a>
 
                                     </td>
                                 </tr>
@@ -236,7 +236,7 @@
 
                         <div class="form-group">
                             <div class="md-form form-floating mb-3">
-                                <textarea class="form-control" th:field="*{purpose}"  required minlength="5" maxlength="1000" placeholder="State the purpose of appearance here." id ="editAppearancePurpose" style="height: 100px;"></textarea>
+                                <textarea class="form-control" th:field="*{purpose}"  required minlength="5" maxlength="1000" placeholder="State the purpose of appearance here." id ="editAppearancePurpose"></textarea>
                                 <label class="text-secondary" for ="editAppearancePurpose">Purpose</label>
                             </div>
                         </div>
@@ -250,6 +250,7 @@
                             </div>
 
                             <div class="col-auto">
+                                <input type="hidden" name="leaderId" th:value="${leader.id}">
                                 <button type="submit" name="save"  value="SaveAndPrint" class="btn btn-warning">Save and Print</button>
                             </div>
                         </div>

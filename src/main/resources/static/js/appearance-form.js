@@ -1,19 +1,27 @@
 
     $(document).ready(function(){
 
+//    $("#btnPrint").on("click", function(event){
+//        event.preventDefault();
+//
+//        $(this).submit();
+//
+//        link=$(this).attr("href");
+//
+//        loadOtherPage(link);
+//
+//
+//    });
+//
+//    function loadOtherPage(link){
+//        $("<iframe>")
+//            .hide()
+//            .attr("src",link)
+//            .appendTo("body");
+//    }
 
 
-    function setPrint(){
-        const closePrint = () => {
-            document.body.removeChild(this);
-        };
-
-        this.contentWindow.onbeforeunload = closePrint;
-        this.contentWindow.onafterprint = closePrint;
-        this.contentWindow.print();
-    }
-
-    $('#dateIssued').datepicker(
+    $("#dateIssued").datepicker(
         $.extend({
             defaultDate: new Date(),
             altFormat : "yy-mm-dd",

@@ -15,12 +15,14 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -48,7 +50,8 @@ public class DashboardController {
     public String showDashboard(Model model,
                                 @RequestParam(required = false)String searchName,
                                 @RequestParam(defaultValue = "1") int page,
-                                @RequestParam(defaultValue = "10") int size){
+                                @RequestParam(defaultValue = "10") int size,
+                                RedirectAttributes redirectAttributes){
         try{
             List<String> visitors=visitorService.findAll().stream()
                     .map(Visitor::getName).toList();
@@ -58,9 +61,11 @@ public class DashboardController {
 
                 if(visitorOptional.isPresent()){
                     Long id=visitorOptional.get().getId();
+                   // redirectAttributes.addFlashAttribute("direction","/dashboard");
                     return String.format("redirect:/appearances/appearance-form/%d",id);
                 }else{
                     throw new VisitorNotFoundException(searchName +  " not found!");
+
                 }
             }
 
@@ -83,6 +88,7 @@ public class DashboardController {
             model.addAttribute("addFormVisitorDTO", new VisitorDTO());
         }catch (Exception ex){
             model.addAttribute("message", ex.getMessage());
+            return "redirect:/dashboard";
         }
 
         return "dashboard";
@@ -92,7 +98,7 @@ public class DashboardController {
         try{
             Pageable pageable= PageRequest.of(page-1,size);
 
-            Page<Appearance> appearancePage = appearanceService.findAppearanceOrderByDateIssuedASC(pageable);
+            Page<Appearance> appearancePage = appearanceService.findAppearanceOrderByDateIssuedDESC(pageable);
 
             List<AppearanceDTO> appearanceDTOS =appearancePage.getContent()
                     .stream()

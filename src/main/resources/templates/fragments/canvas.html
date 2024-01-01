@@ -6,7 +6,7 @@
         <img th:src="@{/images/user.png}" alt="profile picture">
         <h4  th:text="*{name}"></h4>
         <p th:text="*{position}"></p>
-        <a href="#">User settings</a>
+<!--        <a href="#">User settings</a>-->
     </div>
 
 <!--    <div class="profile">-->
@@ -32,14 +32,8 @@
           </a>
         </li>
 
-        <li>
-          <a   id= "appearanceHistoryButton" href="#">
-            <span class="icon"><i class="fa-solid fa-certificate"></i></span>
-            <span class="item">Appearance History</span>
-          </a>
-        </li>
 
-<!--        <li sec:authorize="hasRole('ADMIN')">-->
+       <li sec:authorize="hasRole('ADMIN')">
         <li>
           <a id="appSettingButton" class = "sub-button">
             <span class="icon"><i class="fa-solid fa-gear"></i></span>

@@ -1,14 +1,12 @@
 package com.coa.service;
 
 import com.coa.dto.AppearanceDTO;
+import com.coa.exceptions.ApperanceNotFoundException;
 import com.coa.model.Appearance;
-import com.coa.model.Purpose;
 import com.coa.model.Visitor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,13 +23,15 @@ public interface AppearanceService {
 
     Optional<Appearance> findById(Long id);
 
-    Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name);
+    //Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name);
+
+    AppearanceDTO findAndMapToAppearanceDTO(Long id) throws ApperanceNotFoundException;
 
     Page<Appearance> findAppearanceByVisitor(Visitor visitor,  Pageable pageable);
 
     Page<Appearance> findByDateIssued(LocalDate dateIssued, Visitor visitor, Pageable pageable);
 
-    void save(Appearance appearance);
+    Appearance save(Appearance appearance);
 
     void deleteById(Long id);
 
@@ -57,7 +57,8 @@ public interface AppearanceService {
 
     List<Integer> findAllDistinctYear();
 
-    Page<Appearance> findAppearanceOrderByDateIssuedASC(Pageable pageable);
+    Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable);
+
 
 
 }
