@@ -1,7 +1,0 @@
-2024-01-02 04:36:03,071 DEBUG - Starting WinSW in console mode
-2024-01-02 04:36:03,084 INFO  - Installing service 'COA Appearance WebApp(powered by WinsW) (coaappearance)'...
-2024-01-02 04:36:03,113 INFO  - Service 'COA Appearance WebApp(powered by WinsW) (coaappearance)' was installed successfully.
-2024-01-02 04:37:46,829 DEBUG - Starting WinSW in service mode
-2024-01-02 04:37:46,847 INFO  - Starting java -jar coaappearance-webapp.jar
-2024-01-02 04:37:46,875 INFO  - Started process 152
-2024-01-02 04:37:46,890 DEBUG - Forwarding logs of the process System.Diagnostics.Process (java) to WinSW.DefaultLogAppender
