@@ -42,7 +42,8 @@ public class WebConfigSecurity {
                             .requestMatchers("/images/**").permitAll()
                             .requestMatchers("/fragments/**").permitAll()
                             .requestMatchers("/layout/**").permitAll()
-                            .requestMatchers("/").permitAll()
+                            .requestMatchers("/").hasRole("EMPLOYEE")
+                            .requestMatchers("/settings/**").hasRole("ADMIN")
 
                             .anyRequest().authenticated()
             )

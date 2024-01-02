@@ -36,6 +36,7 @@ public class CustomAuthenticationSuccessHandler  implements AuthenticationSucces
 
             HttpSession session=request.getSession();
             session.setAttribute("user",user);
+
             response.sendRedirect(request.getContextPath() + "/dashboard");
         }catch(Exception ex){
             throw new ServletException("Authentication success handling failed", ex);

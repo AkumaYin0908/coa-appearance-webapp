@@ -50,8 +50,7 @@ public class DashboardController {
     public String showDashboard(Model model,
                                 @RequestParam(required = false)String searchName,
                                 @RequestParam(defaultValue = "1") int page,
-                                @RequestParam(defaultValue = "10") int size,
-                                RedirectAttributes redirectAttributes){
+                                @RequestParam(defaultValue = "10") int size){
         try{
             List<String> visitors=visitorService.findAll().stream()
                     .map(Visitor::getName).toList();
@@ -71,24 +70,20 @@ public class DashboardController {
 
             Optional<Leader> leaderOptional = leaderService.findLeaderByInChargeStatus(true);
             Leader leader;
-            if(leaderOptional.isPresent()){
-                leader=leaderOptional.get();
-            }else{
-                throw new LeaderNotFoundException("Leader not found!");
-            }
+            leader = leaderOptional.orElse(null);
 
             List<String> leaderNames=leaderService.findAll()
                             .stream().map(Leader :: getName).toList();
 
+            model.addAttribute("addFormVisitorDTO", new VisitorDTO());
             loadAppearanceHistory(model,page,size);
-
             model.addAttribute("leaderNames",leaderNames);
             model.addAttribute("leader",leader);
             model.addAttribute("visitors",visitors);
-            model.addAttribute("addFormVisitorDTO", new VisitorDTO());
+
         }catch (Exception ex){
             model.addAttribute("message", ex.getMessage());
-            return "redirect:/dashboard";
+
         }
 
         return "dashboard";
