@@ -41,10 +41,9 @@ public class WebConfigSecurity {
                             .requestMatchers("/register/**").permitAll()
                             .requestMatchers("/images/**").permitAll()
                             .requestMatchers("/fragments/**").permitAll()
+                            .requestMatchers("/webjars/**").permitAll()
                             .requestMatchers("/layout/**").permitAll()
-                            .requestMatchers("/").hasRole("EMPLOYEE")
-                            .requestMatchers("/settings/**").hasRole("ADMIN")
-
+                            .requestMatchers("/").permitAll()
                             .anyRequest().authenticated()
             )
                     .formLogin(login -> login.loginPage("/login")

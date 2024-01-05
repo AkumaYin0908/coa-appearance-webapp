@@ -55,7 +55,6 @@
                         <div class="leader-name text-center bg-dark text-light my-1 p-1">
                             <span  th:if="${leader !=null}" class="h3 mt-1" th:text="${leader.name}"></span>
                             <span  th:unless="${leader !=null}" class="h3 mt-1">No Leader</span>
-
                         </div>
                         <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
                         <div th:if="${leaderName !=null}" sec:authorize="hasRole('ADMIN')" class="d-flex justify-content-end mt-2 mb-0">

@@ -83,6 +83,7 @@ public class DashboardController {
 
         }catch (Exception ex){
             model.addAttribute("message", ex.getMessage());
+            return "redirect:/dashboard";
 
         }
 

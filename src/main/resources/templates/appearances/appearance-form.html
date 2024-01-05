@@ -20,7 +20,7 @@
 
         $(document).ready(function(){
            $("#purposeTextArea").autocomplete({
-            minLength : 1,
+            minLength : 4,
             source : purposes
         });
 
@@ -65,7 +65,7 @@
 
                                     <div class="col offset-md-1">
                                         <div class="md-form form-floating mb-3 ui-front">
-                                            <input type="text" th:field="*{dateFrom}" name="dateFrom" class="form-control" id="dateFrom"
+                                            <input type="text" th:field="*{dateFrom}" class="form-control" id="dateFrom"
                                             placeholder="From">
                                             <label class="text-secondary" for="dateFrom">From</label>
                                         </div>
@@ -73,7 +73,7 @@
 
                                        <div class="col">
                                         <div class="md-form form-floating mb-3 ui-front">
-                                            <input type="text" th:field="*{dateTo}" name = "dateTo" class="form-control" id="dateTo"
+                                            <input type="text" th:field="*{dateTo}"  class="form-control" id="dateTo"
                                             placeholder="To">
                                             <label class="text-secondary" for="dateTo">To</label>
                                         </div>
