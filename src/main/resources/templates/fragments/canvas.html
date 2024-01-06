@@ -2,19 +2,12 @@
 
   <div  th:fragment="canvas" class="offcanvas offcanvas-size-sm offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="canvas-panel" aria-labelledby="Canvas Panel">
 
-    <div class="profile" th:if="${session.user}" th:object="${session.user}">
-        <img th:src="@{/images/user.png}" alt="profile picture">
-        <h4  th:text="*{name}"></h4>
-        <p th:text="*{position}"></p>
-<!--        <a href="#">User settings</a>-->
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="coa logo">
+        <h4>COA Appearance Generator</h4>
     </div>
 
-<!--    <div class="profile">-->
-<!--      <img th:src="@{/images/user.png}" alt="profile picture">-->
-<!--      <h4>Name here</h4>-->
-<!--      <p>Position here</p>-->
-<!--      <a href="#">User settings</a>-->
-<!--    </div>-->
+
 
     <div class="side-buttons">
       <ul>
@@ -33,25 +26,14 @@
         </li>
 
 
-       <li sec:authorize="hasRole('ADMIN')">
-          <a type ="button" id="appSettingButton" class = "sub-button">
-            <span class="icon"><i class="fa-solid fa-gear"></i></span>
-            <span class="item">App Settings</span>
-            <i class="fa-solid fa-angle-right dropdown"></i>
-          </a>
-          <div class="sub-menu">
-            <a th:href="@{/settings/leaders}" id="leaderSettingButton" class="sub-item">Leaders</a>
-            <a th:href="@{/settings/users}"  id = "userSettingButton" class="sub-item">Users</a>
-          </div>
+       <li>
+
+            <a  id="leaderButton" th:href="@{/settings/leaders}" class="sub-item">
+                <span class="icon"><i class="fa-solid fa-user"></i></span>
+                <span class="item">Leaders</span>
+            </a>
         </li>
 
-
-        <li>
-          <a  type="button" id="logoutButton">
-            <span class="icon"><i class="fa-solid fa-right-from-bracket"></i></span>
-            <span class="item">Logout</span>
-          </a>
-        </li>
 
       </ul>
     </div>

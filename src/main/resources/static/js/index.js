@@ -20,15 +20,6 @@ if(message != ""){
 
     });
 
-    $("#logoutButton").on("click", function(event){
-        event.preventDefault();
-        $("#confirmLogout").modal('show');
-    });
-
-    $("#logoutButtonModal").on("click",function(event){
-                event.preventDefault();
-                document.logoutForm.submit();
-            });
 
 
     $(".sub-button").on("click", function(){

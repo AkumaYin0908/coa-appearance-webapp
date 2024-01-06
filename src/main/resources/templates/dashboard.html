@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
 <head>
    <title>Dashboard</title>
@@ -57,7 +56,7 @@
                             <span  th:unless="${leader !=null}" class="h3 mt-1">No Leader</span>
                         </div>
                         <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
-                        <div th:if="${leaderName !=null}" sec:authorize="hasRole('ADMIN')" class="d-flex justify-content-end mt-2 mb-0">
+                        <div th:if="${leaderName !=null}" class="d-flex justify-content-end mt-2 mb-0">
                             <a type="button" id ="changeLeaderButton"  class="text-primary"><i class="fa-solid fa-user-gear"></i> Change Leader</a>
                         </div>
                     </div>

@@ -46,7 +46,7 @@ public class DashboardController {
         webDataBinder.registerCustomEditor(String.class,stringTrimmerEditor);
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping(value = {"/dashboard","/"})
     public String showDashboard(Model model,
                                 @RequestParam(required = false)String searchName,
                                 @RequestParam(defaultValue = "1") int page,

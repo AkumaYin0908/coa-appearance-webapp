@@ -22,6 +22,11 @@
 <!-- JQuery -->
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.js}"></script>
 
+<!-- JQuery UI CSS -->
+<link rel="stylesheet" type="text/css" th:href="@{/jqueryui/jquery-ui.css}" />
+
+<!-- JQuery UI -->
+<script th:src= "@{/jqueryui/jquery-ui.js}"></script>
 
 
 <title layout:title-pattern="$CONTENT_TITLE"></title>
@@ -51,34 +56,6 @@
 
 
 
- <!-- Logout Modal -->
- <div class="modal text-center " data-bs-theme="dark"  id = "confirmLogout">
-     <div class="modal-dialog">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title text-light">Logout Confirmation</h5>
-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-
-                 </button>
-             </div>
-             <div class="modal-body">
-                 <span id="confirmText" class="text-light">Are you sure you want to logout?</span>
-             </div>
-
-
-             <div class="modal-footer">
-                 <!-- https://www.codejava.net/frameworks/spring-boot/spring-security-logout-link -->
-                 <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
-                     <input type="submit" name ="logout" value="Logout">
-                 </form>
-
-                 <a id="logoutButtonModal" href="/" type="button" class="btn btn-danger">Yes</a>
-                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-             </div>
-
-         </div>
-     </div>
- </div>
 
 
  <!--Font Awesome-->
