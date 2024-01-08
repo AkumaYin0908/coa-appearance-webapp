@@ -37,11 +37,11 @@
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <h2 class="text-light"  th:text="*{name}"></h2>
+                                <h2 class="text-light"  id="visitorName" th:text="*{name}"></h2>
                             </div>
                             <div class="col">
-                                <h6 class="text-secondary mb-0"  th:text="*{position}"></h6>
-                                <h6 class="text-secondary"  th:text="*{agency}"></h6>
+                                <h6 class="text-secondary mb-0" id="visitorPosition" th:text="*{position}"></h6>
+                                <h6 class="text-secondary"   id="visitorAgency" th:text="*{agency}"></h6>
                             </div>
 
                         </div>
@@ -57,7 +57,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="md-form form-floating mb-3 ui-front">
-                                            <input type="text" th:field="*{dateIssued}" class="form-control" id="dateIssued"
+                                            <input type="text" name="dateIssued" th:field="*{dateIssued}" class="form-control" id="dateIssued"
                                             placeholder="Date Issued">
                                             <label class="text-secondary" for="dateIssued">Date Issued</label>
                                         </div>
@@ -110,6 +110,42 @@
             </div>
             </form>
         </div>
+
+
+            <div class="card mt-4 mb-4">
+                <div class="card-body">
+                   <div th:if="${appearanceDTOS.size() > 0}">
+                       <table id="table" class="table">
+                           <thead>
+                           <tr>
+                               <th scope="col">From</th>
+                               <th scope="col">To</th>
+                               <th scope="col">Purpose</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <tr th:each = "appearance : ${appearanceDTOS}">
+                               <td th:text="${appearance.dateFrom}"></td>
+                               <td th:text="${appearance.dateTo}"></td>
+                               <td th:text="${appearance.purpose}"></td>
+                           </tr>
+                           </tbody>
+                       </table>
+                   </div>
+
+                    <div th:unless = "${appearanceDTOS.size() > 0}">
+                        <div class=" no-record alert alert-dark text-center" role="alert">Save Appearance first to populate this table</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div th:if="${appearanceDTOS.size() >= 1}">
+                        <a type="button" th:href="@{/appearances/certificate' + ${visitorId} + '/' + ${dateIssued}}" id="btnSaveAll" class="btn btn-success">Print</a>
+                    </div>
+
+                </div>
+            </div>
+
+
     </div>
 
 </div>

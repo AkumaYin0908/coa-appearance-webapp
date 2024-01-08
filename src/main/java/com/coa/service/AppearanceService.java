@@ -21,6 +21,9 @@ public interface AppearanceService {
 
     List<Appearance> listAll();
 
+    List <Appearance> findAppearanceByVisitorAndDateIssued(Long id, LocalDate dateIssued);
+
+
     Optional<Appearance> findById(Long id);
 
     //Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name);
@@ -32,6 +35,8 @@ public interface AppearanceService {
     Page<Appearance> findByDateIssued(LocalDate dateIssued, Visitor visitor, Pageable pageable);
 
     Appearance save(Appearance appearance);
+
+    void saveAll(List<Appearance> appearances);
 
     void deleteById(Long id);
 

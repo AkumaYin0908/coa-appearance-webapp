@@ -26,6 +26,10 @@ div.form-group textarea{
    height: 100px;
 }
 
+div.norecord{
+    z-index : 0;
+}
+
 
 
 

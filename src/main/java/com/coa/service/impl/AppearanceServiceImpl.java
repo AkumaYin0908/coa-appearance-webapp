@@ -46,6 +46,16 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
+    public List<Appearance> findAppearanceByVisitorAndDateIssued(Long id, LocalDate dateIssued) {
+        return appearanceRepository.findAppearanceByVisitorAndDateIssued(id,dateIssued);
+    }
+
+    @Override
+    public void saveAll(List<Appearance> appearances) {
+        appearanceRepository.saveAllAndFlush(appearances);
+    }
+
+    @Override
     public Optional<Appearance> findById(Long id) {
         return appearanceRepository.findById(id);
     }

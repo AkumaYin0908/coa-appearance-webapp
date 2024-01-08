@@ -96,7 +96,7 @@ public class DashboardController {
 
             Page<Appearance> appearancePage = appearanceService.findAppearanceOrderByDateIssuedDESC(pageable);
 
-            List<AppearanceDTO> appearanceDTOS =appearancePage.getContent()
+            List<AppearanceDTO> appearanceDTOS = appearancePage.getContent()
                     .stream()
                     .map(appearance -> new AppearanceDTO(appearance.getId(),
                             appearance.getVisitor().getName(),

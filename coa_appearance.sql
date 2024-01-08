@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2023 at 10:24 PM
+-- Generation Time: Jan 06, 2024 at 04:16 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agency` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL
+  `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -68,7 +68,7 @@ CREATE TABLE `leader` (
 
 CREATE TABLE `position` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL
+  `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -116,16 +116,13 @@ CREATE TABLE `user` (
   `position` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `user_role`
+-- Dumping data for table `user`
 --
 
-CREATE TABLE `user_role` (
-  `role_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `user` (`user_id`, `username`, `password`, `active`, `name`, `position`) VALUES
+(1, 'Admin', '$2a$10$yCDeVi8atKBcjbF/NIVTYOQhyM3i8fGSQylUaeKN7Yun6W9E1EtIG', 1, 'Admin', 'Administrative'),
+(2, 'philip123', '$2a$10$W7nMi/fvxhMzlT/kdvZC8.kda64Mh1Qru7e0zMXk/r01RVHsPaip6', 1, 'John Philip Apulog', 'Administrative Aide II');
 
 -- --------------------------------------------------------
 
@@ -189,17 +186,11 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indexes for table `user_role`
---
-ALTER TABLE `user_role`
-  ADD KEY `fk_userrole_user` (`user_id`),
-  ADD KEY `fk_userrole_role` (`role_id`);
-
---
 -- Indexes for table `visitor`
 --
 ALTER TABLE `visitor`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
   ADD KEY `fk_visitor_position` (`position`),
   ADD KEY `fk_visitor_agency` (`agency`);
 
@@ -211,31 +202,31 @@ ALTER TABLE `visitor`
 -- AUTO_INCREMENT for table `agency`
 --
 ALTER TABLE `agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `appearance`
 --
 ALTER TABLE `appearance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `leader`
 --
 ALTER TABLE `leader`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `purpose`
 --
 ALTER TABLE `purpose`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -247,13 +238,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `visitor`
 --
 ALTER TABLE `visitor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -265,13 +256,6 @@ ALTER TABLE `visitor`
 ALTER TABLE `appearance`
   ADD CONSTRAINT `fk_appearance_purpose` FOREIGN KEY (`purpose`) REFERENCES `purpose` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_appearance_visitor` FOREIGN KEY (`visitor`) REFERENCES `visitor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `user_role`
---
-ALTER TABLE `user_role`
-  ADD CONSTRAINT `fk_userrole_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_userrole_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `visitor`

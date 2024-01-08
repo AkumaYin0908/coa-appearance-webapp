@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,11 +22,16 @@ public class AppearanceDTO {
     private String dateFrom;
     private String dateTo;
 
+
+
     private String purpose;
 
 
-    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private String formattedStringDate;
+
+
+
 
     public AppearanceDTO(Long id, String dateIssued, String dateFrom, String dateTo, String purpose) {
         this.id = id;
@@ -46,9 +52,13 @@ public class AppearanceDTO {
         this.purpose = purpose;
     }
 
-    public String getFormattedStringDate() {
-        return getFormattedDateRange(dateFrom,dateTo);
+    public AppearanceDTO(String dateFrom, String dateTo, String purpose) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.purpose = purpose;
     }
+
+
 
     private String getFormattedDateRange(String dateFromString, String dateToString){
 
@@ -82,5 +92,46 @@ public class AppearanceDTO {
         return formattedDateRange;
     }
 
+    public void setFormattedStringDate(List<String> datesFrom, List<String> datesTo) {
+        StringBuilder date= new StringBuilder();
+        for(int i=0; i<datesFrom.size() && i<datesTo.size();i++){
+            String formattedDateString=getFormattedDateRange(datesFrom.get(i),datesTo.get(i));
+            if(i<datesFrom.size()-1 && i<datesTo.size()-1){
+                date.append(formattedDateString).append(", ");
+            }else{
+                date.append(" & ").append(formattedDateString);
+            }
 
+        }
+
+        this.formattedStringDate=date.toString();
+    }
+
+    public void setFormattedStringDate(String dateFromString, String dateToString) {
+        this.formattedStringDate= getFormattedDateRange(dateFromString,dateToString);
+    }
+
+    public void setPurpose(List<String> purposes) {
+        StringBuilder purposeBuilder=new StringBuilder();
+
+
+        for(int i=0;i <purposes.size()-1;i++){
+            if(!purposes.get(i).equals(purposes.get(i+1))){
+                if(i<purposes.size()-1){
+                    purposeBuilder.append(purposes.get(i)).append(", ");
+                }else{
+                    purposeBuilder.append(" & ").append(purposes.get(i));
+                }
+            }else{
+                if(purposeBuilder.length() > 0){
+                    purposeBuilder.append(", ").append(purposes.get(i));
+                }else{
+                    purposeBuilder=new StringBuilder(purposes.get(i));
+                }
+
+            }
+        }
+
+        this.purpose=purposeBuilder.toString();
+    }
 }
