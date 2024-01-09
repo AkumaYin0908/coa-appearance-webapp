@@ -30,9 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/appearances")
@@ -56,6 +54,7 @@ public class AppearanceController {
 
     private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
+
     @InitBinder
     public void getInitBinder(WebDataBinder webDataBinder){
         StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
@@ -66,7 +65,7 @@ public class AppearanceController {
 
     @GetMapping("/appearance-form/{id}")
     public String showAppearanceForm(@PathVariable("id")Long id,@RequestParam(defaultValue = "dashboard",name = "direction") String direction,
-                                     @RequestParam("dateIssued") String strDateIssued, Model model){
+                                     @RequestParam(name="dateIssued",required = false) String strDateIssued, Model model,RedirectAttributes redirectAttributes){
         try{
 
 
@@ -80,10 +79,16 @@ public class AppearanceController {
                 throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
             }
 
+            strDateIssued=dateTimeFormatter.format(LocalDate.now());
+
+
             AppearanceDTO appearanceDTO = new AppearanceDTO();
             appearanceDTO.setName(visitor.getName());
             appearanceDTO.setPosition(visitor.getPosition().getName());
             appearanceDTO.setAgency(visitor.getAgency().getName());
+
+
+
 
             List<String> purposes=purposeService.findAll().stream()
                     .map(Purpose::getPurpose).toList();
@@ -106,12 +111,13 @@ public class AppearanceController {
             model.addAttribute("appearanceDTOS",appearanceDTOS);
             model.addAttribute("direction",direction);
             model.addAttribute("visitorId",visitorId);
-            model.addAttribute("dateIssued", dateIssued);
+            model.addAttribute("visitorName",appearanceDTO.getName());
+            model.addAttribute("dateIssued", strDateIssued);
             model.addAttribute("purposes",purposes);
 
 
         }catch (Exception ex){
-            model.addAttribute("message", ex.getMessage());
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
         return "appearances/appearance-form";
 
@@ -186,7 +192,7 @@ public class AppearanceController {
             }
         }catch(Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
-            return String.format("redirect:/appearances/appearance-form/%d", visitorId);
+
 
         }
         return String.format("redirect:/appearances/appearance-form/%d", visitorId);
@@ -199,7 +205,8 @@ public class AppearanceController {
                                         @RequestParam(required = false,defaultValue = "0") Integer selectedYear,
                                         @RequestParam(defaultValue = "1") int page,
                                         @RequestParam(defaultValue = "10") int size,
-                                        @RequestParam(defaultValue = "id, desc") String[] sort){
+                                        @RequestParam(defaultValue = "id, desc") String[] sort,
+                                        RedirectAttributes redirectAttributes){
 
         try{
             List<Integer> years=appearanceService.findAllDistinctYear();
@@ -328,7 +335,7 @@ public class AppearanceController {
             model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
             model.addAttribute("pageNums",pageNums);
         }catch (Exception ex){
-            model.addAttribute("message", ex.getMessage());
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
             ex.printStackTrace();
         }
         return "appearances/appearance-history";
@@ -414,7 +421,7 @@ public class AppearanceController {
            }
        }catch (Exception ex){
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            ex.printStackTrace();
+         //   ex.printStackTrace();
        }
        return String.format("redirect:/appearances/%d/appearance-history", visitorId);
     }
@@ -429,7 +436,8 @@ public class AppearanceController {
 
 
     @GetMapping("/certificate")
-    public String showCertificate(@RequestParam("leader")Long leaderId, @RequestParam("appearance")Long appearanceId, Model model, HttpServletRequest httpServletRequest){
+    public String showCertificate(@RequestParam("leader")Long leaderId, @RequestParam("appearance")Long appearanceId,
+                                  Model model, HttpServletRequest httpServletRequest,RedirectAttributes redirectAttributes){
         try{
 
 
@@ -443,7 +451,7 @@ public class AppearanceController {
             }
 
             AppearanceDTO appearanceDTO=appearanceService.findAndMapToAppearanceDTO(appearanceId);
-            appearanceDTO.setFormattedStringDate(appearanceDTO.getDateFrom(),appearanceDTO.getDateTo());
+            appearanceDTO.setFormattedStringDate(appearanceDTO.formattedStringDateRange(appearanceDTO.getDateFrom(),appearanceDTO.getDateTo()));
 
 
             String referer=httpServletRequest.getHeader("Referer");
@@ -452,8 +460,7 @@ public class AppearanceController {
             model.addAttribute("appearance",appearanceDTO);
             model.addAttribute("leader",leader);
         }catch(Exception ex){
-            model.addAttribute("message", ex.getMessage());
-            return String.format("redirect:/appearances/appearance-form/%d", visitorId);
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
 
         }
 
@@ -461,9 +468,9 @@ public class AppearanceController {
 
    }
 
-   @GetMapping("/certificate/{id}/{dateIssued}")
-    public String showCertificateForMultipleDate(@PathVariable("id")Long id, @PathVariable("dateIssued") LocalDate dateIssued,
-                                                 Model model, HttpServletRequest httpServletRequest){
+   @GetMapping("/certificate/{id}")
+    public String showCertificateForMultipleDate(@PathVariable("id")Long id, @RequestParam("dateIssued") String dateIssued,
+                                                 Model model, HttpServletRequest httpServletRequest,RedirectAttributes redirectAttributes){
        try{
 
            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
@@ -486,9 +493,9 @@ public class AppearanceController {
 
            List<String> datesFrom = new ArrayList<>();
            List<String> datesTo = new ArrayList<>();
-           List<String> purposes=new ArrayList<>();
+           Set<String> purposes = new LinkedHashSet<>();
 
-           List<AppearanceDTO> appearanceDTOS = appearanceService.findAppearanceByVisitorAndDateIssued(visitorId,dateIssued)
+           List<AppearanceDTO> appearanceDTOS = appearanceService.findAppearanceByVisitorAndDateIssued(visitorId,LocalDate.parse(dateIssued,dateTimeFormatter))
                    .stream()
                    .map(appearance -> new AppearanceDTO(appearance.getDateFrom().format(dateTimeFormatter),
                            appearance.getDateTo().format(dateTimeFormatter),
@@ -500,7 +507,13 @@ public class AppearanceController {
             for(AppearanceDTO appearanceDTO : appearanceDTOS){
                 datesFrom.add(appearanceDTO.getDateFrom());
                 datesTo.add(appearanceDTO.getDateTo());
-                purposes.add(appearanceDTO.getPurpose());
+
+                if(appearanceDTO.getPurpose().endsWith(".")){
+                    purposes.add(appearanceDTO.getPurpose().substring(0,appearanceDTO.getPurpose().length()-1));
+                }else{
+                    purposes.add(appearanceDTO.getPurpose());
+                }
+
             }
 
 
@@ -508,8 +521,9 @@ public class AppearanceController {
            appearanceDTO.setName(visitor.getName());
            appearanceDTO.setPosition(visitor.getPosition().getName());
            appearanceDTO.setAgency(visitor.getAgency().getName());
-           appearanceDTO.setDateIssued(dateIssued.format(dateTimeFormatter));
-           appearanceDTO.setFormattedStringDate(datesFrom,datesTo);
+           appearanceDTO.setDateIssued(dateIssued);
+           appearanceDTO.setFormattedStringDate(appearanceDTO.formatStringMultipleDate(datesFrom,datesTo));
+           appearanceDTO.setPurpose(appearanceDTO.joinPurpose(purposes));
 
 
 
@@ -519,8 +533,9 @@ public class AppearanceController {
            model.addAttribute("appearance",appearanceDTO);
            model.addAttribute("leader",leader);
        }catch(Exception ex){
-           model.addAttribute("message", ex.getMessage());
-           return String.format("redirect:/appearances/appearance-form/%d", visitorId);
+           redirectAttributes.addFlashAttribute("message", ex.getMessage());
+           ex.printStackTrace();
+
        }
 
        return "appearances/certificate";

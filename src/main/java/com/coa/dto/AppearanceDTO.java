@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -22,13 +23,12 @@ public class AppearanceDTO {
     private String dateFrom;
     private String dateTo;
 
-
-
     private String purpose;
 
-
-    @Setter(AccessLevel.NONE)
     private String formattedStringDate;
+
+    @Getter(AccessLevel.NONE)
+    private String dateAppeared;
 
 
 
@@ -92,7 +92,7 @@ public class AppearanceDTO {
         return formattedDateRange;
     }
 
-    public void setFormattedStringDate(List<String> datesFrom, List<String> datesTo) {
+    public String formatStringMultipleDate(List<String> datesFrom, List<String> datesTo) {
         StringBuilder date= new StringBuilder();
         for(int i=0; i<datesFrom.size() && i<datesTo.size();i++){
             String formattedDateString=getFormattedDateRange(datesFrom.get(i),datesTo.get(i));
@@ -104,34 +104,31 @@ public class AppearanceDTO {
 
         }
 
-        this.formattedStringDate=date.toString();
+       return date.toString();
     }
 
-    public void setFormattedStringDate(String dateFromString, String dateToString) {
-        this.formattedStringDate= getFormattedDateRange(dateFromString,dateToString);
+    public String formattedStringDateRange(String dateFromString, String dateToString) {
+        return getFormattedDateRange(dateFromString,dateToString);
     }
 
-    public void setPurpose(List<String> purposes) {
-        StringBuilder purposeBuilder=new StringBuilder();
+    public String joinPurpose(Set<String> purposes) {
 
+        StringBuilder purposeBuilder = new StringBuilder();
 
-        for(int i=0;i <purposes.size()-1;i++){
-            if(!purposes.get(i).equals(purposes.get(i+1))){
-                if(i<purposes.size()-1){
-                    purposeBuilder.append(purposes.get(i)).append(", ");
-                }else{
-                    purposeBuilder.append(" & ").append(purposes.get(i));
-                }
-            }else{
-                if(purposeBuilder.length() > 0){
-                    purposeBuilder.append(", ").append(purposes.get(i));
-                }else{
-                    purposeBuilder=new StringBuilder(purposes.get(i));
-                }
-
-            }
+        for(String purpose : purposes){
+            purposeBuilder.append(purpose).append(", ");
         }
 
-        this.purpose=purposeBuilder.toString();
+        purposeBuilder.replace(purposeBuilder.length()-2, purposeBuilder.length()+1,"");
+        int lastComma=purposeBuilder.lastIndexOf(",");
+        System.out.println(lastComma);
+        purposeBuilder.replace(lastComma, lastComma+1, " &");
+
+       return purposeBuilder.toString();
+
+    }
+
+    public String getDateAppeared() {
+        return getFormattedDateRange(dateFrom,dateTo);
     }
 }

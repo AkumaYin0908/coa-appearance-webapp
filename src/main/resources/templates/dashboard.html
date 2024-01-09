@@ -56,7 +56,7 @@
                             <span  th:unless="${leader !=null}" class="h3 mt-1">No Leader</span>
                         </div>
                         <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
-                        <div th:if="${leaderName !=null}" class="d-flex justify-content-end mt-2 mb-0">
+                        <div th:if="${leader !=null}" class="d-flex justify-content-end mt-2 mb-0">
                             <a type="button" id ="changeLeaderButton"  class="text-primary"><i class="fa-solid fa-user-gear"></i> Change Leader</a>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                                 <td th:text="${appearance.dateIssued}"></td>
                                 <td th:text="${appearance.name}"></td>
                                 <td th:text="${appearance.agency}"></td>
-                                <td th:text="${appearance.formattedStringDate}"></td>
+                                <td th:text="${appearance.dateAppeared}"></td>
                                 <td th:text="${appearance.purpose}"></td>
 
                             </tr>
