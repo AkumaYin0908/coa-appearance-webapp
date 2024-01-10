@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $("#leaderButton").addClass("active");
+
     let addModalMessage = $("#addModalMessageHolder").text();
         if(addModalMessage != ""){
             $("#addLeaderModal").modal("show");

@@ -13,6 +13,7 @@ import com.coa.service.AppearanceService;
 import com.coa.service.LeaderService;
 import com.coa.service.PurposeService;
 import com.coa.service.VisitorService;
+import com.coa.utils.AppearanceIDs;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -126,7 +130,8 @@ public class AppearanceController {
 
     @PostMapping("/save")
     public String saveAppearance(@ModelAttribute("appearanceDTO") AppearanceDTO appearanceDTO,
-                                 @RequestParam("save")String save,RedirectAttributes redirectAttributes, Model model, HttpServletRequest httpServletRequest){
+                                 @RequestParam("save")String save,RedirectAttributes redirectAttributes, Model model, HttpServletRequest httpServletRequest) throws URISyntaxException {
+
         try{
             Appearance appearance=new Appearance();
 
@@ -174,7 +179,7 @@ public class AppearanceController {
             }else{
                 Long appearanceId = appearanceService.save(appearance).getId();
 
-                String referer=httpServletRequest.getHeader("Referer");
+
 
                 Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
                 Leader leader;
@@ -185,15 +190,16 @@ public class AppearanceController {
                     leader=leaderOptional.get();
                 }else{
                     throw new LeaderNotFoundException("Leader not found!");
-                }
-                model.addAttribute("referer",referer);
-                return String.format("redirect:/appearances/certificate?leader=%d&appearance=%d",leader.getId(),appearanceId);
 
+                }
+
+                String referer=httpServletRequest.getHeader("Referer");
+
+                model.addAttribute("referer",referer);
+                return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
             }
         }catch(Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
-
-
         }
         return String.format("redirect:/appearances/appearance-form/%d", visitorId);
 
@@ -229,6 +235,8 @@ public class AppearanceController {
                 throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
             }
 
+
+            AppearanceIDs appearanceIDs=new AppearanceIDs();
 
             Page<Appearance> appearancePage;
 
@@ -310,17 +318,9 @@ public class AppearanceController {
             List<String> purposes=purposeService.findAll().stream()
                     .map(Purpose::getPurpose).toList();
 
-            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
-            Leader leader;
-
-            if(leaderOptional.isPresent()){
-                leader=leaderOptional.get();
-            }else{
-                throw new LeaderNotFoundException("Leader not found!");
-            }
 
             model.addAttribute("editFormAppearanceDTO", editFormAppearanceDTO);
-            model.addAttribute("leader",leader);
+            model.addAttribute("idList",appearanceIDs);
             model.addAttribute("purposes", purposes);
             model.addAttribute("months", Month.values());
             model.addAttribute("years", years);
@@ -334,9 +334,9 @@ public class AppearanceController {
             model.addAttribute("sortDirection", sortDirection);
             model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
             model.addAttribute("pageNums",pageNums);
+
         }catch (Exception ex){
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            ex.printStackTrace();
         }
         return "appearances/appearance-history";
     }
@@ -346,10 +346,10 @@ public class AppearanceController {
     @PostMapping("/update")
     public String updateAppearance(@ModelAttribute("editFormAppearanceDTO") AppearanceDTO appearanceDTO,
                                    @RequestParam("save")String save,
-                                   @RequestParam("leaderId")Long leaderId,
                                    RedirectAttributes redirectAttributes,
-                                   Model model, HttpServletRequest httpServletRequest){
-        System.out.println(appearanceDTO.getId());
+                                   Model model, HttpServletRequest httpServletRequest) throws URISyntaxException {
+
+
        try{
            Optional<Appearance> optionalAppearance = appearanceService.findById(appearanceDTO.getId());
 
@@ -410,7 +410,7 @@ public class AppearanceController {
                    String referer=httpServletRequest.getHeader("Referer");
 
                    model.addAttribute("referer",referer);
-                   return String.format("redirect:/appearances/certificate?leader=%d&appearance=%d",leaderId,appearanceId);
+                   return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
 
                }
              editFormAppearanceDTO = new AppearanceDTO();
@@ -420,8 +420,9 @@ public class AppearanceController {
 
            }
        }catch (Exception ex){
-            redirectAttributes.addFlashAttribute("message", ex.getMessage());
-         //   ex.printStackTrace();
+           redirectAttributes.addFlashAttribute("message", ex.getMessage());
+
+
        }
        return String.format("redirect:/appearances/%d/appearance-history", visitorId);
     }
@@ -436,14 +437,18 @@ public class AppearanceController {
 
 
     @GetMapping("/certificate")
-    public String showCertificate(@RequestParam("leader")Long leaderId, @RequestParam("appearance")Long appearanceId,
-                                  Model model, HttpServletRequest httpServletRequest,RedirectAttributes redirectAttributes){
+    public String showCertificate(@RequestParam("appearance")Long appearanceId,
+                                  Model model, HttpServletRequest httpServletRequest,RedirectAttributes redirectAttributes) throws URISyntaxException {
+
+        String referer=httpServletRequest.getHeader("Referer");
+        URI uri = new URI(referer);
+
         try{
 
 
-            Optional<Leader> leaderOptional=leaderService.findById(leaderId);
-
+            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
             Leader leader;
+
             if(leaderOptional.isPresent()){
                 leader=leaderOptional.get();
             }else{
@@ -454,13 +459,14 @@ public class AppearanceController {
             appearanceDTO.setFormattedStringDate(appearanceDTO.formattedStringDateRange(appearanceDTO.getDateFrom(),appearanceDTO.getDateTo()));
 
 
-            String referer=httpServletRequest.getHeader("Referer");
+
 
             model.addAttribute("referer",referer);
             model.addAttribute("appearance",appearanceDTO);
             model.addAttribute("leader",leader);
         }catch(Exception ex){
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
+            return String.format("redirect:%s",uri.getPath());
 
         }
 
@@ -470,11 +476,15 @@ public class AppearanceController {
 
    @GetMapping("/certificate/{id}")
     public String showCertificateForMultipleDate(@PathVariable("id")Long id, @RequestParam("dateIssued") String dateIssued,
-                                                 Model model, HttpServletRequest httpServletRequest,RedirectAttributes redirectAttributes){
+                                                 Model model, HttpServletRequest httpServletRequest,RedirectAttributes redirectAttributes) throws URISyntaxException {
+
+       String referer=httpServletRequest.getHeader("Referer");
+       URI uri = new URI(referer);
+
        try{
 
            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
-           Leader leader;
+       Leader leader;
 
            if(leaderOptional.isPresent()){
                leader=leaderOptional.get();
@@ -501,9 +511,6 @@ public class AppearanceController {
                            appearance.getDateTo().format(dateTimeFormatter),
                            appearance.getPurpose().getPurpose())).toList();
 
-
-
-
             for(AppearanceDTO appearanceDTO : appearanceDTOS){
                 datesFrom.add(appearanceDTO.getDateFrom());
                 datesTo.add(appearanceDTO.getDateTo());
@@ -516,7 +523,6 @@ public class AppearanceController {
 
             }
 
-
            AppearanceDTO appearanceDTO= new AppearanceDTO();
            appearanceDTO.setName(visitor.getName());
            appearanceDTO.setPosition(visitor.getPosition().getName());
@@ -527,14 +533,14 @@ public class AppearanceController {
 
 
 
-           String referer=httpServletRequest.getHeader("Referer");
+
 
            model.addAttribute("referer",referer);
            model.addAttribute("appearance",appearanceDTO);
            model.addAttribute("leader",leader);
        }catch(Exception ex){
            redirectAttributes.addFlashAttribute("message", ex.getMessage());
-           ex.printStackTrace();
+           return String.format("redirect:%s",uri.getPath());
 
        }
 

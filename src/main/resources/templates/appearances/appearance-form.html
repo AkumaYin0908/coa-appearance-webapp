@@ -139,12 +139,7 @@
                 </div>
                 <div class="card-footer">
                     <div th:if="${appearanceDTOS.size() >= 1}">
-<!--                        <a type="button" th:href="@{'/appearances/certificate/' + ${visitorId} + '/' + ${dateIssued}}" id="btnSaveAll" class="btn btn-success">Print</a>-->
-                        <form th:action="@{'/appearances/certificate/'  + ${visitorId}}" method="GET">
-                            <input type="hidden" name="dateIssued" th:value="${dateIssued}">
-                            <button type="submit" id="btnSaveAll" class="btn btn-success">Print</button>
-                        </form>
-
+                       <a type="button" th:href="@{'/appearances/certificate/' + ${visitorId}(dateIssued=${dateIssued})}" id="btnSaveAll" class="btn btn-success">Print</a>
                     </div>
 
                 </div>

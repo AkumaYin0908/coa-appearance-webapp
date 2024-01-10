@@ -113,18 +113,25 @@ public class AppearanceDTO {
 
     public String joinPurpose(Set<String> purposes) {
 
+
         StringBuilder purposeBuilder = new StringBuilder();
 
-        for(String purpose : purposes){
-            purposeBuilder.append(purpose).append(", ");
+
+        if(purposes.size() <=1){
+           return purposes.stream().findFirst().get();
+        }else{
+            for(String purpose : purposes){
+                purposeBuilder.append(purpose).append(", ");
+            }
+
+            purposeBuilder.replace(purposeBuilder.length()-2, purposeBuilder.length()+1,"");
+            int lastComma=purposeBuilder.lastIndexOf(",");
+            System.out.println(lastComma);
+            purposeBuilder.replace(lastComma, lastComma+1, " &");
+
+            return purposeBuilder.toString();
         }
 
-        purposeBuilder.replace(purposeBuilder.length()-2, purposeBuilder.length()+1,"");
-        int lastComma=purposeBuilder.lastIndexOf(",");
-        System.out.println(lastComma);
-        purposeBuilder.replace(lastComma, lastComma+1, " &");
-
-       return purposeBuilder.toString();
 
     }
 
