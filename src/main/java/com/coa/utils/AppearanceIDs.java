@@ -1,22 +1,16 @@
 package com.coa.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AppearanceIDs {
 
-   private List<Long> appearanceIDs= new ArrayList<>();
-
-
-    public List<Long> getAppearanceIDs() {
-        return appearanceIDs;
-    }
-
-    public void setAppearanceIDs(List<Long> appearanceIDs) {
-        this.appearanceIDs = appearanceIDs;
-    }
-
-    public void setAppearanceIDs(Long[] appearanceIDs){
-        this.appearanceIDs=List.of(appearanceIDs);
-    }
+   private ArrayList<Long> appearanceIDs;
 }

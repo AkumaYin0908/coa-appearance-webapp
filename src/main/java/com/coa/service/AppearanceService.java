@@ -1,12 +1,11 @@
 package com.coa.service;
 
 import com.coa.dto.AppearanceDTO;
-import com.coa.exceptions.ApperanceNotFoundException;
+import com.coa.exceptions.AppearanceNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Visitor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +27,7 @@ public interface AppearanceService {
 
     //Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name);
 
-    AppearanceDTO findAndMapToAppearanceDTO(Long id) throws ApperanceNotFoundException;
+    AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException;
 
     Page<Appearance> findAppearanceByVisitor(Visitor visitor,  Pageable pageable);
 

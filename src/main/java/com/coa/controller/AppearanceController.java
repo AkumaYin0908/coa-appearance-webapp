@@ -2,7 +2,7 @@ package com.coa.controller;
 
 import com.coa.dto.AppearanceDTO;
 import com.coa.dto.VisitorDTO;
-import com.coa.exceptions.ApperanceNotFoundException;
+import com.coa.exceptions.AppearanceNotFoundException;
 import com.coa.exceptions.LeaderNotFoundException;
 import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Appearance;
@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -73,15 +72,7 @@ public class AppearanceController {
         try{
 
 
-            Optional<Visitor> optionalVisitor =visitorService.findById(id);
-            visitorId=id;
-            Visitor visitor;
-
-            if(optionalVisitor.isPresent()){
-                visitor = optionalVisitor.get();
-            }else{
-                throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
-            }
+            Visitor visitor = visitorService.findById(id).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + id + " not found!"));
 
             strDateIssued=dateTimeFormatter.format(LocalDate.now());
 
@@ -135,13 +126,7 @@ public class AppearanceController {
         try{
             Appearance appearance=new Appearance();
 
-            Optional<Visitor> visitorOptional=visitorService.findVisitorByName(appearanceDTO.getName());
-
-            Visitor visitor=new Visitor();
-
-            if(visitorOptional.isPresent()){
-                visitor=visitorOptional.get();
-            }
+            Visitor visitor = visitorService.findVisitorByName(appearanceDTO.getName()).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + visitorId + " not found!"));
 
             appearance.setVisitor(visitor);
             String purposeString =appearanceDTO.getPurpose();
@@ -149,15 +134,9 @@ public class AppearanceController {
             if(purposeString.endsWith(".")){
                 purposeString=purposeString.substring(0,purposeString.length()-1);
             }
-            Optional<Purpose> purposeOptional = purposeService.findByPurpose(purposeString);
-            Purpose purpose;
-            if(purposeOptional.isPresent()){
-                purpose=purposeOptional.get();
-                appearance.setPurpose(purpose);
-            }else{
-                purpose = new Purpose(purposeString);
-                appearance.setPurpose(purpose);
-            }
+
+            appearance.setPurpose(purposeService.findByPurpose(purposeString).orElse(new Purpose(purposeString)));
+
             LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
             LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
             LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
@@ -179,19 +158,7 @@ public class AppearanceController {
             }else{
                 Long appearanceId = appearanceService.save(appearance).getId();
 
-
-
-                Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
-                Leader leader;
-
-
-
-                if(leaderOptional.isPresent()){
-                    leader=leaderOptional.get();
-                }else{
-                    throw new LeaderNotFoundException("Leader not found!");
-
-                }
+                Leader leader = leaderService.findLeaderByInChargeStatus(true).orElseThrow(() -> new LeaderNotFoundException("Leader not found!"));
 
                 String referer=httpServletRequest.getHeader("Referer");
 
@@ -226,17 +193,10 @@ public class AppearanceController {
 
             Pageable pageable = PageRequest.of(page-1, size,Sort.by(order));
 
-            Optional<Visitor> visitorOptional = visitorService.findById(id);
-            Visitor visitor;
-
-            if(visitorOptional.isPresent()){
-                visitor=visitorOptional.get();
-            }else{
-                throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
-            }
+            Visitor visitor = visitorService.findById(id).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + id + " not found!"));
 
 
-            AppearanceIDs appearanceIDs=new AppearanceIDs();
+
 
             Page<Appearance> appearancePage;
 
@@ -320,7 +280,8 @@ public class AppearanceController {
 
 
             model.addAttribute("editFormAppearanceDTO", editFormAppearanceDTO);
-            model.addAttribute("idList",appearanceIDs);
+            model.addAttribute("idList",new AppearanceIDs());
+            model.addAttribute("visitorId",visitorId);
             model.addAttribute("purposes", purposes);
             model.addAttribute("months", Month.values());
             model.addAttribute("years", years);
@@ -386,21 +347,12 @@ public class AppearanceController {
                    purposeString=purposeString.substring(0,purposeString.length()-1);
                }
 
-             Optional<Purpose> purposeOptional = purposeService.findByPurpose(purposeString);
+              appearance.setPurpose(purposeService.findByPurpose(purposeString).orElse(new Purpose(purposeString)));
 
-             if(purposeOptional.isPresent()){
-                 appearance.setPurpose(purposeOptional.get());
-             }else{
-                 appearance.setPurpose(new Purpose(purposeString));
-             }
 
-             Optional<Visitor> visitorOptional=visitorService.findById(visitorId);
 
-             if(visitorOptional.isPresent()){
-                 appearance.setVisitor(visitorOptional.get());
-             }else{
-                 throw new VisitorNotFoundException("Visitor with id : " + visitorId + " not found!");
-             }
+               Visitor visitor = visitorService.findById(visitorId).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + visitorId + " not found!"));
+
                if(save.equals("SaveOnly")) {
                    appearanceService.save(appearance);
                    redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
@@ -416,7 +368,7 @@ public class AppearanceController {
              editFormAppearanceDTO = new AppearanceDTO();
              redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
            }else{
-               throw new ApperanceNotFoundException("Appearance not found!");
+               throw new AppearanceNotFoundException("Appearance not found!");
 
            }
        }catch (Exception ex){
@@ -446,14 +398,7 @@ public class AppearanceController {
         try{
 
 
-            Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
-            Leader leader;
-
-            if(leaderOptional.isPresent()){
-                leader=leaderOptional.get();
-            }else{
-                throw new LeaderNotFoundException("Leader not found!");
-            }
+            Leader leader = leaderService.findLeaderByInChargeStatus(true).orElseThrow(() -> new LeaderNotFoundException("Leader not found!"));
 
             AppearanceDTO appearanceDTO=appearanceService.findAndMapToAppearanceDTO(appearanceId);
             appearanceDTO.setFormattedStringDate(appearanceDTO.formattedStringDateRange(appearanceDTO.getDateFrom(),appearanceDTO.getDateTo()));
@@ -483,23 +428,9 @@ public class AppearanceController {
 
        try{
 
-           Optional<Leader> leaderOptional=leaderService.findLeaderByInChargeStatus(true);
-       Leader leader;
+           Leader leader = leaderService.findLeaderByInChargeStatus(true).orElseThrow(() -> new LeaderNotFoundException("Leader not found!"));
 
-           if(leaderOptional.isPresent()){
-               leader=leaderOptional.get();
-           }else{
-               throw new LeaderNotFoundException("Leader not found!");
-           }
-
-           Optional<Visitor> optionalVisitor =visitorService.findById(id);
-           Visitor visitor;
-
-           if(optionalVisitor.isPresent()){
-               visitor = optionalVisitor.get();
-           }else{
-               throw new VisitorNotFoundException("Visitor with id : " + id + " not found!");
-           }
+           Visitor visitor = visitorService.findById(id).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + id + " not found!"));
 
            List<String> datesFrom = new ArrayList<>();
            List<String> datesTo = new ArrayList<>();
@@ -514,12 +445,7 @@ public class AppearanceController {
             for(AppearanceDTO appearanceDTO : appearanceDTOS){
                 datesFrom.add(appearanceDTO.getDateFrom());
                 datesTo.add(appearanceDTO.getDateTo());
-
-                if(appearanceDTO.getPurpose().endsWith(".")){
-                    purposes.add(appearanceDTO.getPurpose().substring(0,appearanceDTO.getPurpose().length()-1));
-                }else{
-                    purposes.add(appearanceDTO.getPurpose());
-                }
+                purposes.add(appearanceDTO.getPurpose());
 
             }
 
@@ -530,9 +456,6 @@ public class AppearanceController {
            appearanceDTO.setDateIssued(dateIssued);
            appearanceDTO.setFormattedStringDate(appearanceDTO.formatStringMultipleDate(datesFrom,datesTo));
            appearanceDTO.setPurpose(appearanceDTO.joinPurpose(purposes));
-
-
-
 
 
            model.addAttribute("referer",referer);
@@ -547,7 +470,71 @@ public class AppearanceController {
        return "appearances/certificate";
 
    }
+
+   @PostMapping("/print")
+    public String printCertificate(@ModelAttribute("idList")ArrayList<Long> appearanceIds, @RequestParam("visitorId")Long id, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) throws VisitorNotFoundException, URISyntaxException {
+
+       String referer=httpServletRequest.getHeader("Referer");
+       URI uri = new URI(referer);
+
+
+     try{
+         List<Appearance>appearances = new ArrayList<>();
+
+         for(Long appearanceId:appearanceIds){
+             appearances.add(appearanceService.findById(appearanceId).orElseThrow(()->new AppearanceNotFoundException("Appearance not found!")));
+         }
+
+         List<AppearanceDTO> appearanceDTOS = appearances.stream()
+                 .map(appearance -> new AppearanceDTO(
+                         appearance.getDateFrom().format(dateTimeFormatter),
+                         appearance.getDateTo().format(dateTimeFormatter),
+                         appearance.getPurpose().getPurpose())).toList();
+
+
+         List<String> datesFrom = new ArrayList<>();
+         List<String> datesTo = new ArrayList<>();
+         Set<String> purposes = new LinkedHashSet<>();
+
+         for(AppearanceDTO appearanceDTO : appearanceDTOS){
+             datesFrom.add(appearanceDTO.getDateFrom());
+             datesTo.add(appearanceDTO.getDateTo());
+             purposes.add(appearanceDTO.getPurpose());
+
+
+         }
+
+         Leader leader = leaderService.findLeaderByInChargeStatus(true).orElseThrow(() -> new LeaderNotFoundException("Leader not found!"));
+
+         Visitor visitor = visitorService.findById(id).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + id + " not found!"));
+
+
+         AppearanceDTO appearanceDTO= new AppearanceDTO();
+         appearanceDTO.setName(visitor.getName());
+         appearanceDTO.setPosition(visitor.getPosition().getName());
+         appearanceDTO.setAgency(visitor.getAgency().getName());
+         appearanceDTO.setDateIssued(dateTimeFormatter.format(LocalDate.now()));
+         appearanceDTO.setFormattedStringDate(appearanceDTO.formatStringMultipleDate(datesFrom,datesTo));
+         appearanceDTO.setPurpose(appearanceDTO.joinPurpose(purposes));
+
+
+         model.addAttribute("referer",referer);
+         model.addAttribute("appearance",appearanceDTO);
+         model.addAttribute("leader",leader);
+
+
+     }catch (Exception ex){
+
+         redirectAttributes.addFlashAttribute("message", ex.getMessage());
+         ex.printStackTrace();
+         return String.format("redirect:%s",uri.getPath());
+
+     }
+
+       return "appearances/certificate";
    }
+
+}
 
 
 

@@ -111,5 +111,21 @@ $(document).ready(function(){
         event.preventDefault();
         $("#searchForm").submit();
     });
+
+    let checkPrint = $(".chk-print");
+
+   checkPrint.on("click",function(){
+    if($(this).is(":checked")){
+           $("#btnPrintChecked").show();
+           console.log(checkPrint.val());
+       }else{
+           $("#btnPrintChecked").hide();
+       }
+   });
+
+
+    $("#btnPrintChecked").on("click",function(event){
+        $("#appearances").submit();
+    });
 });
 

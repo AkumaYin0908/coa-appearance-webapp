@@ -2,7 +2,9 @@ package com.coa.model;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
@@ -19,6 +21,7 @@ public class Purpose {
     @Column(name ="id")
     private Long id;
 
+
     @Column(name="purpose")
     private String purpose;
 
@@ -30,4 +33,10 @@ public class Purpose {
     public Purpose(String purpose) {
         this.purpose = purpose;
     }
+
+
+
+
+
+
 }

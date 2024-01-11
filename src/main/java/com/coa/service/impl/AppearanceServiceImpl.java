@@ -1,7 +1,7 @@
 package com.coa.service.impl;
 
 import com.coa.dto.AppearanceDTO;
-import com.coa.exceptions.ApperanceNotFoundException;
+import com.coa.exceptions.AppearanceNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Visitor;
 import com.coa.repository.AppearanceRepository;
@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -85,7 +84,7 @@ public class AppearanceServiceImpl implements AppearanceService {
 //    }
 
     @Override
-    public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws ApperanceNotFoundException {
+    public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException {
        Optional<Appearance> appearanceOptional = appearanceRepository.findById(id);
        AppearanceDTO appearanceDTO;
 
@@ -105,7 +104,7 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
        }else{
-           throw new ApperanceNotFoundException("Appearance not found!");
+           throw new AppearanceNotFoundException("Appearance not found!");
        }
         return appearanceDTO;
     }

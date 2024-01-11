@@ -138,4 +138,6 @@ public class AppearanceDTO {
     public String getDateAppeared() {
         return getFormattedDateRange(dateFrom,dateTo);
     }
+
+
 }
