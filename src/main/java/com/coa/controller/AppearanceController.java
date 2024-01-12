@@ -353,6 +353,8 @@ public class AppearanceController {
 
                Visitor visitor = visitorService.findById(visitorId).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + visitorId + " not found!"));
 
+
+               appearance.setVisitor(visitor);
                if(save.equals("SaveOnly")) {
                    appearanceService.save(appearance);
                    redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
@@ -365,7 +367,9 @@ public class AppearanceController {
                    return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
 
                }
+
              editFormAppearanceDTO = new AppearanceDTO();
+
              redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
            }else{
                throw new AppearanceNotFoundException("Appearance not found!");
@@ -432,8 +436,8 @@ public class AppearanceController {
 
            Visitor visitor = visitorService.findById(id).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + id + " not found!"));
 
-           List<String> datesFrom = new ArrayList<>();
-           List<String> datesTo = new ArrayList<>();
+           Set<String> datesFrom = new LinkedHashSet<>();
+           Set<String> datesTo = new LinkedHashSet<>();
            Set<String> purposes = new LinkedHashSet<>();
 
            List<AppearanceDTO> appearanceDTOS = appearanceService.findAppearanceByVisitorAndDateIssued(visitorId,LocalDate.parse(dateIssued,dateTimeFormatter))
@@ -472,7 +476,8 @@ public class AppearanceController {
    }
 
    @PostMapping("/print")
-    public String printCertificate(@ModelAttribute("idList")ArrayList<Long> appearanceIds, @RequestParam("visitorId")Long id, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) throws VisitorNotFoundException, URISyntaxException {
+    public String printCertificate(@ModelAttribute("idList")AppearanceIDs appearanceIDs, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) throws VisitorNotFoundException, URISyntaxException {
+
 
        String referer=httpServletRequest.getHeader("Referer");
        URI uri = new URI(referer);
@@ -481,7 +486,7 @@ public class AppearanceController {
      try{
          List<Appearance>appearances = new ArrayList<>();
 
-         for(Long appearanceId:appearanceIds){
+         for(Long appearanceId:appearanceIDs.getAppearanceIDs()){
              appearances.add(appearanceService.findById(appearanceId).orElseThrow(()->new AppearanceNotFoundException("Appearance not found!")));
          }
 
@@ -492,8 +497,8 @@ public class AppearanceController {
                          appearance.getPurpose().getPurpose())).toList();
 
 
-         List<String> datesFrom = new ArrayList<>();
-         List<String> datesTo = new ArrayList<>();
+         Set<String> datesFrom = new LinkedHashSet<>();
+         Set<String> datesTo = new LinkedHashSet<>();
          Set<String> purposes = new LinkedHashSet<>();
 
          for(AppearanceDTO appearanceDTO : appearanceDTOS){
@@ -506,7 +511,7 @@ public class AppearanceController {
 
          Leader leader = leaderService.findLeaderByInChargeStatus(true).orElseThrow(() -> new LeaderNotFoundException("Leader not found!"));
 
-         Visitor visitor = visitorService.findById(id).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + id + " not found!"));
+         Visitor visitor = visitorService.findById(visitorId).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + visitorId + " not found!"));
 
 
          AppearanceDTO appearanceDTO= new AppearanceDTO();

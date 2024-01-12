@@ -255,23 +255,12 @@ div.btn-clear{
 }
 
 
-
-
-div #appearanceForm{
-    border-radius : 10px;
-}
-
 span .name{
     font-family : 'Roboto Mono';
     font-size : 3rem;
     font-weight : 900;
     text-shadow: 2px 2px black;
 }
-
-#ui-datepicker-div {
-z-index: 10000 !important;
-}
-
 
 
 ul{

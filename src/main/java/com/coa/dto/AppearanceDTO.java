@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -92,19 +94,33 @@ public class AppearanceDTO {
         return formattedDateRange;
     }
 
-    public String formatStringMultipleDate(List<String> datesFrom, List<String> datesTo) {
-        StringBuilder date= new StringBuilder();
-        for(int i=0; i<datesFrom.size() && i<datesTo.size();i++){
-            String formattedDateString=getFormattedDateRange(datesFrom.get(i),datesTo.get(i));
-            if(i<datesFrom.size()-1 && i<datesTo.size()-1){
-                date.append(formattedDateString).append(", ");
-            }else{
-                date.append(" & ").append(formattedDateString);
+    public String formatStringMultipleDate(Set<String> datesFrom, Set<String> datesTo) {
+        StringBuilder dateBuilder= new StringBuilder();
+
+        Iterator<String> iteratorFrom=datesFrom.iterator();
+        Iterator<String> iteratorTo=datesTo.iterator();
+
+        List<String> formattedDates=new ArrayList<>();
+        while(iteratorFrom.hasNext() && iteratorTo.hasNext()){
+            formattedDates.add(formattedStringDateRange(iteratorFrom.next(),iteratorTo.next()));
+        }
+
+
+        if(formattedDates.size()<=1){
+            return formattedDates.stream().findFirst().get();
+        }else{
+            for(String formattedDate : formattedDates){
+                dateBuilder.append(formattedDate).append(", ");
             }
+
+            dateBuilder.replace(dateBuilder.length()-2,dateBuilder.length()+1,"");
+            int lasComma=dateBuilder.lastIndexOf(",");
+            dateBuilder.replace(lasComma,lasComma+1, " &");
 
         }
 
-       return date.toString();
+
+       return dateBuilder.toString();
     }
 
     public String formattedStringDateRange(String dateFromString, String dateToString) {
@@ -112,7 +128,6 @@ public class AppearanceDTO {
     }
 
     public String joinPurpose(Set<String> purposes) {
-
 
         StringBuilder purposeBuilder = new StringBuilder();
 
@@ -126,7 +141,6 @@ public class AppearanceDTO {
 
             purposeBuilder.replace(purposeBuilder.length()-2, purposeBuilder.length()+1,"");
             int lastComma=purposeBuilder.lastIndexOf(",");
-            System.out.println(lastComma);
             purposeBuilder.replace(lastComma, lastComma+1, " &");
 
             return purposeBuilder.toString();

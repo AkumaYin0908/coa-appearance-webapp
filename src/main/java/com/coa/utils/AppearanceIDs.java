@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 public class AppearanceIDs {
 
-   private ArrayList<Long> appearanceIDs;
+   private List<Long> appearanceIDs;
 }
