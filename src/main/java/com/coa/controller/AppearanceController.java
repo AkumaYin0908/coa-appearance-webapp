@@ -141,16 +141,10 @@ public class AppearanceController {
             LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
             LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
 
-            boolean isValid=validateDate(dateIssued,dateFrom,dateTo);
 
-            if(isValid){
-                appearance.setDateIssued(dateIssued);
-                appearance.setDateFrom(dateFrom);
-                appearance.setDateTo(dateTo);
-            }else{
-                redirectAttributes.addFlashAttribute("message","Invalid dating of appearance!");
-                return String.format("redirect:/appearances/appearance-form/%d",visitorId);
-            }
+            appearance.setDateIssued(dateIssued);
+            appearance.setDateFrom(dateFrom);
+            appearance.setDateTo(dateTo);
 
             if(save.equals("SaveOnly")) {
                 appearanceService.save(appearance);
@@ -311,84 +305,73 @@ public class AppearanceController {
                                    Model model, HttpServletRequest httpServletRequest) throws URISyntaxException {
 
 
-       try{
-           Optional<Appearance> optionalAppearance = appearanceService.findById(appearanceDTO.getId());
+        try{
+            Optional<Appearance> optionalAppearance = appearanceService.findById(appearanceDTO.getId());
 
-           if(optionalAppearance.isPresent()){
-             Appearance appearance=new Appearance();
-             appearance.setId(appearanceDTO.getId());
-
-
-               LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
-               LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
-               LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
-
-               boolean isValid=validateDate(dateIssued,dateFrom,dateTo);
-
-               if(isValid){
-                   appearance.setDateIssued(dateIssued);
-                   appearance.setDateFrom(dateFrom);
-                   appearance.setDateTo(dateTo);
-               }else{
-                   editFormAppearanceDTO=appearanceDTO;
-                   redirectAttributes.addFlashAttribute("message","Invalid dating of appearance!");
-                   return String.format("redirect:/appearances/%d/appearance-history", visitorId);
-               }
+            if(optionalAppearance.isPresent()){
+                Appearance appearance=new Appearance();
+                appearance.setId(appearanceDTO.getId());
 
 
-             appearance.setDateIssued(LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter));
-             appearance.setDateFrom(LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter));
-             appearance.setDateTo(LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter));
+                LocalDate dateIssued=LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter);
+                LocalDate dateFrom = LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter);
+                LocalDate dateTo = LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter);
 
 
-               String purposeString =appearanceDTO.getPurpose();
+                appearance.setDateIssued(dateIssued);
+                appearance.setDateFrom(dateFrom);
+                appearance.setDateTo(dateTo);
 
-               if(purposeString.endsWith(".")){
-                   purposeString=purposeString.substring(0,purposeString.length()-1);
-               }
+                appearance.setDateIssued(LocalDate.parse(appearanceDTO.getDateIssued(),dateTimeFormatter));
+                appearance.setDateFrom(LocalDate.parse(appearanceDTO.getDateFrom(),dateTimeFormatter));
+                appearance.setDateTo(LocalDate.parse(appearanceDTO.getDateTo(),dateTimeFormatter));
 
-              appearance.setPurpose(purposeService.findByPurpose(purposeString).orElse(new Purpose(purposeString)));
+
+                String purposeString =appearanceDTO.getPurpose();
+
+                if(purposeString.endsWith(".")){
+                    purposeString=purposeString.substring(0,purposeString.length()-1);
+                }
+
+                appearance.setPurpose(purposeService.findByPurpose(purposeString).orElse(new Purpose(purposeString)));
 
 
 
-               Visitor visitor = visitorService.findById(visitorId).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + visitorId + " not found!"));
+                Visitor visitor = visitorService.findById(visitorId).orElseThrow(() -> new VisitorNotFoundException("Visitor with id: " + visitorId + " not found!"));
+                appearance.setVisitor(visitor);
+
+                if(save.equals("SaveOnly")) {
+                    appearanceService.save(appearance);
+                    redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
+                }else{
+                    Long appearanceId = appearanceService.save(appearance).getId();
+
+                    String referer=httpServletRequest.getHeader("Referer");
+
+                    model.addAttribute("referer",referer);
+                    return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
+
+                }
+                editFormAppearanceDTO = new AppearanceDTO();
+                redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
+            }else{
+                throw new AppearanceNotFoundException("Appearance not found!");
+
+            }
+        }catch (Exception ex){
+            redirectAttributes.addFlashAttribute("message", ex.getMessage());
 
 
-               appearance.setVisitor(visitor);
-               if(save.equals("SaveOnly")) {
-                   appearanceService.save(appearance);
-                   redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
-               }else{
-                   Long appearanceId = appearanceService.save(appearance).getId();
-
-                   String referer=httpServletRequest.getHeader("Referer");
-
-                   model.addAttribute("referer",referer);
-                   return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
-
-               }
-
-             editFormAppearanceDTO = new AppearanceDTO();
-
-             redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
-           }else{
-               throw new AppearanceNotFoundException("Appearance not found!");
-
-           }
-       }catch (Exception ex){
-           redirectAttributes.addFlashAttribute("message", ex.getMessage());
-
-
-       }
-       return String.format("redirect:/appearances/%d/appearance-history", visitorId);
-    }
-    private boolean validateDate(LocalDate dateIssued, LocalDate dateFrom, LocalDate dateTo){
-        if(dateFrom.equals(dateTo)) {
-            return !dateFrom.isBefore(dateIssued) && !dateTo.isBefore(dateIssued);
-        }else{
-            return dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued);
         }
+        return String.format("redirect:/appearances/%d/appearance-history", visitorId);
     }
+//    private boolean validateDate(LocalDate dateIssued, LocalDate dateFrom, LocalDate dateTo){
+//        if(dateFrom.equals(dateTo)) {
+//            return !dateFrom.isBefore(dateIssued) && !dateTo.isBefore(dateIssued);
+//        }else{
+//            return dateFrom.isAfter(dateTo) || dateFrom.isAfter(dateIssued);
+//        }
+//    }
 
 
 

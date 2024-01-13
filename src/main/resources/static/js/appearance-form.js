@@ -50,9 +50,9 @@
             changeMonth: true,
             changeYear : true,
             numberOfMonths: 1
-    }).datepicker("setDate",dateFrom.datepicker("getDate")).on("change", function(){
-       dateFrom.datepicker("option","maxDate",getDate(this));
-    });
+    }).datepicker("setDate",dateFrom.datepicker("getDate"));
+//    .on("change", function(){
+//       dateFrom.datepicker("option","maxDate",getDate(this));});
 
      function getDate(element){
         var date;

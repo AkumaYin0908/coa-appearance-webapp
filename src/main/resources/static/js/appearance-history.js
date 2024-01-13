@@ -65,8 +65,6 @@ $(document).ready(function(){
             changeMonth: true,
             changeYear : true,
             numberOfMonths: 1
-    }).on("change", function(){
-       dateFrom.datepicker("option","maxDate",getDate(this));
     });
 
      function getDate(element){

@@ -220,6 +220,9 @@ div#main-content{
      display :none;
   }
 
+#ui-datepicker-div {
+z-index: 10000 !important;
+}
 
 /*
 div.btn-add{
