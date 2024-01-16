@@ -212,13 +212,11 @@ div#main-content{
  }
 
 
- span#addModalMessageHolder{
+ span#addModalMessageHolder,span#editModalMessageHolder,span#changeModalMessageHolder{
     display :none;
  }
 
-  span#editModalMessageHolder{
-     display :none;
-  }
+
 
 #ui-datepicker-div {
 z-index: 10000 !important;

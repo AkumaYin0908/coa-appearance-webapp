@@ -33,13 +33,13 @@ public class AgencyServiceImpl  implements AgencyService {
     }
 
     @Override
-    public Optional<Agency> findBy(Long id) throws AgencyNotFoundException {
-        return agencyRepository.findById(id);
+    public Agency findBy(Long id) throws AgencyNotFoundException {
+        return agencyRepository.findById(id).orElseThrow(()->new AgencyNotFoundException("Agency not found!"));
     }
 
     @Override
-    public Optional<Agency> findAgencyByName(String name) throws AgencyNotFoundException {
-        return agencyRepository.findAgencyName(name);
+    public Agency findAgencyByName(String name){
+        return agencyRepository.findAgencyName(name).orElse(new Agency(name));
     }
 
     @Override

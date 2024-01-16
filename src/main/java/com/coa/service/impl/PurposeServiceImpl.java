@@ -17,8 +17,8 @@ public class PurposeServiceImpl implements PurposeService {
     private final PurposeRepository purposeRepository;
 
     @Override
-    public Optional<Purpose> findByPurpose(String purpose) {
-        return purposeRepository.findByPurpose(purpose);
+    public Purpose findByPurpose(String purpose) {
+        return purposeRepository.findByPurpose(purpose).orElse(new Purpose(purpose));
     }
 
     @Override

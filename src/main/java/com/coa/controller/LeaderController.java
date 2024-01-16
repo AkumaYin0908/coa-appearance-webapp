@@ -166,13 +166,10 @@ public class LeaderController {
     }
 
     @PostMapping("/leaders/changeLeader")
-    public String updateLeader(@RequestParam("leaderName") String currentLeaderName,@RequestParam("name")String name, RedirectAttributes redirectAttributes){
+    public String changeLeader(@RequestParam("leaderName") String currentLeaderName,@RequestParam("name")String name, RedirectAttributes redirectAttributes){
 
         try{
 
-
-            System.out.println(currentLeaderName);
-            System.out.println(name);
             Optional<Leader> optionalCurrentLeader=leaderService.findLeaderByName(currentLeaderName);
             Optional<Leader> optionalLeader = leaderService.findLeaderByName(name);
 
@@ -205,15 +202,10 @@ public class LeaderController {
     @GetMapping("/leaders/delete/{id}")
     public String deleteLeader(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         try{
-            Optional<Leader> optionalLeader=leaderService.findById(id);
-
-            if(optionalLeader.isPresent()){
-                Leader leader=optionalLeader.get();
-
-                String leaderName=leader.getName();
-                leaderService.deleteById(id);
-                redirectAttributes.addFlashAttribute("message", leaderName + " has been deleted.");
-            }
+            Leader leader =leaderService.findById(id);
+            String leaderName=leader.getName();
+            leaderService.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", leaderName + " has been deleted.");
 
         } catch (Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
@@ -226,15 +218,9 @@ public class LeaderController {
                                        RedirectAttributes redirectAttributes){
         try{
 
-            Optional<Leader> leaderOptional=leaderService.findById(id);
-            Leader leader;
-            String name="";
-            if(leaderOptional.isPresent()){
-                leader=leaderOptional.get();
-                name=leader.getName();
-            }else{
-                throw new LeaderNotFoundException("Leader with id no " + id + " not found!");
-            }
+            Leader leader  =leaderService.findById(id);
+
+            String name=leader.getName();
 
                 if(inCharge){
                     Long numOfIncharge=leaderService.countByInCharge();

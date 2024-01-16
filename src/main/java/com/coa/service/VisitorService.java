@@ -17,12 +17,9 @@ public interface VisitorService {
     Page<Visitor> findAll(Pageable pageable);
 
     List<Visitor> findAll();
-    Optional<Visitor> findById(Long id) throws VisitorNotFoundException;
-
-    Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException;
-
+    Visitor findById(Long id) throws VisitorNotFoundException;
+   VisitorDTO findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException;
    Optional<Visitor> findVisitorByName(String name) throws VisitorNotFoundException;
-
 
     Optional<Visitor> findVisitorByName(Long id, String name) throws VisitorNotFoundException;
 

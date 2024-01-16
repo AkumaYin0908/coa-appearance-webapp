@@ -23,9 +23,8 @@ public interface AppearanceService {
     List <Appearance> findAppearanceByVisitorAndDateIssued(Long id, LocalDate dateIssued);
 
 
-    Optional<Appearance> findById(Long id);
+    Appearance findById(Long id) throws AppearanceNotFoundException;
 
-    //Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name);
 
     AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException;
 

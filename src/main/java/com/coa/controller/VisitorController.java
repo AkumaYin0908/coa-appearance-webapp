@@ -123,37 +123,25 @@ public class VisitorController {
 
             }else{
 
-
                 Visitor visitor=new Visitor();
                 visitor.setName(visitorDTO.getName());
 
 
-                String position=visitorDTO.getPosition();
-                Optional<Position> tempPositionOptional=positionService.findPositionByName(position);
+                String visitorDTOPosition=visitorDTO.getPosition();
+                Position position=positionService.findPositionByName(visitorDTOPosition);
 
-                if(tempPositionOptional.isPresent()){
-                    visitor.setPosition(tempPositionOptional.get());
-                }else{
-                    visitor.setPosition(new Position(visitorDTO.getPosition()));
-                }
+                visitor.setPosition(position);
 
+                String visitorDTOAgency = visitorDTO.getAgency();
+                Agency agency=agencyService.findAgencyByName(visitorDTOAgency);
 
-                String agency = visitorDTO.getAgency();
-                Optional<Agency> tempAgencyOptional=agencyService.findAgencyByName(agency);
-
-                if(tempAgencyOptional.isPresent()){
-                    visitor.setAgency(tempAgencyOptional.get());
-                }else{
-                    visitor.setAgency(new Agency(visitorDTO.getAgency()));
-                }
-
+                visitor.setAgency(agency);
 
                 visitorService.save(visitor);
                 redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been added!");
             }
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
-            ex.printStackTrace();
         }
 
         return  String.format("redirect:/%s",direction);
@@ -162,15 +150,9 @@ public class VisitorController {
     @GetMapping("/visitors/delete/{id}")
     public String deleteVisitor(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
         try{
-           Optional<Visitor> optionalVisitor=visitorService.findById(id);
-
-            if(optionalVisitor.isPresent()){
-                Visitor visitor=optionalVisitor.get();
-
-                String visitorName=visitor.getName();
-                visitorService.deleteById(id);
-                redirectAttributes.addFlashAttribute("message", visitorName + " has been deleted.");
-            }
+            Visitor visitor =visitorService.findById(id);
+            visitorService.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been deleted.");
 
         } catch (Exception ex){
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
@@ -196,24 +178,16 @@ public class VisitorController {
                 visitor.setId(visitorDTO.getId());
                 visitor.setName(visitorDTO.getName());
 
-                String position=visitorDTO.getPosition();
-                Optional<Position> tempPositionOptional=positionService.findPositionByName(position);
+                String visitorDTOPosition=visitorDTO.getPosition();
+                Position position=positionService.findPositionByName(visitorDTOPosition);
 
-                if(tempPositionOptional.isPresent()){
-                    visitor.setPosition(tempPositionOptional.get());
-                }else{
-                    visitor.setPosition(new Position(visitorDTO.getPosition()));
-                }
+                visitor.setPosition(position);
 
 
-                String agency = visitorDTO.getAgency();
-                Optional<Agency> tempAgencyOptional=agencyService.findAgencyByName(agency);
+                String visitorDTOAgency = visitorDTO.getAgency();
+                Agency agency=agencyService.findAgencyByName(visitorDTOAgency);
 
-                if(tempAgencyOptional.isPresent()){
-                    visitor.setAgency(tempAgencyOptional.get());
-                }else{
-                    visitor.setAgency(new Agency(visitorDTO.getAgency()));
-                }
+                visitor.setAgency(agency);
 
                 visitorService.save(visitor);
                 editFormVisitorDTO=new VisitorDTO();

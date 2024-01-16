@@ -37,28 +37,23 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public Optional<Visitor> findById(Long id) throws VisitorNotFoundException {
-        return visitorRepository.findById(id);
+    public Visitor findById(Long id) throws VisitorNotFoundException {
+        return visitorRepository.findById(id).orElseThrow(()-> new VisitorNotFoundException("Visitor not found!"));
 
 
     }
 
     @Override
-    public Optional<VisitorDTO> findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException {
-        VisitorDTO visitorDTO = null;
-        Optional<Visitor> optionalVisitor=findById(id);
+    public VisitorDTO findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException {
 
-        if(optionalVisitor.isPresent()){
-            Visitor visitor=optionalVisitor.get();
-            visitorDTO=new VisitorDTO(
-                    visitor.getId(),
-                    visitor.getName(),
-                    visitor.getPosition().getName(),
-                    visitor.getAgency().getName()
-            );
-        }
+        Visitor visitor=findById(id);
 
-        return Optional.ofNullable(visitorDTO);
+        return new VisitorDTO(
+                visitor.getId(),
+                visitor.getName(),
+                visitor.getPosition().getName(),
+                visitor.getAgency().getName()
+        );
 
     }
 

@@ -1,6 +1,5 @@
 package com.coa.service.impl;
 
-import com.coa.exceptions.PositionNotFoundException;
 import com.coa.model.Position;
 import com.coa.repository.PositionRepository;
 import com.coa.service.PositionService;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -23,8 +21,8 @@ public class PositionServiceImpl implements PositionService {
 
 
     @Override
-    public Optional<Position> findPositionByName(String name) throws PositionNotFoundException {
-        return positionRepository.findPositionByName(name);
+    public Position findPositionByName(String name) {
+        return positionRepository.findPositionByName(name).orElse(new Position(name));
 
     }
 

@@ -68,9 +68,7 @@ public class DashboardController {
                 }
             }
 
-            Optional<Leader> leaderOptional = leaderService.findLeaderByInChargeStatus(true);
-            Leader leader;
-            leader = leaderOptional.orElse(null);
+            Leader leader = leaderService.findLeaderByInChargeStatus(true);
 
             List<String> leaderNames=leaderService.findAll()
                             .stream().map(Leader :: getName).toList();

@@ -6,10 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -105,22 +102,27 @@ public class AppearanceDTO {
             formattedDates.add(formattedStringDateRange(iteratorFrom.next(),iteratorTo.next()));
         }
 
-
+        Collections.reverse(formattedDates);
         if(formattedDates.size()<=1){
             return formattedDates.stream().findFirst().get();
         }else{
-            for(String formattedDate : formattedDates){
-                dateBuilder.append(formattedDate).append(", ");
-            }
-
-            dateBuilder.replace(dateBuilder.length()-2,dateBuilder.length()+1,"");
-            int lasComma=dateBuilder.lastIndexOf(",");
-            dateBuilder.replace(lasComma,lasComma+1, " &");
-
+//            for(int i=0;i<formattedDates.size();i++) {
+//
+//            if (i == formattedDates.size() - 1) {
+//                int lastComma=dateBuilder.lastIndexOf(", ");
+//                dateBuilder=new StringBuilder(dateBuilder.substring(0,lastComma));
+//                dateBuilder.append(" & ").append(formattedDates.get(i));
+//                continue;
+//            }
+//
+//           dateBuilder.append(formattedDates.get(i)).append(", ");
+//            }
+            return String.join(", ", formattedDates.subList(0, formattedDates.size() - 1))
+                    + " & " + formattedDates.get(formattedDates.size() - 1);
         }
 
 
-       return dateBuilder.toString();
+      // return dateBuilder.toString();
     }
 
     public String formattedStringDateRange(String dateFromString, String dateToString) {

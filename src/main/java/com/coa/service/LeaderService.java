@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,13 +22,12 @@ public interface LeaderService {
 
     Optional<Leader> findLeaderByName(Long id, String name) throws LeaderNotFoundException;
 
-
     Page<Leader> findAll(Pageable pageable);
 
     List<Leader> findAll();
-    Optional<Leader> findById(Long id) throws LeaderNotFoundException;
+    Leader findById(Long id) throws LeaderNotFoundException;
 
-    Optional<Leader> findLeaderByInChargeStatus(boolean inCharge) throws LeaderNotFoundException;
+    Leader findLeaderByInChargeStatus(boolean inCharge) throws LeaderNotFoundException;
 
 
     void updateInCharge(Long id, boolean inCharge);
