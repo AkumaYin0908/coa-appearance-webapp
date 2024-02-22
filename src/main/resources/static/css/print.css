@@ -30,11 +30,18 @@
     }
 
     .btn-panel{
-            position: absolute;
-            top:10%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 2px;
+          position: fixed; /* Fix position regardless of scrolling */
+          width : 100%;
+          left: 50%; /* Center horizontally */
+          transform: translateX(-50%); /* Center horizontally */
+          z-index: 999; /* Ensure it's above other elements */
+          background-color: rgba(0,71,171,0.8);
+          padding: 10px; /* Add padding for better appearance */
+    }
+
+    .icon{
+        width : 28px;
+
     }
 
 

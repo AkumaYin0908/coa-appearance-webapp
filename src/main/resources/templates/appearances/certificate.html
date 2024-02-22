@@ -17,12 +17,16 @@
 
   <script th:src="@{/js/certificate.js}" type="text/javascript"></script>
 
+
+
+
   <title th:text="${appearance.name}"></title>
 </head>
 <body>
 
 <div class="btn-panel  text-center">
-  <a th:href="${referer}" class="btn btn-danger">Return</a>
+  <a th:href="${referer}" class="btn btn-danger">Back</a>
+  <a th:href="@{/dashboard}" class="btn  btn-sm btn-outline-secondary"><img class="icon" th:src="@{/images/home.png}"> </a>
 </div>
 
 <div id="appearance">
@@ -200,6 +204,7 @@
 </div>
 
 
-
+<!--Font Awesome-->
+<script src="https://kit.fontawesome.com/0c170eb2fd.js" crossorigin="anonymous"></script>
 </body>
 </html>
