@@ -40,6 +40,7 @@ public class DashboardController {
     private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
 
+    private boolean error;
     @InitBinder
     public void getInitBinder(WebDataBinder webDataBinder){
         StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
@@ -76,10 +77,12 @@ public class DashboardController {
             model.addAttribute("addFormVisitorDTO", new VisitorDTO());
             loadAppearanceHistory(model,page,size);
             model.addAttribute("leaderNames",leaderNames);
+            model.addAttribute("error",error);
             model.addAttribute("leader",leader);
             model.addAttribute("visitors",visitors);
 
         }catch (Exception ex){
+            error =true;
             model.addAttribute("message", ex.getMessage());
             return "redirect:/dashboard";
 
@@ -111,6 +114,7 @@ public class DashboardController {
             model.addAttribute("totalPages",appearancePage.getTotalPages());
             model.addAttribute("pageSize",size);
         }catch(Exception ex){
+            error = true;
             model.addAttribute("message",ex.getMessage());
         }
     }

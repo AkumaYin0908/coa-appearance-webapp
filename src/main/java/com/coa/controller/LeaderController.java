@@ -35,6 +35,8 @@ public class LeaderController {
     @Value("${pageNums}")
     private List<Integer> pageNums;
 
+    private boolean error;
+
     @InitBinder
     public void getInitBinder(WebDataBinder webDataBinder){
         StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
@@ -77,6 +79,7 @@ public class LeaderController {
             model.addAttribute("addFormLeader",new Leader());
             model.addAttribute("editFormLeader",editFormLeader);
             model.addAttribute("leaderPositions",leaderPositions);
+            model.addAttribute("error",error);
             model.addAttribute("leaders",leaders);
             model.addAttribute("currentPage", leaderPage.getNumber() + 1);
             model.addAttribute("totalPages",leaderPage.getTotalPages());
@@ -86,6 +89,7 @@ public class LeaderController {
             model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
             model.addAttribute("pageNums", pageNums);
         }catch (Exception ex){
+            error=true;
             model.addAttribute("message", ex.getMessage());
         }
 
@@ -100,6 +104,7 @@ public class LeaderController {
             Optional<Leader> leaderOptional=leaderService.findLeaderByName(name);
 
             if(leaderOptional.isPresent()){
+                error =true;
                 redirectAttributes.addFlashAttribute("addModalMessage", "Leader's name already exists!");
                 return  "redirect:/settings/leaders";
 
@@ -111,14 +116,17 @@ public class LeaderController {
 
                     if(numOfIncharge == 1){
                         redirectAttributes.addFlashAttribute("addModalMessage", "There must be only one leader in charge!");
+                        error=true;
                         return "redirect:/settings/leaders";
                     }
                 }
 
                 leaderService.save(leader);
+                error=false;
                 redirectAttributes.addFlashAttribute("message", leader.getName() + " has been added!");
             }
         } catch (Exception ex) {
+            error =true;
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
             ex.printStackTrace();
         }
@@ -136,6 +144,7 @@ public class LeaderController {
 
             if(optionalLeader.isPresent()){
                 editFormLeader=leader;
+                error = true;
                 redirectAttributes.addFlashAttribute("editModalMessage", "Leader's name already exists!");
                 return  "redirect:/settings/Leaders";
             }else{
@@ -147,6 +156,7 @@ public class LeaderController {
 
                     if(numOfIncharge == 1){
                         editFormLeader=leader;
+                        error = true;
                         redirectAttributes.addFlashAttribute("editModalMessage", "There must be only one leader in charge!");
                         return "redirect:/settings/leaders";
                     }
@@ -154,10 +164,12 @@ public class LeaderController {
 
                 leaderService.save(leader);
                 editFormLeader=new Leader();
+                error = false;
                 redirectAttributes.addFlashAttribute("message", leader.getName() + " has been updated!");
             }
 
         }catch (Exception ex){
+            error=true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
 
         }
@@ -177,6 +189,7 @@ public class LeaderController {
 
                 Leader leader=optionalLeader.get();
                 if(leader.isInCharge()){
+                    error = true;
                     redirectAttributes.addFlashAttribute("changeModalMessage", "Already set as leader!");
                     return "redirect:/dashboard";
                 }
@@ -191,6 +204,7 @@ public class LeaderController {
             }
 
         }catch (Exception ex){
+            error =true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
 
         }
@@ -205,9 +219,11 @@ public class LeaderController {
             Leader leader =leaderService.findById(id);
             String leaderName=leader.getName();
             leaderService.deleteById(id);
+            error=false;
             redirectAttributes.addFlashAttribute("message", leaderName + " has been deleted.");
 
         } catch (Exception ex){
+            error =true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
         }
         return "redirect:/settings/leaders";
@@ -227,6 +243,7 @@ public class LeaderController {
 
 
                     if(numOfIncharge == 1){
+                        error =true;
                         redirectAttributes.addFlashAttribute("message", "There must be only one leader in charge!");
                         return "redirect:/settings/leaders";
                     }
@@ -236,9 +253,11 @@ public class LeaderController {
 
                 leaderService.updateInCharge(id,inCharge);
                 String status=inCharge?"assigned" : "unassigned";
+                error =false;
                 redirectAttributes.addFlashAttribute("message", String.format("%s has been %s as  leader!",name,status));
 
         }catch(Exception ex){
+                error =true;
                 redirectAttributes.addFlashAttribute("message", ex.getMessage());
                 ex.printStackTrace();
         }

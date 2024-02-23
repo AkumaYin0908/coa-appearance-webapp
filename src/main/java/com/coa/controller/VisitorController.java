@@ -37,6 +37,8 @@ public class VisitorController {
     @Value("${pageNums}")
     private List<Integer> pageNums;
 
+    private boolean error;
+
 
 
 
@@ -99,11 +101,13 @@ public class VisitorController {
             model.addAttribute("currentPage", visitorPage.getNumber() + 1);
             model.addAttribute("totalPages",visitorPage.getTotalPages());
             model.addAttribute("pageSize",size);
+            model.addAttribute("error",error);
             model.addAttribute("sortField", sortField);
             model.addAttribute("sortDirection", sortDirection);
             model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
             model.addAttribute("pageNums", pageNums);
         }catch (Exception ex){
+            error =true;
             model.addAttribute("message", ex.getMessage());
         }
 
@@ -118,10 +122,11 @@ public class VisitorController {
             Optional<Visitor> optionalVisitor=visitorService.findVisitorByName(name);
 
             if(optionalVisitor.isPresent()){
+                error =true;
                 redirectAttributes.addFlashAttribute("addModalMessage", "Visitor's name already exists!");
                 return  String.format("redirect:/%s",direction);
 
-            }else{
+            }
 
                 Visitor visitor=new Visitor();
                 visitor.setName(visitorDTO.getName());
@@ -138,9 +143,11 @@ public class VisitorController {
                 visitor.setAgency(agency);
 
                 visitorService.save(visitor);
+                error =false;
                 redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been added!");
-            }
+
         } catch (Exception ex) {
+            error =true;
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
 
@@ -152,9 +159,11 @@ public class VisitorController {
         try{
             Visitor visitor =visitorService.findById(id);
             visitorService.deleteById(id);
+            error = false;
             redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been deleted.");
 
         } catch (Exception ex){
+            error =true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
         }
         return "redirect:/visitors";
@@ -173,7 +182,8 @@ public class VisitorController {
                 editFormVisitorDTO=visitorDTO;
                 redirectAttributes.addFlashAttribute("editModalMessage", "Visitor's name already exists!");
                 return  "redirect:/visitors";
-            }else{
+            }
+
                 Visitor visitor=new Visitor();
                 visitor.setId(visitorDTO.getId());
                 visitor.setName(visitorDTO.getName());
@@ -191,10 +201,12 @@ public class VisitorController {
 
                 visitorService.save(visitor);
                 editFormVisitorDTO=new VisitorDTO();
+                error = false;
                 redirectAttributes.addFlashAttribute("message", visitor.getName() + " has been updated!");
-            }
+
 
         }catch (Exception ex){
+            error =true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
 
         }

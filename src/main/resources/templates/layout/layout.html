@@ -34,8 +34,20 @@
 </head>
 
 <body>
+<script th:inline = "javascript">
+    let error=/*[[${error}]]*/;
+    $(document).ready(function(){
+      if (error) {
+            $("#messageHolder").removeClass("alert-success").addClass("alert-danger");
+        } else {
+            $("#messageHolder").removeClass("alert-danger").addClass("alert-success");
+        }
 
-<div id="messageHolder" th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message mt-3"
+    });
+
+
+</script>
+<div id="messageHolder" th:if="${message != null}" class="alert alert-dismissible fade show text-center message mt-3"
      role="alert">
     <span id="message">[[${message}]]</span>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">

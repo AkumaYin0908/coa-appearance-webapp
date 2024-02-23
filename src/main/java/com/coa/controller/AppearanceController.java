@@ -47,6 +47,7 @@ public class AppearanceController {
     private final LeaderService leaderService;
 
     private Long visitorId;
+    private boolean error;
 
 
     private AppearanceDTO editFormAppearanceDTO = new AppearanceDTO();
@@ -106,6 +107,7 @@ public class AppearanceController {
             model.addAttribute("appearanceDTO", appearanceDTO);
             model.addAttribute("appearanceDTOS",appearanceDTOS);
             model.addAttribute("direction",direction);
+            model.addAttribute("error",error);
             model.addAttribute("visitorId",visitorId);
             model.addAttribute("visitorName",appearanceDTO.getName());
             model.addAttribute("dateIssued", strDateIssued);
@@ -113,6 +115,7 @@ public class AppearanceController {
 
 
         }catch (Exception ex){
+            error = true;
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
         return "appearances/appearance-form";
@@ -149,13 +152,16 @@ public class AppearanceController {
             Optional<Appearance> appearanceOptional=appearanceService.findByDateFromAndDateToAndName(appearance.getDateFrom(),appearance.getDateTo(),appearanceDTO.getName());
 
             if(appearanceOptional.isPresent()){
+                error=true;
                 String message = String.format("Appearance for %s appeared from %s to %s already exist!",
                         appearanceDTO.getName(),appearanceDTO.getDateFrom(),appearanceDTO.getDateTo());
+
                 redirectAttributes.addFlashAttribute("message",message);
                 return String.format("redirect:/appearances/appearance-form/%d", visitorId);
             }
 
             if(save.equals("SaveOnly")) {
+                error =false;
                 appearanceService.save(appearance);
                 redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
             }else{
@@ -167,8 +173,9 @@ public class AppearanceController {
                 return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
             }
         }catch(Exception ex){
+            error =true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
-            ex.printStackTrace();
+
         }
         return String.format("redirect:/appearances/appearance-form/%d", visitorId);
 
@@ -299,6 +306,7 @@ public class AppearanceController {
             model.addAttribute("pageNums",pageNums);
 
         }catch (Exception ex){
+            error=true;
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
         }
         return "appearances/appearance-history";
@@ -337,7 +345,7 @@ public class AppearanceController {
 
             if(save.equals("SaveOnly")) {
                 appearanceService.save(appearance);
-                redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
+                error =false;
             }else{
                 Long appearanceId = appearanceService.save(appearance).getId();
 
@@ -351,6 +359,7 @@ public class AppearanceController {
             redirectAttributes.addFlashAttribute("message", "Appearance   has been updated!");
 
         }catch (Exception ex){
+            error=true;
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
 
 
