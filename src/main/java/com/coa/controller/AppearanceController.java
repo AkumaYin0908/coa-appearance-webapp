@@ -146,6 +146,15 @@ public class AppearanceController {
             appearance.setDateFrom(dateFrom);
             appearance.setDateTo(dateTo);
 
+            Optional<Appearance> appearanceOptional=appearanceService.findByDateFromAndDateToAndName(appearance.getDateFrom(),appearance.getDateTo(),appearanceDTO.getName());
+
+            if(appearanceOptional.isPresent()){
+                String message = String.format("Appearance for %s appeared from %s to %s already exist!",
+                        appearanceDTO.getName(),appearanceDTO.getDateFrom(),appearanceDTO.getDateTo());
+                redirectAttributes.addFlashAttribute("message",message);
+                return String.format("redirect:/appearances/appearance-form/%d", visitorId);
+            }
+
             if(save.equals("SaveOnly")) {
                 appearanceService.save(appearance);
                 redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));

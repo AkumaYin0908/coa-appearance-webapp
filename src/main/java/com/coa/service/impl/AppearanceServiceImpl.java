@@ -176,4 +176,9 @@ public class AppearanceServiceImpl implements AppearanceService {
     public Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable) {
         return appearanceRepository.findAppearanceOrderByDateIssuedDESC(pageable);
     }
+
+    @Override
+    public Optional<Appearance> findByDateFromAndDateToAndName(LocalDate dateFrom, LocalDate dateTo, String name) {
+        return appearanceRepository.findByDateFromAndDateToAndName(dateFrom,dateTo,name);
+    }
 }

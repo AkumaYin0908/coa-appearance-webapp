@@ -58,6 +58,9 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
     @Query("SELECT a FROM Appearance a ORDER BY a.dateIssued DESC")
     Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable);
 
+    @Query("SELECT a FROM Appearance a WHERE a.dateFrom =:dateFrom AND a.dateTo = :dateTo AND a.visitor.name = :name")
+    Optional<Appearance>findByDateFromAndDateToAndName(@Param("dateFrom") LocalDate dateFrom, @Param("dateTo") LocalDate dateTo, @Param("name") String name);
+
 
     @Query("SELECT a FROM Appearance a WHERE a.visitor.name= :name")
     Optional<Appearance> findAppearanceByVisitorName(@Param("name") String name);

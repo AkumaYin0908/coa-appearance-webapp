@@ -62,6 +62,8 @@ public interface AppearanceService {
 
     Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable);
 
+    Optional<Appearance> findByDateFromAndDateToAndName(LocalDate dateFrom,LocalDate dateTo,String name);
+
 
 
 }
