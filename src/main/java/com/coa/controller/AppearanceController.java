@@ -2,8 +2,6 @@ package com.coa.controller;
 
 import com.coa.dto.AppearanceDTO;
 import com.coa.dto.VisitorDTO;
-import com.coa.exceptions.AppearanceNotFoundException;
-import com.coa.exceptions.LeaderNotFoundException;
 import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Leader;
@@ -515,7 +513,6 @@ public class AppearanceController {
      }catch (Exception ex){
 
          redirectAttributes.addFlashAttribute("message", ex.getMessage());
-         ex.printStackTrace();
          return String.format("redirect:%s",uri.getPath());
 
      }

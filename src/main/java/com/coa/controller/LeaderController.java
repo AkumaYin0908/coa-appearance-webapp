@@ -259,7 +259,7 @@ public class LeaderController {
         }catch(Exception ex){
                 error =true;
                 redirectAttributes.addFlashAttribute("message", ex.getMessage());
-                ex.printStackTrace();
+
         }
 
         return "redirect:/settings/leaders";
