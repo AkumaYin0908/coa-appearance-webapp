@@ -2,9 +2,11 @@ package com.coa.dto;
 
 
 import lombok.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -92,7 +94,7 @@ public class AppearanceDTO {
     }
 
     public String formatStringMultipleDate(Set<String> datesFrom, Set<String> datesTo) {
-        StringBuilder dateBuilder= new StringBuilder();
+
 
         Iterator<String> iteratorFrom=datesFrom.iterator();
         Iterator<String> iteratorTo=datesTo.iterator();
@@ -101,28 +103,104 @@ public class AppearanceDTO {
         while(iteratorFrom.hasNext() && iteratorTo.hasNext()){
             formattedDates.add(formattedStringDateRange(iteratorFrom.next(),iteratorTo.next()));
         }
+        StringBuilder builder= new StringBuilder();
+        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        List<LocalDate> dates = formattedDates.stream()
+                .map(dateStr ->LocalDate.parse(dateStr,dateTimeFormatter)).sorted().toList();
 
-        Collections.reverse(formattedDates);
-        if(formattedDates.size()<=1){
-            return formattedDates.stream().findFirst().get();
-        }else{
-//            for(int i=0;i<formattedDates.size();i++) {
-//
-//            if (i == formattedDates.size() - 1) {
-//                int lastComma=dateBuilder.lastIndexOf(", ");
-//                dateBuilder=new StringBuilder(dateBuilder.substring(0,lastComma));
-//                dateBuilder.append(" & ").append(formattedDates.get(i));
-//                continue;
-//            }
-//
-//           dateBuilder.append(formattedDates.get(i)).append(", ");
-//            }
-            return String.join(", ", formattedDates.subList(0, formattedDates.size() - 1))
-                    + " & " + formattedDates.get(formattedDates.size() - 1);
+        for (int i = 0; i < dates.size(); i++) {
+
+            if (i < dates.size() - 1) {
+                LocalDate date1 = dates.get(i);
+                Month month = date1.getMonth();
+                int year = date1.getYear();
+                String monthStr = month.name().charAt(0) + month.name().substring(1).toLowerCase();
+
+                if (year == dates.get(i + 1).getYear()) {
+                    if (i == 0) {
+                        builder.append(monthStr).append(" ")
+                                .append(date1.getDayOfMonth());
+
+                    } else {
+                        LocalDate date2 = dates.get(i-1);
+                        if (month.equals(date2.getMonth())) {
+                            builder.append(", ").append(date1.getDayOfMonth());
+
+                        } else {
+                            builder.append(", ").append(monthStr).append(" ")
+                                    .append(date1.getDayOfMonth());
+                        }
+                    }
+
+                } else {
+                    if (i == 0) {
+                        builder.append(monthStr)
+                                .append(" ")
+                                .append(date1.getDayOfMonth())
+                                .append(", ")
+                                .append(year);
+                    } else {
+                        builder.append(" & ")
+                                .append(monthStr)
+                                .append(" ")
+                                .append(date1.getDayOfMonth())
+                                .append(", ")
+                                .append(year);
+                    }
+                }
+            } else {
+                LocalDate date1 = dates.get(i - 1);
+                LocalDate date2 = dates.get(i);
+
+                int year = date2.getYear();
+                Month month = date2.getMonth();
+                String monthStr = month.name().charAt(0) + month.name().substring(1).toLowerCase();
+
+                if (year == date1.getYear()) {
+                    if (month.equals(date1.getMonth())) {
+                        builder.append(" & ").append(date2.getDayOfMonth()).append(", ").append(year);
+                    } else {
+                        builder.append(" & ").append(monthStr).append(" ").append(date2.getDayOfMonth()).append(", ").append(year);
+                    }
+                } else {
+                    builder.append(date1.getYear())
+                            .append(" & ")
+                            .append(monthStr)
+                            .append(" ")
+                            .append(date2.getDayOfMonth())
+                            .append(", ")
+                            .append(year);
+                }
+
+            }
+
         }
 
+        return builder.toString();
 
-      // return dateBuilder.toString();
+
+
+//        Collections.reverse(formattedDates);
+//        if(formattedDates.size()<=1){
+//            return formattedDates.stream().findFirst().get();
+//        }else{
+////            for(int i=0;i<formattedDates.size();i++) {
+////
+////            if (i == formattedDates.size() - 1) {
+////                int lastComma=dateBuilder.lastIndexOf(", ");
+////                dateBuilder=new StringBuilder(dateBuilder.substring(0,lastComma));
+////                dateBuilder.append(" & ").append(formattedDates.get(i));
+////                continue;
+////            }
+////
+////           dateBuilder.append(formattedDates.get(i)).append(", ");
+////            }
+//            return String.join(", ", formattedDates.subList(0, formattedDates.size() - 1))
+//                    + " & " + formattedDates.get(formattedDates.size() - 1);
+//        }
+//
+//
+//      // return dateBuilder.toString();
     }
 
     public String formattedStringDateRange(String dateFromString, String dateToString) {
