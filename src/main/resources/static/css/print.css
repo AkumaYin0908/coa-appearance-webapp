@@ -159,6 +159,7 @@
         color: #fff;
         background-color: #000;
         page-break-after: always;
+        margin: 0px;
     }
 
 
@@ -249,8 +250,9 @@
     }
 
     @page{
-        size: Letter;
-        margin: 0.5in !important;
+        size: auto;
+        /*margin: 0.5in !important;*/
+        margin: 12.7mm !important;
 
     }
 
