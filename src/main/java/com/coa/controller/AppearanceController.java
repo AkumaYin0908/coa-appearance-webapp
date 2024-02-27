@@ -48,6 +48,9 @@ public class AppearanceController {
     private boolean error;
 
 
+
+
+
     private AppearanceDTO editFormAppearanceDTO = new AppearanceDTO();
     @Value("${pageNums}")
     private List<Integer> pageNums;
@@ -67,12 +70,12 @@ public class AppearanceController {
 
     @GetMapping("/appearance-form/{id}")
     public String showAppearanceForm(@PathVariable("id")Long id,@RequestParam(defaultValue = "dashboard",name = "direction") String direction,
-                                     @RequestParam(name="dateIssued",required = false) String strDateIssued, Model model,RedirectAttributes redirectAttributes){
+                                     @RequestParam(name="dateIssued",required = false) String strDateIssued,
+                                     @RequestParam(name="isMultipleDate",defaultValue = "false",required = false)String isMultipleDate, Model model,RedirectAttributes redirectAttributes){
         try{
 
 
             Visitor visitor = visitorService.findById(id);
-
             strDateIssued=dateTimeFormatter.format(LocalDate.now());
 
             visitorId=id;
@@ -110,6 +113,8 @@ public class AppearanceController {
             model.addAttribute("visitorName",appearanceDTO.getName());
             model.addAttribute("dateIssued", strDateIssued);
             model.addAttribute("purposes",purposes);
+            model.addAttribute("isMultipleDate",isMultipleDate);
+
 
 
         }catch (Exception ex){
@@ -160,22 +165,27 @@ public class AppearanceController {
 
             if(save.equals("SaveOnly")) {
                 error =false;
+
                 appearanceService.save(appearance);
+                redirectAttributes.addFlashAttribute("isMultipleDate",true);
                 redirectAttributes.addFlashAttribute("message", String.format("New appearance has been made for %s!", appearanceDTO.getName()));
+                return String.format("redirect:/appearances/appearance-form/%d?isMultipleDate=%b",visitorId,true);
             }else{
+
                 Long appearanceId = appearanceService.save(appearance).getId();
 
                 String referer=httpServletRequest.getHeader("Referer");
 
                 model.addAttribute("referer",referer);
                 return String.format("redirect:/appearances/certificate?appearance=%d",appearanceId);
+
             }
         }catch(Exception ex){
             error =true;
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
 
         }
-        return String.format("redirect:/appearances/appearance-form/%d", visitorId);
+        return String.format("redirect:/appearances/appearance-form/%d",visitorId);
 
     }
 

@@ -112,7 +112,7 @@
         </div>
 
 
-            <div class="card mt-4 mb-4">
+            <div th:if ="${isMultipleDate}" class="card mt-4 mb-4">
                 <div class="card-body">
                    <div th:if="${appearanceDTOS.size() > 0}">
                        <table id="table" class="table">
