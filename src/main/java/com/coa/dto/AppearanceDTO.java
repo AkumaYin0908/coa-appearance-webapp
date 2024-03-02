@@ -32,8 +32,6 @@ public class AppearanceDTO {
     private String dateAppeared;
 
 
-
-
     public AppearanceDTO(Long id, String dateIssued, String dateFrom, String dateTo, String purpose) {
         this.id = id;
         this.dateIssued = dateIssued;
@@ -60,34 +58,33 @@ public class AppearanceDTO {
     }
 
 
+    private String getFormattedDateRange(String dateFromString, String dateToString) {
 
-    private String getFormattedDateRange(String dateFromString, String dateToString){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        LocalDate dateFrom = LocalDate.parse(dateFromString, dateTimeFormatter);
+        LocalDate dateTo = LocalDate.parse(dateToString, dateTimeFormatter);
+        String firstDate = "";
+        String lastDate = "";
 
-        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-        LocalDate dateFrom=LocalDate.parse(dateFromString,dateTimeFormatter);
-        LocalDate dateTo=LocalDate.parse(dateToString, dateTimeFormatter);
-        String firstDate ="";
-        String lastDate="";
+        String formattedDateRange = "";
 
-        String formattedDateRange="";
+        LocalDate[] dates = {dateFrom, dateTo};
 
-        LocalDate[]dates={dateFrom,dateTo};
+        if (dateFrom.getMonth().equals(dateTo.getMonth())) {
+            if (dateFrom.equals(dateTo)) {
+                formattedDateRange = dateTimeFormatter.format(dateFrom);
+            } else {
+                DateTimeFormatter firstDayFormat = DateTimeFormatter.ofPattern("MMMM d");
+                DateTimeFormatter lastDayFormat = DateTimeFormatter.ofPattern("d, yyyy");
 
-        if(dateFrom.getMonth().equals(dateTo.getMonth())){
-            if(dateFrom.equals(dateTo)){
-                formattedDateRange=dateTimeFormatter.format(dateFrom);
-            }else{
-                DateTimeFormatter firstDayFormat= DateTimeFormatter.ofPattern("MMMM d");
-                DateTimeFormatter lastDayFormat= DateTimeFormatter.ofPattern("d, yyyy");
-
-                firstDate=firstDayFormat.format(dates[0]);
-                lastDate=lastDayFormat.format(dates[1]);
-                formattedDateRange=String.format("%s - %s",firstDate,lastDate);
+                firstDate = firstDayFormat.format(dates[0]);
+                lastDate = lastDayFormat.format(dates[1]);
+                formattedDateRange = String.format("%s - %s", firstDate, lastDate);
             }
-        }else{
-            firstDate=dateTimeFormatter.format(dates[0]);
-            lastDate=dateTimeFormatter.format(dates[1]);
-            formattedDateRange=String.format("%s - %s",firstDate,lastDate);
+        } else {
+            firstDate = dateTimeFormatter.format(dates[0]);
+            lastDate = dateTimeFormatter.format(dates[1]);
+            formattedDateRange = String.format("%s - %s", firstDate, lastDate);
         }
 
         return formattedDateRange;
@@ -96,17 +93,18 @@ public class AppearanceDTO {
     public String formatStringMultipleDate(Set<String> datesFrom, Set<String> datesTo) {
 
 
-        Iterator<String> iteratorFrom=datesFrom.iterator();
-        Iterator<String> iteratorTo=datesTo.iterator();
+        Iterator<String> iteratorFrom = datesFrom.iterator();
+        Iterator<String> iteratorTo = datesTo.iterator();
 
-        List<String> formattedDates=new ArrayList<>();
-        while(iteratorFrom.hasNext() && iteratorTo.hasNext()){
-            formattedDates.add(formattedStringDateRange(iteratorFrom.next(),iteratorTo.next()));
+        List<String> formattedDates = new ArrayList<>();
+        while (iteratorFrom.hasNext() && iteratorTo.hasNext()) {
+            formattedDates.add(formattedStringDateRange(iteratorFrom.next(), iteratorTo.next()));
         }
-        StringBuilder builder= new StringBuilder();
-        DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        StringBuilder builder = new StringBuilder();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         List<LocalDate> dates = formattedDates.stream()
-                .map(dateStr ->LocalDate.parse(dateStr,dateTimeFormatter)).sorted().toList();
+                .map(dateStr -> LocalDate.parse(dateStr, dateTimeFormatter)).sorted().toList();
+
 
         for (int i = 0; i < dates.size(); i++) {
 
@@ -122,7 +120,7 @@ public class AppearanceDTO {
                                 .append(date1.getDayOfMonth());
 
                     } else {
-                        LocalDate date2 = dates.get(i-1);
+                        LocalDate date2 = dates.get(i - 1);
                         if (month.equals(date2.getMonth())) {
                             builder.append(", ").append(date1.getDayOfMonth());
 
@@ -163,8 +161,7 @@ public class AppearanceDTO {
                         builder.append(" & ").append(monthStr).append(" ").append(date2.getDayOfMonth()).append(", ").append(year);
                     }
                 } else {
-                    builder.append(date1.getYear())
-                            .append(" & ")
+                    builder.append(" & ")
                             .append(monthStr)
                             .append(" ")
                             .append(date2.getDayOfMonth())
@@ -177,7 +174,6 @@ public class AppearanceDTO {
         }
 
         return builder.toString();
-
 
 
 //        Collections.reverse(formattedDates);
@@ -204,7 +200,7 @@ public class AppearanceDTO {
     }
 
     public String formattedStringDateRange(String dateFromString, String dateToString) {
-        return getFormattedDateRange(dateFromString,dateToString);
+        return getFormattedDateRange(dateFromString, dateToString);
     }
 
     public String joinPurpose(Set<String> purposes) {
@@ -212,16 +208,16 @@ public class AppearanceDTO {
         StringBuilder purposeBuilder = new StringBuilder();
 
 
-        if(purposes.size() <=1){
-           return purposes.stream().findFirst().get();
-        }else{
-            for(String purpose : purposes){
+        if (purposes.size() <= 1) {
+            return purposes.stream().findFirst().get();
+        } else {
+            for (String purpose : purposes) {
                 purposeBuilder.append(purpose).append(", ");
             }
 
-            purposeBuilder.replace(purposeBuilder.length()-2, purposeBuilder.length()+1,"");
-            int lastComma=purposeBuilder.lastIndexOf(",");
-            purposeBuilder.replace(lastComma, lastComma+1, " &");
+            purposeBuilder.replace(purposeBuilder.length() - 2, purposeBuilder.length() + 1, "");
+            int lastComma = purposeBuilder.lastIndexOf(",");
+            purposeBuilder.replace(lastComma, lastComma + 1, " &");
 
             return purposeBuilder.toString();
         }
@@ -230,7 +226,7 @@ public class AppearanceDTO {
     }
 
     public String getDateAppeared() {
-        return getFormattedDateRange(dateFrom,dateTo);
+        return getFormattedDateRange(dateFrom, dateTo);
     }
 
 
