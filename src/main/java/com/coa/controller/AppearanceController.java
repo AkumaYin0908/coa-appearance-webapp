@@ -482,6 +482,10 @@ public class AppearanceController {
              appearances.add(appearanceService.findById(appearanceId));
          }
 
+         if(appearances.size() == 1){
+             return String.format("redirect:/appearances/certificate?appearance=%d",appearances.get(0).getId());
+         }
+
          List<AppearanceDTO> appearanceDTOS = appearances.stream()
                  .map(appearance -> new AppearanceDTO(
                          appearance.getDateFrom().format(dateTimeFormatter),
