@@ -6,6 +6,7 @@ import com.coa.repository.LeaderRepository;
 import com.coa.service.LeaderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class LeaderServiceImpl implements LeaderService {
 
     private final LeaderRepository leaderRepository;
+
+    @Cacheable(value = "leader")
     @Override
     public Page<Leader> findByNameContainingIgnoreCase(String name, Pageable pageable) {
         return leaderRepository.findByNameContainingIgnoreCase(name,pageable);
@@ -34,11 +37,13 @@ public class LeaderServiceImpl implements LeaderService {
         return leaderRepository.findLeaderByName(id,name);
     }
 
+    @Cacheable(value = "leader")
     @Override
     public Page<Leader> findAll(Pageable pageable)  {
         return leaderRepository.findAll(pageable);
     }
 
+    @Cacheable(value = "leader")
     @Override
     public List<Leader> findAll() {
         return leaderRepository.findAll();

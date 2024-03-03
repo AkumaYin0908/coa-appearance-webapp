@@ -5,6 +5,7 @@ import com.coa.repository.PositionRepository;
 import com.coa.service.PositionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,13 @@ public class PositionServiceImpl implements PositionService {
 
     }
 
+    @Cacheable(value = "position")
     @Override
     public Page<Position> findAll(Pageable pageable) {
        return positionRepository.findAll(pageable);
     }
 
+    @Cacheable(value = "position")
     @Override
     public List<Position> findAll() {
        return positionRepository.findAll();

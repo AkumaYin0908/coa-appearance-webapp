@@ -5,6 +5,7 @@ import com.coa.repository.PurposeRepository;
 import com.coa.service.PurposeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class PurposeServiceImpl implements PurposeService {
         return purposeRepository.findByPurpose(purpose).orElse(new Purpose(purpose));
     }
 
+    @Cacheable(value = "purpose")
     @Override
     public List<Purpose> findAll() {
         return purposeRepository.findAll();

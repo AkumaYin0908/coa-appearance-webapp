@@ -7,6 +7,7 @@ import com.coa.repository.VisitorRepository;
 import com.coa.service.VisitorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,17 +21,21 @@ public class VisitorServiceImpl implements VisitorService {
 
     private final VisitorRepository visitorRepository;
 
+
+    @Cacheable(value = "visitor")
     @Override
     public Page<Visitor> findByNameContainingIgnoreCase(String name, Pageable pageable) {
         return visitorRepository.findByNameContainingIgnoreCase(name,pageable);
 
     }
 
+    @Cacheable(value = "visitor")
     @Override
     public Page<Visitor> findAll(Pageable pageable) {
         return visitorRepository.findAll(pageable);
     }
 
+    @Cacheable(value = "visitor")
     @Override
     public List<Visitor> findAll() {
         return visitorRepository.findAll();

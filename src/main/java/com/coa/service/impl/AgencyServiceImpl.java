@@ -8,6 +8,7 @@ import com.coa.repository.AgencyRepository;
 import com.coa.service.AgencyService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,14 @@ public class AgencyServiceImpl  implements AgencyService {
 
     private final AgencyRepository agencyRepository;
 
+    @Cacheable(value = "agency")
     @Override
     public Page<Agency> findAll(Pageable pageable) {
         return agencyRepository.findAll(pageable) ;
     }
 
+
+    @Cacheable(value = "agency")
     @Override
     public List<Agency> findAll() {
         return agencyRepository.findAll();
