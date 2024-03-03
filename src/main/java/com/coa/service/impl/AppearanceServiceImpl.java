@@ -65,29 +65,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         return appearanceRepository.findById(id).orElseThrow(()->new AppearanceNotFoundException("Appearance not found!"));
     }
 
-//    @Override
-//    public Optional<AppearanceDTO> findAndMapToAppearanceDTO(String name) {
-//        Optional<Appearance> appearanceOptional=appearanceRepository.findAppearanceByVisitorName(name);
-//        Optional<AppearanceDTO> appearanceDTOOptional;
-//        if(appearanceOptional.isPresent()){
-//            Appearance appearance = appearanceOptional.get();
-//            AppearanceDTO appearanceDTO=new AppearanceDTO(
-//                    appearance.getId(),
-//                    appearance.getVisitor().getName(),
-//                    appearance.getVisitor().getPosition().getName(),
-//                    appearance.getVisitor().getAgency().getName(),
-//                    appearance.getDateIssued().format(dateTimeFormatter),
-//                    appearance.getDateFrom().format(dateTimeFormatter),
-//                    appearance.getDateTo().format(dateTimeFormatter),
-//                    appearance.getPurpose().getPurpose());
-//
-//            appearanceDTOOptional=Optional.of(appearanceDTO);
-//
-//        }else{
-//            appearanceDTOOptional=Optional.empty();
-//        }
-//        return appearanceDTOOptional;
-//    }
+
 
     @Override
     public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException {
