@@ -22,7 +22,6 @@ public class PurposeServiceImpl implements PurposeService {
         return purposeRepository.findByPurpose(purpose).orElse(new Purpose(purpose));
     }
 
-    @Cacheable(value = "purpose")
     @Override
     public List<Purpose> findAll() {
         return purposeRepository.findAll();

@@ -21,26 +21,26 @@ public class AgencyServiceImpl  implements AgencyService {
 
     private final AgencyRepository agencyRepository;
 
-    @Cacheable(value = "agency")
+
     @Override
     public Page<Agency> findAll(Pageable pageable) {
         return agencyRepository.findAll(pageable) ;
     }
 
 
-    @Cacheable(value = "agency")
+
     @Override
     public List<Agency> findAll() {
         return agencyRepository.findAll();
     }
 
-    @Cacheable(value = "agency")
+
     @Override
     public Agency findBy(Long id) throws AgencyNotFoundException {
         return agencyRepository.findById(id).orElseThrow(()->new AgencyNotFoundException("Agency not found!"));
     }
 
-    @Cacheable(value = "agency")
+
     @Override
     public Agency findAgencyByName(String name){
         return agencyRepository.findAgencyName(name).orElse(new Agency(name));

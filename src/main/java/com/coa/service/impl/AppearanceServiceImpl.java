@@ -8,9 +8,6 @@ import com.coa.repository.AppearanceRepository;
 import com.coa.service.AppearanceService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,25 +30,24 @@ public class AppearanceServiceImpl implements AppearanceService {
     private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findByVisitorNameContainingIgnoreCase(String name, Pageable pageable) {
         return  appearanceRepository.findByVisitorNameContainingIgnoreCase(name,pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findAll(Pageable pageable) {
         return appearanceRepository.findAll(pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public List<Appearance> listAll() {
      return appearanceRepository.findAll();
     }
 
-    @CachePut(value = "appearance")
     @Override
     public List<Appearance> findAppearanceByVisitorAndDateIssued(Long id, LocalDate dateIssued) {
         return appearanceRepository.findAppearanceByVisitorAndDateIssued(id,dateIssued);
@@ -62,7 +58,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         appearanceRepository.saveAllAndFlush(appearances);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Appearance findById(Long id) throws AppearanceNotFoundException {
         return appearanceRepository.findById(id).orElseThrow(()->new AppearanceNotFoundException("Appearance not found!"));
@@ -70,7 +66,7 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
 
-    @Cacheable(value = "appearance")
+
     @Override
     public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException {
        Optional<Appearance> appearanceOptional = appearanceRepository.findById(id);
@@ -97,12 +93,12 @@ public class AppearanceServiceImpl implements AppearanceService {
         return appearanceDTO;
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findAppearanceByVisitor(Visitor visitor,  Pageable pageable) {
         return appearanceRepository.findAppearanceByVisitor(visitor,pageable);
     }
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findByDateIssued(LocalDate dateIssued, Visitor visitor, Pageable pageable) {
         return appearanceRepository.findByDateIssued(dateIssued, visitor, pageable);
@@ -116,68 +112,68 @@ public class AppearanceServiceImpl implements AppearanceService {
         return appearanceRepository.saveAndFlush(appearance);
     }
 
-    @CacheEvict(value = "appearance",allEntries = true)
+
     @Override
     @Transactional
     public void deleteById(Long id) {
         appearanceRepository.deleteById(id);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findByPurposeContainingIgnoreCase(String purpose, Visitor visitor,Pageable pageable) {
         return appearanceRepository.findByPurposeContainingIgnoreCase(purpose,visitor,pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findAppearanceByMonthDateIssued(Integer month, Visitor visitor, Pageable pageable) {
         return appearanceRepository.findAppearanceByMonthDateIssued(month, visitor, pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findAppearanceByYearDateIssued(Integer year,Visitor visitor, Pageable pageable) {
        return appearanceRepository.findAppearanceByYearDateIssued(year, visitor, pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findByPurposeAndMonthAndYearContainingIgnoreCase(String purpose, Integer month, Integer year,Visitor visitor, Pageable pageable) {
         return appearanceRepository.findByPurposeAndMonthAndYearContainingIgnoreCase(purpose, month, year, visitor, pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findAppearanceByMonthAndYearDateIssued(Integer month, Integer year, Visitor visitor, Pageable pageable) {
         return appearanceRepository.findAppearanceByMonthAndYearDateIssued(month, year, visitor, pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findByPurposeAndMonthContainingIgnoreCase(String purpose, Integer month, Visitor visitor, Pageable pageable) {
         return appearanceRepository.findByPurposeAndMonthContainingIgnoreCase(purpose, month, visitor, pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Page<Appearance> findByPurposeAndYearContainingIgnoreCase(String purpose, Integer year, Visitor visitor,Pageable pageable) {
         return appearanceRepository.findByPurposeAndYearContainingIgnoreCase(purpose, year, visitor, pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public List<Integer> findAllDistinctYear() {
         return appearanceRepository.findAllDistinctYear();
     }
 
-    @CachePut(value = "appearance")
+
     @Override
     public Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable) {
         return appearanceRepository.findAppearanceOrderByDateIssuedDESC(pageable);
     }
 
-    @Cacheable(value = "appearance")
+
     @Override
     public Optional<Appearance> findByDateFromAndDateToAndName(LocalDate dateFrom, LocalDate dateTo, String name) {
         return appearanceRepository.findByDateFromAndDateToAndName(dateFrom,dateTo,name);

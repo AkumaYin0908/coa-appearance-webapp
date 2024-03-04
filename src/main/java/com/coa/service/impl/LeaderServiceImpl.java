@@ -22,7 +22,7 @@ public class LeaderServiceImpl implements LeaderService {
 
     private final LeaderRepository leaderRepository;
 
-    @Cacheable(value = "leader")
+
     @Override
     public Page<Leader> findByNameContainingIgnoreCase(String name, Pageable pageable) {
         return leaderRepository.findByNameContainingIgnoreCase(name,pageable);
@@ -38,13 +38,13 @@ public class LeaderServiceImpl implements LeaderService {
         return leaderRepository.findLeaderByName(id,name);
     }
 
-    @Cacheable(value = "leader")
+
     @Override
     public Page<Leader> findAll(Pageable pageable)  {
         return leaderRepository.findAll(pageable);
     }
 
-    @Cacheable(value = "leader")
+
     @Override
     public List<Leader> findAll() {
         return leaderRepository.findAll();
@@ -84,7 +84,6 @@ public class LeaderServiceImpl implements LeaderService {
     }
 
 
-    @CacheEvict(value = "leader",allEntries = true)
     @Override
     @Transactional
     public void deleteById(Long id) {

@@ -27,13 +27,13 @@ public class PositionServiceImpl implements PositionService {
 
     }
 
-    @Cacheable(value = "position")
+
     @Override
     public Page<Position> findAll(Pageable pageable) {
        return positionRepository.findAll(pageable);
     }
 
-    @Cacheable(value = "position")
+
     @Override
     public List<Position> findAll() {
        return positionRepository.findAll();

@@ -23,20 +23,20 @@ public class VisitorServiceImpl implements VisitorService {
     private final VisitorRepository visitorRepository;
 
 
-    @Cacheable(value = "visitor")
+
     @Override
     public Page<Visitor> findByNameContainingIgnoreCase(String name, Pageable pageable) {
         return visitorRepository.findByNameContainingIgnoreCase(name,pageable);
 
     }
 
-    @Cacheable(value = "visitor")
+
     @Override
     public Page<Visitor> findAll(Pageable pageable) {
         return visitorRepository.findAll(pageable);
     }
 
-    @Cacheable(value = "visitor")
+
     @Override
     public List<Visitor> findAll() {
         return visitorRepository.findAll();
@@ -81,7 +81,7 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
 
-    @CacheEvict(value = "visitor",allEntries = true)
+
     @Override
     @Transactional
     public void deleteById(Long id) {
