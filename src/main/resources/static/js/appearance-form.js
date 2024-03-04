@@ -129,5 +129,20 @@
 //     });
 //    }
 
+$("#appearanceDetailsButton").on("click",function(event){
+    event.preventDefault();
+    let dateIssued = $("#dateIssued").val();
+    let dateFrom = $("#dateFrom").val();
+    let dateTo = $("#dateTo").val();
+    let purpose = $("#purposeTextArea").val();
+
+    $("#dateIssuedDetail").text(dateIssued);
+    $("#dateFromDetail").text(dateFrom);
+    $("#dateToDetail").text(dateTo);
+    $("#purposeDetail").text(purpose);
+
+    $("#appearanceDetailsModal").modal("show");
+});
+
 
 });

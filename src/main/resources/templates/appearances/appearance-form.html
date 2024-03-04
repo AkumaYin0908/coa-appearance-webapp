@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
@@ -27,6 +26,8 @@
 
         });
 
+
+
     </script>
 
     <div class="col-lg-8 col-md-8 align-self-center container-fluid my-5" id="appearanceForm">
@@ -37,116 +38,171 @@
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <h2 class="text-light"  id="visitorName" th:text="*{name}"></h2>
+                                <h2 class="text-light" id="visitorName" th:text="*{name}"></h2>
                             </div>
                             <div class="col">
                                 <h6 class="text-secondary mb-0" id="visitorPosition" th:text="*{position}"></h6>
-                                <h6 class="text-secondary"   id="visitorAgency" th:text="*{agency}"></h6>
+                                <h6 class="text-secondary" id="visitorAgency" th:text="*{agency}"></h6>
                             </div>
 
                         </div>
-                </div>
-               <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group ">
-                                <input type="hidden" th:field="*{id}" id="appearanceId">
-                                <input type="hidden" th:field="*{name}" id="appearanceName">
-                                <input type="hidden" th:field="*{position}" id="appearancePosition">
-                                <input type="hidden" th:field="*{agency}" id="appearanceAgency">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="md-form form-floating mb-3 ui-front">
-                                            <input type="text" name="dateIssued" th:field="*{dateIssued}" class="form-control" id="dateIssued"
-                                            placeholder="Date Issued">
-                                            <label class="text-secondary" for="dateIssued">Date Issued</label>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group ">
+                                    <input type="hidden" th:field="*{id}" id="appearanceId">
+                                    <input type="hidden" th:field="*{name}" id="appearanceName">
+                                    <input type="hidden" th:field="*{position}" id="appearancePosition">
+                                    <input type="hidden" th:field="*{agency}" id="appearanceAgency">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-floating mb-3 ui-front">
+                                                <input type="text" name="dateIssued" th:field="*{dateIssued}"
+                                                       class="form-control" id="dateIssued"
+                                                       placeholder="Date Issued">
+                                                <label class="text-secondary" for="dateIssued">Date Issued</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col offset-md-1">
+                                            <div class="md-form form-floating mb-3 ui-front">
+                                                <input type="text" th:field="*{dateFrom}" class="form-control"
+                                                       id="dateFrom"
+                                                       placeholder="From">
+                                                <label class="text-secondary" for="dateFrom">From</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="md-form form-floating mb-3 ui-front">
+                                                <input type="text" th:field="*{dateTo}" class="form-control" id="dateTo"
+                                                       placeholder="To">
+                                                <label class="text-secondary" for="dateTo">To</label>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col offset-md-1">
-                                        <div class="md-form form-floating mb-3 ui-front">
-                                            <input type="text" th:field="*{dateFrom}" class="form-control" id="dateFrom"
-                                            placeholder="From">
-                                            <label class="text-secondary" for="dateFrom">From</label>
-                                        </div>
+                                    <div class="md-form form-floating mb-3">
+                                        <textarea class="form-control" th:field="*{purpose}" required minlength="5"
+                                                  maxlength="1000" placeholder="State the purpose of appearance here."
+                                                  id="purposeTextArea" style="height: 100px;"></textarea>
+                                        <label class="text-secondary" for="purposeTextArea">Purpose</label>
                                     </div>
-
-                                       <div class="col">
-                                        <div class="md-form form-floating mb-3 ui-front">
-                                            <input type="text" th:field="*{dateTo}"  class="form-control" id="dateTo"
-                                            placeholder="To">
-                                            <label class="text-secondary" for="dateTo">To</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="md-form form-floating mb-3">
-                                    <textarea class="form-control" th:field="*{purpose}"  required minlength="5" maxlength="1000" placeholder="State the purpose of appearance here." id ="purposeTextArea" style="height: 100px;"></textarea>
-                                    <label class="text-secondary" for ="purposeTextArea">Purpose</label>
                                 </div>
                             </div>
-                        </div>
 
                         </div>
 
                         <div class="container border-top border-secondary p-3">
                             <div class="d-flex justify-content-center">
                                 <div class="row">
-                                    <div class="col">
-                                        <button type="submit" name="save" value="SaveOnly" class="btn btn-primary">Save</button>
-                                    </div>
-
                                     <div class="col-auto">
-                                        <button type="submit" id="btnPrint"  name="save"  value="SaveAndPrint" class="btn btn-warning">Save and Print</button>
+                                        <button id="appearanceDetailsButton"
+                                                class="btn btn-primary">Proceed
+                                        </button>
                                     </div>
 
                                     <div class="col">
-                                        <a type="button" th:href="@{'/' + ${direction}}" id="btnCancel" class="btn btn-danger">Cancel</a>
+                                        <a type="button" th:href="@{'/' + ${direction}}" id="btnCancel"
+                                           class="btn btn-danger">Cancel</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                   </div>
-            </div>
+                    </div>
+                </div>
+                <!-- Appearance Details  Modal -->
+                <div class="modal modal-lg" data-bs-theme="dark" id="appearanceDetailsModal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content ui-front">
+                            <div class="modal-header">
+                                <h4 class="modal-title text-light">Check the details before
+                                    saving/printing!</h4>
+                                <button type="button" id="AppearanceDetailsModalCloseButton" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                        <p class="detail-label">Date Issued: <span  class = "details" id="dateIssuedDetail"></span></p>
+
+                                        <p class="detail-label">Name: <span class = "details" th:text="*{name}"></span>
+
+                                        <p class="detail-label">Position/Designation: <span class = "details" th:text="*{position}"></span></p>
+
+                                        <p class="detail-label">Agency: <span class = "details" th:text="*{agency}"></span></p>
+
+                                        <p class="detail-label">Date Appeared(From) : <span class = "details" id="dateFromDetail"></span></p>
+
+                                        <p class="detail-label">Date Appeared(To) : <span class = "details" id="dateToDetail"></span></p>
+
+                                        <p class="detail-label">Purpose: <span class = "details" id="purposeDetail"></span></p>
+
+
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" name="save" value="SaveOnly" class="btn btn-primary">
+                                            Save
+                                        </button>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <button id="btnPrint" type="submit" name="save" value="SaveAndPrint"
+                                                class="btn btn-success">Save and Print
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
 
 
-            <div th:if ="${isMultipleDate}" class="card mt-4 mb-4">
-                <div class="card-body">
-                   <div th:if="${appearanceDTOS.size() > 0}">
-                       <table id="table" class="table">
-                           <thead>
-                           <tr>
-                               <th scope="col">From</th>
-                               <th scope="col">To</th>
-                               <th scope="col">Purpose</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr th:each = "appearance : ${appearanceDTOS}">
-                               <td th:text="${appearance.dateFrom}"></td>
-                               <td th:text="${appearance.dateTo}"></td>
-                               <td th:text="${appearance.purpose}"></td>
-                           </tr>
-                           </tbody>
-                       </table>
-                   </div>
-
-                    <div th:unless = "${appearanceDTOS.size() > 0}">
-                        <div class=" no-record alert alert-dark text-center" role="alert">Save Appearance first to populate this table</div>
-                    </div>
+        <div th:if="${isMultipleDate}" class="card mt-4 mb-4">
+            <div class="card-body">
+                <div th:if="${appearanceDTOS.size() > 0}">
+                    <table id="table" class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Purpose</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="appearance : ${appearanceDTOS}">
+                            <td th:text="${appearance.dateFrom}"></td>
+                            <td th:text="${appearance.dateTo}"></td>
+                            <td th:text="${appearance.purpose}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="card-footer">
-                    <div th:if="${appearanceDTOS.size() >= 1}">
-                       <a type="button" th:href="@{'/appearances/certificate/' + ${visitorId}(dateIssued=${dateIssued})}" id="btnSaveAll" class="btn btn-success">Print</a>
-                    </div>
 
+                <div th:unless="${appearanceDTOS.size() > 0}">
+                    <div class=" no-record alert alert-dark text-center" role="alert">Save Appearance first to populate
+                        this table
+                    </div>
                 </div>
             </div>
+            <div class="card-footer">
+                <div th:if="${appearanceDTOS.size() >= 1}">
+                    <a type="button" th:href="@{'/appearances/certificate/' + ${visitorId}(dateIssued=${dateIssued})}"
+                       id="btnSaveAll" class="btn btn-success">Print</a>
+                </div>
 
-
+            </div>
+        </div>
     </div>
+
 
 </div>
 
