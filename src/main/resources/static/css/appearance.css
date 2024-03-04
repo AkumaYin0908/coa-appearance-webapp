@@ -34,7 +34,17 @@ div #appearanceForm{
     border-radius : 10px;
 }
 
+.details{
+      background: red;
+      color:black;
+      font-weight: 900;
 
+}
+
+.detail-label{
+    font-size: 20px;
+    color:white;
+}
 
 
 
