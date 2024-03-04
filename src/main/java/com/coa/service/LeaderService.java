@@ -18,16 +18,16 @@ public interface LeaderService {
 
     Page<Leader> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    Optional<Leader> findLeaderByName(String name) throws LeaderNotFoundException;
+    Optional<Leader> findLeaderByName(String name) ;
 
-    Optional<Leader> findLeaderByName(Long id, String name) throws LeaderNotFoundException;
+    Optional<Leader> findLeaderByName(Long id, String name) ;
 
     Page<Leader> findAll(Pageable pageable);
 
     List<Leader> findAll();
-    Leader findById(Long id) throws LeaderNotFoundException;
+    Leader findById(Long id) ;
 
-    Leader findLeaderByInChargeStatus(boolean inCharge) throws LeaderNotFoundException;
+    Leader findLeaderByInChargeStatus(boolean inCharge) ;
 
 
     void updateInCharge(Long id, boolean inCharge);

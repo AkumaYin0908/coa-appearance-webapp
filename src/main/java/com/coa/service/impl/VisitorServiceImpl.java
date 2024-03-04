@@ -43,14 +43,14 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public Visitor findById(Long id) throws VisitorNotFoundException {
+    public Visitor findById(Long id) {
         return visitorRepository.findById(id).orElseThrow(()-> new VisitorNotFoundException("Visitor not found!"));
 
 
     }
 
     @Override
-    public VisitorDTO findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException {
+    public VisitorDTO findAndMapToVisitorDTO(Long id)  {
 
         Visitor visitor=findById(id);
 
@@ -64,12 +64,12 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public Optional<Visitor> findVisitorByName(String name) throws VisitorNotFoundException {
+    public Optional<Visitor> findVisitorByName(String name)  {
         return visitorRepository.findVisitorByName(name);
     }
 
     @Override
-    public Optional<Visitor> findVisitorByName(Long id, String name) throws VisitorNotFoundException {
+    public Optional<Visitor> findVisitorByName(Long id, String name)  {
        return visitorRepository.findVisitorByName(id,name);
     }
 

@@ -36,7 +36,7 @@ public class AgencyServiceImpl  implements AgencyService {
 
 
     @Override
-    public Agency findBy(Long id) throws AgencyNotFoundException {
+    public Agency findBy(Long id)  {
         return agencyRepository.findById(id).orElseThrow(()->new AgencyNotFoundException("Agency not found!"));
     }
 

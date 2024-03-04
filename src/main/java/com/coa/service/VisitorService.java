@@ -17,11 +17,11 @@ public interface VisitorService {
     Page<Visitor> findAll(Pageable pageable);
 
     List<Visitor> findAll();
-    Visitor findById(Long id) throws VisitorNotFoundException;
-   VisitorDTO findAndMapToVisitorDTO(Long id) throws VisitorNotFoundException;
-   Optional<Visitor> findVisitorByName(String name) throws VisitorNotFoundException;
+    Visitor findById(Long id) ;
+   VisitorDTO findAndMapToVisitorDTO(Long id) ;
+   Optional<Visitor> findVisitorByName(String name) ;
 
-    Optional<Visitor> findVisitorByName(Long id, String name) throws VisitorNotFoundException;
+    Optional<Visitor> findVisitorByName(Long id, String name) ;
 
     void save(Visitor visitor);
 

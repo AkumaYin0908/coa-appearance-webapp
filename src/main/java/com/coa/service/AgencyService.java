@@ -14,7 +14,7 @@ public interface AgencyService {
 
     Page<Agency> findAll(Pageable pageable);
     List<Agency> findAll();
-    Agency findBy(Long id) throws AgencyNotFoundException;
-    Agency findAgencyByName(String name) throws AgencyNotFoundException;
+    Agency findBy(Long id) ;
+    Agency findAgencyByName(String name) ;
     void save(Agency agency);
 }

@@ -60,7 +60,7 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
     @Override
-    public Appearance findById(Long id) throws AppearanceNotFoundException {
+    public Appearance findById(Long id)  {
         return appearanceRepository.findById(id).orElseThrow(()->new AppearanceNotFoundException("Appearance not found!"));
     }
 
@@ -68,7 +68,7 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
     @Override
-    public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException {
+    public AppearanceDTO findAndMapToAppearanceDTO(Long id)  {
        Optional<Appearance> appearanceOptional = appearanceRepository.findById(id);
        AppearanceDTO appearanceDTO;
 

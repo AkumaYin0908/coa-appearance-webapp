@@ -29,12 +29,12 @@ public class LeaderServiceImpl implements LeaderService {
     }
 
     @Override
-    public  Optional<Leader> findLeaderByName(String name) throws LeaderNotFoundException {
+    public  Optional<Leader> findLeaderByName(String name)  {
         return leaderRepository.findLeaderByName(name);
     }
 
     @Override
-    public  Optional<Leader> findLeaderByName(Long id, String name) throws LeaderNotFoundException {
+    public  Optional<Leader> findLeaderByName(Long id, String name)  {
         return leaderRepository.findLeaderByName(id,name);
     }
 
@@ -51,12 +51,12 @@ public class LeaderServiceImpl implements LeaderService {
     }
 
     @Override
-    public Leader findById(Long id) throws LeaderNotFoundException {
+    public Leader findById(Long id) {
         return leaderRepository.findById(id).orElseThrow(()-> new LeaderNotFoundException("Leader not found!"));
     }
 
     @Override
-    public Leader findLeaderByInChargeStatus(boolean inCharge) throws LeaderNotFoundException {
+    public Leader findLeaderByInChargeStatus(boolean inCharge)  {
         return leaderRepository.findLeaderByInChargeStatus(inCharge).orElseThrow(()->new LeaderNotFoundException("Leader not found!"));
     }
 
