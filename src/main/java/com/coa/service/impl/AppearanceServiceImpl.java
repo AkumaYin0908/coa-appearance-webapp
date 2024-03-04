@@ -8,6 +8,7 @@ import com.coa.repository.AppearanceRepository;
 import com.coa.service.AppearanceService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -165,7 +166,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         return appearanceRepository.findAllDistinctYear();
     }
 
-    @Cacheable(value = "appearance")
+    @CachePut(value = "appearance")
     @Override
     public Page<Appearance> findAppearanceOrderByDateIssuedDESC(Pageable pageable) {
         return appearanceRepository.findAppearanceOrderByDateIssuedDESC(pageable);
