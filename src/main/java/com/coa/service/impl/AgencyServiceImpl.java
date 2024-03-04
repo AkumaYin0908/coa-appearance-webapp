@@ -8,6 +8,7 @@ import com.coa.repository.AgencyRepository;
 import com.coa.service.AgencyService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,11 +34,13 @@ public class AgencyServiceImpl  implements AgencyService {
         return agencyRepository.findAll();
     }
 
+    @Cacheable(value = "agency")
     @Override
     public Agency findBy(Long id) throws AgencyNotFoundException {
         return agencyRepository.findById(id).orElseThrow(()->new AgencyNotFoundException("Agency not found!"));
     }
 
+    @Cacheable(value = "agency")
     @Override
     public Agency findAgencyByName(String name){
         return agencyRepository.findAgencyName(name).orElse(new Agency(name));

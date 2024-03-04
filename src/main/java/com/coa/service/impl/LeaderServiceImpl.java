@@ -6,6 +6,7 @@ import com.coa.repository.LeaderRepository;
 import com.coa.service.LeaderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -82,6 +83,8 @@ public class LeaderServiceImpl implements LeaderService {
         leaderRepository.save(leader);
     }
 
+
+    @CacheEvict(value = "leader",allEntries = true)
     @Override
     @Transactional
     public void deleteById(Long id) {

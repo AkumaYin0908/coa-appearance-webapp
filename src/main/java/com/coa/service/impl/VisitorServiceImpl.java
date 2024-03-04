@@ -7,6 +7,7 @@ import com.coa.repository.VisitorRepository;
 import com.coa.service.VisitorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,6 +80,8 @@ public class VisitorServiceImpl implements VisitorService {
         visitorRepository.save(visitor);
     }
 
+
+    @CacheEvict(value = "visitor",allEntries = true)
     @Override
     @Transactional
     public void deleteById(Long id) {

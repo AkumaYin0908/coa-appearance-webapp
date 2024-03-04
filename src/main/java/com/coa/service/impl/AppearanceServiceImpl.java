@@ -8,6 +8,7 @@ import com.coa.repository.AppearanceRepository;
 import com.coa.service.AppearanceService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -50,7 +51,7 @@ public class AppearanceServiceImpl implements AppearanceService {
      return appearanceRepository.findAll();
     }
 
-    @Cacheable(value = "appearance")
+    @CachePut(value = "appearance")
     @Override
     public List<Appearance> findAppearanceByVisitorAndDateIssued(Long id, LocalDate dateIssued) {
         return appearanceRepository.findAppearanceByVisitorAndDateIssued(id,dateIssued);
@@ -61,6 +62,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         appearanceRepository.saveAllAndFlush(appearances);
     }
 
+    @Cacheable(value = "appearance")
     @Override
     public Appearance findById(Long id) throws AppearanceNotFoundException {
         return appearanceRepository.findById(id).orElseThrow(()->new AppearanceNotFoundException("Appearance not found!"));
@@ -68,6 +70,7 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
 
+    @Cacheable(value = "appearance")
     @Override
     public AppearanceDTO findAndMapToAppearanceDTO(Long id) throws AppearanceNotFoundException {
        Optional<Appearance> appearanceOptional = appearanceRepository.findById(id);
@@ -106,12 +109,14 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
 
+
     @Override
     @Transactional
     public Appearance save(Appearance appearance) {
         return appearanceRepository.saveAndFlush(appearance);
     }
 
+    @CacheEvict(value = "appearance",allEntries = true)
     @Override
     @Transactional
     public void deleteById(Long id) {
@@ -172,6 +177,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         return appearanceRepository.findAppearanceOrderByDateIssuedDESC(pageable);
     }
 
+    @Cacheable(value = "appearance")
     @Override
     public Optional<Appearance> findByDateFromAndDateToAndName(LocalDate dateFrom, LocalDate dateTo, String name) {
         return appearanceRepository.findByDateFromAndDateToAndName(dateFrom,dateTo,name);
