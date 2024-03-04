@@ -57,7 +57,7 @@ public class LeaderServiceImpl implements LeaderService {
 
     @Override
     public Leader findLeaderByInChargeStatus(boolean inCharge)  {
-        return leaderRepository.findLeaderByInChargeStatus(inCharge).orElseThrow(()->new LeaderNotFoundException("Leader not found!"));
+        return leaderRepository.findLeaderByInChargeStatus(inCharge).orElse(null);
     }
 
     @Override
