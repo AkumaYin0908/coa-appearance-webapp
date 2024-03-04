@@ -48,9 +48,6 @@ public class AppearanceController {
     private boolean error;
 
 
-
-
-
     private AppearanceDTO editFormAppearanceDTO = new AppearanceDTO();
     @Value("${pageNums}")
     private List<Integer> pageNums;
@@ -156,11 +153,18 @@ public class AppearanceController {
 
             if(appearanceOptional.isPresent()){
                 error=true;
-                String message = String.format("Appearance for %s appeared from %s to %s already exist!",
-                        appearanceDTO.getName(),appearanceDTO.getDateFrom(),appearanceDTO.getDateTo());
+                String message;
+                boolean isMultipleDate= save.equals("SaveOnly");
 
+                if(appearanceDTO.getDateFrom().equals(appearanceDTO.getDateTo())){
+                    message = String.format("Appearance for %s appeared on %s already exist!",
+                            appearanceDTO.getName(),appearanceDTO.getDateFrom());
+                }else {
+                    message = String.format("Appearance for %s appeared from %s to %s already exist!",
+                            appearanceDTO.getName(), appearanceDTO.getDateFrom(), appearanceDTO.getDateTo());
+                }
                 redirectAttributes.addFlashAttribute("message",message);
-                return String.format("redirect:/appearances/appearance-form/%d", visitorId);
+                return String.format("redirect:/appearances/appearance-form/%d?isMultipleDate=%b", visitorId,isMultipleDate);
             }
 
             if(save.equals("SaveOnly")) {
