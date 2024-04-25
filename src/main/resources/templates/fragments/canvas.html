@@ -13,14 +13,16 @@
       <ul>
         <li>
           <a id = "dashboardButton" th:href="@{/dashboard}">
-            <span class="icon"><i class="fa-solid fa-house"></i></span>
-            <span class="item">Home</span>
+            <div>
+                <span class="icon material-symbols-outlined">home</span>
+                <span class="item">Home</span>
+            </div>
           </a>
         </li>
 
         <li>
           <a  id = "visitorButton" th:href="@{/visitors}">
-            <span class="icon"><i class="fa-solid fa-users"></i></span>
+            <span class="icon material-symbols-outlined">person</span>
             <span class="item">Visitors</span>
           </a>
         </li>
@@ -29,7 +31,7 @@
        <li>
 
             <a  id="leaderButton" th:href="@{/settings/leaders}" class="sub-item">
-                <span class="icon"><i class="fa-solid fa-user"></i></span>
+                <span class="icon material-symbols-outlined">group</span>
                 <span class="item">Leaders</span>
             </a>
         </li>
