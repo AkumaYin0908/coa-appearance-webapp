@@ -14,8 +14,20 @@
     <script th:inline="javascript">
         var visitors=/*[[${visitors}]]*/'novalue';
         var leaderNames = /*[[${leaderNames}]]*/'novalue';
+        var positions = /*[[${positions}]]*/'novalue';
+        var agencies = /*[[${agencies}]]*/'novalue';
 
         $(document).ready(function(){
+
+         $("#visitorPosition").autocomplete({
+        minLength : 1,
+        source : positions
+        });
+
+         $("#visitorAgency").autocomplete({
+        minLength : 1,
+        source : agencies
+        });
 
          $("td:nth-child(1),th:nth-child(1)").hide();
 
@@ -57,7 +69,7 @@
                         </div>
                         <hr class=" m-0 p-0 border border-secondary border-1 opacity-50">
                         <div th:if="${leader !=null}" class="d-flex justify-content-end mt-2 mb-0">
-                            <a type="button" id ="changeLeaderButton"  class="text-primary"><i class="fa-solid fa-user-gear"></i> Change Leader</a>
+                            <a type="button" id ="changeLeaderButton"  class="text-primary"><span class="material-symbols-outlined">settings</span> Change Leader</a>
                         </div>
                     </div>
                 </div>
@@ -67,7 +79,7 @@
 
             <div class=" new-visitor card mt-5 mb-3">
                 <div class="card-body">
-                    <button id="addVisitorButton"  class="btn btn-dark"><i class="fa-solid fa-user-plus"></i>  Create new visitor</button>
+                    <button id="addVisitorButton"  class="btn btn-dark"><span class="material-symbols-outlined">person_add</span>  Create new visitor</button>
                 </div>
             </div>
 
