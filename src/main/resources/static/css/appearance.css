@@ -46,6 +46,10 @@ div #appearanceForm{
     color:white;
 }
 
+form div.row div.col .cancel-button{
+    padding : 6px 12px;
+}
+
 
 
 
