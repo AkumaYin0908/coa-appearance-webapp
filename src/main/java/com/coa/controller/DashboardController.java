@@ -4,12 +4,8 @@ import com.coa.dto.AppearanceDTO;
 import com.coa.dto.VisitorDTO;
 import com.coa.exceptions.LeaderNotFoundException;
 import com.coa.exceptions.VisitorNotFoundException;
-import com.coa.model.Appearance;
-import com.coa.model.Leader;
-import com.coa.model.Visitor;
-import com.coa.service.AppearanceService;
-import com.coa.service.LeaderService;
-import com.coa.service.VisitorService;
+import com.coa.model.*;
+import com.coa.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
@@ -35,6 +31,10 @@ public class DashboardController {
     private final VisitorService visitorService;
     private final LeaderService leaderService;
     private final AppearanceService appearanceService;
+
+    private final PositionService positionService;
+
+    private final AgencyService agencyService;
 
 
     private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
@@ -74,9 +74,17 @@ public class DashboardController {
             List<String> leaderNames=leaderService.findAll()
                             .stream().map(Leader :: getName).toList();
 
+            List<String> positions=positionService.findAll().stream()
+                    .map(Position::getName).toList();
+
+            List<String> agencies=agencyService.findAll().stream()
+                    .map(Agency::getName).toList();
+
             model.addAttribute("addFormVisitorDTO", new VisitorDTO());
             loadAppearanceHistory(model,page,size);
             model.addAttribute("leaderNames",leaderNames);
+            model.addAttribute("positions",positions);
+            model.addAttribute("agencies",agencies);
             model.addAttribute("error",error);
             model.addAttribute("leader",leader);
             model.addAttribute("visitors",visitors);
