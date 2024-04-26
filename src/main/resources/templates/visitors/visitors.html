@@ -6,7 +6,7 @@
 <head>
    <title>Visitors</title>
 
-    <link rel="stylesheet" th:href="@{/css/visitors.css}">
+    <link rel="stylesheet" th:href="@{/css/visitor.css}">
 
 
 </head>
@@ -56,7 +56,8 @@
         <div class="row justify-content-md-center mb-2">
             <div class="col-md-2 mt-1">
                 <button type="button" id="addVisitorButton" class="btn btn-sm btn-success">
-                    <i class="fa-solid fa-plus"></i> Add Visitor</button>
+                    <span class="material-symbols-outlined">add</span>Add Visitor
+                </button>
             </div>
 
             <div class="col-md-4">
@@ -67,7 +68,7 @@
                                    placeholder="Enter keyword" required class="border border-secondary form-control">
                         </div>
                         <div class="col-auto  p-1 mt-auto">
-                            <button type="submit" class="btn-search btn btn-sm btn-primary"> <i class="fa fa-search"></i></button>
+                            <button type="submit" class="btn-search btn btn-sm btn-primary"><span class="material-symbols-outlined">search</span></button>
                         </div>
                     </div>
                 </form>
@@ -120,15 +121,15 @@
                             th:visitorPosition = "${visitor.position}"
                             th:visitorAgency="${visitor.agency}">
 
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span class="material-symbols-outlined">edit</span>
                             </a>
 
 <!--                            <a type="button" sec:authorize="hasRole('ADMIN')" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"-->
                             <a type="button"  th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"
-                               title="Delete this visitor" class="btn-delete btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                               title="Delete this visitor" class="btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span></a>
 
                             <a type="button"  th:href="@{/appearances/{id}/appearance-history(id=${visitor.id})}" id="btnHistory"
-                               title="Appearance History" class="btn btn-sm btn-secondary"><i class="fa-solid fa-timeline"></i></a>
+                               title="Appearance History" class="btn btn-sm btn-secondary"><span class="material-symbols-outlined">timeline</span></a>
                         </td>
                     </tr>
                 </tbody>

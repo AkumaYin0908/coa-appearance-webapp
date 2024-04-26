@@ -5,6 +5,8 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Appearance Form</title>
+
+
 </head>
 <body>
 
@@ -34,7 +36,7 @@
 
 <div class="col-lg-8 col-md-8 text-light align-self-center container-fluid my-5 py-4 bg-dark" style="border-radius: 10px;">
     <div class="container mb-4">
-        <a th:href="@{/visitors}" class="link-primary"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
+        <a th:href="@{/visitors}" class="link-primary"><span class="material-symbols-outlined">arrow_left</span>Back</a>
     </div>
 
    <h5 class="text-dark-emphasis mb-2 ms-2" style=" font-family:Verdana, Geneva, Tahoma, sans-serif; font-weight : 700;">Appearance History of </h5>
@@ -79,7 +81,7 @@
                                             placeholder="Enter purpose" required class="border border-secondary form-control">
                                     </div>
                                     <div class="col-auto  p-1 mt-auto">
-                                        <button type="submit" class="btn-search btn btn-sm btn-primary"> <i class="fa fa-search"></i></button>
+                                        <button type="submit" class="btn-search btn btn-sm btn-primary"><span class="material-symbols-outlined">search</span></button>
                                     </div>
                                 </div>
                             </form>
@@ -131,11 +133,11 @@
                                             th:appearanceDateFrom = "${appearance.dateFrom}"
                                             th:appearanceDateTo="${appearance.dateTo}"
                                             th:appearancePurpose="${appearance.purpose}">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            <span class="material-symbols-outlined">edit</span>
                                             </a>
 
                                             <a type="button" class= "btn btn-sm btn-success" th:href="@{/appearances/certificate(appearance=${appearance.id})}" id="printAppearanceButton"
-                                            title="Print Appearance"><i class="fa-solid fa-print"></i></a>
+                                            title="Print Appearance"><span class="material-symbols-outlined">print</span></a>
 
                                         </td>
                                     </tr>
