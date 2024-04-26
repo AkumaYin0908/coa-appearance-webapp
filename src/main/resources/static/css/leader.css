@@ -1,0 +1,7 @@
+form #searchName{
+    margin-top: 3px;
+}
+
+table td tr a, a:visited, a:hover, a:active{
+    color : inherit;
+}
