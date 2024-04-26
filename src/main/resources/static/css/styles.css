@@ -66,7 +66,7 @@ body {
 }
 
 .offcanvas .side-buttons ul li a{
-    display : block;
+    display : table;
     padding : 13px;
     border-bottom : 1px solid #10558d;
     color : rgb(255,255,255);
@@ -76,14 +76,12 @@ body {
 
 .offcanvas .side-buttons ul li a .icon{
     color : rgba(255,255,255,0.5);
-    width : 30px;
-    display : inline-block;
+    font-size: 2.5rem;
 }
 
 .offcanvas .side-buttons ul li a:hover,
 .offcanvas .side-buttons ul li a.active{
     color : rgb(0,71,171);
-
     background : white;
     boder-right : 2px solid rgb(5, 68,104);
 }
@@ -99,7 +97,7 @@ body {
     display : block;
 }
 
-
+/*for submenu
 .side-buttons li .dropdown{
     position: absolute;
     right: 0;
@@ -115,15 +113,11 @@ body {
 .side-buttons li .sub-menu .sub-item{
     padding: 5px 5px 5px 50px;
 }
+*/
 
 
 .rotate{
    transform: rotate(90deg) ;
-}
-
-
-.fa-user{
-    margin-right : 5px;
 }
 
 .navbar-collapse{
@@ -221,65 +215,3 @@ div#main-content{
 #ui-datepicker-div {
 z-index: 10000 !important;
 }
-
-/*
-div.btn-add{
-    padding: 0.4rem 3rem 0 0;
-}
-
-div.btn-search{
-    padding: 0.3rem 3rem 0 0;
-}
-
-div.btn-clear{
-   padding: 0.3rem 3rem 0 0;
-}
-
-.form-control{
-     width : 2rem;
-     height: 42.5px;
-     line-height: 30px;
-     font-size: 1em;
-     border-radius: 20px;
-
-}
-
-
-
-.label-new{
-    font-family:"Source Code Pro", "Roboto Mono", sans-serif;
-    color : #E0E0E0;
-}
-
-.fa-trash-can{
-    color : #E0E0E0;
-}
-
-
-span .name{
-    font-family : 'Roboto Mono';
-    font-size : 3rem;
-    font-weight : 900;
-    text-shadow: 2px 2px black;
-}
-
-
-ul{
-    list-style-type : none;
-    margin: 0;
-    padding :0 !important;
-}
-
-div .role-list li{
-    display: inline-block;
-}
-
-
-.form{
-    position : relative;
-    display : inline-block;
-}
-
-
-
-*/
