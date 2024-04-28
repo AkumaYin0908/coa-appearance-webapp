@@ -1,45 +1,31 @@
-$(document).ready(function(){
-    $("#dashboardButton").addClass("active");
+"use strict";
 
-    let addModalMessage=$("#addModalMessageHolder").text();
-    if(addModalMessage != ""){
-        $("#addVisitorModal").modal("show");
-    }
+import { showMessage, showModal, hideModal } from "./modules/modal.js";
 
-    let changeModalMessage =$("#changeModalMessageHolder").text();
-    if(changeModalMessage != ""){
-        $("#changeLeaderModal").modal("show");
-    }
+$(document).ready(function () {
+  $("#dashboardButton").addClass("active");
 
-    $("#changeLeaderButton").on("click",function(event){
-        event.preventDefault();
-        $("#changeLeaderModal").modal("show")
+  showMessage("addModalMessageHolder", "addVisitorModal");
 
-    });
+  showMessage("changeModalMessageHolder", "changeLeaderModal");
 
+  showModal("changeLeaderButton", "changeLeaderModal");
 
-    $("#changeModalCloseButton").on("click",function(event){
-        event.preventDefault();
-        $("#changeModalDiv").hide();
-        $("#currentLeaderName").val("");
-        $("#leaderName").val("");
+  const clearChangeModal = function () {
+    $("#currentLeaderName").val("");
+    $("#leaderName").val("");
+  };
 
-    });
+  hideModal("changeModalCloseButton", "changeModalDiv", clearChangeModal);
 
+  showModal("addVisitorButton", "addVisitorModal");
 
+  const clearAddModal = function () {
+    $("#visitorId").val("");
+    $("#visitorName").val("");
+    $("#visitorPosition").val("");
+    $("#visitorAgency").val("");
+  };
 
-    $("#addVisitorButton").on("click",function(event){
-        event.preventDefault();
-        $("#addVisitorModal").modal("show");
-    });
-
-    $("#addModalCloseButton").on("click",function(event){
-        event.preventDefault();
-        $("#addModalDiv").hide();
-         $("#visitorId").val("");
-         $("#visitorName").val("");
-         $("#visitorPosition").val("");
-         $("#visitorAgency").val("");
-    });
-
+  hideModal("addModalCloseButton", "addModalDiv", clearAddModal);
 });
