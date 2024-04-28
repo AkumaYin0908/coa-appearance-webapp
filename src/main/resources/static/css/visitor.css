@@ -1,8 +1,7 @@
-form#createAppearance{
-    display:inline-block;
+form#createAppearance {
+  display: inline-block;
 }
 
-form #searchName{
-    margin-top: 3px;
+form #searchName {
+  margin-top: 3px;
 }
-

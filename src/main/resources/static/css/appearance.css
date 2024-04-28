@@ -1,53 +1,46 @@
-
 div h2 {
-    font : 'Roboto Mono';
-    font-weight : 900;
-    text-shadow: 2px 2px black;
+  font: "Roboto Mono";
+  font-weight: 900;
+  text-shadow: 2px 2px black;
 }
 
-div a.link-primary{
-font-family : 'Roboto Mono',sans-serif;
-text-decoration:none;
+div a.link-primary {
+  font-family: "Roboto Mono", sans-serif;
+  text-decoration: none;
 }
 
-div form.form-horizontal{
-    background-color: rgba(255,255,255,0);
+div form.form-horizontal {
+  background-color: rgba(255, 255, 255, 0);
 }
 
-div form.form-horizontal h5{
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    font-weight : 700;
+div form.form-horizontal h5 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 700;
 }
 
-div select{
-    width: 100%;
+div select {
+  width: 100%;
 }
 
-div.form-group textarea{
-   height: 100px;
+div.form-group textarea {
+  height: 100px;
 }
 
-div.norecord{
-    z-index : 0;
+div.norecord {
+  z-index: 0;
 }
 
-div #appearanceForm{
-    border-radius : 10px;
+div #appearanceForm {
+  border-radius: 10px;
 }
 
-.details{
-      background: #87A922;
-      color:#3D3B40;
-      font-weight: 900;
-
+.details {
+  background: #87a922;
+  color: #3d3b40;
+  font-weight: 900;
 }
 
-.detail-label{
-    font-size: 20px;
-    color:white;
+.detail-label {
+  font-size: 20px;
+  color: white;
 }
-
-
-
-
-

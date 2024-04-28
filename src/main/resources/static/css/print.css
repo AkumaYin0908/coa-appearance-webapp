@@ -1,261 +1,243 @@
 @media screen {
+  * {
+    font-family: "Times New Roman" !important;
+  }
 
+  html {
+    margin: 0;
+    padding: 0;
+    width: 8.5in;
+  }
 
-    *{
-        font-family: 'Times New Roman' !important;
+  body {
+    color: #fff;
+    background-color: rgb(30, 30, 30) !important;
+  }
 
-    }
+  #appearance {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 1px 5px rgb(27, 27, 27);
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+  }
 
-    html{
-        margin : 0;
-        padding: 0;
-        width: 8.5in;
-    }
+  .btn-panel {
+    position: fixed; /* Fix position regardless of scrolling */
+    width: 100%;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    z-index: 999; /* Ensure it's above other elements */
+    background-color: rgba(0, 71, 171, 0.8);
+    padding: 10px; /* Add padding for better appearance */
+  }
 
+  .icon {
+    width: 28px;
+  }
 
-    body{
-        color: #fff;
-        background-color: rgb(30,30,30) !important;
+  .header {
+    font-family: "Times New Roman" !important;
+  }
 
-    }
+  .coa-logo {
+    float: left;
+    width: 96px;
+    height: 96px;
+  }
 
-    #appearance{
-        background-color: rgb(255,255,255);
-        box-shadow: 1px 1px 5px rgb(27,27,27);
-        position: absolute;
-        top: 70%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 10px;
-    }
-
-    .btn-panel{
-          position: fixed; /* Fix position regardless of scrolling */
-          width : 100%;
-          left: 50%; /* Center horizontally */
-          transform: translateX(-50%); /* Center horizontally */
-          z-index: 999; /* Ensure it's above other elements */
-          background-color: rgba(0,71,171,0.8);
-          padding: 10px; /* Add padding for better appearance */
-    }
-
-    .icon{
-        width : 28px;
-
-    }
-
-
-
-    .header{
-        font-family: 'Times New Roman' !important;
-    }
-
-
-
-    .coa-logo{
-        float : left;
-        width: 96px;
-        height: 96px;
-
-    }
-
-    header, footer, aside, nav, form, iframe, .menu, .hero, .adslot {
+  header,
+  footer,
+  aside,
+  nav,
+  form,
+  iframe,
+  .menu,
+  .hero,
+  .adslot {
     display: none !important;
-    }
+  }
 
-    p,h3{
-        display: inline;
-    }
+  p,
+  h3 {
+    display: inline;
+  }
 
-    h3.coa{
-        font-weight: 900;
-    }
+  h3.coa {
+    font-weight: 900;
+  }
 
-    hr{
-        border: none;
-        height : 3px;
-        background: black !important;
+  hr {
+    border: none;
+    height: 3px;
+    background: black !important;
     /* width: 100% !important; */
-        opacity: 1 !important;
+    opacity: 1 !important;
+  }
 
-    }
+  p.body-title {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16pt;
+    font-weight: 900;
+  }
 
-    p.body-title{
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 16pt;
-        font-weight: 900;
+  .paragraph {
+    font-size: 10pt;
+    text-indent: 30px;
+  }
 
-    }
+  table tr td {
+    padding: 0 30px;
+    vertical-align: top;
+    font-size: 10pt;
+  }
 
-    .paragraph{
-        font-size: 10pt;
-        text-indent: 30px;
-    }
+  table tr td.visitor-data {
+    border-bottom: 1px solid black;
+    width: 100%;
+  }
 
-    table tr td{
-        padding: 0 30px;
-        vertical-align: top;
-        font-size: 10pt;
+  table tr td .visitor-purpose-data {
+    text-align: justify;
+    display: table-cell;
+  }
 
+  .date-issued {
+    font-size: 10pt;
+    padding-left: 50px !important;
+    margin-top: 10px !important;
+  }
 
-    }
+  .date-issued span {
+    margin-left: 10px;
+    border-bottom: 1px solid black;
+  }
 
-    table tr td.visitor-data{
-        border-bottom: 1px solid black;
-        width : 100%;
+  p.leader-data {
+    margin: 0;
+    font-size: 11pt;
+  }
 
-    }
+  p.leader-data.leader-name {
+    font-weight: 900;
+  }
 
-    table tr td .visitor-purpose-data{
-        text-align: justify;
-        display: table-cell;
-    }
-
-    .date-issued{
-        font-size: 10pt;
-        padding-left: 50px !important;
-        margin-top: 10px !important;
-    }
-
-    .date-issued span{
-        margin-left: 10px;
-        border-bottom: 1px solid black;
-    }
-
-    p.leader-data{
-        margin: 0;
-        font-size: 11pt;
-    }
-
-    p.leader-data.leader-name{
-        font-weight: 900;
-    }
-
-    @page{
-        size: Letter;
-        margin: 0.5in !important;
-
-    }
-
-
-
+  @page {
+    size: Letter;
+    margin: 0.5in !important;
+  }
 }
 
 @media print {
+  * {
+    font-family: "Times New Roman" !important;
+  }
 
+  html {
+    margin: 0;
+    padding: 0;
+    width: 8.5in;
+  }
 
-    *{
-        font-family: 'Times New Roman' !important;
-    }
+  body {
+    color: #fff;
+    background-color: #000;
+    page-break-after: always;
+    margin: 0px;
+  }
 
-    html{
-        margin : 0;
-        padding: 0;
-        width: 8.5in;
-    }
+  .header {
+    font-family: "Times New Roman" !important;
+  }
 
+  .coa-logo {
+    float: left;
+    width: 96px;
+    height: 96px;
+  }
 
-    body{
-        color: #fff;
-        background-color: #000;
-        page-break-after: always;
-        margin: 0px;
-    }
-
-
-    .header{
-        font-family: 'Times New Roman' !important;
-    }
-
-
-
-    .coa-logo{
-        float : left;
-        width: 96px;
-        height: 96px;
-
-    }
-
-    header, footer, aside, nav, form, iframe, .menu, .hero, .adslot, .btn-panel {
+  header,
+  footer,
+  aside,
+  nav,
+  form,
+  iframe,
+  .menu,
+  .hero,
+  .adslot,
+  .btn-panel {
     display: none !important;
-    }
+  }
 
-    p,h3{
-        display: inline;
-    }
+  p,
+  h3 {
+    display: inline;
+  }
 
-    h3.coa{
-        font-weight: 900;
-    }
+  h3.coa {
+    font-weight: 900;
+  }
 
-    hr{
-        border: none;
-        height : 3px;
-        background: black !important;
+  hr {
+    border: none;
+    height: 3px;
+    background: black !important;
     /* width: 100% !important; */
-        opacity: 1 !important;
+    opacity: 1 !important;
+  }
 
-    }
+  p.body-title {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16pt;
+    font-weight: 900;
+  }
 
-    p.body-title{
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 16pt;
-        font-weight: 900;
+  .paragraph {
+    font-size: 10pt;
+    text-indent: 30px;
+  }
 
-    }
+  table tr td {
+    padding: 0 30px;
+    vertical-align: top;
+    font-size: 10pt;
+  }
 
-    .paragraph{
-        font-size: 10pt;
-        text-indent: 30px;
-    }
+  table tr td.visitor-data {
+    border-bottom: 1px solid black;
+    width: 100%;
+  }
 
-    table tr td{
-        padding: 0 30px;
-        vertical-align: top;
-        font-size: 10pt;
+  table tr td .visitor-purpose-data {
+    text-align: justify;
+    display: table-cell;
+  }
 
-    }
+  .date-issued {
+    font-size: 10pt;
+    padding-left: 50px !important;
+    margin-top: 10px !important;
+  }
 
-    table tr td.visitor-data{
-        border-bottom: 1px solid black;
-        width : 100%;
+  .date-issued span {
+    margin-left: 10px;
+    border-bottom: 1px solid black;
+  }
 
-    }
+  p.leader-data {
+    margin: 0;
+    font-size: 11pt;
+  }
 
-    table tr td .visitor-purpose-data{
-        text-align: justify;
-        display: table-cell;
+  p.leader-data.leader-name {
+    font-weight: 900;
+  }
 
-
-    }
-
-    .date-issued{
-        font-size: 10pt;
-        padding-left: 50px !important;
-        margin-top: 10px !important;
-    }
-
-    .date-issued span{
-        margin-left: 10px;
-        border-bottom: 1px solid black;
-    }
-
-    p.leader-data{
-        margin: 0;
-        font-size: 11pt;
-    }
-
-    p.leader-data.leader-name{
-        font-weight: 900;
-    }
-
-    @page{
-        size: auto;
-        /*margin: 0.5in !important;*/
-        margin: 12.7mm !important;
-
-    }
-
+  @page {
+    size: auto;
+    /*margin: 0.5in !important;*/
+    margin: 12.7mm !important;
+  }
 }
-
-

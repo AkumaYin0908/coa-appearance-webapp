@@ -1,104 +1,102 @@
-.search-container{
-    width:100%;
-    display: flex;
-    align-items: center;
-
+.search-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.search-bar{
-    width : 100%;
-    max-width: 100%;
-    background: rgba(255,255,255,0.2);
-    display : flex;
-    align-items: center;
-    border-radius: 60px;
-    padding : 10px 20px;
+.search-bar {
+  width: 100%;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  border-radius: 60px;
+  padding: 10px 20px;
 }
 
-.search-bar input{
-    background: transparent;
-    flex : 1;
-    border : 0;
-    outline : none;
-    padding: 4px 2px;
-    font-family : "Source Code Pro", sans-serif;
-    font-size : 1rem;
-    color: white;
+.search-bar input {
+  background: transparent;
+  flex: 1;
+  border: 0;
+  outline: none;
+  padding: 4px 2px;
+  font-family: "Source Code Pro", sans-serif;
+  font-size: 1rem;
+  color: white;
 }
-::placeholder{
-    color : white;
-}
-
-.search-bar button .fa-search{
-    width : 20px;
+::placeholder {
+  color: white;
 }
 
-.search-bar button{
-    border : 0;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    background: rgb(207, 207, 207);
-    cursor: pointer;
-
+.search-bar button .fa-search {
+  width: 20px;
 }
 
-.search-bar button:hover{
-    background: rgb(255,255,255);
+.search-bar button {
+  border: 0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background: rgb(207, 207, 207);
+  cursor: pointer;
 }
 
-div.dashboard-pagination nav ul li.page-item a.page-link{
-   font-size: 0.8rem !important;
-
+.search-bar button:hover {
+  background: rgb(255, 255, 255);
 }
 
-#appearanceTable{
-    box-shadow: 1px 1px 3px rgb(66, 62, 62);
-    border-radius: 8px;
-    font-family: 'Roboto Mono', sans-serif; font-size: 0.8rem;
+div.dashboard-pagination nav ul li.page-item a.page-link {
+  font-size: 0.8rem !important;
 }
 
-div.norecord{
-    z-index : 0;
+#appearanceTable {
+  box-shadow: 1px 1px 3px rgb(66, 62, 62);
+  border-radius: 8px;
+  font-family: "Roboto Mono", sans-serif;
+  font-size: 0.8rem;
 }
 
-div{
-     font-family: 'Roboto Mono', sans-serif;
-   //  font-size: 0.8rem;
-   //  background-color: rgb(33,37,41);
-     color: rgb(240,240,240);
+div.norecord {
+  z-index: 0;
 }
 
-div.search-div{
-    box-shadow: 1px 1px 3px rgb(66, 62, 62);
-    border-radius: 8px;
-
+div {
+  font-family: "Roboto Mono", sans-serif;
+  //  font-size: 0.8rem;
+  //  background-color: rgb(33,37,41);
+  color: rgb(240, 240, 240);
 }
 
-div.leader-label{
-     font-family: 'Roboto Mono', sans-serif;
-     font-size: 0.8rem;
-     border-radius: 3px; width: 8rem;
+div.search-div {
+  box-shadow: 1px 1px 3px rgb(66, 62, 62);
+  border-radius: 8px;
 }
 
-div.leader-name{
-    border-radius: 4px;
-    text-align : left;
+div.leader-label {
+  font-family: "Roboto Mono", sans-serif;
+  font-size: 0.8rem;
+  border-radius: 3px;
+  width: 8rem;
 }
 
-div button#addVisitorButton{
-    width : 100%;
+div.leader-name {
+  border-radius: 4px;
+  text-align: left;
 }
 
-#changeLeaderButton{
-    text-decoration:none;
+div button#addVisitorButton {
+  width: 100%;
 }
 
-div.new-visitor{
-    box-shadow: 1px 1px 3px rgb(66, 62, 62); border-radius: 8px;
+#changeLeaderButton {
+  text-decoration: none;
 }
 
-div form #nameLabel{
-    font-size : 1rem;
+div.new-visitor {
+  box-shadow: 1px 1px 3px rgb(66, 62, 62);
+  border-radius: 8px;
 }
 
+div form #nameLabel {
+  font-size: 1rem;
+}
