@@ -35,10 +35,7 @@ public class DashboardController {
     private final PositionService positionService;
 
     private final AgencyService agencyService;
-
-
     private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-
 
     private boolean error;
     @InitBinder
@@ -61,7 +58,6 @@ public class DashboardController {
 
                 if(visitorOptional.isPresent()){
                     Long id=visitorOptional.get().getId();
-                   // redirectAttributes.addFlashAttribute("direction","/dashboard");
                     return String.format("redirect:/appearances/appearance-form/%d",id);
                 }else{
                     throw new VisitorNotFoundException(searchName +  " not found!");
@@ -85,7 +81,6 @@ public class DashboardController {
             model.addAttribute("leaderNames",leaderNames);
             model.addAttribute("positions",positions);
             model.addAttribute("agencies",agencies);
-            model.addAttribute("error",error);
             model.addAttribute("leader",leader);
             model.addAttribute("visitors",visitors);
 
