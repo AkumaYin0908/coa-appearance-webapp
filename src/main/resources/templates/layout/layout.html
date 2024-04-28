@@ -1,87 +1,110 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 
-<!--Bootstrap CSS-->
-<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <!--Bootstrap CSS-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+    />
 
-<!--Bootstrap JS-->
+    <!--Bootstrap JS-->
 
-<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script
+      type="text/javascript"
+      th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"
+    ></script>
 
-<!--Google Fonts-->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro&display=swap"
+      rel="stylesheet"
+    />
 
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
-<!-- JQuery -->
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.js}"></script>
+    <!-- JQuery -->
+    <script
+      type="text/javascript"
+      th:src="@{/webjars/jquery/jquery.js}"
+    ></script>
 
-<!-- JQuery UI CSS -->
-<link rel="stylesheet" type="text/css" th:href="@{/jqueryui/jquery-ui.css}" />
+    <!-- JQuery UI CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/jqueryui/jquery-ui.css}"
+    />
 
-<!-- JQuery UI -->
-<script th:src= "@{/jqueryui/jquery-ui.js}"></script>
+    <!-- JQuery UI -->
+    <script th:src="@{/jqueryui/jquery-ui.js}"></script>
 
+    <link rel="stylesheet" th:href="@{/css/icons.css}" />
 
-<link rel="stylesheet" th:href="@{/css/icons.css}">
+    <title layout:title-pattern="$CONTENT_TITLE"></title>
+  </head>
 
-<title layout:title-pattern="$CONTENT_TITLE"></title>
+  <body>
+    <script th:inline="javascript">
+      let error=/*[[${error}]]*/;
+      $(document).ready(function(){
+        if (error) {
+              $("#messageHolder").removeClass("alert-success").addClass("alert-danger");
+          } else {
+              $("#messageHolder").removeClass("alert-danger").addClass("alert-success");
+          }
 
-</head>
-
-<body>
-<script th:inline = "javascript">
-    let error=/*[[${error}]]*/;
-    $(document).ready(function(){
-      if (error) {
-            $("#messageHolder").removeClass("alert-success").addClass("alert-danger");
-        } else {
-            $("#messageHolder").removeClass("alert-danger").addClass("alert-success");
-        }
-
-    });
-
-
-</script>
-<div id="messageHolder" th:if="${message != null}" class="alert alert-dismissible fade show text-center message mt-3"
-     role="alert">
-    <span id="message">[[${message}]]</span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+      });
+    </script>
+    <div
+      id="messageHolder"
+      th:if="${message != null}"
+      class="alert alert-dismissible fade show text-center message mt-3"
+      role="alert"
+    >
+      <span id="message">[[${message}]]</span>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      >
         <span aria-hidden="true"></span>
-    </button>
-</div>
+      </button>
+    </div>
 
- <div th:replace="~{fragments/navigation :: navigation}"></div>
+    <div th:replace="~{fragments/navigation :: navigation}"></div>
 
+    <section>
+      <div th:replace="~{fragments/canvas :: canvas}"></div>
+    </section>
 
-     <section>
-         <div  th:replace="~{fragments/canvas :: canvas}"></div>
-     </section>
+    <section>
+      <div id="main-content" layout:fragment="content"></div>
+    </section>
 
-      <section>
-          <div id="main-content" layout:fragment="content"></div>
-      </section>
+    <!-- &lt;!&ndash;Font Awesome&ndash;&gt;-->
+    <!-- <script src="https://kit.fontawesome.com/0c170eb2fd.js" crossorigin="anonymous"></script>-->
 
+    <script th:src="@{/js/index.js}" type="text/javascript" defer></script>
 
-
-
-
-<!-- &lt;!&ndash;Font Awesome&ndash;&gt;-->
-<!-- <script src="https://kit.fontawesome.com/0c170eb2fd.js" crossorigin="anonymous"></script>-->
-
-
-
-
-<script th:src="@{/js/index.js}" type="text/javascript"></script>
-
- <th:block layout:fragment="script"></th:block>
-</body>
+    <th:block layout:fragment="script"></th:block>
+  </body>
 </html>

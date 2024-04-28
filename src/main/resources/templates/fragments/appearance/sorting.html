@@ -1,9 +1,14 @@
 <th scope="col" th:fragment="sorting(field,label)">
-<a th:href="@{'/appearances/' + ${visitor.id} + '/appearance-history?' + ${searchPurpose != null && searchPurpose != '' ? 'searchPurpose=' + searchPurpose + '&' : ''}
+  <a
+    th:href="@{'/appearances/' + ${visitor.id} + '/appearance-history?' + ${searchPurpose != null && searchPurpose != '' ? 'searchPurpose=' + searchPurpose + '&' : ''}
     + ${selectedMonth != null && selectedMonth != 0  ? '?selectedMonth=' + selectedMonth + '&' : ''}
     + ${selectedYear != null && selectedYear != 0  ? '?selectedYear=' + selectedYear + '&' : ''}
     + 'page=' + ${currentPage} + '&size=' + ${pageSize}
-    + ${sortField != null ? '&sort=' + field + ',' + (sortField == field ? reverseSortDirection : sortDirection) : ''}}" th:text="${label}"></a>
-<span th:if="${sortField == field}"
-      th:class="${sortDirection == 'asc' ? 'fa-solid fa-arrow-down-short-wide' : 'fa-solid fa-arrow-down-wide-short'}"></span>
+    + ${sortField != null ? '&sort=' + field + ',' + (sortField == field ? reverseSortDirection : sortDirection) : ''}}"
+    th:text="${label}"
+  ></a>
+  <span
+    th:if="${sortField == field}"
+    th:class="${sortDirection == 'asc' ? 'fa-solid fa-arrow-down-short-wide' : 'fa-solid fa-arrow-down-wide-short'}"
+  ></span>
 </th>

@@ -1,41 +1,39 @@
-
-
-  <div  th:fragment="canvas" class="offcanvas offcanvas-size-sm offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="1" id="canvas-panel" aria-labelledby="Canvas Panel">
-
-    <div class="logo">
-        <img th:src="@{/images/logo.png}" alt="coa logo">
-        <h4>COA Appearance Generator</h4>
-    </div>
-
-
-
-    <div class="side-buttons">
-      <ul>
-        <li>
-          <a id = "dashboardButton" th:href="@{/dashboard}">
-                <span class="icon material-symbols-outlined">home</span>
-                <span class="item">Home</span>
-          </a>
-        </li>
-
-        <li>
-          <a  id = "visitorButton" th:href="@{/visitors}">
-            <span class="icon material-symbols-outlined">person</span>
-            <span class="item">Visitors</span>
-          </a>
-        </li>
-
-
-       <li>
-
-            <a  id="leaderButton" th:href="@{/settings/leaders}" class="sub-item">
-                <span class="icon material-symbols-outlined">group</span>
-                <span class="item">Leaders</span>
-            </a>
-        </li>
-
-
-      </ul>
-    </div>
+<div
+  th:fragment="canvas"
+  class="offcanvas offcanvas-size-sm offcanvas-start"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+  tabindex="1"
+  id="canvas-panel"
+  aria-labelledby="Canvas Panel"
+>
+  <div class="logo">
+    <img th:src="@{/images/logo.png}" alt="coa logo" />
+    <h4>COA Appearance Generator</h4>
   </div>
 
+  <div class="side-buttons">
+    <ul>
+      <li>
+        <a id="dashboardButton" th:href="@{/dashboard}">
+          <span class="icon material-symbols-outlined">home</span>
+          <span class="item">Home</span>
+        </a>
+      </li>
+
+      <li>
+        <a id="visitorButton" th:href="@{/visitors}">
+          <span class="icon material-symbols-outlined">person</span>
+          <span class="item">Visitors</span>
+        </a>
+      </li>
+
+      <li>
+        <a id="leaderButton" th:href="@{/settings/leaders}" class="sub-item">
+          <span class="icon material-symbols-outlined">group</span>
+          <span class="item">Leaders</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
