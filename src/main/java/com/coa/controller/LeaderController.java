@@ -200,13 +200,14 @@ public class LeaderController {
                leaderService.updateInCharge(currentLeaderId,leaderId);
                redirectAttributes.addFlashAttribute("message",leader.getName() + " has been assign as leader!");
             }else{
+
                 throw new LeaderNotFoundException("Leader not found!");
             }
 
         }catch (Exception ex){
             error =true;
+            redirectAttributes.addFlashAttribute("error",error);
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
-
         }
         return "redirect:/dashboard";
 
