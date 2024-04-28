@@ -1,4 +1,4 @@
-
-$(document).ready(function(){
-    window.print();
+"use strict";
+$(document).ready(function () {
+  window.print();
 });
