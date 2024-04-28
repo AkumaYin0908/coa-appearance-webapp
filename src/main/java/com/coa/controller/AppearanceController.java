@@ -2,6 +2,7 @@ package com.coa.controller;
 
 import com.coa.dto.AppearanceDTO;
 import com.coa.dto.VisitorDTO;
+import com.coa.exceptions.LeaderNotFoundException;
 import com.coa.exceptions.VisitorNotFoundException;
 import com.coa.model.Appearance;
 import com.coa.model.Leader;
@@ -229,7 +230,6 @@ public class AppearanceController {
             }else{
 
                 appearancePage=appearanceService.findByPurposeContainingIgnoreCase(searchPurpose,visitor,pageable);
-                System.out.println(appearancePage.getContent());
                 model.addAttribute("searchPurpose",searchPurpose);
             }
 
@@ -311,6 +311,7 @@ public class AppearanceController {
             model.addAttribute("currentPage", appearancePage.getNumber() + 1);
             model.addAttribute("totalItems",appearancePage.getTotalElements());
             model.addAttribute("totalPages",appearancePage.getTotalPages());
+            model.addAttribute("error",error);
             model.addAttribute("pageSize", size);
             model.addAttribute("sortField", sortField);
             model.addAttribute("sortDirection", sortDirection);
@@ -399,6 +400,9 @@ public class AppearanceController {
 
 
             Leader leader = leaderService.findLeaderByInChargeStatus(true);
+            if(leader == null) {
+                throw new LeaderNotFoundException("No leader is currently active!");
+            }
 
             AppearanceDTO appearanceDTO=appearanceService.findAndMapToAppearanceDTO(appearanceId);
             appearanceDTO.setFormattedStringDate(appearanceDTO.formattedStringDateRange(appearanceDTO.getDateFrom(),appearanceDTO.getDateTo()));
@@ -410,6 +414,7 @@ public class AppearanceController {
             model.addAttribute("appearance",appearanceDTO);
             model.addAttribute("leader",leader);
         }catch(Exception ex){
+            error = true;
             redirectAttributes.addFlashAttribute("message", ex.getMessage());
             return String.format("redirect:%s",uri.getPath());
 
@@ -429,6 +434,10 @@ public class AppearanceController {
        try{
 
            Leader leader = leaderService.findLeaderByInChargeStatus(true);
+
+           if(leader == null) {
+               throw new LeaderNotFoundException("No leader is currently active!");
+           }
 
            Visitor visitor = visitorService.findById(id);
 
@@ -462,6 +471,7 @@ public class AppearanceController {
            model.addAttribute("appearance",appearanceDTO);
            model.addAttribute("leader",leader);
        }catch(Exception ex){
+           error = true;
            redirectAttributes.addFlashAttribute("message", ex.getMessage());
            return String.format("redirect:%s",uri.getPath());
 
@@ -511,6 +521,10 @@ public class AppearanceController {
 
          Leader leader = leaderService.findLeaderByInChargeStatus(true);
 
+         if(leader == null) {
+             throw new LeaderNotFoundException("No leader is currently active!");
+         }
+
          Visitor visitor = visitorService.findById(visitorId);
 
 
@@ -529,7 +543,7 @@ public class AppearanceController {
 
 
      }catch (Exception ex){
-
+         error = true;
          redirectAttributes.addFlashAttribute("message", ex.getMessage());
          return String.format("redirect:%s",uri.getPath());
 
