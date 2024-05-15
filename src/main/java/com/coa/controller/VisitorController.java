@@ -1,28 +1,8 @@
 package com.coa.controller;
 
 
-import com.coa.dto.VisitorDTO;
-import com.coa.model.Agency;
-import com.coa.model.Position;
-import com.coa.model.Visitor;
-import com.coa.service.AgencyService;
-import com.coa.service.PositionService;
-import com.coa.service.VisitorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
-import java.util.Optional;
 
 
 @Controller

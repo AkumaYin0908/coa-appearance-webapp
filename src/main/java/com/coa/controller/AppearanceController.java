@@ -1,38 +1,8 @@
 package com.coa.controller;
 
-import com.coa.dto.AppearanceDTO;
-import com.coa.dto.VisitorDTO;
-import com.coa.exceptions.LeaderNotFoundException;
-import com.coa.exceptions.VisitorNotFoundException;
-import com.coa.model.Appearance;
-import com.coa.model.Leader;
-import com.coa.model.Purpose;
-import com.coa.model.Visitor;
-import com.coa.service.AppearanceService;
-import com.coa.service.LeaderService;
-import com.coa.service.PurposeService;
-import com.coa.service.VisitorService;
-import com.coa.utils.AppearanceIDs;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 @Controller
 @RequestMapping("/appearances")
