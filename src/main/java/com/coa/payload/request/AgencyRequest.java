@@ -13,6 +13,6 @@ public class AgencyRequest {
 
     private Long id;
     private String name;
-    private AddressRequest address;
+
 
 }
