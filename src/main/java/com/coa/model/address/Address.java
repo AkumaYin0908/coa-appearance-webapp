@@ -2,6 +2,7 @@ package com.coa.model.address;
 
 
 import com.coa.model.Agency;
+import com.coa.model.Visitor;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,6 @@ public class Address {
     @JoinColumn(name = "region")
     private  Region region;
 
-    @ManyToMany(mappedBy = "addresses")
-    private Set<Agency> agencies;
+    @OneToMany(mappedBy = "address",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    private List<Visitor> visitors;
 }
