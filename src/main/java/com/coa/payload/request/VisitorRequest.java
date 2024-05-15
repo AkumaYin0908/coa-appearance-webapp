@@ -1,6 +1,7 @@
 package com.coa.payload.request;
 
 
+import com.coa.payload.request.address.AddressRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ public class VisitorRequest {
     private Long id;
     private String name;
     private PositionRequest position;
+    private AgencyRequest agency;
+    private AddressRequest address;
 
     @Override
     public boolean equals(Object o) {
