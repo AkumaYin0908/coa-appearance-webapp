@@ -4,6 +4,6 @@ public interface PurposeConstant {
 
     String findByDescription = "select * from purpose where purpose = ?";
 
-    String getDescriptions = "select purpose from purpose";
+    String findDescriptions = "select id, purpose from purpose";
 
 }

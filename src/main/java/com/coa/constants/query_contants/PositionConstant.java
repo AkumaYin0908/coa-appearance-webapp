@@ -4,5 +4,5 @@ public interface PositionConstant {
 
     String findByTitle = "select * from position where name = ?";
 
-    String getTitles = "select name from position";
+    String findTitles = "select id, name from position";
 }
