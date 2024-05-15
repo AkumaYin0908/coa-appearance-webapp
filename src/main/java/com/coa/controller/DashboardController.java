@@ -28,97 +28,97 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final VisitorService visitorService;
-    private final LeaderService leaderService;
-    private final AppearanceService appearanceService;
-
-    private final PositionService positionService;
-
-    private final AgencyService agencyService;
-    private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-
-    private boolean error;
-    @InitBinder
-    public void getInitBinder(WebDataBinder webDataBinder){
-        StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
-        webDataBinder.registerCustomEditor(String.class,stringTrimmerEditor);
-    }
-
-    @GetMapping(value = {"/dashboard","/"})
-    public String showDashboard(Model model,
-                                @RequestParam(required = false)String searchName,
-                                @RequestParam(defaultValue = "1") int page,
-                                @RequestParam(defaultValue = "10") int size){
-        try{
-            List<String> visitors=visitorService.findAll().stream()
-                    .map(Visitor::getName).toList();
-
-            if(searchName!=null){
-                Optional<Visitor> visitorOptional=visitorService.findVisitorByName(searchName);
-
-                if(visitorOptional.isPresent()){
-                    Long id=visitorOptional.get().getId();
-                    return String.format("redirect:/appearances/appearance-form/%d",id);
-                }else{
-                    throw new VisitorNotFoundException(searchName +  " not found!");
-
-                }
-            }
-
-            Leader leader = leaderService.findLeaderByInChargeStatus(true);
-
-            List<String> leaderNames=leaderService.findAll()
-                            .stream().map(Leader :: getName).toList();
-
-            List<String> positions=positionService.findAll().stream()
-                    .map(Position::getName).toList();
-
-            List<String> agencies=agencyService.findAll().stream()
-                    .map(Agency::getName).toList();
-
-            model.addAttribute("addFormVisitorDTO", new VisitorDTO());
-            loadAppearanceHistory(model,page,size);
-            model.addAttribute("leaderNames",leaderNames);
-            model.addAttribute("positions",positions);
-            model.addAttribute("agencies",agencies);
-            model.addAttribute("leader",leader);
-            model.addAttribute("visitors",visitors);
-
-        }catch (Exception ex){
-            error =true;
-            model.addAttribute("message", ex.getMessage());
-            return "redirect:/dashboard";
-
-        }
-
-        return "dashboard";
-    }
-
-    public void loadAppearanceHistory(Model model, int page, int size){
-        try{
-            Pageable pageable= PageRequest.of(page-1,size);
-
-            Page<Appearance> appearancePage = appearanceService.findAppearanceOrderByDateIssuedDESC(pageable);
-
-            List<AppearanceDTO> appearanceDTOS = appearancePage.getContent()
-                    .stream()
-                    .map(appearance -> new AppearanceDTO(appearance.getId(),
-                            appearance.getVisitor().getName(),
-                            appearance.getVisitor().getPosition().getName(),
-                            appearance.getVisitor().getAgency().getName(),
-                            appearance.getDateIssued().format(dateTimeFormatter),
-                            appearance.getDateFrom().format(dateTimeFormatter),
-                            appearance.getDateTo().format(dateTimeFormatter),
-                            appearance.getPurpose().getPurpose())).toList();
-
-
-            model.addAttribute("appearances",appearanceDTOS);
-            model.addAttribute("currentPage",appearancePage.getNumber() + 1);
-            model.addAttribute("totalPages",appearancePage.getTotalPages());
-            model.addAttribute("pageSize",size);
-        }catch(Exception ex){
-            error = true;
-            model.addAttribute("message",ex.getMessage());
-        }
-    }
+//    private final VisitorService visitorService;
+//    private final LeaderService leaderService;
+//    private final AppearanceService appearanceService;
+//
+//    private final PositionService positionService;
+//
+//    private final AgencyService agencyService;
+//    private static final DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+//
+//    private boolean error;
+//    @InitBinder
+//    public void getInitBinder(WebDataBinder webDataBinder){
+//        StringTrimmerEditor stringTrimmerEditor=new StringTrimmerEditor(true);
+//        webDataBinder.registerCustomEditor(String.class,stringTrimmerEditor);
+//    }
+//
+//    @GetMapping(value = {"/dashboard","/"})
+//    public String showDashboard(Model model,
+//                                @RequestParam(required = false)String searchName,
+//                                @RequestParam(defaultValue = "1") int page,
+//                                @RequestParam(defaultValue = "10") int size){
+//        try{
+//            List<String> visitors=visitorService.findAll().stream()
+//                    .map(Visitor::getName).toList();
+//
+//            if(searchName!=null){
+//                Optional<Visitor> visitorOptional=visitorService.findVisitorByName(searchName);
+//
+//                if(visitorOptional.isPresent()){
+//                    Long id=visitorOptional.get().getId();
+//                    return String.format("redirect:/appearances/appearance-form/%d",id);
+//                }else{
+//                    throw new VisitorNotFoundException(searchName +  " not found!");
+//
+//                }
+//            }
+//
+//            Leader leader = leaderService.findLeaderByInChargeStatus(true);
+//
+//            List<String> leaderNames=leaderService.findAll()
+//                            .stream().map(Leader :: getName).toList();
+//
+//            List<String> positions=positionService.findAll().stream()
+//                    .map(Position::getName).toList();
+//
+//            List<String> agencies=agencyService.findAll().stream()
+//                    .map(Agency::getName).toList();
+//
+//            model.addAttribute("addFormVisitorDTO", new VisitorDTO());
+//            loadAppearanceHistory(model,page,size);
+//            model.addAttribute("leaderNames",leaderNames);
+//            model.addAttribute("positions",positions);
+//            model.addAttribute("agencies",agencies);
+//            model.addAttribute("leader",leader);
+//            model.addAttribute("visitors",visitors);
+//
+//        }catch (Exception ex){
+//            error =true;
+//            model.addAttribute("message", ex.getMessage());
+//            return "redirect:/dashboard";
+//
+//        }
+//
+//        return "dashboard";
+//    }
+//
+//    public void loadAppearanceHistory(Model model, int page, int size){
+//        try{
+//            Pageable pageable= PageRequest.of(page-1,size);
+//
+//            Page<Appearance> appearancePage = appearanceService.findAppearanceOrderByDateIssuedDESC(pageable);
+//
+//            List<AppearanceDTO> appearanceDTOS = appearancePage.getContent()
+//                    .stream()
+//                    .map(appearance -> new AppearanceDTO(appearance.getId(),
+//                            appearance.getVisitor().getName(),
+//                            appearance.getVisitor().getPosition().getName(),
+//                            appearance.getVisitor().getAgency().getName(),
+//                            appearance.getDateIssued().format(dateTimeFormatter),
+//                            appearance.getDateFrom().format(dateTimeFormatter),
+//                            appearance.getDateTo().format(dateTimeFormatter),
+//                            appearance.getPurpose().getPurpose())).toList();
+//
+//
+//            model.addAttribute("appearances",appearanceDTOS);
+//            model.addAttribute("currentPage",appearancePage.getNumber() + 1);
+//            model.addAttribute("totalPages",appearancePage.getTotalPages());
+//            model.addAttribute("pageSize",size);
+//        }catch(Exception ex){
+//            error = true;
+//            model.addAttribute("message",ex.getMessage());
+//        }
+//    }
 }

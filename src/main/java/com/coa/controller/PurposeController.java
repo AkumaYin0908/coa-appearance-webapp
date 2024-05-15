@@ -12,12 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurposeController {
 
-    private final PositionService positionService;
-
-
-
-    @GetMapping("/positions/getAll")
-    public List<Position> getPositions(){
-        return positionService.findAll();
-    }
+//    private final PositionService positionService;
+//
+//
+//
+//    @GetMapping("/positions/getAll")
+//    public List<Position> getPositions(){
+//        return positionService.findAll();
+//    }
 }
