@@ -25,12 +25,6 @@ public class Agency {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-    @JoinTable(name = "address_agency",
-            joinColumns = @JoinColumn(name = "agency_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id"))
-    private Set<Address> addresses;
-
     @OneToMany(mappedBy = "agency",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private List<Visitor> visitors;
 
