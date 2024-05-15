@@ -23,13 +23,16 @@ public class Position {
     @Column(name ="id")
     private Long id;
 
-    @Column(name="name")
-    private String name;
+
+    //to be renamed as title
+    @Column(name="title")
+    private String title;
 
     @OneToMany(mappedBy = "position",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     List<Visitor> visitors;
 
-    public Position(String name) {
-        this.name = name;
+    //to be removed
+    public Position(String title) {
+        this.title = title;
     }
 }

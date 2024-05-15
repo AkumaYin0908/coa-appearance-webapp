@@ -1,31 +1,27 @@
 package com.coa.service;
 
-import com.coa.dto.VisitorDTO;
-import com.coa.exceptions.VisitorNotFoundException;
-import com.coa.model.Visitor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import com.coa.payload.request.VisitorRequest;
+import com.coa.payload.response.VisitorResponse;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 
 public interface VisitorService {
 
-    Page<Visitor> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    List<VisitorResponse> findAll();
+    VisitorResponse findById(Long id);
+    VisitorResponse findByName(String name);
 
-    Page<Visitor> findAll(Pageable pageable);
+    VisitorResponse save(VisitorRequest visitor);
 
-    List<Visitor> findAll();
-    Visitor findById(Long id) ;
-   VisitorDTO findAndMapToVisitorDTO(Long id) ;
-   Optional<Visitor> findVisitorByName(String name) ;
+    VisitorResponse update(Long id, VisitorRequest visitor);
 
-    Optional<Visitor> findVisitorByName(Long id, String name) ;
+    Map<Long,String> findNames();
 
-    void save(Visitor visitor);
+    void delete(Long id);
 
-    void deleteById ( Long id);
 
 
 }

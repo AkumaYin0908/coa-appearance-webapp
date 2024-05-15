@@ -1,17 +1,28 @@
 package com.coa.service;
 
-
-import com.coa.model.Position;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.coa.payload.request.PositionRequest;
+import com.coa.payload.request.VisitorRequest;
+import com.coa.payload.response.PositionResponse;
+import com.coa.payload.response.VisitorResponse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PositionService {
 
 
-    Position findPositionByName(String name);
-    Page<Position> findAll(Pageable pageable);
-    List<Position> findAll();
-    void save(Position position);
+    List<PositionResponse> findAll();
+
+    PositionResponse findById(Long id);
+
+    PositionResponse findByTitle(String title);
+
+    Map<Long,String> findTitles();
+
+    PositionResponse save(PositionRequest position);
+
+    PositionResponse update(Long id, PositionRequest position);
+
+    void delete(Long id);
+
 }

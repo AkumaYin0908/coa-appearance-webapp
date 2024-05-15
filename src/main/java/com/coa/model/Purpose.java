@@ -21,22 +21,15 @@ public class Purpose {
     @Column(name ="id")
     private Long id;
 
-
-    @Column(name="purpose")
-    private String purpose;
+    //to be renamed as description
+    @Column(name="description")
+    private String description;
 
     @OneToMany(mappedBy = "purpose", cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private Set<Appearance> appearanceSet;
 
-
-
-    public Purpose(String purpose) {
-        this.purpose = purpose;
+    //to be removed
+    public Purpose(String description) {
+        this.description = description;
     }
-
-
-
-
-
-
 }
