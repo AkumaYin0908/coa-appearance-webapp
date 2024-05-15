@@ -1,6 +1,7 @@
 package com.coa.model;
 
 
+import com.coa.model.address.Address;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,10 @@ public class Visitor {
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name="agency")
     private Agency agency;
+
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="address")
+    private Address address;
 
 
     public Visitor(String name, Position position, Agency agency) {
