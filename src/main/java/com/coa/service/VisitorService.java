@@ -14,9 +14,9 @@ public interface VisitorService {
     VisitorResponse findById(Long id);
     VisitorResponse findByName(String name);
 
-    VisitorResponse save(VisitorRequest visitor);
+    VisitorResponse save(VisitorRequest visitorRequest);
 
-    VisitorResponse update(Long id, VisitorRequest visitor);
+    VisitorResponse update(Long id, VisitorRequest visitorRequest);
 
     Map<Long,String> findNames();
 
