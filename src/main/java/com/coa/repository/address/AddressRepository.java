@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    @Query(value = AddressConstant.findByName, nativeQuery = true)
-    Optional<Address> findByName(String name);
 
     @Query(value = AddressConstant.findByBarangay,nativeQuery = true)
     List<Address> findByBarangay(String brgyCode);
