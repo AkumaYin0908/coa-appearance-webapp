@@ -1,5 +1,6 @@
 package com.coa.service;
 
+import com.coa.payload.request.AppearanceRequest;
 import com.coa.payload.response.AppearanceResponse;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public interface AppearanceService {
     List<AppearanceResponse> findByYear(Integer year);
 
     AppearanceResponse findByReference(String reference);
+
+    AppearanceResponse save(AppearanceRequest appearance);
+
+    AppearanceResponse update(Long id, AppearanceRequest appearance);
+
+    void delete(Long id);
 
 
 }

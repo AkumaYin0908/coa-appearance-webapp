@@ -1,5 +1,6 @@
 package com.coa.service;
 
+import com.coa.payload.request.LeaderRequest;
 import com.coa.payload.response.LeaderResponse;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public interface LeaderService {
     LeaderResponse findByStatus(boolean inCharge);
 
     LeaderResponse updateStatus(boolean inCharge, Long id);
+
+    LeaderResponse save(LeaderRequest leader);
+
+    LeaderResponse update(Long id, LeaderRequest leader);
+
+    void delete(Long id);
 
 
 
