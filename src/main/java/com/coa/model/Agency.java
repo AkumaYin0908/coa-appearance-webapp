@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,5 +31,19 @@ public class Agency {
 
     public Agency(String name) {
         this.name = name;
+    }
+
+    public void addVisitor(Visitor visitor){
+        if(visitors == null){
+            visitors = new ArrayList<>();
+        }
+
+        visitor.setAgency(this);
+        visitors.add(visitor);
+    }
+
+    public void removeVisitor(Visitor visitor){
+        visitor.setAgency(null);
+        visitors.remove(visitor);
     }
 }
