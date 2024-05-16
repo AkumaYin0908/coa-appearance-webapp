@@ -2,7 +2,7 @@ package com.coa.constants.query_contants;
 
 public interface AddressConstant {
 
-    String findByName = "select * from address where name = ?";
+
     String findByBarangay  = "select * from address where barangay = ? ";
 
     String findByMunicipality = "select * from address where municipality = ?";
