@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "position")
-@ToString(exclude = "visitors")
 public class Position {
 
 
@@ -28,6 +27,7 @@ public class Position {
     @Column(name="title")
     private String title;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "position",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     List<Visitor> visitors;
 

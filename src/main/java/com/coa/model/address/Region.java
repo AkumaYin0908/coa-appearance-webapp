@@ -24,7 +24,7 @@ public class Region {
     private String regionName;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "region",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "region",cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     private List<Address> addresses;
 
     public Region(String regionCode, String regionName) {
@@ -42,6 +42,6 @@ public class Region {
 
     public void removeAddress(Address address){
         address.setRegion(null);
-        addresses.remove(address);
+        if(addresses!=null) addresses.remove(address);
     }
 }

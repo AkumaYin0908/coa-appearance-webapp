@@ -14,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name="agency")
-@ToString(exclude = "visitors")
 public class Agency {
 
 
@@ -26,6 +25,7 @@ public class Agency {
     @Column(name = "name")
     private String name;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "agency",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private List<Visitor> visitors;
 
@@ -44,6 +44,6 @@ public class Agency {
 
     public void removeVisitor(Visitor visitor){
         visitor.setAgency(null);
-        visitors.remove(visitor);
+        if(visitors !=null) visitors.remove(visitor);
     }
 }

@@ -40,6 +40,6 @@ public class Municipality {
 
     public void removeAddress(Address address){
         address.setMunicipality(null);
-        addresses.remove(address);
+        if(addresses!=null) addresses.remove(address);
     }
 }

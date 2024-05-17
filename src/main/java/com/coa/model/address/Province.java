@@ -42,7 +42,7 @@ public class Province {
 
     public void removeAddress(Address address){
         address.setProvince(null);
-        addresses.remove(address);
+        if(addresses!=null) addresses.remove(address);
     }
 
 

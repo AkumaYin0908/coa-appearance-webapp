@@ -42,7 +42,7 @@ public class Barangay {
 
     public void removeAddress(Address address){
         address.setBarangay(null);
-        addresses.remove(address);
+        if(addresses!=null) addresses.remove(address);
     }
 
 
