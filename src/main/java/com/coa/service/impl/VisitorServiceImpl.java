@@ -1,6 +1,7 @@
 package com.coa.service.impl;
 
 import com.coa.exceptions.rest.AlreadyExistException;
+import com.coa.exceptions.rest.ResourceNotFoundException;
 import com.coa.model.Agency;
 import com.coa.model.Visitor;
 import com.coa.model.address.Address;
@@ -39,11 +40,13 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public VisitorResponse findById(Long id) {
-        return modelMapper.map(visitorRepository.findById(id),VisitorResponse.class);
+        Visitor visitor  = visitorRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Visitor","id",id));
+        return modelMapper.map(visitor,VisitorResponse.class);
     }
 
     @Override
     public VisitorResponse findByName(String name) {
+        Visitor visitor = visitorRepository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Visitor","name",name));
         return modelMapper.map(visitorRepository.findByName(name),VisitorResponse.class);
     }
 
@@ -64,29 +67,51 @@ public class VisitorServiceImpl implements VisitorService {
                 .orElseGet(()->new Agency(visitorRequest.getAgency().getName()));
 
         agency.addVisitor(visitor);
-       // agencyRepository.save(agency);
+        agencyRepository.save(agency);
+
 
         AddressRequest addressRequest = visitorRequest.getAddress();
-        Address address = addressRepository.findByCodes(addressRequest.getBarangay().getCode(),
+        Address address = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
                 addressRequest.getMunicipality().getCode(),addressRequest.getProvince().getCode(),addressRequest.getRegion().getCode())
                 .orElseGet(()->modelMapper.map(addressRequest,Address.class));
+       address.addVisitor(visitor);
 
 
-        return null;
+
+        Visitor dbVisitor = visitorRepository.save(visitor);
+
+        return modelMapper.map(dbVisitor,VisitorResponse.class);
     }
 
     @Override
-    public VisitorResponse update(Long id, VisitorRequest visitor) {
-        return null;
+    public VisitorResponse update(Long id, VisitorRequest visitorRequest) {
+        Visitor visitor = visitorRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Visitor","id",id));
+
+        visitor.setName(visitorRequest.getName());
+        Agency agency = agencyRepository.findById(visitorRequest.getAgency().getId())
+                .orElseGet(()->new Agency(visitorRequest.getAgency().getName()));
+
+        agency.addVisitor(visitor);
+        // agencyRepository.save(agency);
+
+        AddressRequest addressRequest = visitorRequest.getAddress();
+        Address address = addressRepository.findByCodes(addressRequest.getBarangay().getCode(),
+                        addressRequest.getMunicipality().getCode(),addressRequest.getProvince().getCode(),addressRequest.getRegion().getCode())
+                .orElseGet(()->modelMapper.map(addressRequest,Address.class));
+        address.addVisitor(visitor);
+
+        visitorRepository.save(visitor);
+        return modelMapper.map(visitor,VisitorResponse.class);
+
     }
 
     @Override
     public Map<Long, String> findNames() {
-        return null;
+        return visitorRepository.findNames();
     }
 
     @Override
     public void delete(Long id) {
-
+        visitorRepository.deleteById(id);
     }
 }
