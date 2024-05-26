@@ -2,34 +2,31 @@ package com.coa.model.address;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @NoArgsConstructor
 @Entity
 @Table(name="region")
-public class Region {
+public class Region extends Base{
 
-    @Id
-    @Column(name="region_code")
-    private String regionCode;
-
-
-    @Column(name="region_name")
-    private String regionName;
+//    @Id
+//    @Column(name="region_code")
+//    private String code;
+//
+//
+//    @Column(name="region_name")
+//    private String name;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "region",cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "region",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private List<Address> addresses;
 
-    public Region(String regionCode, String regionName) {
-        this.regionCode = regionCode;
-        this.regionName = regionName;
+    public Region(String code, String name) {
+        super(code, name);
     }
 
     public void addAddress(Address address){
