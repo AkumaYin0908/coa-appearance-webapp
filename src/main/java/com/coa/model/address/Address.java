@@ -1,18 +1,16 @@
 package com.coa.model.address;
 
 
-import com.coa.model.Agency;
 import com.coa.model.Visitor;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-@Data
+
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name="address")
@@ -40,7 +38,7 @@ public class Address {
     private  Region region;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "address",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "address",cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH})
     private List<Visitor> visitors;
 
 
@@ -56,7 +54,6 @@ public class Address {
         if(visitors == null){
             visitors = new ArrayList<>();
         }
-
         visitor.setAddress(this);
         visitors.add(visitor);
     }
