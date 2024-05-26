@@ -17,10 +17,10 @@ import java.util.Objects;
 public class AddressResponse {
 
     private Long id;
-    private BarangayRequest barangay;
-    private MunicipalityRequest municipality;
-    private ProvinceRequest province;
-    private RegionRequest region;
+    private BarangayResponse barangay;
+    private MunicipalityResponse municipality;
+    private ProvinceResponse province;
+    private RegionResponse region;
 
     @Override
     public boolean equals(Object o) {
