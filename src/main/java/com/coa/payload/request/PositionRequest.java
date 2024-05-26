@@ -12,7 +12,7 @@ import java.util.Objects;
 public class PositionRequest {
 
     private Long id;
-    private String name;
+    private String title;
 
     @Override
     public boolean equals(Object o) {
