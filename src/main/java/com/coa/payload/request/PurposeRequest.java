@@ -13,7 +13,7 @@ import java.util.Objects;
 public class PurposeRequest {
 
     private Long id;
-    private String purpose;
+    private String description;
 
     @Override
     public boolean equals(Object o) {
