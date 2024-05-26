@@ -2,15 +2,13 @@ package com.coa.model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
-
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "position")
@@ -34,5 +32,19 @@ public class Position {
     //to be removed
     public Position(String title) {
         this.title = title;
+    }
+
+    public void addVisitor(Visitor visitor){
+        if(visitors == null){
+            visitors = new ArrayList<>();
+        }
+
+        visitor.setPosition(this);
+        visitors.add(visitor);
+    }
+
+    public void removeVisitor(Visitor visitor){
+        visitor.setAgency(null);
+        if(visitors !=null) visitors.remove(visitor);
     }
 }
