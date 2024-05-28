@@ -11,7 +11,7 @@ public interface AddressConstant {
 
     String findByRegion = "select * from address where region = ?";
 
-    String findByCodes = "select * from address where (barangay is null or barangay = ?) and municipality = ? " +
+    String findByCodes = "select * from address where barangay = ? and municipality = ? " +
             "and province = ? and region = ?";
 
 
