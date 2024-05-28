@@ -15,7 +15,7 @@ public class AddressRequest {
     private BarangayRequest barangay;
     private MunicipalityRequest municipality;
     private ProvinceRequest province;
-    private  RegionRequest region;
+    private RegionRequest region;
 
     @Override
     public boolean equals(Object o) {
