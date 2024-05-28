@@ -110,7 +110,7 @@ public class VisitorServiceImpl implements VisitorService {
 
         Optional<Visitor> visitorOptional = visitorRepository.findByName(visitorRequest.getName());
 
-        if (visitorOptional.isPresent()) {
+        if (visitorOptional.isPresent() && !visitorOptional.get().getId().equals(id)) {
             throw new AlreadyExistException("Visitor", "name");
         }
 
@@ -140,9 +140,7 @@ public class VisitorServiceImpl implements VisitorService {
         provinceRepository.save(address.getProvince());
         regionRepository.save(address.getRegion());
         addressRepository.save(address);
-
         address.addVisitor(visitor);
-
 
         visitorRepository.save(visitor);
 
