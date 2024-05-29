@@ -1,10 +1,7 @@
 package com.coa.service;
 
 import com.coa.payload.request.PositionRequest;
-import com.coa.payload.request.VisitorRequest;
 import com.coa.payload.response.PositionResponse;
-import com.coa.payload.response.VisitorResponse;
-
 import java.util.List;
 import java.util.Map;
 
