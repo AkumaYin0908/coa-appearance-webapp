@@ -19,9 +19,9 @@ public interface PositionService {
 
     Map<Long,String> findTitles();
 
-    PositionResponse save(PositionRequest position);
+    PositionResponse save(PositionRequest positionRequest);
 
-    PositionResponse update(Long id, PositionRequest position);
+    PositionResponse update(Long id, PositionRequest positionRequest);
 
     void delete(Long id);
 
