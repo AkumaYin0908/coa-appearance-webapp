@@ -1,5 +1,6 @@
 package com.coa.service.impl;
 
+import com.coa.exceptions.rest.AlreadyExistException;
 import com.coa.exceptions.rest.ResourceNotFoundException;
 import com.coa.model.Position;
 import com.coa.payload.request.PositionRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,21 +41,41 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public Map<Long, String> findTitles() {
-        return null;
+        return positionRepository.findTitles();
     }
 
     @Override
-    public PositionResponse save(PositionRequest position) {
-        return null;
+    public PositionResponse save(PositionRequest positionRequest) {
+        Optional<Position> positionOptional = positionRepository.findByTitle(positionRequest.getTitle());
+
+        if(positionOptional.isPresent()){
+            throw new AlreadyExistException("Position","title");
+        }
+
+        Position position = modelMapper.map(positionRequest,Position.class);
+        Position dbPosition = positionRepository.save(position);
+
+        return modelMapper.map(dbPosition,PositionResponse.class);
     }
 
     @Override
-    public PositionResponse update(Long id, PositionRequest position) {
-        return null;
+    public PositionResponse update(Long id, PositionRequest positionRequest) {
+         Position position = positionRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Position","id",id));
+
+         Optional<Position> positionOptional = positionRepository.findByTitle(positionRequest.getTitle());
+
+         if(positionOptional.isPresent() && !positionOptional.get().getId().equals(id)){
+             throw new AlreadyExistException("Position","title");
+         }
+
+         position.setTitle(positionRequest.getTitle());
+         positionRepository.save(position);
+
+         return modelMapper.map(position,PositionResponse.class);
     }
 
     @Override
     public void delete(Long id) {
-
+        positionRepository.deleteById(id);
     }
 }
