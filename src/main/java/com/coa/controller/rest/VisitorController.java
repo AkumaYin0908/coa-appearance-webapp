@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +33,11 @@ public class VisitorController {
     @GetMapping("/{id}")
     public ResponseEntity<VisitorResponse> getVisitorById(@PathVariable("id")Long id){
         return new ResponseEntity<>(visitorService.findById(id),HttpStatus.FOUND);
+    }
+
+    @GetMapping("/names")
+    public ResponseEntity<List<Map<Long, String>>> getAllVisitorName(){
+        return new ResponseEntity<>(visitorService.findNames(), HttpStatus.OK);
     }
 
     @GetMapping
