@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +38,11 @@ public class PositionController {
     @GetMapping
     public ResponseEntity<PositionResponse> getPositionByTitle(@RequestParam("title")String title){
         return new ResponseEntity<>(positionService.findByTitle(title), HttpStatus.FOUND);
+    }
+
+    @GetMapping("/titles")
+    public ResponseEntity<List<Map<Long,String>>> getAllPositionTitle(){
+        return new ResponseEntity<>(positionService.findTitles(),HttpStatus.OK);
     }
 
     @PostMapping
