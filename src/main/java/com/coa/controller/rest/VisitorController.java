@@ -52,6 +52,6 @@ public class VisitorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse> deleteVisitor(@PathVariable("id")Long id){
         visitorService.delete(id);
-        return new ResponseEntity<>(new APIResponse("Delete successfully!",true), HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse("Deleted successfully!",true), HttpStatus.OK);
     }
 }
