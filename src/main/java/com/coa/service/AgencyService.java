@@ -15,7 +15,7 @@ public interface AgencyService {
 
     AgencyResponse findByName(String name);
 
-    Map<Long, String> findNames();
+    List<Map<Long, String>> findNames();
 
     AgencyResponse save(AgencyRequest agency);
 

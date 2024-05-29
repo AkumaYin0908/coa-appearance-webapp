@@ -18,5 +18,5 @@ public interface AgencyRepository extends JpaRepository<Agency, Long> {
     Optional<Agency> findByName(String name);
 
     @Query(value = AgencyConstant.findNames,nativeQuery = true)
-    Map<Long, String> findNames();
+    List<Map<Long, String>> findNames();
 }
