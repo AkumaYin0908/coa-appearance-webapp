@@ -42,7 +42,7 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     public List<VisitorResponse> findAll() {
-        return visitorRepository.findAll().stream().map(visitor -> modelMapper.map(visitor, VisitorResponse.class)).collect(Collectors.toList());
+        return visitorRepository.findAll().stream().map(visitor -> modelMapper.map(visitor, VisitorResponse.class)).toList();
     }
 
     @Override
