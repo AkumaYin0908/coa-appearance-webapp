@@ -18,7 +18,7 @@ public interface VisitorService {
 
     VisitorResponse update(Long id, VisitorRequest visitorRequest);
 
-    Map<Long,String> findNames();
+    List<Map<Long, String>> findNames();
 
     void delete(Long id);
 

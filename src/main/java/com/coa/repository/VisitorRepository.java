@@ -17,7 +17,9 @@ public interface VisitorRepository extends JpaRepository<Visitor,Long> {
     Optional<Visitor> findByName(String name);
 
 
+
+    //wrapping expected object(which is the Map object) with List<> to avoid NonUniqueResultException
     @Query(value = VisitorConstant.findNames,nativeQuery = true)
-    Map<Long, String> findNames();
+    List<Map<Long, String>> findNames();
 
 }

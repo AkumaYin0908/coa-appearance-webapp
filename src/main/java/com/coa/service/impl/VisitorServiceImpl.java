@@ -149,7 +149,7 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public Map<Long, String> findNames() {
+    public List<Map<Long, String>> findNames() {
         return visitorRepository.findNames();
     }
 
