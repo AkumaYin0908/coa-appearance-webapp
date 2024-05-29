@@ -14,7 +14,7 @@ public interface PositionService {
 
     PositionResponse findByTitle(String title);
 
-    Map<Long,String> findTitles();
+    List<Map<Long, String>> findTitles();
 
     PositionResponse save(PositionRequest positionRequest);
 

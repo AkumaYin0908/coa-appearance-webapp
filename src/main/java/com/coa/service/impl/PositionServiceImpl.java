@@ -40,7 +40,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Map<Long, String> findTitles() {
+    public List<Map<Long, String>> findTitles() {
         return positionRepository.findTitles();
     }
 

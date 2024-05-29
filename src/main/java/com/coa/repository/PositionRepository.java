@@ -15,6 +15,6 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
     Optional<Position> findByTitle(String title);
 
     @Query(value = PositionConstant.findTitles,nativeQuery = true)
-    Map<Long, String> findTitles();
+    List<Map<Long, String>> findTitles();
 
 }
