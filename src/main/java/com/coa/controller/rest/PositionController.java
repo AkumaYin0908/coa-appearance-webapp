@@ -58,6 +58,6 @@ public class PositionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse> deletePosition(@PathVariable("id")Long id){
         positionService.delete(id);
-        return new ResponseEntity<>(new APIResponse("Deleted successfull!",true), HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse("Deleted successfully!",true), HttpStatus.OK);
     }
 }
