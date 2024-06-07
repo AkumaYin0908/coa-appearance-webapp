@@ -22,9 +22,9 @@ public interface AppearanceService {
 
     AppearanceResponse findByReference(String reference);
 
-    AppearanceResponse save(AppearanceRequest appearance);
+    AppearanceResponse save(Long id, AppearanceRequest appearanceRequest);
 
-    AppearanceResponse update(Long id, AppearanceRequest appearance);
+    AppearanceResponse update(Long id, AppearanceRequest appearanceRequest);
 
     void delete(Long id);
 

@@ -17,9 +17,9 @@ public interface AgencyService {
 
     List<Map<Long, String>> findNames();
 
-    AgencyResponse save(AgencyRequest agency);
+    AgencyResponse save(AgencyRequest agencyRequest);
 
-    AgencyResponse update(Long id, AgencyRequest agency);
+    AgencyResponse update(Long id, AgencyRequest agencyRequest);
 
     void delete(Long id);
 
