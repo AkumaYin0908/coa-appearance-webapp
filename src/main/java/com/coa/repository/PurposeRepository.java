@@ -17,5 +17,5 @@ public interface PurposeRepository extends JpaRepository<Purpose,Long> {
     Optional<Purpose> findByDescription(String description);
 
     @Query(value = PurposeConstant.findDescriptions,nativeQuery = true)
-    Map<Long, String> findDescriptions();
+    List<Map<Long, String>> findDescriptions();
 }

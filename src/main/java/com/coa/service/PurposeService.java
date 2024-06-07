@@ -14,7 +14,7 @@ public interface PurposeService {
 
     PurposeResponse findByDescription(String description);
 
-    Map<Long,String> findDescriptions();
+    List<Map<Long,String>> findDescriptions();
 
     PurposeResponse save(PurposeRequest purpose);
 
