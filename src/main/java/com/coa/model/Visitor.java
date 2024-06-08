@@ -3,10 +3,10 @@ package com.coa.model;
 
 import com.coa.model.address.Address;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,10 +37,28 @@ public class Visitor {
     @JoinColumn(name="address")
     private Address address;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "visitor",cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH})
+    private List<Appearance> appearances;
+
 
     public Visitor(String name, Position position, Agency agency) {
         this.name = name;
         this.position = position;
         this.agency = agency;
+    }
+
+    public void addAppearance(Appearance appearance){
+        if(appearances == null){
+            appearances = new ArrayList<>();
+        }
+
+        appearance.setVisitor(this);
+        appearances.add(appearance);
+    }
+
+    public void removeAppearance(Appearance appearance){
+        appearance.setVisitor(null);
+        appearances.remove(appearance);
     }
 }
