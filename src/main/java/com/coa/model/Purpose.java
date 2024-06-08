@@ -4,6 +4,8 @@ package com.coa.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -24,10 +26,23 @@ public class Purpose {
     private String description;
 
     @OneToMany(mappedBy = "purpose", cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    private Set<Appearance> appearanceSet;
+    private List<Appearance> appearances;
 
-    //to be removed
+
     public Purpose(String description) {
         this.description = description;
+    }
+
+    public void addAppearance(Appearance appearance){
+        if(appearances == null){
+            appearances = new ArrayList<>();
+        }
+        appearance.setPurpose(this);
+        appearances.add(appearance);
+    }
+
+    public void removeAppearance(Appearance appearance){
+        appearance.setPurpose(null);
+        if(appearances != null) appearances.remove(appearance);
     }
 }
