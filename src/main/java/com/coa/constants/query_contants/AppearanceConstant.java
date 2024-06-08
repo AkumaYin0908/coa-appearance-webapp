@@ -7,7 +7,7 @@ public interface AppearanceConstant {
     String findByVisitorName = "select * from appearance  where visitor.name = ?";
     String findByVisitorAndDateIssued = "select * from appearance where visitor = ? and date_issued = ?";
 
-    String findByPurpose = "select * from appearance where description = ?";
+    String findByPurpose = "select * from appearance join purpose on appearance.purpose = purpose.id where purpose.description = ?";
 
     String findByDateIssued = "select * from appearance where date_issued = ?";
 
