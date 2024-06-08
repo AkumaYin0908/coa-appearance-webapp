@@ -19,7 +19,7 @@ public class Appearance {
     @Column(name="id")
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visitor")
     private Visitor visitor;
 
@@ -36,7 +36,7 @@ public class Appearance {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateTo;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purpose")
     private Purpose purpose;
 
