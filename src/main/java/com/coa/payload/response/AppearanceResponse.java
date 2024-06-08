@@ -19,7 +19,7 @@ public class AppearanceResponse {
     private String dateFrom;
     private String dateTo;
     private PurposeResponse purpose;
-    private Agency agency;
+    private String reference;
 
     @Override
     public boolean equals(Object o) {
