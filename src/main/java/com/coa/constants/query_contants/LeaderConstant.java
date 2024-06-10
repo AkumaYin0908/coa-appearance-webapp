@@ -2,7 +2,7 @@ package com.coa.constants.query_contants;
 
 public interface LeaderConstant {
 
-    String findByName = "select * leader where name = ?";
+    String findByName = "select * from leader where name = ?";
 
     String findNames  = "select id, name from leader";
 
