@@ -1,6 +1,8 @@
 package com.coa.controller.rest;
 
 
+import com.coa.payload.request.AppearanceRequest;
+import com.coa.payload.response.APIResponse;
 import com.coa.payload.response.AppearanceResponse;
 import com.coa.service.AppearanceService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,33 +21,55 @@ public class AppearanceController {
 
     private final AppearanceService appearanceService;
 
-
-
-    @GetMapping("/visitors/{id}/appearances")
-    public ResponseEntity<List<AppearanceResponse>> getByVisitor(@PathVariable("id")Long id){
-
-        List<AppearanceResponse> appearances = appearanceService.findByVisitor(id);
-        if(appearances.isEmpty()) return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
-
-        return new ResponseEntity<>(appearances, HttpStatus.OK);
-    }
-
-    @GetMapping("/visitors/{id}/appearances")
-    public ResponseEntity<List<AppearanceResponse>> getByVisitorAndDateIssued(@PathVariable("id")Long id, @RequestParam("dateIssued") String strDateIssued){
-        List<AppearanceResponse> appearances = appearanceService.findByVisitorAndDateIssued(id,strDateIssued);
-
-        if(appearances.isEmpty()) return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-
-        return new ResponseEntity<>(appearances,HttpStatus.OK);
-    }
-
-
     @GetMapping("/appearances")
-    public ResponseEntity<List<AppearanceResponse>> getByPurpose(@RequestParam("description")String description){
-        List<AppearanceResponse> appearances = appearanceService.findByPurpose(description);
-
-        if(appearances.isEmpty()) return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-
-        return  new ResponseEntity<>(appearances,HttpStatus.OK);
+    public ResponseEntity<List<AppearanceResponse>> getAllAppearance(){
+        return new ResponseEntity<>(appearanceService.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/visitors/{id}/appearances",params = "!dateIssued")
+    public ResponseEntity<List<AppearanceResponse>> getByVisitor(@PathVariable("id")Long id){
+        return new ResponseEntity<>(appearanceService.findByVisitor(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/visitors/{id}/appearances",params = "dateIssued")
+    public ResponseEntity<List<AppearanceResponse>> getByVisitorAndDateIssued(@PathVariable("id")Long id, @RequestParam("dateIssued") String strDateIssued){
+
+        return new ResponseEntity<>(appearanceService.findByVisitorAndDateIssued(id,strDateIssued),HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/appearances",params = "description")
+    public ResponseEntity<List<AppearanceResponse>> getByPurpose(@RequestParam(value = "description",required = false)String description){
+
+        return  new ResponseEntity<>(appearanceService.findByPurpose(description),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/appearances",params = "dateIssued")
+    public ResponseEntity<List<AppearanceResponse>> getByDateIssued(@RequestParam(value = "dateIssued",required = false)String strDateIssued){
+        return  new ResponseEntity<>(appearanceService.findByDateIssued(strDateIssued),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/appearances",params = "reference")
+    public ResponseEntity<AppearanceResponse> getByReference(@RequestParam(value = "reference",required = false) String reference){
+        return new ResponseEntity<>(appearanceService.findByReference(reference), HttpStatus.FOUND);
+    }
+
+    @PostMapping("/visitors/{id}/appearances")
+    public ResponseEntity<AppearanceResponse> saveAppearance(@PathVariable("id")Long id, @RequestBody AppearanceRequest appearanceRequest){
+        return new ResponseEntity<>(appearanceService.save(id,appearanceRequest), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/visitors/{id}/appearances")
+    public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id")Long id, @RequestBody AppearanceRequest appearanceRequest){
+        return new ResponseEntity<>(appearanceService.update(id,appearanceRequest), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/appearances/{id}")
+    public ResponseEntity<APIResponse> deleteAppearance(@PathVariable("id")Long id){
+        appearanceService.delete(id);
+        return new ResponseEntity<>(new APIResponse("Deleted successfully!",true),HttpStatus.OK);
+    }
+
+
+
 }
