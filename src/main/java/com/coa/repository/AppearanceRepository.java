@@ -23,8 +23,8 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
     @Query(value = AppearanceConstant.findByVisitorAndDateIssued,nativeQuery = true)
     List<Appearance> findByVisitorAndDateIssued(Long id, LocalDate dateIssued);
 
-    @Query(value = AppearanceConstant.findByPurpose,nativeQuery = true)
-    List<Appearance> findByPurpose(String description);
+//    @Query(value = AppearanceConstant.findByPurpose,nativeQuery = true)
+//    List<Appearance> findByPurpose(String description);
 
     @Query(value = AppearanceConstant.findByDateIssued,nativeQuery = true)
     List<Appearance> findByDateIssued(LocalDate dateIssued);
