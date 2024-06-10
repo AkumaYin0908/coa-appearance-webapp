@@ -18,7 +18,7 @@ public interface LeaderRepository extends JpaRepository<Leader,Long> {
     Optional<Leader> findByName(String name);
 
     @Query(value = LeaderConstant.findNames,nativeQuery = true)
-    Map<Long, String> findNames();
+    List<Map<Long, String>> findNames();
 
     @Query(value = LeaderConstant.findByStatus,nativeQuery = true)
     Optional<Leader> findByStatus(boolean inCharge);
