@@ -8,6 +8,7 @@ import com.coa.payload.request.PurposeRequest;
 import com.coa.payload.response.PurposeResponse;
 import com.coa.repository.PurposeRepository;
 import com.coa.service.PurposeService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ public class PurposeServiceImpl implements PurposeService {
     }
 
     @Override
+    @Transactional
     public PurposeResponse save(PurposeRequest purposeRequest) {
         Optional<Purpose> purposeOptional = purposeRepository.findByDescription(purposeRequest.getDescription());
 
@@ -59,6 +61,7 @@ public class PurposeServiceImpl implements PurposeService {
     }
 
     @Override
+    @Transactional
     public PurposeResponse update(Long id, PurposeRequest purposeRequest) {
         Purpose purpose = purposeRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Purpose","id",id));
 

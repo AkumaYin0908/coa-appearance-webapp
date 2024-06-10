@@ -7,6 +7,7 @@ import com.coa.payload.request.AgencyRequest;
 import com.coa.payload.response.AgencyResponse;
 import com.coa.repository.AgencyRepository;
 import com.coa.service.AgencyService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class AgencyServiceImpl implements AgencyService {
     }
 
     @Override
+    @Transactional
     public AgencyResponse save(AgencyRequest agencyRequest) {
         Optional<Agency> agencyOptional = agencyRepository.findByName(agencyRequest.getName());
 
@@ -58,6 +60,7 @@ public class AgencyServiceImpl implements AgencyService {
     }
 
     @Override
+    @Transactional
     public AgencyResponse update(Long id, AgencyRequest agencyRequest) {
 
         Agency agency = agencyRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Agency","id",id));

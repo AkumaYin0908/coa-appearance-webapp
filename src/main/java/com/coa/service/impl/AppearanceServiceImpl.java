@@ -10,6 +10,7 @@ import com.coa.repository.AppearanceRepository;
 import com.coa.repository.PurposeRepository;
 import com.coa.repository.VisitorRepository;
 import com.coa.service.AppearanceService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,12 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
+    public List<AppearanceResponse> findAll() {
+        return appearanceRepository.findAll().stream()
+                .map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
+    }
+
+    @Override
     public List<AppearanceResponse> findByVisitor(Long id) {
 
         Visitor visitor = visitorRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Visitor","id",id));
@@ -59,7 +66,9 @@ public class AppearanceServiceImpl implements AppearanceService {
 
     @Override
     public List<AppearanceResponse> findByPurpose(String description) {
-        return appearanceRepository.findByPurpose(description).stream().map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
+//        return appearanceRepository.findByPurpose(description).stream().map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
+        Purpose purpose = purposeRepository.findByDescription(description).orElseThrow(()->new ResourceNotFoundException("Purpose","description",description));
+        return purpose.getAppearances().stream().map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
     }
 
     @Override
@@ -85,6 +94,7 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
+    @Transactional
     public AppearanceResponse save(Long id, AppearanceRequest appearanceRequest) {
 
         Visitor visitor = visitorRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Visitor","id",id));
@@ -111,6 +121,7 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
+    @Transactional
     public AppearanceResponse update(Long id, AppearanceRequest appearanceRequest) {
         Appearance appearance = appearanceRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Appearance","id",id));
 

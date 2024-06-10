@@ -7,6 +7,7 @@ import com.coa.payload.request.PositionRequest;
 import com.coa.payload.response.PositionResponse;
 import com.coa.repository.PositionRepository;
 import com.coa.service.PositionService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
+    @Transactional
     public PositionResponse save(PositionRequest positionRequest) {
         Optional<Position> positionOptional = positionRepository.findByTitle(positionRequest.getTitle());
 
@@ -59,6 +61,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
+    @Transactional
     public PositionResponse update(Long id, PositionRequest positionRequest) {
          Position position = positionRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Position","id",id));
 
