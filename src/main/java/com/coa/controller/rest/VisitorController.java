@@ -21,13 +21,10 @@ public class VisitorController {
     private final VisitorService visitorService;
 
 
-    @GetMapping("/all")
+    @GetMapping(params = "!name")
     public ResponseEntity<List<VisitorResponse>> getAllVisitor(){
-        List<VisitorResponse> visitors = visitorService.findAll();
 
-        if(visitors.isEmpty()) return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-
-        return new ResponseEntity<>(visitors,HttpStatus.OK);
+        return new ResponseEntity<>(visitorService.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -41,7 +38,7 @@ public class VisitorController {
     }
 
     @GetMapping
-    public ResponseEntity<VisitorResponse> getVisitorByName(@RequestParam("name") String name){
+    public ResponseEntity<VisitorResponse> getVisitorByName(@RequestParam(value = "name",required = false) String name){
         return new ResponseEntity<>(visitorService.findByName(name), HttpStatus.FOUND);
     }
 

@@ -21,13 +21,9 @@ public class PositionController {
     private final PositionService positionService;
 
 
-    @GetMapping("/all")
+    @GetMapping(params = "!title")
     public ResponseEntity<List<PositionResponse>> getAllPosition(){
-        List<PositionResponse> positions = positionService.findAll();
-
-        if(positions.isEmpty()) return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-
-        return new ResponseEntity<>(positions, HttpStatus.OK);
+        return new ResponseEntity<>(positionService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -36,7 +32,7 @@ public class PositionController {
     }
 
     @GetMapping
-    public ResponseEntity<PositionResponse> getPositionByTitle(@RequestParam("title")String title){
+    public ResponseEntity<PositionResponse> getPositionByTitle(@RequestParam(value = "title",required = false)String title){
         return new ResponseEntity<>(positionService.findByTitle(title), HttpStatus.FOUND);
     }
 

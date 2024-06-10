@@ -20,13 +20,9 @@ public class PurposeController {
     private final PurposeService purposeService;
 
 
-    @GetMapping("/all")
+    @GetMapping(params = "!description")
     public ResponseEntity<List<PurposeResponse>> getAllPurpose(){
-        List<PurposeResponse>purposes = purposeService.findAll();
-
-        if(purposes.isEmpty()) return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-
-        return new ResponseEntity<>(purposes,HttpStatus.OK);
+        return new ResponseEntity<>(purposeService.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -35,7 +31,7 @@ public class PurposeController {
     }
 
     @GetMapping
-    public ResponseEntity<PurposeResponse> getPurposeByDescription(@RequestParam("description")String description){
+    public ResponseEntity<PurposeResponse> getPurposeByDescription(@RequestParam(value = "description",required = false)String description){
         return new ResponseEntity<>(purposeService.findByDescription(description), HttpStatus.FOUND);
     }
 

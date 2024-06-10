@@ -20,14 +20,9 @@ import java.util.Map;
 public class AgencyController {
     private final AgencyService agencyService;
 
-    @GetMapping("/all")
+    @GetMapping(params = "!name")
     public ResponseEntity<List<AgencyResponse>> getAllAgency(){
-        List<AgencyResponse> agencies = agencyService.findAll();
-        if(agencies.isEmpty()){
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-        }
-
-        return new ResponseEntity<>(agencies,HttpStatus.OK);
+        return new ResponseEntity<>(agencyService.findAll(),HttpStatus.OK);
 
     }
 
@@ -37,7 +32,7 @@ public class AgencyController {
     }
 
     @GetMapping
-    public ResponseEntity<AgencyResponse> getAgencyByName(@RequestParam("name")String name){
+    public ResponseEntity<AgencyResponse> getAgencyByName(@RequestParam(value = "name",required = false)String name){
         return new ResponseEntity<>(agencyService.findByName(name), HttpStatus.FOUND);
     }
 
@@ -58,6 +53,7 @@ public class AgencyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse> deleteAgency(@PathVariable("id")Long id){
+        agencyService.delete(id);
         return new ResponseEntity<>(new APIResponse("Deleted successfully!",true), HttpStatus.OK);
     }
 }
