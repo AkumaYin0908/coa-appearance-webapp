@@ -14,15 +14,15 @@ public interface LeaderService {
 
     LeaderResponse findByName(String name);
 
-    Map<Long,String> findNames();
+    List<Map<Long,String>> findNames();
 
     LeaderResponse findByStatus(boolean inCharge);
 
     LeaderResponse updateStatus(boolean inCharge, Long id);
 
-    LeaderResponse save(LeaderRequest leader);
+    LeaderResponse save(LeaderRequest leaderRequest);
 
-    LeaderResponse update(Long id, LeaderRequest leader);
+    LeaderResponse update(Long id, LeaderRequest leaderRequest);
 
     void delete(Long id);
 
