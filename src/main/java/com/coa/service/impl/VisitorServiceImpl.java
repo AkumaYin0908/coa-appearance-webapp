@@ -9,6 +9,7 @@ import com.coa.model.Visitor;
 import com.coa.model.address.Address;
 import com.coa.payload.request.VisitorRequest;
 import com.coa.payload.request.address.AddressRequest;
+import com.coa.payload.request.address.BarangayRequest;
 import com.coa.payload.response.VisitorResponse;
 import com.coa.repository.AgencyRepository;
 import com.coa.repository.PositionRepository;
@@ -70,12 +71,12 @@ public class VisitorServiceImpl implements VisitorService {
 
         visitor.setName(visitorRequest.getName());
 
-        Position position = positionRepository.findById(visitorRequest.getPosition().getId())
+        Position position = positionRepository.findByTitle(visitorRequest.getPosition().getTitle())
                 .orElseGet(() -> positionRepository.save(new Position(visitorRequest.getPosition().getTitle())));
 
         position.addVisitor(visitor);
 
-        Agency agency = agencyRepository.findById(visitorRequest.getAgency().getId())
+        Agency agency = agencyRepository.findByName(visitorRequest.getAgency().getName())
                 .orElseGet(() -> agencyRepository.save(new Agency(visitorRequest.getAgency().getName())));
 
         agency.addVisitor(visitor);
@@ -116,12 +117,12 @@ public class VisitorServiceImpl implements VisitorService {
 
         visitor.setName(visitorRequest.getName());
 
-        Position position = positionRepository.findById(visitorRequest.getPosition().getId())
+        Position position = positionRepository.findByTitle(visitorRequest.getPosition().getTitle())
                 .orElseGet(() -> positionRepository.save(new Position(visitorRequest.getPosition().getTitle())));
 
         position.addVisitor(visitor);
 
-        Agency agency = agencyRepository.findById(visitorRequest.getAgency().getId())
+        Agency agency = agencyRepository.findByName(visitorRequest.getAgency().getName())
                 .orElseGet(() -> agencyRepository.save(new Agency(visitorRequest.getAgency().getName())));
 
         agency.addVisitor(visitor);
