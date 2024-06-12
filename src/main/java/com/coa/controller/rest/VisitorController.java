@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/visitors")
+@CrossOrigin("http://localhost:8050")
 public class VisitorController {
 
     private final VisitorService visitorService;
@@ -39,11 +40,12 @@ public class VisitorController {
 
     @GetMapping
     public ResponseEntity<VisitorResponse> getVisitorByName(@RequestParam(value = "name",required = false) String name){
-        return new ResponseEntity<>(visitorService.findByName(name), HttpStatus.FOUND);
+         return new ResponseEntity<>(visitorService.findByName(name), HttpStatus.FOUND);
     }
 
     @PostMapping
     public ResponseEntity<VisitorResponse> saveVisitor(@RequestBody VisitorRequest visitorRequest){
+        System.out.println("Success");
         return new ResponseEntity<>(visitorService.save(visitorRequest), HttpStatus.CREATED);
     }
 
