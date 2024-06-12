@@ -1,8 +1,22 @@
 "use strict";
 
 import { showMessage, showModal, hideModal } from "./modules/modal.js";
+import { baseUrl } from "./modules/baseUrl.js";
 
 $(document).ready(function () {
+  let fullUrl = `${baseUrl}/appearances`;
+
+  new DataTable("#history", {
+    ajax: fullUrl,
+    columns: [
+      { data: "visitor" },
+      { data: "dateIssued" },
+      { data: "dateFrom" },
+      { data: "dateTo" },
+      { data: "purpose" },
+      { data: "reference" },
+    ],
+  });
   $("#dashboardButton").addClass("active");
 
   showMessage("addModalMessageHolder", "addVisitorModal");
