@@ -3,8 +3,7 @@
   lang="en"
   xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="layout/layout"
->
+  layout:decorate="layout/layout">
   <head>
     <title>Dashboard</title>
 
@@ -52,8 +51,7 @@
                 type="text"
                 placeholder="Create new appearance for...."
                 name="searchName"
-                th:value="${searchName}"
-              />
+                th:value="${searchName}" />
               <button type="submit" name="direction" value="dashboard">
                 <span class="material-symbols-outlined">search</span>
               </button>
@@ -70,8 +68,7 @@
               <span
                 th:if="${leader !=null}"
                 class="h3 mt-1"
-                th:text="${leader.name}"
-              ></span>
+                th:text="${leader.name}"></span>
               <span th:unless="${leader !=null}" class="h3 mt-1"
                 >No Leader</span
               >
@@ -79,8 +76,7 @@
             <hr class="m-0 p-0 border border-secondary border-1 opacity-50" />
             <div
               th:if="${leader !=null}"
-              class="d-flex justify-content-end mt-2 mb-0"
-            >
+              class="d-flex justify-content-end mt-2 mb-0">
               <a type="button" id="changeLeaderButton" class="text-primary"
                 ><span class="material-symbols-outlined">settings</span> Change
                 Leader</a
@@ -101,102 +97,18 @@
         <div id="appearanceTable" class="card mt-4 mb-4">
           <div class="p-1 mt-3 bg-dark">Appearance History</div>
           <div class="card-body">
-            <div th:if="${appearances.size() > 0}">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Date Issued</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Agency</th>
-                    <th scope="col">Date Appeared</th>
-                    <th scope="col">Purpose</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="appearance : ${appearances}">
-                    <th scope="row" th:text="${appearance.id}"></th>
-                    <td th:text="${appearance.dateIssued}"></td>
-                    <td th:text="${appearance.name}"></td>
-                    <td th:text="${appearance.agency}"></td>
-                    <td th:text="${appearance.dateAppeared}"></td>
-                    <td th:text="${appearance.purpose}"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div th:unless="${appearances.size() > 0}">
-              <div class="no-record alert alert-dark text-center" role="alert">
-                No records found
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="dashboard-pagination card-footer d-flex justify-content-end"
-          >
-            <!--Pagination-->
-            <nav aria-label="Pagination" th:if="${totalPages > 0}">
-              <ul class="pagination justify-content-center m-1">
-                <li
-                  class="page-item"
-                  th:classapend="${currentPage == 1} ? 'disabled'"
-                >
-                  <a
-                    th:replace="fragments/paging :: paging('/dashboard', 1,'<<', 'First Page')"
-                  ></a>
-                </li>
-
-                <li
-                  class="page-item font-weight-bold"
-                  th:classappend="${currentPage == 1} ? 'disabled'"
-                >
-                  <a
-                    th:replace="fragments/paging :: paging('/dashboard', ${currentPage - 1}, 'Prev','Previous Page')"
-                  ></a>
-                </li>
-
-                <li class="page-item disabled" th:if="${currentPage - 4 > 1}">
-                  <a class="page-link" href="#">...</a>
-                </li>
-
-                <li
-                  class="page-item"
-                  th:classappend="${page == currentPage} ? 'active'"
-                  th:each="page : ${#numbers.sequence(currentPage > 4 ? currentPage - 4 : 1, currentPage + 4 < totalPages ? currentPage + 4 : totalPages)}"
-                >
-                  <a
-                    th:replace="fragments/paging :: paging('/dashboard', ${page}, ${page}, 'Page')"
-                  ></a>
-                </li>
-
-                <li
-                  class="page-item disabled"
-                  th:if="${currentPage + 4 < totalPages}"
-                >
-                  <a class="page-link" href="#">...</a>
-                </li>
-
-                <li
-                  class="page-item"
-                  th:classappend="${currentPage == totalPages} ? 'disabled'"
-                >
-                  <a
-                    th:replace="fragments/paging :: paging('/dashboard', ${currentPage + 1},'Next', 'Next Page')"
-                  ></a>
-                </li>
-
-                <li
-                  class="page-item"
-                  th:classappend="${currentPage == totalPages} ? 'disabled'"
-                >
-                  <a
-                    th:replace="fragments/paging :: paging('/dashboard', ${totalPages}, '>>', 'Last Page')"
-                  ></a>
-                </li>
-              </ul>
-            </nav>
+            <table class="table" id="history">
+              <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Date Issued</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Agency</th>
+                  <th scope="col">Date Appeared</th>
+                  <th scope="col">Purpose</th>
+                </tr>
+              </thead>
+            </table>
           </div>
         </div>
 
@@ -206,8 +118,7 @@
           data-bs-theme="dark"
           id="addVisitorModal"
           role="dialog"
-          tabindex="-1"
-        >
+          tabindex="-1">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -217,20 +128,17 @@
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
+                  aria-label="Close">
                   <span aria-hidden="true"></span>
                 </button>
               </div>
               <form
                 th:action="@{visitors/save}"
                 method="POST"
-                th:object="${addFormVisitorDTO}"
-              >
+                th:object="${addFormVisitorDTO}">
                 <span
                   id="addModalMessageHolder"
-                  th:text="${addModalMessage}"
-                ></span>
+                  th:text="${addModalMessage}"></span>
                 <div class="modal-body ui-front">
                   <div class="col-xs-auto">
                     <!-- check for error -->
@@ -252,8 +160,7 @@
                         required
                         minlength="5"
                         maxlength="100"
-                        placeholder="Name"
-                      />
+                        placeholder="Name" />
                       <label class="text-secondary" for="visitorName"
                         >Name</label
                       >
@@ -270,8 +177,7 @@
                         required
                         minlength="5"
                         maxlength="100"
-                        placeholder="Position"
-                      />
+                        placeholder="Position" />
                       <label class="text-secondary" for="visitorPosition"
                         >Position</label
                       >
@@ -288,8 +194,7 @@
                         required
                         minlength="5"
                         maxlength="100"
-                        placeholder="Agency"
-                      />
+                        placeholder="Agency" />
                       <label class="text-secondary" for="visitorAgency"
                         >Agency</label
                       >
@@ -303,8 +208,7 @@
                     name="direction"
                     value="dashboard"
                     id="btnAdd"
-                    class="btn btn-primary"
-                  >
+                    class="btn btn-primary">
                     Save
                   </button>
                 </div>
@@ -320,8 +224,7 @@
           data-bs-theme="dark"
           id="changeLeaderModal"
           role="dialog"
-          tabindex="-1"
-        >
+          tabindex="-1">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -331,27 +234,23 @@
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
+                  aria-label="Close">
                   <span aria-hidden="true"></span>
                 </button>
               </div>
               <form
                 th:action="@{/settings/leaders/changeLeader}"
                 method="POST"
-                enctype="multipart/form-data"
-              >
+                enctype="multipart/form-data">
                 <span
                   id="changeModalMessageHolder"
-                  th:text="${changeModalMessage}"
-                ></span>
+                  th:text="${changeModalMessage}"></span>
                 <div class="modal-body ui-front">
                   <div class="col-xs-auto">
                     <!-- check for error -->
                     <div
                       id="changeModalDiv"
-                      th:if="${changeModalMessage != null}"
-                    >
+                      th:if="${changeModalMessage != null}">
                       <div class="alert alert-danger col-xs-auto">
                         <span th:text="${changeModalMessage}"></span>
                       </div>
@@ -363,8 +262,7 @@
                         type="hidden"
                         name="leaderName"
                         th:value="${leader.name}"
-                        id="currentLeaderName"
-                      />
+                        id="currentLeaderName" />
 
                       <input
                         type="text"
@@ -374,8 +272,7 @@
                         required
                         minlength="5"
                         maxlength="100"
-                        placeholder="Name"
-                      />
+                        placeholder="Name" />
                       <label
                         id="nameLabel"
                         class="text-secondary"
@@ -392,8 +289,7 @@
                     name="direction"
                     value="leaders"
                     id="btnChange"
-                    class="btn btn-primary"
-                  >
+                    class="btn btn-primary">
                     Set
                   </button>
                 </div>

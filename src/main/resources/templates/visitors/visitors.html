@@ -5,8 +5,7 @@
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="layout/layout"
-  xmlns="http://www.w3.org/1999/html"
->
+  xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Visitors</title>
 
@@ -14,7 +13,7 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <script th:inline="javascript">
+      <!-- <script th:inline="javascript">
         var positions = /*[[${positions}]]*/ "novalue";
         var agencies = /*[[${agencies}]]*/ "novalue";
 
@@ -39,7 +38,7 @@
             source: agencies,
           });
         });
-      </script>
+      </script> -->
 
       <div class="card">
         <div class="card-header pt-3">
@@ -49,57 +48,8 @@
                 <button
                   type="button"
                   id="addVisitorButton"
-                  class="btn btn-sm btn-success"
-                >
+                  class="btn btn-sm btn-success">
                   <span class="material-symbols-outlined">add</span>Add Visitor
-                </button>
-              </div>
-
-              <div class="col-md-4">
-                <form th:action="@{/visitors}" id="searchForm">
-                  <div class="row">
-                    <div class="col-8 p-0">
-                      <input
-                        id="searchName"
-                        type="search"
-                        name="searchName"
-                        th:value="${searchName}"
-                        placeholder="Enter keyword"
-                        required
-                        class="border border-secondary form-control"
-                      />
-                    </div>
-                    <div class="col-auto p-1 mt-auto">
-                      <button
-                        type="submit"
-                        class="btn-search btn btn-sm btn-primary"
-                      >
-                        <span class="material-symbols-outlined">search</span>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="col-md-1">
-                <select
-                  form="searchForm"
-                  name="size"
-                  th:value="${pageSize}"
-                  id="pageSize"
-                  class="border border-secondary form-control"
-                >
-                  <option
-                    th:each="pageNum :${pageNums}"
-                    th:value="${pageNum}"
-                    th:text="${pageNum}"
-                    th:selected="${pageNum == pageSize}"
-                  ></option>
-                </select>
-              </div>
-
-              <div class="btn-clear col-1 col-md-1 col-sm-1">
-                <button id="btnClear" class="btn btn-sm btn-secondary">
-                  Clear
                 </button>
               </div>
             </div>
@@ -107,159 +57,18 @@
         </div>
 
         <div class="card-body">
-          <div th:if="${visitors.size() > 0}">
-            <table class="table table-striped table-responsive-xl">
-              <thead class="table-dark">
-                <tr>
-                  <th
-                    th:replace="fragments/sorting :: sorting('/visitors', id, No)"
-                  ></th>
-                  <th
-                    th:replace="fragments/sorting :: sorting('/visitors', name,Name)"
-                  ></th>
-                  <th
-                    th:replace="fragments/sorting :: sorting('/visitors', position,Position)"
-                  ></th>
-                  <th
-                    th:replace="fragments/sorting :: sorting('/visitors', agency,Agency)"
-                  ></th>
-                  <!-- <th th:replace="fragments/sorting :: sorting(agency.name,Last Appeared on)"></th> -->
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="visitor : ${visitors}">
-                  <th scope="row" th:text="${visitor.id}"></th>
-                  <td th:text="${visitor.name}"></td>
-                  <td th:text="${visitor.position}"></td>
-                  <td th:text="${visitor.agency}"></td>
-                  <td>
-                    <!--                            <a type="button" class= "btn btn-sm btn-success" th:href="@{'/appearances/appearance-form/' + ${visitor.id}}" id="createAppearanceButton"-->
-                    <!--                               title="New Appearance"><span class = "label-new">New</span></a>-->
-
-                    <form
-                      th:action="@{'/appearances/appearance-form/' + ${visitor.id}}"
-                      method="GET"
-                      id="createAppearance"
-                    >
-                      <button
-                        type="submit"
-                        class="btn btn-sm btn-success"
-                        name="direction"
-                        th:value="visitors"
-                        title="New Appearance"
-                      >
-                        <span class="label-new">New</span>
-                      </button>
-                    </form>
-
-                    <a
-                      type="button"
-                      title="Edit this visitor"
-                      class="btn-edit btn btn-sm btn-warning"
-                      th:visitorId="${visitor.id}"
-                      th:visitorName="${visitor.name}"
-                      th:visitorPosition="${visitor.position}"
-                      th:visitorAgency="${visitor.agency}"
-                    >
-                      <span class="material-symbols-outlined">edit</span>
-                    </a>
-
-                    <!--                            <a type="button" sec:authorize="hasRole('ADMIN')" th:href="@{'/visitors/delete/' + ${visitor.id}}" th:visitorName="${visitor.name}"-->
-                    <a
-                      type="button"
-                      th:href="@{'/visitors/delete/' + ${visitor.id}}"
-                      th:visitorName="${visitor.name}"
-                      title="Delete this visitor"
-                      class="btn-delete btn btn-sm btn-danger"
-                      ><span class="material-symbols-outlined">delete</span></a
-                    >
-
-                    <a
-                      type="button"
-                      th:href="@{/appearances/{id}/appearance-history(id=${visitor.id})}"
-                      id="btnHistory"
-                      title="Appearance History"
-                      class="btn btn-sm btn-secondary"
-                      ><span class="material-symbols-outlined"
-                        >timeline</span
-                      ></a
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div th:unless="${visitors.size() > 0}">
-            <div class="no-record alert alert-dark text-center" role="alert">
-              No records found
-            </div>
-          </div>
-        </div>
-
-        <div class="card-footer pt-3 pb-0">
-          <!--Pagination-->
-          <nav aria-label="Pagination" th:if="${totalPages > 0}">
-            <ul class="pagination justify-content-center">
-              <li
-                class="page-item"
-                th:classapend="${currentPage == 1} ? 'disabled'"
-              >
-                <a
-                  th:replace="fragments/paging :: paging('/visitors', 1,'<<', 'First Page')"
-                ></a>
-              </li>
-
-              <li
-                class="page-item font-weight-bold"
-                th:classappend="${currentPage == 1} ? 'disabled'"
-              >
-                <a
-                  th:replace="fragments/paging :: paging('/visitors', ${currentPage - 1}, 'Prev','Previous Page')"
-                ></a>
-              </li>
-
-              <li class="page-item disabled" th:if="${currentPage - 4 > 1}">
-                <a class="page-link" href="#">...</a>
-              </li>
-
-              <li
-                class="page-item"
-                th:classappend="${page == currentPage} ? 'active'"
-                th:each="page : ${#numbers.sequence(currentPage > 4 ? currentPage - 4 : 1, currentPage + 4 < totalPages ? currentPage + 4 : totalPages)}"
-              >
-                <a
-                  th:replace="fragments/paging :: paging('/visitors', ${page}, ${page}, 'Page')"
-                ></a>
-              </li>
-
-              <li
-                class="page-item disabled"
-                th:if="${currentPage + 4 < totalPages}"
-              >
-                <a class="page-link" href="#">...</a>
-              </li>
-
-              <li
-                class="page-item"
-                th:classappend="${currentPage == totalPages} ? 'disabled'"
-              >
-                <a
-                  th:replace="fragments/paging :: paging('/visitors', ${currentPage + 1},'Next', 'Next Page')"
-                ></a>
-              </li>
-
-              <li
-                class="page-item"
-                th:classappend="${currentPage == totalPages} ? 'disabled'"
-              >
-                <a
-                  th:replace="fragments/paging :: paging('/visitors', ${totalPages}, '>>', 'Last Page')"
-                ></a>
-              </li>
-            </ul>
-          </nav>
+          <table class="table table-striped" id="visitors">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Agency</th>
+                <th scope="col">Address</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+          </table>
         </div>
       </div>
 
@@ -269,8 +78,7 @@
         data-bs-theme="dark"
         id="addVisitorModal"
         role="dialog"
-        tabindex="-1"
-      >
+        tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -280,45 +88,36 @@
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 <span aria-hidden="true"></span>
               </button>
             </div>
-            <form
-              th:action="@{visitors/save}"
-              method="POST"
-              th:object="${addFormVisitorDTO}"
-              enctype="multipart/form-data"
-            >
-              <span
+            <form>
+              <!-- <span
                 id="addModalMessageHolder"
-                th:text="${addModalMessage}"
-              ></span>
+                th:text="${addModalMessage}"></span> -->
               <div class="modal-body ui-front">
-                <div class="col-xs-auto">
-                  <!-- check for error -->
+                <!-- <div class="col-xs-auto">
+                  check for error
                   <div id="addModalDiv" th:if="${addModalMessage != null}">
                     <div class="alert alert-danger col-xs-auto">
                       <span th:text="${addModalMessage}"></span>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="form-group">
-                  <input type="hidden" th:field="*{id}" />
-
+                  <!-- <input type="hidden" th:field="*{id}" /> -->
                   <div class="md-form form-floating mb-3">
                     <input
                       type="text"
-                      th:field="*{name}"
                       class="form-control"
-                      id="visitorName"
+                      id="name"
+                      name="name"
                       required
                       minlength="5"
                       maxlength="100"
-                      placeholder="Name"
-                    />
-                    <label class="text-secondary" for="visitorName">Name</label>
+                      placeholder="Name" />
+                    <label class="text-secondary" for="name">Name</label>
                   </div>
                 </div>
 
@@ -326,15 +125,14 @@
                   <div class="md-form form-floating mb-3">
                     <input
                       type="text"
-                      th:field="*{position}"
                       class="form-control"
-                      id="visitorPosition"
+                      id="position"
+                      name="position"
                       required
                       minlength="5"
                       maxlength="100"
-                      placeholder="Position"
-                    />
-                    <label class="text-secondary" for="visitorPosition"
+                      placeholder="Position" />
+                    <label class="text-secondary" for="position"
                       >Position</label
                     >
                   </div>
@@ -344,31 +142,91 @@
                   <div class="md-form form-floating mb-3">
                     <input
                       type="text"
-                      th:field="*{agency}"
                       class="form-control"
-                      id="visitorAgency"
+                      id="agency"
+                      name="agency"
                       required
                       minlength="5"
                       maxlength="100"
-                      placeholder="Agency"
-                    />
-                    <label class="text-secondary" for="visitorAgency"
-                      >Agency</label
+                      placeholder="Agency" />
+                    <label class="text-secondary" for="agency">Agency</label>
+                  </div>
+                </div>
+
+                <!--ADDRESS-->
+                <div class="form-group">
+                  <div class="md-form form-floating mb-3">
+                    <select
+                      name="region"
+                      class="form-control"
+                      id="region"></select>
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      name="region_text"
+                      id="region-text"
+                      required
+                      placeholder="Region" />
+                    <label class="text-secondary" for="region">Region</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="md-form form-floating mb-3">
+                    <select
+                      name="province"
+                      class="form-control"
+                      id="province"></select>
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      name="province_text"
+                      id="province-text"
+                      required
+                      placeholder="Province" />
+                    <label class="text-secondary" for="province"
+                      >Province</label
+                    >
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="md-form form-floating mb-3">
+                    <select name="city" class="form-control" id="city"></select>
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      name="city_text"
+                      id="city-text"
+                      required
+                      placeholder="City" />
+                    <label class="text-secondary" for="city"
+                      >City/Municipality</label
+                    >
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="md-form form-floating mb-3">
+                    <select
+                      name="barangay"
+                      class="form-control"
+                      id="barangay"></select>
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      name="barangay_text"
+                      id="barangay-text"
+                      placeholder="Barangay" />
+                    <label class="text-secondary" for="barangay"
+                      >Barangay</label
                     >
                   </div>
                 </div>
               </div>
 
               <div class="modal-footer">
-                <button
-                  type="submit"
-                  name="direction"
-                  value="visitors"
-                  id="btnAdd"
-                  class="btn btn-primary"
-                >
-                  Save
-                </button>
+                <button id="btnAdd" class="btn btn-primary">Save</button>
               </div>
             </form>
           </div>
@@ -376,13 +234,12 @@
       </div>
 
       <!-- Edit Visitor Modal -->
-      <div
+      <!-- <div
         class="modal"
         data-bs-theme="dark"
         id="editVisitorModal"
         role="dialog"
-        tabindex="-1"
-      >
+        tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -392,24 +249,21 @@
                 id="editModalCloseButton"
                 class="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 <span aria-hidden="true"></span>
               </button>
             </div>
             <form
               th:action="@{visitors/update}"
               method="POST"
-              th:object="${editFormVisitorDTO}"
-            >
+              th:object="${editFormVisitorDTO}">
               <span
                 id="editModalMessageHolder"
-                th:text="${editModalMessage}"
-              ></span>
+                th:text="${editModalMessage}"></span>
 
               <div class="modal-body ui-front">
                 <div class="col-xs-auto">
-                  <!-- check for error -->
+                   check for error 
                   <div id="editModalDiv" th:if="${editModalMessage != null}">
                     <div class="alert alert-danger col-xs-auto">
                       <span th:text="${editModalMessage}"></span>
@@ -428,8 +282,7 @@
                       required
                       minlength="5"
                       maxlength="100"
-                      placeholder="Name"
-                    />
+                      placeholder="Name" />
                     <label class="text-secondary" for="editVisitorName"
                       >Name</label
                     >
@@ -446,8 +299,7 @@
                       required
                       minlength="5"
                       maxlength="100"
-                      placeholder="Position"
-                    />
+                      placeholder="Position" />
                     <label class="text-secondary" for="editVisitorPosition"
                       >Position</label
                     >
@@ -464,8 +316,7 @@
                       required
                       minlength="5"
                       maxlength="100"
-                      placeholder="Agency"
-                    />
+                      placeholder="Agency" />
                     <label class="text-secondary" for="editVisitorAgency"
                       >Agency</label
                     >
@@ -480,15 +331,14 @@
               </div>
             </form>
           </div>
-        </div>
-      </div>
+        </div> -->
+    </div>
 
-      <!-- Delete Visitor Modal -->
-      <div
+    <!-- Delete Visitor Modal -->
+    <!-- <div
         class="modal text-center"
         data-bs-theme="dark"
-        id="deleteVisitorModal"
-      >
+        id="deleteVisitorModal">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -497,9 +347,8 @@
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              >
-                <!-- <span aria-hidden="true"></span> -->
+                aria-label="Close">
+                 <span aria-hidden="true"></span>
               </button>
             </div>
             <div class="modal-body">
@@ -511,17 +360,17 @@
               <button
                 type="button"
                 class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
+                data-bs-dismiss="modal">
                 No
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <th:block layout:fragment="script">
+      <script th:src="@{/js/ph-address-selector.js}"></script>
       <script th:src="@{/js/visitor.js}" type="module" defer></script>
     </th:block>
   </body>
