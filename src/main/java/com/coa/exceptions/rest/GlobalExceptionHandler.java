@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<APIResponse> handleAlreadyExistsException(AlreadyExistException ex){
-        return new ResponseEntity<>(new APIResponse(ex.getMessage(),false), HttpStatus.IM_USED);
+        return new ResponseEntity<>(new APIResponse(ex.getMessage(),false), HttpStatus.BAD_REQUEST);
     }
 
 
