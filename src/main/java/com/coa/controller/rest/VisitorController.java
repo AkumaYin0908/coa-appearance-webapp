@@ -45,7 +45,6 @@ public class VisitorController {
 
     @PostMapping
     public ResponseEntity<VisitorResponse> saveVisitor(@RequestBody VisitorRequest visitorRequest){
-        System.out.println("Success");
         return new ResponseEntity<>(visitorService.save(visitorRequest), HttpStatus.CREATED);
     }
 
