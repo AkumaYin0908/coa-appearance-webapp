@@ -1,5 +1,6 @@
 "use strict";
 import { datePickerSetting } from "./modules/date.js";
+import { visitorId } from "./visitor.js";
 
 $(document).ready(function () {
   $("#dateIssued")
@@ -38,18 +39,18 @@ $(document).ready(function () {
     }
   });
 
-  $("#appearanceDetailsButton").on("click", function (event) {
-    event.preventDefault();
-    let dateIssued = $("#dateIssued").val();
-    let dateFrom = $("#dateFrom").val();
-    let dateTo = $("#dateTo").val();
-    let purpose = $("#purposeTextArea").val();
+  // $("#appearanceDetailsButton").on("click", function (event) {
+  //   event.preventDefault();
+  //   let dateIssued = $("#dateIssued").val();
+  //   let dateFrom = $("#dateFrom").val();
+  //   let dateTo = $("#dateTo").val();
+  //   let purpose = $("#purposeTextArea").val();
 
-    $("#dateIssuedDetail").text(dateIssued);
-    $("#dateFromDetail").text(dateFrom);
-    $("#dateToDetail").text(dateTo);
-    $("#purposeDetail").text(purpose);
+  //   $("#dateIssuedDetail").text(dateIssued);
+  //   $("#dateFromDetail").text(dateFrom);
+  //   $("#dateToDetail").text(dateTo);
+  //   $("#purposeDetail").text(purpose);
 
-    $("#appearanceDetailsModal").modal("show");
-  });
+  //   $("#appearanceDetailsModal").modal("show");
+  // });
 });

@@ -17,6 +17,11 @@
       type="text/css"
       th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 
+    <!-- Sweet Alert -->
+    <link
+      th:href="@{/sweetalert2/node_modules/sweetalert2/dist/sweetalert2.css}"
+      rel="stylesheet" />
+
     <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,8 +48,6 @@
   </head>
 
   <body>
-    
-
     <div th:replace="~{fragments/navigation :: navigation}"></div>
 
     <section>
@@ -75,6 +78,10 @@
     <script
       th:src="@{/datatables/datatables.js}"
       type="text/javascript"></script>
+
+    <!-- Sweet Alert -->
+    <script
+      th:src="@{/sweetalert2/node_modules/sweetalert2/dist/sweetalert2.js}"></script>
 
     <script th:src="@{/js/index.js}" type="text/javascript" defer></script>
 

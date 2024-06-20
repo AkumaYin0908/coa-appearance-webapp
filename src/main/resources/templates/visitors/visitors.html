@@ -1,11 +1,5 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="layout/layout"
-  xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout" xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Visitors</title>
 
@@ -45,12 +39,7 @@
           <div class="container text-center mt-6 pt-6">
             <div class="row justify-content-md-center mb-2">
               <div class="col-md-2 mt-1">
-                <button
-                  type="button"
-                  id="addVisitorButton"
-                  class="btn btn-sm btn-success">
-                  <span class="material-symbols-outlined">add</span>Add Visitor
-                </button>
+                <button type="button" id="addVisitorButton" class="btn btn-sm btn-success"><span class="material-symbols-outlined">add</span>Add Visitor</button>
               </div>
             </div>
           </div>
@@ -72,305 +61,51 @@
         </div>
       </div>
 
-      <!-- Add Visitor Modal -->
-      <div
-        class="modal"
-        data-bs-theme="dark"
-        id="addVisitorModal"
-        role="dialog"
-        tabindex="-1">
+      <!-- Visitor Modal -->
+      <div class="modal" data-bs-theme="dark" data-bs-backdrop="static" id="visitorModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-light">New Visitor</h5>
-              <button
-                id="addModalCloseButton"
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close">
-                <span aria-hidden="true"></span>
-              </button>
+              <!--Modal Title Here-->
+              <button id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
-              <!-- <span
-                id="addModalMessageHolder"
-                th:text="${addModalMessage}"></span> -->
+            <form id="visitorForm">
               <div class="modal-body ui-front">
-                <!-- <div class="col-xs-auto">
-                  check for error
-                  <div id="addModalDiv" th:if="${addModalMessage != null}">
-                    <div class="alert alert-danger col-xs-auto">
-                      <span th:text="${addModalMessage}"></span>
-                    </div>
-                  </div>
-                </div> -->
+                <!--Error Message Here-->
+
                 <div class="form-group">
-                  <!-- <input type="hidden" th:field="*{id}" /> -->
+                  <input type="hidden" id="id" />
                   <div class="md-form form-floating mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      name="name"
-                      required
-                      minlength="5"
-                      maxlength="100"
-                      placeholder="Name" />
+                    <input type="text" class="form-control" id="name" name="name" required minlength="5" maxlength="100" placeholder="Name" />
                     <label class="text-secondary" for="name">Name</label>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="md-form form-floating mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="position"
-                      name="position"
-                      required
-                      minlength="5"
-                      maxlength="100"
-                      placeholder="Position" />
-                    <label class="text-secondary" for="position"
-                      >Position</label
-                    >
+                    <input type="text" class="form-control" id="position" name="position" required minlength="5" maxlength="100" placeholder="Position" />
+                    <label class="text-secondary" for="position">Position</label>
                   </div>
                 </div>
-
                 <div class="form-group">
                   <div class="md-form form-floating mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="agency"
-                      name="agency"
-                      required
-                      minlength="5"
-                      maxlength="100"
-                      placeholder="Agency" />
+                    <input type="text" class="form-control" id="agency" name="agency" required minlength="5" maxlength="100" placeholder="Agency" />
                     <label class="text-secondary" for="agency">Agency</label>
                   </div>
                 </div>
-
                 <!--ADDRESS-->
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select
-                      name="region"
-                      class="form-control"
-                      id="region"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="region_text"
-                      id="region-text"
-                      required
-                      placeholder="Region" />
-                    <label class="text-secondary" for="region">Region</label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select
-                      name="province"
-                      class="form-control"
-                      id="province"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="province_text"
-                      id="province-text"
-                      required
-                      placeholder="Province" />
-                    <label class="text-secondary" for="province"
-                      >Province</label
-                    >
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select name="city" class="form-control" id="city"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="city_text"
-                      id="city-text"
-                      required
-                      placeholder="City" />
-                    <label class="text-secondary" for="city"
-                      >City/Municipality</label
-                    >
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select
-                      name="barangay"
-                      class="form-control"
-                      id="barangay"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="barangay_text"
-                      id="barangay-text"
-                      placeholder="Barangay" />
-                    <label class="text-secondary" for="barangay"
-                      >Barangay</label
-                    >
-                  </div>
-                </div>
+                <div id="address"></div>
               </div>
-
               <div class="modal-footer">
-                <button id="btnAdd" class="btn btn-primary">Save</button>
+                <button id="saveButton" class="btn btn-primary">Save</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-
-      <!-- Edit Visitor Modal -->
-      <!-- <div
-        class="modal"
-        data-bs-theme="dark"
-        id="editVisitorModal"
-        role="dialog"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-light">Edit Visitor</h5>
-              <button
-                type="button"
-                id="editModalCloseButton"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close">
-                <span aria-hidden="true"></span>
-              </button>
-            </div>
-            <form
-              th:action="@{visitors/update}"
-              method="POST"
-              th:object="${editFormVisitorDTO}">
-              <span
-                id="editModalMessageHolder"
-                th:text="${editModalMessage}"></span>
-
-              <div class="modal-body ui-front">
-                <div class="col-xs-auto">
-                   check for error 
-                  <div id="editModalDiv" th:if="${editModalMessage != null}">
-                    <div class="alert alert-danger col-xs-auto">
-                      <span th:text="${editModalMessage}"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <input id="editVisitorId" type="hidden" th:field="*{id}" />
-
-                  <div class="md-form form-floating mb-3">
-                    <input
-                      type="text"
-                      th:field="*{name}"
-                      class="form-control"
-                      id="editVisitorName"
-                      required
-                      minlength="5"
-                      maxlength="100"
-                      placeholder="Name" />
-                    <label class="text-secondary" for="editVisitorName"
-                      >Name</label
-                    >
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <input
-                      type="text"
-                      th:field="*{position}"
-                      class="form-control"
-                      id="editVisitorPosition"
-                      required
-                      minlength="5"
-                      maxlength="100"
-                      placeholder="Position" />
-                    <label class="text-secondary" for="editVisitorPosition"
-                      >Position</label
-                    >
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <input
-                      type="text"
-                      th:field="*{agency}"
-                      class="form-control"
-                      id="editVisitorAgency"
-                      required
-                      minlength="5"
-                      maxlength="100"
-                      placeholder="Agency" />
-                    <label class="text-secondary" for="editVisitorAgency"
-                      >Agency</label
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="submit" id="btnEdit" class="btn btn-primary">
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div> -->
     </div>
-
-    <!-- Delete Visitor Modal -->
-    <!-- <div
-        class="modal text-center"
-        data-bs-theme="dark"
-        id="deleteVisitorModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-light">Delete Confirmation</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close">
-                 <span aria-hidden="true"></span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <span id="confirmText" class="text-light"></span>
-            </div>
-
-            <div class="modal-footer">
-              <a type="button" id="btnYes" class="btn btn-danger">Yes</a>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal">
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <th:block layout:fragment="script">
-      <script th:src="@{/js/ph-address-selector.js}"></script>
+      <!-- <script th:src="@{/js/ph-address-selector.js}" type="module"></script> -->
       <script th:src="@{/js/visitor.js}" type="module" defer></script>
     </th:block>
   </body>
