@@ -9,7 +9,7 @@ public class DashboardController {
 
 
     @GetMapping(value={"/","/dashboard"})
-    public String showDashboard(Model model){
+    public String showDashboard(){
         return "dashboard";
     }
 }

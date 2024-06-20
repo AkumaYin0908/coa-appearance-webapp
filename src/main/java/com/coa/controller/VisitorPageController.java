@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class VisitorPageController {
 
     @GetMapping("/visitor-page")
-    public String showVisitorPage(Model model){
+    public String showVisitorPage(){
         return "visitors/visitors";
     }
 }
