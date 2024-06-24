@@ -16,8 +16,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AppearancePageController {
 
     private final VisitorService visitorService;
-    @GetMapping("/visitors/appearance-form")
-    public String showAppearanceForm(){
-        return "appearances/appearance-form";
+    @GetMapping("/visitors/{id}/single-appearance")
+    public String showSingleAppearance(@PathVariable("id")Long id, Model model){
+        try{
+            model.addAttribute("visitor",visitorService.findById(id));
+        }catch (Exception ex){
+            model.addAttribute("error",ex.getMessage());
+            return "redirect: /visitor-page";
+        }
+        return "appearances/single-appearance";
+    }
+    @GetMapping("/visitors/{id}/consolidated-appearance")
+    public String showConsolidatedAppearance(@PathVariable("id")Long id, Model model){
+        try{
+            model.addAttribute("visitor",visitorService.findById(id));
+        }catch (Exception ex){
+            model.addAttribute("error",ex.getMessage());
+            return "redirect: /visitor-page";
+        }
+        return "appearances/consolidated-appearance";
     }
 }
