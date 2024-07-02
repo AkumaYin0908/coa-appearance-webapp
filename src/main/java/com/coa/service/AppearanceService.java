@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface AppearanceService {
 
+
+
     AppearanceResponse findById(Long id);
 
     List<AppearanceResponse> findAll();
@@ -26,6 +28,8 @@ public interface AppearanceService {
     AppearanceResponse findByReference(String reference);
 
     AppearanceResponse save(Long id, AppearanceRequest appearanceRequest);
+
+    List<AppearanceResponse> saveAll(Long id, List<AppearanceRequest> appearanceRequests);
 
     AppearanceResponse update(Long id, AppearanceRequest appearanceRequest);
 
