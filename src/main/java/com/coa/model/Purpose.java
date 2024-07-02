@@ -25,7 +25,7 @@ public class Purpose {
     @Column(name="description")
     private String description;
 
-    @OneToMany(mappedBy = "purpose", cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "purpose", cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.REFRESH})
     private List<Appearance> appearances;
 
 
