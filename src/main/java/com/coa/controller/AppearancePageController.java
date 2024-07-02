@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -16,24 +17,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AppearancePageController {
 
     private final VisitorService visitorService;
-    @GetMapping("/visitors/{id}/single-appearance")
-    public String showSingleAppearance(@PathVariable("id")Long id, Model model){
+    @GetMapping("/visitors/{id}/appearance-form")
+    public String showAppearanceForm(@PathVariable("id")Long id, @RequestParam(value = "appearanceType")String appearanceType,
+                                       Model model, RedirectAttributes redirectAttributes){
+
         try{
-            model.addAttribute("visitor",visitorService.findById(id));
+            VisitorResponse visitor = visitorService.findById(id);
+            model.addAttribute("visitor",visitor);
+            model.addAttribute("appearanceType",appearanceType);
         }catch (Exception ex){
-            model.addAttribute("error",ex.getMessage());
-            return "redirect: /visitor-page";
+            redirectAttributes.addFlashAttribute("error",ex.getMessage());
+            System.out.println(ex.getMessage());
+            return "redirect:/visitor-page";
         }
-        return "appearances/single-appearance";
-    }
-    @GetMapping("/visitors/{id}/consolidated-appearance")
-    public String showConsolidatedAppearance(@PathVariable("id")Long id, Model model){
-        try{
-            model.addAttribute("visitor",visitorService.findById(id));
-        }catch (Exception ex){
-            model.addAttribute("error",ex.getMessage());
-            return "redirect: /visitor-page";
+        if(appearanceType.equals("single")){
+            return "appearances/single-appearance";
+        }else{
+            return "appearances/consolidated-appearance";
         }
-        return "appearances/consolidated-appearance";
     }
 }
