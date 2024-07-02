@@ -59,6 +59,11 @@ public class AppearanceController {
         return new ResponseEntity<>(appearanceService.save(id,appearanceRequest), HttpStatus.CREATED);
     }
 
+    @PostMapping("/visitors/{id}/appearances/consolidated")
+    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@PathVariable("id")Long id, @RequestBody List<AppearanceRequest> appearanceRequests){
+        return new ResponseEntity<>(appearanceService.saveAll(id,appearanceRequests), HttpStatus.CREATED);
+    }
+
     @PutMapping("/visitors/{id}/appearances")
     public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id")Long id, @RequestBody AppearanceRequest appearanceRequest){
         return new ResponseEntity<>(appearanceService.update(id,appearanceRequest), HttpStatus.CREATED);
