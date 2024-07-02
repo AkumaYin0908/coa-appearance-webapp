@@ -1,4 +1,4 @@
-div h2 {
+div.visitor-details h2 {
   font: "Roboto Mono";
   font-weight: 900;
   text-shadow: 2px 2px black;
@@ -34,13 +34,3 @@ div #appearanceForm {
   border-radius: 10px;
 }
 
-.details {
-  background: #87a922;
-  color: #3d3b40;
-  font-weight: 900;
-}
-
-.detail-label {
-  font-size: 20px;
-  color: white;
-}
