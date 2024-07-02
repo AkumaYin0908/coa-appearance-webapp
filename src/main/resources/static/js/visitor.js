@@ -1,21 +1,22 @@
 "use strict";
 
-import { showModalMessage, showModal, hideModal } from "./modules/modal.js";
 import { baseUrl } from "./modules/baseUrl.js";
-import showMessage from "./modules/message-holder.js";
 import { loadAddress } from "./ph-address-selector.js";
 import { newButton, actionButtons, addressContent, errorContent } from "./modules/htmlContent.js";
+import { showAppearanceChoices } from "./modules/appearance-type.js";
+import { fetchVisitor } from "./modules/visitor-manager.js";
+import { toast } from "./modules/alerts.js";
 
 let fullUrl = `${baseUrl}/visitors`;
 
 const modalHeader = $("div.modal-header");
 const modalBody = $("div.modal-body");
 const addressContainer = $("#visitorForm #address");
-export let visitorId ;
 const name = $("#name");
 const position = $("#position");
 const agency = $("#agency");
 
+let visitorId = 0;
 let barangay = null;
 let municipality = null;
 let province = null;
@@ -23,18 +24,6 @@ let region = null;
 
 //state
 let isEdit = false;
-
-const toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  },
-});
 
 const renderDataTable = $("#visitors").DataTable({
   responsive: true,
@@ -56,7 +45,6 @@ const renderDataTable = $("#visitors").DataTable({
     {
       data: "id",
       render: function (data, type, row) {
-        visitorId = data;
         return `<div id = "actionButton">
         ${newButton(data)}
         ${actionButtons(data)}
@@ -67,29 +55,31 @@ const renderDataTable = $("#visitors").DataTable({
   processing: true,
 });
 
+$("#visitors").on("click", "a.btn-new", function () {
+  let id = $(this).data("key");
+  showAppearanceChoices(baseUrl, id);
+});
+
 $("#visitors").on("click", "a.btn-edit", function (event) {
   event.preventDefault();
-  let id = $(this).attr("id");
   isEdit = true;
   displayTitle(isEdit);
-  editVisitor(id);
+  editVisitor($(this).data("key"));
 });
 
 $("#visitors").on("click", "a.btn-delete", function (event) {
   event.preventDefault();
-  let id = $(this).attr("id");
-  deleteVisitor(id);
+  deleteVisitor($(this).data("key"));
 });
 
-
-const submitForm = function () {
+function submitForm() {
   barangay = $("#address #barangay-text");
   municipality = $("#address #city-text");
   province = $("#address #province-text");
   region = $("#address #region-text");
 
   let visitor = {
-    id: visitorId.val(),
+    id: visitorId,
     name: name.val(),
     position: {
       title: position.val(),
@@ -119,27 +109,15 @@ const submitForm = function () {
     },
   };
 
-  console.log(visitor);
-
   submitFormToServer(visitor);
-};
+}
 
 function editVisitor(id) {
-  let fullUrl = `${baseUrl}/visitors/${id}`;
-
-  fetch(fullUrl)
-    .then((response) => {
-      if (response.status !== 302) {
-        return response.json().then((data) => {
-          throw new Error(data.message);
-        });
-      }
-      return response.json();
-    })
+  fetchVisitor(id)
     .then((data) => {
       $(addressContent).prependTo(addressContainer);
 
-      visitorId.val(id);
+      visitorId = id;
       name.val(data.name);
       position.val(data.position.title);
       agency.val(data.agency.name);
@@ -157,8 +135,7 @@ function editVisitor(id) {
 }
 
 function submitFormToServer(visitor) {
-  let fullUrl = `${baseUrl}/visitors${isEdit ? "/" + visitor.id : ""}`;
-  console.log(fullUrl);
+  const fullUrl = `${baseUrl}/visitors${isEdit ? "/" + visitor.id : ""}`;
   fetch(fullUrl, {
     method: isEdit ? "PUT" : "POST",
     headers: {
@@ -181,14 +158,14 @@ function submitFormToServer(visitor) {
         title: `${data["name"]}  has been ${isEdit ? "updated" : "saved"}!`,
       });
       $("#visitorModal").modal("hide");
-      window.location.href = `${baseUrl}/visitor-page`;
+      resetVisitorModal();
+      renderDataTable.ajax.reload();
     })
     .catch((error) => {
       if ($("#errorContainer").length === 0) {
         $(errorContent(error)).prependTo(modalBody);
       }
-    })
-    .finally(() => (isEdit = false));
+    });
 }
 
 $("#addVisitorButton").on("click", function (event) {
@@ -202,6 +179,9 @@ $("#addVisitorButton").on("click", function (event) {
 
 $("#closeModalButton").on("click", function (event) {
   event.preventDefault();
+  resetVisitorModal();
+});
+function resetVisitorModal() {
   name.val("");
   position.val("");
   agency.val("");
@@ -209,11 +189,11 @@ $("#closeModalButton").on("click", function (event) {
   if ($("#errorContainer").length > 0) {
     $("#errorContainer").remove();
   }
+  isEdit = false;
 
   $("h5.modal-title").remove();
-  isEdit = false;
-});
-
+  
+}
 $("#saveButton").on("click", function (event) {
   submitForm();
 });
@@ -264,7 +244,7 @@ function deleteVisitor(id) {
             text: data.message,
             icon: "success",
           });
-          window.location.href = `${baseUrl}/visitor-page`;
+          renderDataTable.ajax.reload();
         })
         .catch((error) => {
           Swal.fire({
