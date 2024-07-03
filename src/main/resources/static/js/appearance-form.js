@@ -6,8 +6,6 @@ import { appearanceDetails } from "./modules/htmlContent.js";
 import { toast } from "./modules/alerts.js";
 
 const visitorDetailContainer = $(".visitor-details");
-$(visitorDetails(visitor)).prependTo(visitorDetailContainer);
-
 const dateIssued = $("#dateIssued");
 const dateFrom = $("#dateFrom");
 const dateTo = $("#dateTo");
@@ -15,28 +13,47 @@ const purpose = $("#purpose");
 const reference = $("#reference");
 const appearances = [];
 const isSingle = appearanceType === "single";
-console.log(appearanceType);
+let url = null;
+let visitorId = visitor.id;
+
+//displaying visitor details
+$(visitorDetails(visitor)).prependTo(visitorDetailContainer);
+
+
+
 $("#proceedButton").on("click", function (event) {
   event.preventDefault();
   if (isSingle) {
     submitForm();
+  } else {
+    if (appearances.length == 0) {
+      Swal.fire({
+        title: "Error",
+        text: "No appearance has been added yet!",
+        icon: "error",
+      });
+    } else {
+      url= `${baseUrl}/visitors/${visitorId}/appearances/consolidated`;
+      submitFormToServer(appearances,url);
+    }
   }
 });
 
 $("#appearances").on("click", "a.btn-delete", function (event) {
-  const id = $(this).parent().parent().attr("id")
-  const index = appearances.findIndex(appearance => appearance.dateFrom === id);
+  const id = $(this).parent().parent().attr("id");
+  const index = appearances.findIndex((appearance) => appearance.dateFrom === id);
 
-  if(index !== -1){
-    appearances.splice(index,1);
+  if (index !== -1) {
+    appearances.splice(index, 1);
     $(this).parent().parent().remove();
   }
 
-  console.log("Index of the deleted row: ",index);
+  console.log("Index of the deleted row: ", index);
   console.log(appearances);
-  
 });
 
+
+//displaying appearance details through modal/alert
 function showAppearanceDetailModal(appearance) {
   Swal.fire({
     title: `Check the details before ${isSingle ? "printing" : "adding"}!`,
@@ -47,6 +64,8 @@ function showAppearanceDetailModal(appearance) {
     .then((result) => {
       if (result.isConfirmed) {
         if (isSingle) {
+          
+          url= `${baseUrl}/visitors/${visitorId}/appearances`;
           submitFormToServer(appearance);
         } else {
           let reference = appearance.reference;
@@ -74,6 +93,7 @@ function showAppearanceDetailModal(appearance) {
     });
 }
 
+//for datepicker (dateIssued,dateFrom,dateTo)
 dateIssued
   .datepicker(
     $.extend({
@@ -108,6 +128,8 @@ $(function () {
   }
 });
 
+
+//transforming inputted data into JSON object and passing it to showAppearanceDetailModal() method
 function submitForm() {
   let appearance = {
     visitor: visitor,
@@ -123,16 +145,14 @@ function submitForm() {
   showAppearanceDetailModal(appearance);
 }
 
-function submitFormToServer(appearance) {
-  let id = appearance.visitor.id;
-  const fullUrl = `${baseUrl}/visitors/${id}/appearances`;
-
-  fetch(fullUrl, {
+//saving objects to database
+function submitFormToServer(object, url) {
+  fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(appearance),
+    body: JSON.stringify(object),
   })
     .then((response) => {
       if (!response.ok) {
