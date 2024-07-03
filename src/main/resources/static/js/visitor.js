@@ -5,7 +5,7 @@ import { loadAddress } from "./ph-address-selector.js";
 import { newButton, actionButtons, addressContent, errorContent } from "./modules/htmlContent.js";
 import { showAppearanceChoices } from "./modules/appearance-type.js";
 import { fetchVisitor } from "./modules/visitor-manager.js";
-import { toast } from "./modules/alerts.js";
+import { toast,alert } from "./modules/alerts.js";
 
 let fullUrl = `${baseUrl}/visitors`;
 
@@ -126,11 +126,7 @@ function editVisitor(id) {
       $("#visitorModal").modal("show");
     })
     .catch((error) => {
-      Swal.fire({
-        title: "Error",
-        text: error.message,
-        icon: "error",
-      });
+        alert("Error",error.message,"error");
     });
 }
 
@@ -181,6 +177,8 @@ $("#closeModalButton").on("click", function (event) {
   event.preventDefault();
   resetVisitorModal();
 });
+
+
 function resetVisitorModal() {
   name.val("");
   position.val("");
@@ -239,19 +237,11 @@ function deleteVisitor(id) {
           return response.json();
         })
         .then((data) => {
-          Swal.fire({
-            title: "Deleted!",
-            text: data.message,
-            icon: "success",
-          });
+          alert("Deleted!", data.message,"success");
           renderDataTable.ajax.reload();
         })
         .catch((error) => {
-          Swal.fire({
-            title: "Error",
-            text: error.message,
-            icon: "error",
-          });
+          alert("Error",error.message,"error");
         });
     }
   });
