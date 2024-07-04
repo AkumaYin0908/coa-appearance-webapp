@@ -1,9 +1,10 @@
 "use strict";
-import { datePickerSetting } from "./modules/date.js";
-import { visitorDetails } from "./modules/htmlContent.js";
+//import { datePickerSetting } from "./modules/date.js";
+import { datePicker } from "./modules/datepicker.js";
+import { visitorDetails, deleteButton, appearanceButtonContainer } from "./modules/htmlContent.js";
 import { baseUrl } from "./modules/baseUrl.js";
 import { appearanceDetails } from "./modules/htmlContent.js";
-import { toast } from "./modules/alerts.js";
+import { toast, alert } from "./modules/alerts.js";
 
 const visitorDetailContainer = $(".visitor-details");
 const dateIssued = $("#dateIssued");
@@ -11,15 +12,20 @@ const dateFrom = $("#dateFrom");
 const dateTo = $("#dateTo");
 const purpose = $("#purpose");
 const reference = $("#reference");
+const inputSection = $(".input-section");
 const appearances = [];
 const isSingle = appearanceType === "single";
 let url = null;
 let visitorId = visitor.id;
-
+console.log(appearanceType);
 //displaying visitor details
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
+if(appearanceType === "single"){
+   inputSection.append(appearanceButtonContainer);
+}
 
+datePicker();
 
 $("#proceedButton").on("click", function (event) {
   event.preventDefault();
@@ -27,14 +33,10 @@ $("#proceedButton").on("click", function (event) {
     submitForm();
   } else {
     if (appearances.length == 0) {
-      Swal.fire({
-        title: "Error",
-        text: "No appearance has been added yet!",
-        icon: "error",
-      });
+      alert("Error", "No appearance has been added yet!", "error");
     } else {
-      url= `${baseUrl}/visitors/${visitorId}/appearances/consolidated`;
-      submitFormToServer(appearances,url);
+      url = `${baseUrl}/visitors/${visitorId}/appearances/consolidated`;
+      submitFormToServer(appearances, url);
     }
   }
 });
@@ -50,11 +52,19 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
 
   console.log("Index of the deleted row: ", index);
   console.log(appearances);
+  if (appearances.length == 0 ) {
+    $(".button-container").remove();
+  }
 });
+
+// $("#appearanceForm").submit(function(event){
+//    event.preventDefault();
+// });
+ 
 
 
 //displaying appearance details through modal/alert
-function showAppearanceDetailModal(appearance) {
+function showAppearanceDetail(appearance) {
   Swal.fire({
     title: `Check the details before ${isSingle ? "printing" : "adding"}!`,
     html: appearanceDetails(appearance),
@@ -64,9 +74,8 @@ function showAppearanceDetailModal(appearance) {
     .then((result) => {
       if (result.isConfirmed) {
         if (isSingle) {
-          
-          url= `${baseUrl}/visitors/${visitorId}/appearances`;
-          submitFormToServer(appearance);
+          url = `${baseUrl}/visitors/${visitorId}/appearances`;
+          submitFormToServer(appearance,url);
         } else {
           let reference = appearance.reference;
           let dateFrom = appearance.dateFrom;
@@ -78,56 +87,20 @@ function showAppearanceDetailModal(appearance) {
                       <td>${dateFrom}</td>
                       <td>${dateTo}</td>
                       <td>${purpose}</td>
-                      <td><a type ="button" class = "btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span></a>`;
+                      <td>${deleteButton(dateFrom)}`;
           $("#appearances tbody").append(row);
           appearances.push(appearance);
+
+          if (!$(".button-container").length) {
+           inputSection.append(appearanceButtonContainer);
+          }
         }
       }
     })
     .catch((error) => {
-      Swal.fire({
-        title: "Error",
-        text: error.message,
-        icon: "error",
-      });
+      alert("Error", error.message, "error");
     });
 }
-
-//for datepicker (dateIssued,dateFrom,dateTo)
-dateIssued
-  .datepicker(
-    $.extend({
-      defaultDate: new Date(),
-      altFormat: "yy-mm-dd",
-      dateFormat: "MM dd, yy",
-      changeMonth: true,
-      changeYear: true,
-      numberOfMonths: 1,
-    })
-  )
-  .datepicker("setDate", new Date());
-
-$(function () {
-  let dateFormat = "MM dd, yy",
-    dateFrom = $("#dateFrom")
-      .datepicker(datePickerSetting)
-      .datepicker("setDate", $("#dateIssued").datepicker("getDate"))
-      .on("change", function () {
-        dateTo.datepicker("option", "minDate", getDate(this));
-      }),
-    dateTo = $("#dateTo").datepicker(datePickerSetting).datepicker("setDate", dateFrom.datepicker("getDate"));
-
-  function getDate(element) {
-    let date;
-    try {
-      date = $.datepicker.parseDate(dateFormat, element.value);
-    } catch (error) {
-      date = null;
-    }
-    return date;
-  }
-});
-
 
 //transforming inputted data into JSON object and passing it to showAppearanceDetailModal() method
 function submitForm() {
@@ -142,7 +115,7 @@ function submitForm() {
     reference: reference.val() != "" ? reference.val() : "N/A",
   };
 
-  showAppearanceDetailModal(appearance);
+  showAppearanceDetail(appearance);
 }
 
 //saving objects to database
@@ -165,7 +138,7 @@ function submitFormToServer(object, url) {
     .then((data) => {
       toast.fire({
         icon: "success",
-        title: `New appearance for ${data.visitor.name} has been saved!`,
+        title: `New appearance${appearances.length > 0 ? "s" : ""} for ${data.visitor.name} has been saved!`,
       });
     });
 }

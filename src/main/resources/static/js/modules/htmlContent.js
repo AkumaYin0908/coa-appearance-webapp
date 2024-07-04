@@ -71,15 +71,17 @@ export const addressContent = `
                   </div>
                 </div>`;
 
-export const newButton = function(data){
- return ` <a data-key = ${data} class = "btn-new btn btn-sm btn-success"><span class = "label-new">New</span>
+export const newButton = function (data) {
+  return ` <a data-key = ${data} class = "btn-new btn btn-sm btn-success"><span class = "label-new">New</span>
         </a>`;
-}
-export const actionButtons = function (data) {
-  return `
-        <a data-key = ${data} class = "btn-edit btn btn-sm btn-warning"><span class="material-symbols-outlined">edit</span>
-        </a>
-        <a data-key = ${data} class = "btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span>
+};
+export const editButton = function (data) {
+  return `<a data-key = ${data} class = "btn-edit btn btn-sm btn-warning"><span class="material-symbols-outlined">edit</span>
+        </a>`;
+};
+
+export const deleteButton = function (data) {
+  return ` <a data-key = ${data} class = "btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span>
         </a>`;
 };
 
@@ -91,9 +93,8 @@ export const errorContent = function (error) {
                 </div>`;
 };
 
-export const appearanceDetails = function(appearance){
-
- return `<div id ="appearanceDetails" >
+export const appearanceDetails = function (appearance) {
+  return `<div id ="appearanceDetails" >
       <table class = "table table-bordered border-primary">
         <tbody>
           <tr>
@@ -119,10 +120,9 @@ export const appearanceDetails = function(appearance){
         </tbody>
       </table>
     </div>`;
-}
+};
 
-
-export const visitorDetails = function(visitor){
+export const visitorDetails = function (visitor) {
   const address = visitor.address;
   return ` <div class="row mb-4">
                   <div class="col-lg-12 col-md-12 col-sm-12">
@@ -132,6 +132,20 @@ export const visitorDetails = function(visitor){
                   <div class="col">
                     <h6 class="text-secondary mb-0" id="position">${visitor.position.title}</h6>
                     <h6 class="text-secondary" id="agency">${visitor.agency.name}</h6>
-                    <h6 class="text-secondary" id="address">${address.barangay != null ? address.barangay.name + ', ' : ''}${address.municipality.name}, ${address.province.name}</h6>
+                    <h6 class="text-secondary" id="address">${address.barangay != null ? address.barangay.name + ", " : ""}${address.municipality.name}, ${address.province.name}</h6>
                   </div>`;
-}
+};
+
+export const appearanceButtonContainer = `<div class="button-container container p-3">
+                  <div class="d-flex justify-content-center">
+                    <div class="row">
+                      <div class="col-auto">
+                        <button type ="submit" id="proceedButton" class="btn btn-primary">Proceed</button>
+                      </div>
+
+                      <div class="col">
+                        <button id="cancelButton" class="btn btn-danger cancel-button">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>`

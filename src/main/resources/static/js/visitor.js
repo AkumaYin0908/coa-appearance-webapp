@@ -2,7 +2,7 @@
 
 import { baseUrl } from "./modules/baseUrl.js";
 import { loadAddress } from "./ph-address-selector.js";
-import { newButton, actionButtons, addressContent, errorContent } from "./modules/htmlContent.js";
+import { newButton, editButton, deleteButton , addressContent, errorContent } from "./modules/htmlContent.js";
 import { showAppearanceChoices } from "./modules/appearance-type.js";
 import { fetchVisitor } from "./modules/visitor-manager.js";
 import { toast,alert } from "./modules/alerts.js";
@@ -47,7 +47,8 @@ const renderDataTable = $("#visitors").DataTable({
       render: function (data, type, row) {
         return `<div id = "actionButton">
         ${newButton(data)}
-        ${actionButtons(data)}
+        ${editButton(data)}
+        ${deleteButton(data)}
         </div>`;
       },
     },
