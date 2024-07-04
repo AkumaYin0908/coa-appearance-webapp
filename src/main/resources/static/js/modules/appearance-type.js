@@ -12,7 +12,7 @@ export const showAppearanceChoices = function (baseUrl,id) {
     inputValidator: (value) => {
       if (value === "single") {
        window.location.href = `${baseUrl}/visitors/${id}/appearance-form?appearanceType=single`
-      } else {
+      } else if (value === "consolidated") {
         window.location.href = `${baseUrl}/visitors/${id}/appearance-form?appearanceType=consolidated`
       }
     },
