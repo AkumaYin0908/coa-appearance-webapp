@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<APIResponse> handleAlreadyExistsException(AlreadyExistException ex){
         return new ResponseEntity<>(new APIResponse(ex.getMessage(),false), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<APIResponse> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex){
+        String message = "error";
+        if(ex.getErrorCode() == 1451){
+            message = "Unable to delete because this item is associated with other entities";
+        }
+        return new ResponseEntity<>(new APIResponse(message,false), HttpStatus.BAD_REQUEST);
     }
 
 
