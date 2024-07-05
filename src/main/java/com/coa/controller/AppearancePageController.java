@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AppearancePageController {
 
     private final VisitorService visitorService;
-    @GetMapping("/visitors/{id}/appearance-form")
+    @GetMapping(value = "/visitors/{id}/appearances/appearance-form",params = "!dateIssued")
     public String showAppearanceForm(@PathVariable("id")Long id, @RequestParam(value = "appearanceType")String appearanceType,
                                        Model model, RedirectAttributes redirectAttributes){
 
@@ -30,10 +30,6 @@ public class AppearancePageController {
             System.out.println(ex.getMessage());
             return "redirect:/visitor-page";
         }
-        if(appearanceType.equals("single")){
-            return "appearances/single-appearance";
-        }else{
-            return "appearances/consolidated-appearance";
-        }
+            return String.format("appearances/%s-appearance",appearanceType);
     }
 }

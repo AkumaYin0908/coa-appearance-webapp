@@ -22,59 +22,64 @@ public class AppearanceController {
     private final AppearanceService appearanceService;
 
     @GetMapping("/appearances")
-    public ResponseEntity<List<AppearanceResponse>> getAllAppearance(){
+    public ResponseEntity<List<AppearanceResponse>> getAllAppearance() {
         return new ResponseEntity<>(appearanceService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/visitors/{id}/appearances",params = "!dateIssued")
-    public ResponseEntity<List<AppearanceResponse>> getByVisitor(@PathVariable("id")Long id){
+    @GetMapping(value = "/visitors/{id}/appearances", params = "!dateIssued")
+    public ResponseEntity<List<AppearanceResponse>> getByVisitor(@PathVariable("id") Long id) {
         return new ResponseEntity<>(appearanceService.findByVisitor(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/visitors/{id}/appearances",params = "dateIssued")
-    public ResponseEntity<List<AppearanceResponse>> getByVisitorAndDateIssued(@PathVariable("id")Long id, @RequestParam("dateIssued") String strDateIssued){
+    @GetMapping(value = "/visitors/{id}/appearances", params = "dateIssued")
+    public ResponseEntity<List<AppearanceResponse>> getByVisitorAndDateIssued(@PathVariable("id") Long id, @RequestParam("dateIssued") String strDateIssued) {
 
-        return new ResponseEntity<>(appearanceService.findByVisitorAndDateIssued(id,strDateIssued),HttpStatus.OK);
+        return new ResponseEntity<>(appearanceService.findByVisitorAndDateIssued(id, strDateIssued), HttpStatus.OK);
     }
 
 
-    @GetMapping(value = "/appearances",params = "description")
-    public ResponseEntity<List<AppearanceResponse>> getByPurpose(@RequestParam(value = "description",required = false)String description){
+    @GetMapping(value = "/appearances", params = "description")
+    public ResponseEntity<List<AppearanceResponse>> getByPurpose(@RequestParam(value = "description", required = false) String description) {
 
-        return  new ResponseEntity<>(appearanceService.findByPurpose(description),HttpStatus.OK);
+        return new ResponseEntity<>(appearanceService.findByPurpose(description), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/appearances",params = "dateIssued")
-    public ResponseEntity<List<AppearanceResponse>> getByDateIssued(@RequestParam(value = "dateIssued",required = false)String strDateIssued){
-        return  new ResponseEntity<>(appearanceService.findByDateIssued(strDateIssued),HttpStatus.OK);
+    @GetMapping(value = "/appearances", params = "dateIssued")
+    public ResponseEntity<List<AppearanceResponse>> getByDateIssued(@RequestParam(value = "dateIssued", required = false) String strDateIssued) {
+        return new ResponseEntity<>(appearanceService.findByDateIssued(strDateIssued), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/appearances",params = "reference")
-    public ResponseEntity<AppearanceResponse> getByReference(@RequestParam(value = "reference",required = false) String reference){
+    @GetMapping(value = "/appearances", params = "reference")
+    public ResponseEntity<AppearanceResponse> getByReference(@RequestParam(value = "reference", required = false) String reference) {
         return new ResponseEntity<>(appearanceService.findByReference(reference), HttpStatus.FOUND);
     }
 
-    @PostMapping("/visitors/{id}/appearances")
-    public ResponseEntity<AppearanceResponse> saveAppearance(@PathVariable("id")Long id, @RequestBody AppearanceRequest appearanceRequest){
-        return new ResponseEntity<>(appearanceService.save(id,appearanceRequest), HttpStatus.CREATED);
-    }
+//    @PostMapping("/visitors/{id}/appearances")
+//    public ResponseEntity<AppearanceResponse> saveAppearance(@PathVariable("id") Long id, @RequestBody AppearanceRequest appearanceRequest) {
+//        return new ResponseEntity<>(appearanceService.save(id, appearanceRequest), HttpStatus.CREATED);
+//    }
 
-    @PostMapping("/visitors/{id}/appearances/consolidated")
-    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@PathVariable("id")Long id, @RequestBody List<AppearanceRequest> appearanceRequests){
-        return new ResponseEntity<>(appearanceService.saveAll(id,appearanceRequests), HttpStatus.CREATED);
+    @PostMapping(value = "/visitors/{id}/appearances")
+    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@PathVariable("id") Long id, @RequestBody List<AppearanceRequest> appearanceRequests,
+                                                                    @RequestParam("appearanceType") String appearanceType) {
+        if (appearanceType.equals("single")) {
+            return new ResponseEntity<>(List.of(appearanceService.save(id, appearanceRequests.get(0))), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(appearanceService.saveAll(id, appearanceRequests), HttpStatus.CREATED);
+        }
+
     }
 
     @PutMapping("/visitors/{id}/appearances")
-    public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id")Long id, @RequestBody AppearanceRequest appearanceRequest){
-        return new ResponseEntity<>(appearanceService.update(id,appearanceRequest), HttpStatus.CREATED);
+    public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id") Long id, @RequestBody AppearanceRequest appearanceRequest) {
+        return new ResponseEntity<>(appearanceService.update(id, appearanceRequest), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/appearances/{id}")
-    public ResponseEntity<APIResponse> deleteAppearance(@PathVariable("id")Long id){
+    public ResponseEntity<APIResponse> deleteAppearance(@PathVariable("id") Long id) {
         appearanceService.delete(id);
-        return new ResponseEntity<>(new APIResponse("Deleted successfully!",true),HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse("Deleted successfully!", true), HttpStatus.OK);
     }
-
 
 
 }

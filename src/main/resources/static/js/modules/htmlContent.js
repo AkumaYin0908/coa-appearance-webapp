@@ -132,20 +132,22 @@ export const visitorDetails = function (visitor) {
                   <div class="col">
                     <h6 class="text-secondary mb-0" id="position">${visitor.position.title}</h6>
                     <h6 class="text-secondary" id="agency">${visitor.agency.name}</h6>
-                    <h6 class="text-secondary" id="address">${address.barangay != null ? address.barangay.name + ", " : ""}${address.municipality.name}, ${address.province.name}</h6>
+                    <h6 class="text-secondary" id="address">${
+                      address.barangay != null ? address.barangay.name + ", " : ""
+                    }${address.municipality.name}, ${address.province.name}</h6>
                   </div>`;
 };
 
 export const appearanceButtonContainer = `<div class="button-container container p-3">
-                  <div class="d-flex justify-content-center">
-                    <div class="row">
-                      <div class="col-auto">
-                        <button type ="submit" id="proceedButton" class="btn btn-primary">Proceed</button>
-                      </div>
+  <div class="d-flex justify-content-center">
+    <div class="row">
+      <div class="col-auto">
+        <button type ="submit" id="proceedButton" class="btn btn-primary">Proceed</button>
+      </div>
 
-                      <div class="col">
-                        <button id="cancelButton" class="btn btn-danger cancel-button">Cancel</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>`
+      <div class="col">
+        <button id="cancelButton" class="btn btn-danger cancel-button">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>`;

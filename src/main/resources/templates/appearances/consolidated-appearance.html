@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout" xmlns="http://www.w3.org/1999/html">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="layout/layout"
+  xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Appearance Form</title>
 
@@ -30,13 +35,19 @@
               <div class="input-section container-fluid">
                 <div class="form-group">
                   <input type="hidden" id="appearanceId" />
+                  <input type="hidden" name="appearanceType" id="appearanceType" />
                 </div>
 
                 <!-- <div class="row d-flex justify-content-center align-items-center"> -->
                 <div class="row">
                   <div class="col-sm-12 col-md-2">
                     <div class="md-form form-floating mb-1 ui-front" style="z-index: 0">
-                      <input type="text" name="dateIssued" class="form-control" id="dateIssued" placeholder="Date Issued" />
+                      <input
+                        type="text"
+                        name="dateIssued"
+                        class="form-control"
+                        id="dateIssued"
+                        placeholder="Date Issued" />
                       <label class="text-secondary" for="dateIssued">Date Issued</label>
                     </div>
                   </div>
@@ -61,7 +72,14 @@
                   </div>
                   <div class="col-sm-12 col-md-4">
                     <div class="md-form form-floating mb-1">
-                      <input type="text" class="form-control" required minlength="5" maxlength="1000" placeholder="State the purpose of appearance here." id="purpose" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        required
+                        minlength="5"
+                        maxlength="1000"
+                        placeholder="State the purpose of appearance here."
+                        id="purpose" />
                       <label class="text-secondary" for="purpose">Purpose</label>
                     </div>
                   </div>
@@ -101,7 +119,7 @@
     <th:block layout:fragment="script">
       <script th:inline="javascript">
         const visitor = /*[[${visitor}]]*/ "novalue";
-          const appearanceType = /*[[${appearanceType}]]*/ "novalue";
+        const appearanceType = /*[[${appearanceType}]]*/ "novalue";
       </script>
       <script th:src="@{/js/appearance-form.js}" type="module" defer></script>
     </th:block>

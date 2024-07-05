@@ -15,14 +15,17 @@ const reference = $("#reference");
 const inputSection = $(".input-section");
 const appearances = [];
 const isSingle = appearanceType === "single";
-let url = null;
-let visitorId = visitor.id;
-console.log(appearanceType);
+const visitorId = visitor.id;
+const postUrl = `${baseUrl}/visitors/${visitorId}/appearances`;
+const appearanceTypeInput = $("#appearanceType");
+
+appearanceTypeInput.val(appearanceType);
+
 //displaying visitor details
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
-if(appearanceType === "single"){
-   inputSection.append(appearanceButtonContainer);
+if (appearanceType === "single") {
+  inputSection.append(appearanceButtonContainer);
 }
 
 datePicker();
@@ -30,13 +33,12 @@ datePicker();
 $("#proceedButton").on("click", function (event) {
   event.preventDefault();
   if (isSingle) {
-    submitForm();
+    showAppearanceDetail(getInputs());
   } else {
     if (appearances.length == 0) {
       alert("Error", "No appearance has been added yet!", "error");
     } else {
-      url = `${baseUrl}/visitors/${visitorId}/appearances/consolidated`;
-      submitFormToServer(appearances, url);
+      submitFormToServer(appearances);
     }
   }
 });
@@ -52,7 +54,7 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
 
   console.log("Index of the deleted row: ", index);
   console.log(appearances);
-  if (appearances.length == 0 ) {
+  if (appearances.length == 0) {
     $(".button-container").remove();
   }
 });
@@ -60,8 +62,6 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
 // $("#appearanceForm").submit(function(event){
 //    event.preventDefault();
 // });
- 
-
 
 //displaying appearance details through modal/alert
 function showAppearanceDetail(appearance) {
@@ -74,8 +74,8 @@ function showAppearanceDetail(appearance) {
     .then((result) => {
       if (result.isConfirmed) {
         if (isSingle) {
-          url = `${baseUrl}/visitors/${visitorId}/appearances`;
-          submitFormToServer(appearance,url);
+          appearances.push(appearance);
+          submitFormToServer(appearances);
         } else {
           let reference = appearance.reference;
           let dateFrom = appearance.dateFrom;
@@ -92,7 +92,7 @@ function showAppearanceDetail(appearance) {
           appearances.push(appearance);
 
           if (!$(".button-container").length) {
-           inputSection.append(appearanceButtonContainer);
+            inputSection.append(appearanceButtonContainer);
           }
         }
       }
@@ -102,8 +102,8 @@ function showAppearanceDetail(appearance) {
     });
 }
 
-//transforming inputted data into JSON object and passing it to showAppearanceDetailModal() method
-function submitForm() {
+//transforming inputted data into JSON object
+function getInputs() {
   let appearance = {
     visitor: visitor,
     dateIssued: dateIssued.val(),
@@ -115,11 +115,12 @@ function submitForm() {
     reference: reference.val() != "" ? reference.val() : "N/A",
   };
 
-  showAppearanceDetail(appearance);
+  return appearance;
 }
 
 //saving objects to database
-function submitFormToServer(object, url) {
+function submitFormToServer(object) {
+  console.log(postUrl);
   fetch(url, {
     method: "POST",
     headers: {
@@ -130,21 +131,22 @@ function submitFormToServer(object, url) {
     .then((response) => {
       if (!response.ok) {
         return response.json().then((data) => {
-          throw new Error(data.message);
+          // throw new Error(data.message);
         });
       }
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       toast.fire({
         icon: "success",
-        title: `New appearance${appearances.length > 0 ? "s" : ""} for ${data.visitor.name} has been saved!`,
+        title: `New appearance${data.length > 1 ? "s" : ""} for ${data[0].visitor.name} has been saved!`,
       });
     });
 }
 
 $(".btn-add").on("click", function (event) {
   event.preventDefault();
-  submitForm();
+  showAppearanceDetail(getInputs());
   console.log(appearances);
 });
