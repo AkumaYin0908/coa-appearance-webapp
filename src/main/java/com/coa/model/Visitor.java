@@ -21,9 +21,17 @@ public class Visitor {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="name",unique = true)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CourtesyTitle courtesyTitle;
 
+    @Column(name="first_name")
+    private String firstName;
+
+    @Column(name = "middle_init")
+    private String middleInitial;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="position")
@@ -41,11 +49,14 @@ public class Visitor {
     @OneToMany(mappedBy = "visitor",cascade = {CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH})
     private List<Appearance> appearances;
 
-
-    public Visitor(String name, Position position, Agency agency) {
-        this.name = name;
+    public Visitor(CourtesyTitle courtesyTitle, String firstName, String middleInitial, String lastName, Position position, Agency agency, Address address) {
+        this.courtesyTitle = courtesyTitle;
+        this.firstName = firstName;
+        this.middleInitial = middleInitial;
+        this.lastName = lastName;
         this.position = position;
         this.agency = agency;
+        this.address = address;
     }
 
     public void addAppearance(Appearance appearance){
