@@ -4,6 +4,7 @@ import com.coa.mapper.AddressMapper;
 import com.coa.exceptions.rest.AlreadyExistException;
 import com.coa.exceptions.rest.ResourceNotFoundException;
 import com.coa.model.Agency;
+import com.coa.model.CourtesyTitle;
 import com.coa.model.Position;
 import com.coa.model.Visitor;
 import com.coa.model.address.Address;
@@ -12,6 +13,7 @@ import com.coa.payload.request.address.AddressRequest;
 import com.coa.payload.request.address.BarangayRequest;
 import com.coa.payload.response.VisitorResponse;
 import com.coa.repository.AgencyRepository;
+import com.coa.repository.CourtesyTitleRepository;
 import com.coa.repository.PositionRepository;
 import com.coa.repository.VisitorRepository;
 import com.coa.repository.address.*;
@@ -39,6 +41,7 @@ public class VisitorServiceImpl implements VisitorService {
     private final MunicipalityRepository municipalityRepository;
     private final ProvinceRepository provinceRepository;
     private final RegionRepository regionRepository;
+    private final CourtesyTitleRepository courtesyTitleRepository;
 
 
     @Override
@@ -53,8 +56,10 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public VisitorResponse findByName(String name) {
-        Visitor visitor = visitorRepository.findByName(name).orElseThrow(() -> new ResourceNotFoundException("Visitor", "name", name));
+    public VisitorResponse findByName(String firstName, String middleInitial, String lastName) {
+        Visitor visitor = visitorRepository.findByName(firstName,middleInitial,lastName).orElseThrow(() ->
+                new ResourceNotFoundException("Visitor", "first name, middle initial, last name",
+                        String.format("%s%s%s", firstName,middleInitial.equalsIgnoreCase("n/a") ? " " : middleInitial,lastName)));
         return modelMapper.map(visitor, VisitorResponse.class);
     }
 
@@ -63,13 +68,21 @@ public class VisitorServiceImpl implements VisitorService {
     public VisitorResponse save(VisitorRequest visitorRequest) {
         Visitor visitor = new Visitor();
 
-        Optional<Visitor> visitorOptional = visitorRepository.findByName(visitorRequest.getName());
+        Optional<Visitor> visitorOptional = visitorRepository.findByName(visitorRequest.getFirstName(),
+                visitorRequest.getMiddleInitial(), visitorRequest.getLastName());
 
         if (visitorOptional.isPresent()) {
-            throw new AlreadyExistException("Visitor", "name");
+            throw new AlreadyExistException("Visitor", "first name, middle initial, last name");
         }
 
-        visitor.setName(visitorRequest.getName());
+        CourtesyTitle courtesyTitle = courtesyTitleRepository.findByTitle(visitorRequest.getCourtesyTitleRequest().getTitle())
+                .orElseGet(()->courtesyTitleRepository.save(new CourtesyTitle(visitorRequest.getCourtesyTitleRequest().getTitle())));
+
+        courtesyTitle.addVisitor(visitor);
+
+        visitor.setFirstName(visitorRequest.getFirstName());
+        visitor.setMiddleInitial(visitorRequest.getMiddleInitial());
+        visitor.setLastName(visitorRequest.getLastName());
 
         Position position = positionRepository.findByTitle(visitorRequest.getPosition().getTitle())
                 .orElseGet(() -> positionRepository.save(new Position(visitorRequest.getPosition().getTitle())));
@@ -82,21 +95,40 @@ public class VisitorServiceImpl implements VisitorService {
         agency.addVisitor(visitor);
 
 
+//        AddressRequest addressRequest = visitorRequest.getAddress();
+//        Address address = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
+//                        addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode())
+//                .orElseGet(() -> addressMapper.mapToModel(addressRequest));
+//
+//        if (address.getBarangay() != null) {
+//            barangayRepository.save(address.getBarangay());
+//        }
+//
+//        municipalityRepository.save(address.getMunicipality());
+//        provinceRepository.save(address.getProvince());
+//        regionRepository.save(address.getRegion());
+//        addressRepository.save(address);
+//
+//        address.addVisitor(visitor);
+
         AddressRequest addressRequest = visitorRequest.getAddress();
-        Address address = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
-                        addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode())
-                .orElseGet(() -> addressMapper.mapToModel(addressRequest));
+        Address address= null;
+        Optional<Address> addressOptional = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
+                addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode());
 
-        if (address.getBarangay() != null) {
-            barangayRepository.save(address.getBarangay());
+        if(addressOptional.isPresent()){
+            address = addressMapper.mapToModel(addressRequest);
+        }else{
+            address = addressMapper.mapToModel(addressRequest);
+            if (address.getBarangay() != null) {
+                barangayRepository.save(address.getBarangay());
+            }
+
+            municipalityRepository.save(address.getMunicipality());
+            provinceRepository.save(address.getProvince());
+            regionRepository.save(address.getRegion());
+            addressRepository.save(address);
         }
-
-        municipalityRepository.save(address.getMunicipality());
-        provinceRepository.save(address.getProvince());
-        regionRepository.save(address.getRegion());
-        addressRepository.save(address);
-
-        address.addVisitor(visitor);
 
 
         Visitor dbVisitor = visitorRepository.save(visitor);
@@ -109,13 +141,21 @@ public class VisitorServiceImpl implements VisitorService {
     public VisitorResponse update(Long id, VisitorRequest visitorRequest) {
         Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
 
-        Optional<Visitor> visitorOptional = visitorRepository.findByName(visitorRequest.getName());
+        Optional<Visitor> visitorOptional = visitorRepository.findByName(visitorRequest.getFirstName(),
+                visitorRequest.getMiddleInitial(), visitorRequest.getLastName());
 
         if (visitorOptional.isPresent() && !visitorOptional.get().getId().equals(id)) {
-            throw new AlreadyExistException("Visitor", "name");
+            throw new AlreadyExistException("Visitor", "first name, middle initial, last name");
         }
 
-        visitor.setName(visitorRequest.getName());
+        CourtesyTitle courtesyTitle = courtesyTitleRepository.findByTitle(visitorRequest.getCourtesyTitleRequest().getTitle())
+                .orElseGet(()->courtesyTitleRepository.save(new CourtesyTitle(visitorRequest.getCourtesyTitleRequest().getTitle())));
+
+        courtesyTitle.addVisitor(visitor);
+
+        visitor.setFirstName(visitorRequest.getFirstName());
+        visitor.setMiddleInitial(visitorRequest.getMiddleInitial());
+        visitor.setLastName(visitorRequest.getLastName());
 
         Position position = positionRepository.findByTitle(visitorRequest.getPosition().getTitle())
                 .orElseGet(() -> positionRepository.save(new Position(visitorRequest.getPosition().getTitle())));
@@ -127,20 +167,26 @@ public class VisitorServiceImpl implements VisitorService {
 
         agency.addVisitor(visitor);
 
-
         AddressRequest addressRequest = visitorRequest.getAddress();
-        Address address = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
-                        addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode())
-                .orElseGet(() -> addressMapper.mapToModel(addressRequest));
+        Address address= null;
+        Optional<Address> addressOptional = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
+                        addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode());
 
-        if (address.getBarangay() != null) {
-            barangayRepository.save(address.getBarangay());
+        if(addressOptional.isPresent()){
+            address = addressMapper.mapToModel(addressRequest);
+        }else{
+            address = addressMapper.mapToModel(addressRequest);
+            if (address.getBarangay() != null) {
+                barangayRepository.save(address.getBarangay());
+            }
+
+            municipalityRepository.save(address.getMunicipality());
+            provinceRepository.save(address.getProvince());
+            regionRepository.save(address.getRegion());
+            addressRepository.save(address);
         }
 
-        municipalityRepository.save(address.getMunicipality());
-        provinceRepository.save(address.getProvince());
-        regionRepository.save(address.getRegion());
-        addressRepository.save(address);
+
         address.addVisitor(visitor);
 
         visitorRepository.save(visitor);
