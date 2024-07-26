@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface VisitorRepository extends JpaRepository<Visitor,Long> {
 
     @Query(value = VisitorConstant.FIND_VISITOR_BY_NAME,nativeQuery = true)
-    Optional<Visitor> findByName(String name);
+    Optional<Visitor> findByName(String name, String middleInitial, String lastName);
 
 
 

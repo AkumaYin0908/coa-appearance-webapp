@@ -12,7 +12,7 @@ public interface VisitorService {
 
     List<VisitorResponse> findAll();
     VisitorResponse findById(Long id);
-    VisitorResponse findByName(String name);
+    VisitorResponse findByName(String firstName, String middleInitial, String lastName);
 
     VisitorResponse save(VisitorRequest visitorRequest);
 
