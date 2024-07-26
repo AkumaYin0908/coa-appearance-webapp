@@ -14,16 +14,16 @@ import java.util.Optional;
 @Repository
 public interface LeaderRepository extends JpaRepository<Leader,Long> {
 
-    @Query(value = LeaderConstant.findByName,nativeQuery = true)
+    @Query(value = LeaderConstant.FIND_BY_NAME,nativeQuery = true)
     Optional<Leader> findByName(String name);
 
-    @Query(value = LeaderConstant.findNames,nativeQuery = true)
+    @Query(value = LeaderConstant.FIND_NAMES,nativeQuery = true)
     List<Map<Long, String>> findNames();
 
-    @Query(value = LeaderConstant.findByStatus,nativeQuery = true)
+    @Query(value = LeaderConstant.FIND_BY_STATUS,nativeQuery = true)
     Optional<Leader> findByStatus(boolean inCharge);
 
-    @Query(value = LeaderConstant.updateStatus, nativeQuery = true)
+    @Query(value = LeaderConstant.UPDATE_STATUS, nativeQuery = true)
     @Modifying
     void updateStatus(boolean inCharge, Long id);
 }

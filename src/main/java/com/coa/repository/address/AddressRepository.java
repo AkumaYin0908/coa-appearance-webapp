@@ -13,19 +13,19 @@ import java.util.Optional;
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
 
-    @Query(value = AddressConstant.findByBarangay,nativeQuery = true)
+    @Query(value = AddressConstant.FIND_BY_BARANGAY,nativeQuery = true)
     List<Address> findByBarangay(String brgyCode);
 
-    @Query(value = AddressConstant.findByMunicipality,nativeQuery = true)
+    @Query(value = AddressConstant.FIND_BY_MUNICIPALITY,nativeQuery = true)
     List<Address> findByMunicipality(String munCode);
 
-    @Query(value = AddressConstant.findByProvince, nativeQuery = true)
+    @Query(value = AddressConstant.FIND_BY_PROVINCE, nativeQuery = true)
     List<Address> findByProvince(String proCode);
 
-    @Query(value = AddressConstant.findByRegion, nativeQuery = true)
+    @Query(value = AddressConstant.FIND_BY_REGION, nativeQuery = true)
     List<Address> findByRegion(String regionCode);
 
-    @Query(value = AddressConstant.findByCodes, nativeQuery = true)
+    @Query(value = AddressConstant.FIND_BY_CODES, nativeQuery = true)
     Optional<Address> findByCodes(String brgyCode, String munCode, String proCode, String regionCode);
 
 

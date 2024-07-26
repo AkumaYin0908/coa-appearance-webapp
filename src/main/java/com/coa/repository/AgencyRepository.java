@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface AgencyRepository extends JpaRepository<Agency, Long> {
 
 
-    @Query(value = AgencyConstant.findByName,nativeQuery = true)
+    @Query(value = AgencyConstant.FIND_BY_NAME,nativeQuery = true)
     Optional<Agency> findByName(String name);
 
-    @Query(value = AgencyConstant.findNames,nativeQuery = true)
+    @Query(value = AgencyConstant.FIND_NAMES,nativeQuery = true)
     List<Map<Long, String>> findNames();
 }

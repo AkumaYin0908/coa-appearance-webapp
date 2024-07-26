@@ -11,10 +11,10 @@ import java.util.Map;
 import java.util.Optional;
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Long> {
-    @Query(value = PositionConstant.findByTitle,nativeQuery = true)
+    @Query(value = PositionConstant.FIND_BY_TITLE,nativeQuery = true)
     Optional<Position> findByTitle(String title);
 
-    @Query(value = PositionConstant.findTitles,nativeQuery = true)
+    @Query(value = PositionConstant.FIND_TITLES,nativeQuery = true)
     List<Map<Long, String>> findTitles();
 
 }

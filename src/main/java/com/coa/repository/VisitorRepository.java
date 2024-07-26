@@ -13,13 +13,13 @@ import java.util.Optional;
 @Repository
 public interface VisitorRepository extends JpaRepository<Visitor,Long> {
 
-    @Query(value = VisitorConstant.findVisitorByName,nativeQuery = true)
+    @Query(value = VisitorConstant.FIND_VISITOR_BY_NAME,nativeQuery = true)
     Optional<Visitor> findByName(String name);
 
 
 
     //wrapping expected object(which is the Map object) with List<> to avoid NonUniqueResultException
-    @Query(value = VisitorConstant.findNames,nativeQuery = true)
+    @Query(value = VisitorConstant.FIND_NAMES,nativeQuery = true)
     List<Map<Long, String>> findNames();
 
 }

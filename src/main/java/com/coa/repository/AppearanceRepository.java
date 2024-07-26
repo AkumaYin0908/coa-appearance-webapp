@@ -14,27 +14,27 @@ import java.util.Optional;
 @Repository
 public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
 
-    @Query(value = AppearanceConstant.findByVisitor,nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_VISITOR,nativeQuery = true)
     List<Appearance> findByVisitor(Long id);
 
-    @Query(value = AppearanceConstant.findByVisitorName,nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_VISITOR_AND_DATE_ISSUED,nativeQuery = true)
     List<Appearance> findByVisitorName(String name);
 
-    @Query(value = AppearanceConstant.findByVisitorAndDateIssued,nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_VISITOR_AND_DATE_ISSUED,nativeQuery = true)
     List<Appearance> findByVisitorAndDateIssued(Long id, LocalDate dateIssued);
 
 //    @Query(value = AppearanceConstant.findByPurpose,nativeQuery = true)
 //    List<Appearance> findByPurpose(String description);
 
-    @Query(value = AppearanceConstant.findByDateIssued,nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_DATE_ISSUED,nativeQuery = true)
     List<Appearance> findByDateIssued(LocalDate dateIssued);
 
-    @Query(value = AppearanceConstant.findByMonth, nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_MONTH, nativeQuery = true)
     List<Appearance> findByMonth(Integer month);
 
-    @Query(value = AppearanceConstant.findByYear,nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_YEAR,nativeQuery = true)
     List<Appearance> findByYear(Integer year);
 
-    @Query(value = AppearanceConstant.findByReference, nativeQuery = true)
+    @Query(value = AppearanceConstant.FIND_BY_REFERENCE, nativeQuery = true)
     Optional<Appearance> findByReference(String reference);
 }
