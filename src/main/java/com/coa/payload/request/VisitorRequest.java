@@ -14,7 +14,10 @@ import java.util.Objects;
 public class VisitorRequest {
 
     private Long id;
-    private String name;
+    private CourtesyTitleRequest courtesyTitleRequest;
+    private String firstName;
+    private String middleInitial;
+    private String lastName;
     private PositionRequest position;
     private AgencyRequest agency;
     private AddressRequest address;

@@ -16,7 +16,10 @@ import java.util.Objects;
 public class VisitorResponse {
 
     private Long id;
-    private String name;
+    private  CourtesyTitleResponse courtesyTitleResponse;
+    private String firstName;
+    private String middleInitial;
+    private String lastName;
     private PositionResponse position;
     private AgencyResponse agency;
     private AddressResponse address;
