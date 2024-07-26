@@ -3,9 +3,9 @@ package com.coa.constants.query_contants;
 public interface VisitorConstant {
 
 
-    String findVisitorByName = "select * from visitor where name = ?";
+    String FIND_VISITOR_BY_NAME = "select * from visitor where name = ?";
 
-    String findNames = "select id, name from visitor";
+    String FIND_NAMES = "select id, name from visitor";
 
 
 }

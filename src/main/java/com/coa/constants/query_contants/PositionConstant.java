@@ -2,7 +2,7 @@ package com.coa.constants.query_contants;
 
 public interface PositionConstant {
 
-    String findByTitle = "select * from position where title = ?";
+    String FIND_BY_TITLE = "select * from position where title = ?";
 
-    String findTitles = "select id, title from position";
+    String FIND_TITLES = "select id, title from position";
 }

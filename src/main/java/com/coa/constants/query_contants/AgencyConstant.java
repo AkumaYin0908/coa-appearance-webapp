@@ -2,9 +2,9 @@ package com.coa.constants.query_contants;
 
 public interface AgencyConstant {
 
-    String findByName = "select * from agency where name = ?";
+    String FIND_BY_NAME = "select * from agency where name = ?";
 
-    String findNames = "select id, name from agency";
+    String FIND_NAMES= "select id, name from agency";
 
     /* for future reference
     String findConctenatedAgencyAndAddress = "SELECT " +

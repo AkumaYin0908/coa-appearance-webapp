@@ -2,13 +2,13 @@ package com.coa.constants.query_contants;
 
 public interface LeaderConstant {
 
-    String findByName = "select * from leader where name = ?";
+    String FIND_BY_NAME = "select * from leader where name = ?";
 
-    String findNames  = "select id, name from leader";
+    String FIND_NAMES = "select id, name from leader";
 
-    String updateStatus = "update leader set in_charge = ? where id = ?";
+    String UPDATE_STATUS = "update leader set in_charge = ? where id = ?";
 
-    String findByStatus = "select * from leader where in_charge = ?";
+    String FIND_BY_STATUS = "select * from leader where in_charge = ?";
 
 
 }

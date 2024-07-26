@@ -2,20 +2,20 @@ package com.coa.constants.query_contants;
 
 public interface AppearanceConstant {
 
-    String findByVisitor = "select * from appearance where visitor = ?";
+    String FIND_BY_VISITOR = "select * from appearance where visitor = ?";
 
-    String findByVisitorName = "select * from appearance  where visitor.name = ?";
-    String findByVisitorAndDateIssued = "select * from appearance where visitor = ? and date_issued = ?";
+    String FIND_VISITOR_BY_NAME = "select * from appearance  where visitor.name = ?";
+    String FIND_BY_VISITOR_AND_DATE_ISSUED = "select * from appearance where visitor = ? and date_issued = ?";
 
-    String findByPurpose = "select * from appearance join purpose on appearance.purpose = purpose.id where purpose.description = ?";
+    String FIND_BY_PURPOSE = "select * from appearance join purpose on appearance.purpose = purpose.id where purpose.description = ?";
 
-    String findByDateIssued = "select * from appearance where date_issued = ?";
+    String FIND_BY_DATE_ISSUED = "select * from appearance where date_issued = ?";
 
-    String findByMonth = "select * from appearance where MONTH(date_issued) = ?";
+    String FIND_BY_MONTH = "select * from appearance where MONTH(date_issued) = ?";
 
-    String findByYear = "select * from appearance where MONTH(date_issued) = ? and YEAR(date_issued) = ?";
+    String FIND_BY_YEAR = "select * from appearance where YEAR(date_issued) = ?";
 
-    String findByReference = "select * from appearance where reference = ?";
+    String FIND_BY_REFERENCE = "select * from appearance where reference = ?";
 
 
 
