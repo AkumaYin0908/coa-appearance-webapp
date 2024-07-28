@@ -27,6 +27,9 @@ let isEdit = false;
 
 const renderDataTable = $("#visitors").DataTable({
   responsive: true,
+  language :{
+    lengthMenu : "Show _MENU_ entries"
+  },
   ajax: {
     url: fullUrl,
     dataSrc: "",
