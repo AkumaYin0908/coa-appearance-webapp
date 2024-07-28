@@ -1,99 +1,94 @@
-
 body {
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-    width: 100%;
-    background: #051b33;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+  background: #051b33;
 }
 
-
-*{
-    list-style : none;
-    text-decoration : none !important;
-    margin : 0;
-    padding : 0;
-    box-sizing : border-box;
-    font-family:"Source Code Pro","Roboto Mono", sans-serif;
-
+* {
+  list-style: none;
+  text-decoration: none !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Source Code Pro", "Roboto Mono", sans-serif;
+  font-size: 0.9rem;
 }
 
-.navbar{
-    top : 0;
-    z-index: 2 !important;
+.navbar {
+  top: 0;
+  z-index: 2 !important;
 }
 
-.navbar-nav{
-    padding: 0 1rem;
+.navbar-nav {
+  padding: 0 1rem;
 }
-
 
 /* Sidebar Menu */
 
 .offcanvas {
-    z-index: 1 !important;
-    height : 100%;
-    top : 0;
-    left: 0;
-    padding : 20px 0;
-    background : rgba(0,71,171,0.8) !important;
-    backdrop-filter : blur(15px);
-    transition: all 0.5s ease;
+  z-index: 1 !important;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 20px 0;
+  background: rgba(0, 71, 171, 0.8) !important;
+  backdrop-filter: blur(15px);
+  transition: all 0.5s ease;
 }
 
-.offcanvas .logo{
-    margin :   5rem 0.3rem 2rem;
-    text-align : center;
+.offcanvas .logo {
+  margin: 5rem 0.3rem 2rem;
+  text-align: center;
 }
 
-.offcanvas .logo img{
-    display: block;
-    width : 100px;
-    height : 100px;
-    border-radius : 50%;
-    margin: 0 auto;
+.offcanvas .logo img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
 }
 
-.offcanvas .logo  h4{
-    color : rgb(255,255,255);
-    margin: 10px 0 5px;
+.offcanvas .logo h4 {
+  color: rgb(255, 255, 255);
+  margin: 10px 0 5px;
 }
 
-
-.offcanvas .side-buttons ul{
-    padding : 0;
+.offcanvas .side-buttons ul {
+  padding: 0;
 }
 
-.offcanvas .side-buttons ul li a{
-    display : block;
-    padding : 13px;
-    border-bottom : 1px solid #10558d;
-    color : rgb(255,255,255);
-    font-size : 1rem;
-    position : relative;
+.offcanvas .side-buttons ul li a {
+  display: block;
+  padding: 13px;
+  border-bottom: 1px solid #10558d;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  position: relative;
 }
 
-.offcanvas .side-buttons ul li a .icon{
-    color : rgba(255,255,255,0.5);
-    font-size: 2.5rem;
+.offcanvas .side-buttons ul li a .icon {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 2.5rem;
 }
 
 .offcanvas .side-buttons ul li a:hover,
-.offcanvas .side-buttons ul li a.active{
-    color : rgb(0,71,171);
-    background : white;
-    boder-right : 2px solid rgb(5, 68,104);
+.offcanvas .side-buttons ul li a.active {
+  color: rgb(0, 71, 171);
+  background: white;
+  border-right: 2px solid rgb(5, 68, 104);
 }
 
 .offcanvas .side-buttons ul li a:hover .icon,
-.offcanvas .side-buttons ul li a.active .icon{
-    color : rgb(0, 71, 171);
+.offcanvas .side-buttons ul li a.active .icon {
+  color: rgb(0, 71, 171);
 }
 
-
 .offcanvas .side-buttons ul li a:hover:before,
-.offcanvas .side-buttons ul li a.active:before{
-    display : block;
+.offcanvas .side-buttons ul li a.active:before {
+  display: block;
 }
 
 /*for submenu
@@ -114,103 +109,101 @@ body {
 }
 */
 
-
-.rotate{
-   transform: rotate(90deg) ;
+.rotate {
+  transform: rotate(90deg);
 }
 
-.navbar-collapse{
-    text-align: right;
+.navbar-collapse {
+  text-align: right;
 }
 
 .offcanvas-size-xl {
-    --bs-offcanvas-width: min(95vw, 600px) !important;
+  --bs-offcanvas-width: min(95vw, 600px) !important;
 }
 .offcanvas-size-xxl {
-    --bs-offcanvas-width: min(95vw, 90vw) !important;
+  --bs-offcanvas-width: min(95vw, 90vw) !important;
 }
-.offcanvas-size-md { /* add Responsivenes to default offcanvas */
-    --bs-offcanvas-width: min(95vw, 400px) !important;
+.offcanvas-size-md {
+  /* add Responsivenes to default offcanvas */
+  --bs-offcanvas-width: min(95vw, 400px) !important;
 }
 .offcanvas-size-sm {
-    --bs-offcanvas-width: min(95vw, 250px) !important;
+  --bs-offcanvas-width: min(95vw, 250px) !important;
 }
 
-.input-group{
-    margin-bottom:1rem;
-    font-family:"Roboto Mono","Source Code Pro", sans-serif;
+.input-group {
+  margin-bottom: 1rem;
+  font-family: "Roboto Mono", "Source Code Pro", sans-serif;
 }
 
-.card-header{
-    padding:1rem;
-    font-family:"Source Code Pro", "Roboto Mono", sans-serif;
-    font-size:1rem;
+.card-header {
+  padding: 1rem;
+  font-family: "Source Code Pro", "Roboto Mono", sans-serif;
+  font-size: 1rem;
 }
 
-h1,h2,h3,h4,h5,h6{
-font-family : "Source Code Pro", sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Source Code Pro", sans-serif;
 }
 
-#main-div.container{
-    margin-top : 5rem;
+#main-div.container {
+  margin-top: 5rem;
 }
 
-.footer-div{
-       text-align: center;
-       position: relative;
-       margin-top : 5rem;
-       bottom: 0;
-       width: 100%;
-       padding: 10px;
-       color: grey;
-
+.footer-div {
+  text-align: center;
+  position: relative;
+  margin-top: 5rem;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  color: grey;
 }
 
-.message{
-    position : fixed !important;
-    top : 40px;
-    left :78%;
-    right: 5px;
-    width: 20%;
-    z-index : 999;
-
-
+.message {
+  position: fixed !important;
+  top: 40px;
+  left: 78%;
+  right: 5px;
+  width: 20%;
+  z-index: 999;
 }
 
-.btn-search{
-    width : 40px;
-    height : 35px;
+.btn-search {
+  width: 40px;
+  height: 35px;
 }
 
 .ui-autocomplete {
-    background: #212529;
-    border-radius: 2px;
-    border : 0.5px solid #495057;
-
+  background: #212529;
+  border-radius: 2px;
+  border: 0.5px solid #495057;
 }
 .ui-autocomplete.source:hover {
-    background: white;
-    color : #212529;
+  background: white;
+  color: #212529;
 }
 
 .ui-menu .ui-menu-item {
-    background:#212529;
-    color : white;
-    }
+  background: #212529;
+  color: white;
+}
 
+div#main-content {
+  margin: 1rem 3rem;
+}
 
-div#main-content{
-    width 100%;
-    margin : 1rem 3rem;
- }
-
-
- span#addModalMessageHolder,span#editModalMessageHolder,span#changeModalMessageHolder{
-    display :none;
- }
-
-
+span#addModalMessageHolder,
+span#editModalMessageHolder,
+span#changeModalMessageHolder {
+  display: none;
+}
 
 #ui-datepicker-div {
-z-index: 10000 !important;
+  z-index: 10000 !important;
 }
