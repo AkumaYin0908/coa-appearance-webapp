@@ -14,7 +14,7 @@ import java.util.Objects;
 public class VisitorRequest {
 
     private Long id;
-    private CourtesyTitleRequest courtesyTitleRequest;
+    private CourtesyTitleRequest courtesyTitle;
     private String firstName;
     private String middleInitial;
     private String lastName;
