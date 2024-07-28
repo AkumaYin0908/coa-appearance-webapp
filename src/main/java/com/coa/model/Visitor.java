@@ -22,12 +22,13 @@ public class Visitor {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="courtesy_title")
     private CourtesyTitle courtesyTitle;
 
     @Column(name="first_name")
     private String firstName;
 
-    @Column(name = "middle_init")
+    @Column(name = "middle_initial")
     private String middleInitial;
 
     @Column(name = "last_name")
