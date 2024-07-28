@@ -1,75 +1,30 @@
 import { baseUrl } from "./baseUrl.js";
 
 export const addressContent = `
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select
-                      name="region"
-                      class="form-control"
-                      id="region"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="region_text"
-                      id="region-text"
-                      required
-                      placeholder="Region" />
-                    <label class="text-secondary" for="region">Region</label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select
-                      name="province"
-                      class="form-control"
-                      id="province"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="province_text"
-                      id="province-text"
-                      required
-                      placeholder="Province" />
-                    <label class="text-secondary" for="province"
-                      >Province</label
-                    >
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select name="city" class="form-control" id="city"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="city_text"
-                      id="city-text"
-                      required
-                      placeholder="City" />
-                    <label class="text-secondary" for="city"
-                      >City/Municipality</label
-                    >
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="md-form form-floating mb-3">
-                    <select
-                      name="barangay"
-                      class="form-control"
-                      id="barangay"></select>
-                    <input
-                      type="hidden"
-                      class="form-control"
-                      name="barangay_text"
-                      id="barangay-text"
-                      placeholder="Barangay" />
-                    <label class="text-secondary" for="barangay"
-                      >Barangay</label
-                    >
-                  </div>
-                </div>`;
+                            <div class="form-group">
+                    <div class="row">
+                      <div class="col md-form form-floating mb-3">
+                        <select name="region" class="form-control" id="region"></select>
+                        <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region" />
+                        <label class="text-secondary" for="region">Region</label>
+                      </div>
+                      <div class="col md-form form-floating mb-3">
+                        <select name="province" class="form-control" id="province"></select>
+                        <input type="hidden" class="form-control" name="province_text" id="province-text" required placeholder="Province" />
+                        <label class="text-secondary" for="province">Province</label>
+                      </div>
+                      <div class="col md-form form-floating mb-3">
+                        <select name="city" class="form-control" id="city"></select>
+                        <input type="hidden" class="form-control" name="city_text" id="city-text" required placeholder="City" />
+                        <label class="text-secondary" for="city">City/Municipality</label>
+                      </div>
+                      <div class="col md-form form-floating mb-3">
+                        <select name="barangay" class="form-control" id="barangay"></select>
+                        <input type="hidden" class="form-control" name="barangay_text" id="barangay-text" placeholder="Barangay" />
+                        <label class="text-secondary" for="barangay">Barangay</label>
+                      </div>
+                    </div>
+                  </div>`;
 
 export const newButton = function (data) {
   return ` <a data-key = ${data} class = "btn-new btn btn-sm btn-success"><span class = "label-new">New</span>
@@ -127,7 +82,7 @@ export const visitorDetails = function (visitor) {
   return ` <div class="row mb-4">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <p id="visitorId" style="display: none">${visitor.id}</p>
-                    <h2 class="text-light" id="name">${visitor.name}</h2>
+                    <h2 class="text-light" id="name">${visitor.courtesyTitle.title}. ${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${visitor.lastName}</h2>
                   </div>
                   <div class="col">
                     <h6 class="text-secondary mb-0" id="position">${visitor.position.title}</h6>
