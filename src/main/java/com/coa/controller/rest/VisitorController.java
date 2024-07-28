@@ -39,8 +39,10 @@ public class VisitorController {
     }
 
     @GetMapping
-    public ResponseEntity<VisitorResponse> getVisitorByName(@RequestParam(value = "name",required = false) String name){
-         return new ResponseEntity<>(visitorService.findByName(name), HttpStatus.FOUND);
+    public ResponseEntity<VisitorResponse> getVisitorByName(@RequestParam(value = "firstName",required = false)String firstName,
+                                                            @RequestParam(value = "middleInitial",required = false)String middleInitial,
+                                                            @RequestParam(value = "lastName",required = false)String lastName){
+         return new ResponseEntity<>(visitorService.findByName(firstName,middleInitial,lastName), HttpStatus.FOUND);
     }
 
     @PostMapping
