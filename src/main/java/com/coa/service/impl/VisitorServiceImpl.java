@@ -75,8 +75,8 @@ public class VisitorServiceImpl implements VisitorService {
             throw new AlreadyExistException("Visitor", "first name, middle initial, last name");
         }
 
-        CourtesyTitle courtesyTitle = courtesyTitleRepository.findByTitle(visitorRequest.getCourtesyTitleRequest().getTitle())
-                .orElseGet(()->courtesyTitleRepository.save(new CourtesyTitle(visitorRequest.getCourtesyTitleRequest().getTitle())));
+        CourtesyTitle courtesyTitle = courtesyTitleRepository.findByTitle(visitorRequest.getCourtesyTitle().getTitle())
+                .orElseGet(()->courtesyTitleRepository.save(new CourtesyTitle(visitorRequest.getCourtesyTitle().getTitle())));
 
         courtesyTitle.addVisitor(visitor);
 
@@ -148,8 +148,8 @@ public class VisitorServiceImpl implements VisitorService {
             throw new AlreadyExistException("Visitor", "first name, middle initial, last name");
         }
 
-        CourtesyTitle courtesyTitle = courtesyTitleRepository.findByTitle(visitorRequest.getCourtesyTitleRequest().getTitle())
-                .orElseGet(()->courtesyTitleRepository.save(new CourtesyTitle(visitorRequest.getCourtesyTitleRequest().getTitle())));
+        CourtesyTitle courtesyTitle = courtesyTitleRepository.findByTitle(visitorRequest.getCourtesyTitle().getTitle())
+                .orElseGet(()->courtesyTitleRepository.save(new CourtesyTitle(visitorRequest.getCourtesyTitle().getTitle())));
 
         courtesyTitle.addVisitor(visitor);
 
