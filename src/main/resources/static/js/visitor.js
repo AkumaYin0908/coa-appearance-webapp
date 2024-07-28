@@ -2,25 +2,25 @@
 
 import { baseUrl } from "./modules/baseUrl.js";
 import { loadAddress } from "./ph-address-selector.js";
-import { newButton, editButton, deleteButton , addressContent, errorContent } from "./modules/htmlContent.js";
+import { newButton, editButton, deleteButton, addressContent, errorContent } from "./modules/htmlContent.js";
 import { showAppearanceChoices } from "./modules/appearance-type.js";
 import { fetchVisitor } from "./modules/visitor-manager.js";
-import { toast,alert } from "./modules/alerts.js";
+import { toast, alert } from "./modules/alerts.js";
 
 let fullUrl = `${baseUrl}/visitors`;
 
 const modalHeader = $("div.modal-header");
 const modalBody = $("div.modal-body");
 const addressContainer = $("#visitorForm #address");
-const name = $("#name");
-const position = $("#position");
-const agency = $("#agency");
+const courtesyTitleEl = $("#courtesyTitle");
+const firstNameEl = $("#firstName");
+const middleInitEl = $("#middleInitial");
+const lastNameEl = $("#lastName");
+
+const positionEl = $("#position");
+const agencyEl = $("#agency");
 
 let visitorId = 0;
-let barangay = null;
-let municipality = null;
-let province = null;
-let region = null;
 
 //state
 let isEdit = false;
@@ -31,9 +31,24 @@ const renderDataTable = $("#visitors").DataTable({
     url: fullUrl,
     dataSrc: "",
   },
+  columnDefs: [
+    {
+      visible: false,
+      targets: [0,1, 2, 3],
+    },
+  ],
   columns: [
     { data: "id" },
-    { data: "name" },
+    { data: "firstName" },
+    { data: "middleInitial" },
+    { data: "lastName" },
+    {
+      data: null,
+      render: function (data, type, row, meta) {
+        return `${row.firstName}${row.middleInitial === "N/A" ? " " : row.middleInitial}${row.lastName}`;
+      },
+      // width : "20%"
+    },
     { data: "position.title" },
     { data: "agency.name" },
     {
@@ -74,38 +89,43 @@ $("#visitors").on("click", "a.btn-delete", function (event) {
 });
 
 function submitForm() {
-  barangay = $("#address #barangay-text");
-  municipality = $("#address #city-text");
-  province = $("#address #province-text");
-  region = $("#address #region-text");
+  const barangayEl = $("#address #barangay-text");
+  const municipalityEl = $("#address #city-text");
+  const provinceEl = $("#address #province-text");
+  const regionEl = $("#address #region-text");
 
   let visitor = {
     id: visitorId,
-    name: name.val(),
+    courtesyTitle : {
+      title : courtesyTitleEl.val()
+    },
+    firstName: firstNameEl.val(),
+    middleInitial: middleInitEl.val() ? middleInitEl.val() : "N/A",
+    lastName: lastNameEl.val(),
     position: {
-      title: position.val(),
+      title: positionEl.val(),
     },
     agency: {
-      name: agency.val(),
+      name: agencyEl.val(),
     },
     address: {
-      barangay: barangay.val()
+      barangay: barangayEl.val()
         ? {
-            code: barangay.attr("code"),
-            name: barangay.val(),
+            code: barangayEl.attr("code"),
+            name: barangayEl.val(),
           }
         : null,
       municipality: {
-        code: municipality.attr("code"),
-        name: municipality.val(),
+        code: municipalityEl.attr("code"),
+        name: municipalityEl.val(),
       },
       province: {
-        code: province.attr("code"),
-        name: province.val(),
+        code: provinceEl.attr("code"),
+        name: provinceEl.val(),
       },
       region: {
-        code: region.attr("code"),
-        name: region.val(),
+        code: regionEl.attr("code"),
+        name: regionEl.val(),
       },
     },
   };
@@ -117,17 +137,20 @@ function editVisitor(id) {
   fetchVisitor(id)
     .then((data) => {
       $(addressContent).prependTo(addressContainer);
-
+      console.log(data);
       visitorId = id;
-      name.val(data.name);
-      position.val(data.position.title);
-      agency.val(data.agency.name);
+      courtesyTitleEl.val(data.courtesyTitle.title);
+      firstNameEl.val(data.firstName);
+      middleInitEl.val(data.middleInitial);
+      lastNameEl.val(data.lastName);
+      positionEl.val(data.position.title);
+      agencyEl.val(data.agency.name);
 
       loadAddress(data.address);
       $("#visitorModal").modal("show");
     })
     .catch((error) => {
-        alert("Error",error.message,"error");
+      alert("Error", error.message, "error");
     });
 }
 
@@ -179,11 +202,12 @@ $("#closeModalButton").on("click", function (event) {
   resetVisitorModal();
 });
 
-
 function resetVisitorModal() {
-  name.val("");
-  position.val("");
-  agency.val("");
+  firstNameEl.val("");
+  middleInitEl.val("");
+  lastNameEl.val("");
+  positionEl.val("");
+  agencyEl.val("");
   emptyAddressContainer();
   if ($("#errorContainer").length > 0) {
     $("#errorContainer").remove();
@@ -191,7 +215,6 @@ function resetVisitorModal() {
   isEdit = false;
 
   $("h5.modal-title").remove();
-  
 }
 $("#saveButton").on("click", function (event) {
   submitForm();
@@ -238,11 +261,11 @@ function deleteVisitor(id) {
           return response.json();
         })
         .then((data) => {
-          alert("Deleted!", data.message,"success");
+          alert("Deleted!", data.message, "success");
           renderDataTable.ajax.reload();
         })
         .catch((error) => {
-          alert("Error",error.message,"error");
+          alert("Error", error.message, "error");
         });
     }
   });
