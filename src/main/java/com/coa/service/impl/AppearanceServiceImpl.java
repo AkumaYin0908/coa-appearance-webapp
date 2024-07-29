@@ -49,19 +49,45 @@ public class AppearanceServiceImpl implements AppearanceService {
     @Override
     public List<AppearanceResponse> findByVisitor(Long id) {
 
-        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
-        return visitor.getAppearances().stream().map(appearance -> modelMapper.map(appearance, AppearanceResponse.class)).toList();
+//        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
+//        return visitor.getAppearances().stream().map(appearance -> modelMapper.map(appearance, AppearanceResponse.class)).toList();
+
+        return appearanceRepository.findByVisitor(id)
+                .stream()
+                .map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
     }
 
     @Override
     public List<AppearanceResponse> findByVisitorAndDateIssued(Long id, String strDateIssued) {
-        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
+//        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
+//
+//        return visitor.getAppearances()
+//                .stream()
+//                .filter(appearance -> appearance.getDateIssued().equals(LocalDate.parse(strDateIssued)))
+//                .map(appearance -> modelMapper.map(appearance, AppearanceResponse.class))
+//                .toList();
 
-        return visitor.getAppearances()
-                .stream()
-                .filter(appearance -> appearance.getDateIssued().equals(LocalDate.parse(strDateIssued)))
-                .map(appearance -> modelMapper.map(appearance, AppearanceResponse.class))
-                .toList();
+        return appearanceRepository.findByVisitorAndDateIssued(id, LocalDate.parse(strDateIssued))
+                .stream().map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
+    }
+
+    @Override
+    public AppearanceResponse findByVisitorAndDateFrom(Long id, String strDateFrom) {
+//        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
+//
+//        Appearance appearance = visitor.getAppearances()
+//                .stream()
+//                .filter(app -> app.getDateFrom().equals(LocalDate.parse(strDateFrom)))
+//                .findFirst()
+//                .orElseThrow(()->new ResourceNotFoundException("Appearance","dateFrom",LocalDate.parse(strDateFrom).format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))));
+//
+//        return modelMapper.map(appearance,AppearanceResponse.class);
+
+        Appearance appearance =  appearanceRepository.findByVisitorAndDateFrom(id, LocalDate.parse(strDateFrom))
+                .stream().findFirst().orElseThrow(()->new ResourceNotFoundException("Appearance","dateFrom",strDateFrom));
+
+        return modelMapper.map(appearance,AppearanceResponse.class);
+
     }
 
     @Override
