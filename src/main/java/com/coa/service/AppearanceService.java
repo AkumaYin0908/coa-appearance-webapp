@@ -17,6 +17,8 @@ public interface AppearanceService {
 
     List<AppearanceResponse> findByVisitorAndDateIssued(Long id, String strDateIssued);
 
+    AppearanceResponse findByVisitorAndDateFrom(Long id, String strDateFrom);
+
     List<AppearanceResponse> findByPurpose(String description);
 
     List<AppearanceResponse> findByDateIssued(String strDateIssued);
