@@ -3,6 +3,7 @@ package com.coa.repository;
 import com.coa.constants.query_contants.AppearanceConstant;
 import com.coa.model.Appearance;
 import com.coa.model.Visitor;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,9 @@ public interface AppearanceRepository extends JpaRepository<Appearance,Long> {
 
     @Query(value = AppearanceConstant.FIND_BY_VISITOR_AND_DATE_ISSUED,nativeQuery = true)
     List<Appearance> findByVisitorAndDateIssued(Long id, LocalDate dateIssued);
+
+    @Query(value = AppearanceConstant.FIND_BY_VISITOR_AND_DATE_FROM,nativeQuery = true)
+    Optional<Appearance> findByVisitorAndDateFrom(Long id, LocalDate dateFrom);
 
 //    @Query(value = AppearanceConstant.findByPurpose,nativeQuery = true)
 //    List<Appearance> findByPurpose(String description);
