@@ -13,6 +13,8 @@
 	<parameter name="month" class="java.lang.String"/>
 	<parameter name="year" class="java.lang.String"/>
 	<parameter name="lastName" class="java.lang.String"/>
+	<parameter name = "logo" class="java.io.InputStream"/>
+	<parameter name = "heading" class="java.io.InputStream"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -20,7 +22,7 @@
 		<band height="135" splitType="Stretch">
 			<image>
 				<reportElement x="170" y="16" width="280" height="100" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
-				<imageExpression><![CDATA["D:/IdeaProject/coaappearance_rest/src/main/resources/static/images/coa heading.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{heading}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="140" y="87" width="372" height="28" uuid="e6823ee6-3d10-413f-aa7d-6c0cd34df269"/>
@@ -38,7 +40,7 @@
 			</staticText>
 			<image>
 				<reportElement x="59" y="37" width="80" height="82" uuid="c26fa732-d540-429f-9c00-9d03f27b58c0"/>
-				<imageExpression><![CDATA["D:/IdeaProject/coaappearance_rest/src/main/resources/static/images/logo.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="165" y="103" width="300" height="20" uuid="c153833e-538e-4e32-9d56-7c55d2a59cdf"/>
