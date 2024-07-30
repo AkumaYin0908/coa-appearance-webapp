@@ -29,7 +29,6 @@ public class AppearanceServiceImpl implements AppearanceService {
 
     private final VisitorRepository visitorRepository;
     private final ModelMapper modelMapper;
-
     private final PurposeRepository purposeRepository;
 
 
@@ -147,7 +146,6 @@ public class AppearanceServiceImpl implements AppearanceService {
             appearance.setVisitor(visitor);
 
             map(appearance, appearanceRequest);
-
             appearances.add(appearance);
         }
 
@@ -176,8 +174,9 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
     public void map(Appearance appearance, AppearanceRequest appearanceRequest) {
-        appearance.setDateIssued(LocalDate.parse(appearanceRequest.getDateIssued()));
-        appearance.setDateFrom(LocalDate.parse(appearanceRequest.getDateFrom()));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        appearance.setDateIssued(LocalDate.parse(appearanceRequest.getDateIssued(),dateTimeFormatter));
+        appearance.setDateFrom(LocalDate.parse(appearanceRequest.getDateFrom(),dateTimeFormatter));
         appearance.setDateTo(LocalDate.parse(appearanceRequest.getDateTo()));
 
         Purpose purpose = purposeRepository.findByDescription(appearanceRequest.getPurpose().getDescription())
