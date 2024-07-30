@@ -14,7 +14,9 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +40,12 @@ public class CertificateServiceImpl implements CertificateService {
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
         Map<String, Object> parameters = map(appearanceResponse);
+
+        InputStream logoInput = getClass().getResourceAsStream("static/images/logo.png");
+        InputStream headingInput = getClass().getResourceAsStream("static/images/name heading.png");
+
+        parameters.put("logo",logoInput);
+        parameters.put("heading",headingInput);
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,new JREmptyDataSource());
         return jasperPrint;
