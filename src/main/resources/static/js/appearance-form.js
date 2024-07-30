@@ -38,7 +38,7 @@ $("#proceedButton").on("click", function (event) {
     if (appearances.length == 0) {
       alert("Error", "No appearance has been added yet!", "error");
     } else {
-      submitFormToServer(appearances);
+      submitFormToServer(`${postUrl}?appearanceType=consolidated`,appearances);
     }
   }
 });
@@ -75,7 +75,7 @@ function showAppearanceDetail(appearance) {
       if (result.isConfirmed) {
         if (isSingle) {
           appearances.push(appearance);
-          submitFormToServer(appearances);
+          submitFormToServer(`${postUrl}?appearanceType=single`,appearances);
         } else {
           let reference = appearance.reference;
           let dateFrom = appearance.dateFrom;
@@ -119,9 +119,9 @@ function getInputs() {
 }
 
 //saving objects to database
-function submitFormToServer(object) {
-  console.log(postUrl);
-  fetch(url, {
+async function submitFormToServer(url,object) {
+  
+ const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
