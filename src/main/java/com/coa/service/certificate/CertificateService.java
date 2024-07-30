@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface CertificateService {
 
-    String generateSingleCertificate(AppearanceRequest appearanceRequest) throws JRException, IOException;
+    String generateSingleCertificate(AppearanceRequest appearanceRequest, int templateNo) throws JRException, IOException;
 }
