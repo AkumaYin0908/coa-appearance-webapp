@@ -38,7 +38,7 @@ public class AppearanceController {
     }
 
 
-    @GetMapping(value = "/appearances", params = "description")
+    @GetMapping(value = "/appearances", params = {"description","!dateIssued"})
     public ResponseEntity<List<AppearanceResponse>> getByPurpose(@RequestParam(value = "description", required = false) String description) {
 
         return new ResponseEntity<>(appearanceService.findByPurpose(description), HttpStatus.OK);
@@ -59,7 +59,7 @@ public class AppearanceController {
 //        return new ResponseEntity<>(appearanceService.save(id, appearanceRequest), HttpStatus.CREATED);
 //    }
 
-    @PostMapping(value = "/visitors/{id}/appearances")
+    @PostMapping(value = "/visitors/{id}/appearances",params = "!dateIssued")
     public ResponseEntity<List<AppearanceResponse>> saveAppearances(@PathVariable("id") Long id, @RequestBody List<AppearanceRequest> appearanceRequests,
                                                                     @RequestParam("appearanceType") String appearanceType) {
         if (appearanceType.equals("single")) {
