@@ -38,7 +38,7 @@ $("#proceedButton").on("click", function (event) {
     if (appearances.length == 0) {
       alert("Error", "No appearance has been added yet!", "error");
     } else {
-      submitFormToServer(`${postUrl}?appearanceType=consolidated`,appearances);
+      submitFormToServer(`${postUrl}?appearanceType=consolidated`, appearances);
     }
   }
 });
@@ -64,42 +64,41 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
 // });
 
 //displaying appearance details through modal/alert
-function showAppearanceDetail(appearance) {
-  Swal.fire({
+async function showAppearanceDetail(appearance) {
+  const result = Swal.fire({
     title: `Check the details before ${isSingle ? "printing" : "adding"}!`,
     html: appearanceDetails(appearance),
     showCancelButton: true,
     confirmButtonText: isSingle ? "Print" : "Add",
-  })
-    .then((result) => {
-      if (result.isConfirmed) {
-        if (isSingle) {
-          appearances.push(appearance);
-          submitFormToServer(`${postUrl}?appearanceType=single`,appearances);
-        } else {
-          let reference = appearance.reference;
-          let dateFrom = appearance.dateFrom;
-          let dateTo = appearance.dateTo;
-          let purpose = appearance.purpose.description;
+  });
+  try {
+    if (result.isConfirmed) {
+      if (isSingle) {
+        appearances.push(appearance);
+        await submitFormToServer(`${postUrl}?appearanceType=single`, appearances);
+      } else {
+        let reference = appearance.reference;
+        let dateFrom = appearance.dateFrom;
+        let dateTo = appearance.dateTo;
+        let purpose = appearance.purpose.description;
 
-          let row = `<tr id = "${dateFrom}">;
-                      <td>${reference}</td>
-                      <td>${dateFrom}</td>
-                      <td>${dateTo}</td>
-                      <td>${purpose}</td>
-                      <td>${deleteButton(dateFrom)}`;
-          $("#appearances tbody").append(row);
-          appearances.push(appearance);
+        let row = `<tr id = "${dateFrom}">;
+                    <td>${reference}</td>
+                    <td>${dateFrom}</td>
+                    <td>${dateTo}</td>
+                    <td>${purpose}</td>
+                    <td>${deleteButton(dateFrom)}`;
+        $("#appearances tbody").append(row);
+        appearances.push(appearance);
 
-          if (!$(".button-container").length) {
-            inputSection.append(appearanceButtonContainer);
-          }
+        if (!$(".button-container").length) {
+          inputSection.append(appearanceButtonContainer);
         }
       }
-    })
-    .catch((error) => {
-      alert("Error", error.message, "error");
-    });
+    }
+  } catch (error) {
+    alert("Error", error.message, "error");
+  }
 }
 
 //transforming inputted data into JSON object
@@ -119,9 +118,8 @@ function getInputs() {
 }
 
 //saving objects to database
-async function submitFormToServer(url,object) {
-  
- const response = await fetch(url, {
+async function submitFormToServer(url, object) {
+  await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -131,7 +129,7 @@ async function submitFormToServer(url,object) {
     .then((response) => {
       if (!response.ok) {
         return response.json().then((data) => {
-          // throw new Error(data.message);
+          throw new Error(data.message);
         });
       }
       return response.json();
