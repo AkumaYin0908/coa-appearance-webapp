@@ -25,10 +25,10 @@ let visitorId = 0;
 //state
 let isEdit = false;
 
-const renderDataTable = $("#visitors").DataTable({
+const renderDataTable = await $("#visitors").DataTable({
   responsive: true,
-  language :{
-    lengthMenu : "Show _MENU_ entries"
+  language: {
+    lengthMenu: "Show _MENU_ entries",
   },
   ajax: {
     url: fullUrl,
@@ -37,7 +37,7 @@ const renderDataTable = $("#visitors").DataTable({
   columnDefs: [
     {
       visible: false,
-      targets: [0,1, 2, 3],
+      targets: [0, 1, 2, 3],
     },
   ],
   columns: [
@@ -57,7 +57,10 @@ const renderDataTable = $("#visitors").DataTable({
     {
       data: "address",
       render: function (data, type, row) {
-        return `${data.barangay == undefined ? "" : data.barangay.name + ","} ${data.municipality.name}, ${data.province.name}`;
+      console.log(data);
+        return `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${
+          data.province.name
+        }`;
       },
     },
     {
@@ -99,8 +102,8 @@ function submitForm() {
 
   let visitor = {
     id: visitorId,
-    courtesyTitle : {
-      title : courtesyTitleEl.val()
+    courtesyTitle: {
+      title: courtesyTitleEl.val(),
     },
     firstName: firstNameEl.val(),
     middleInitial: middleInitEl.val() ? middleInitEl.val() : "N/A",
@@ -158,6 +161,7 @@ function editVisitor(id) {
 }
 
 function submitFormToServer(visitor) {
+console.log(visitor);
   const fullUrl = `${baseUrl}/visitors${isEdit ? "/" + visitor.id : ""}`;
   fetch(fullUrl, {
     method: isEdit ? "PUT" : "POST",
