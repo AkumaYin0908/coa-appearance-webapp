@@ -82,7 +82,9 @@ export const visitorDetails = function (visitor) {
   return ` <div class="row mb-4">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <p id="visitorId" style="display: none">${visitor.id}</p>
-                    <h2 class="text-light" id="name">${visitor.courtesyTitle.title}. ${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${visitor.lastName}</h2>
+                    <h2 class="text-light" id="name">${visitor.courtesyTitle.title}. ${visitor.firstName}${
+    visitor.middleInitial === "N/A" ? " " : visitor.middleInitial
+  }${visitor.lastName}</h2>
                   </div>
                   <div class="col">
                     <h6 class="text-secondary mb-0" id="position">${visitor.position.title}</h6>
