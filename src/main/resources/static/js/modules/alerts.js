@@ -2,7 +2,7 @@ export const toast = Swal.mixin({
   toast: true,
   position: "top-end",
   showConfirmButton: false,
-  timer: 500,
+  timer: 3000,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.onmouseenter = Swal.stopTimer;
@@ -10,7 +10,7 @@ export const toast = Swal.mixin({
   },
 });
 
-export const alert = function (title,message,icon) {
+export const alert = function (title, message, icon) {
   return Swal.fire({
     title: title,
     text: message,

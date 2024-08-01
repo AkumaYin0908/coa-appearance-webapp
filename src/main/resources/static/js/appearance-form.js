@@ -7,26 +7,34 @@ import { appearanceDetails } from "./modules/htmlContent.js";
 import { toast, alert } from "./modules/alerts.js";
 
 const visitorDetailContainer = $(".visitor-details");
-const dateIssued = $("#dateIssued");
-const dateFrom = $("#dateFrom");
-const dateTo = $("#dateTo");
-const purpose = $("#purpose");
-const reference = $("#reference");
+const dateIssuedEl = $("#dateIssued");
+const dateFromEl = $("#dateFrom");
+const dateToEl = $("#dateTo");
+const purposeEl = $("#purpose");
+const referenceEl = $("#reference");
 const inputSection = $(".input-section");
+const buttonContainer = $("input-section .button-container");
 const appearances = [];
 const isSingle = appearanceType === "single";
 const visitorId = visitor.id;
-const postUrl = `${baseUrl}/visitors/${visitorId}/appearances`;
-const appearanceTypeInput = $("#appearanceType");
+const url = `${baseUrl}/visitors/${visitorId}/appearances`;
+const postUrls = [`${url}?appearanceType=single`, `${url}?appearanceType=consolidated`];
+const fullName = `${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${
+  visitor.lastName
+}`;
+//const appearanceTypeInput = $("#appearanceType");
+$(appearanceButtonContainer).appendTo(inputSection);
+console.log(buttonContainer === true);
+if (buttonContainer) {
+  if (appearanceType === "single") {
+    buttonContainer.removeClass("hide");
+  }
+}
 
-appearanceTypeInput.val(appearanceType);
+console.log(appearanceType);
 
 //displaying visitor details
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
-
-if (appearanceType === "single") {
-  inputSection.append(appearanceButtonContainer);
-}
 
 datePicker();
 
@@ -38,7 +46,7 @@ $("#proceedButton").on("click", function (event) {
     if (appearances.length == 0) {
       alert("Error", "No appearance has been added yet!", "error");
     } else {
-      submitFormToServer(`${postUrl}?appearanceType=consolidated`, appearances);
+      submitFormToServer(postUrls[1], appearances);
     }
   }
 });
@@ -55,7 +63,7 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
   console.log("Index of the deleted row: ", index);
   console.log(appearances);
   if (appearances.length == 0) {
-    $(".button-container").remove();
+    buttonContainer.toggleClass("hide");
   }
 });
 
@@ -63,19 +71,33 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
 //    event.preventDefault();
 // });
 
+async function checkAppearanceIfAlreadyExist() {
+  const response = await fetch(`${url}?dateFrom=${dateFromEl.val()}`);
+
+  if (response.status === 302) {
+    throw new Error(`Appearance issued on ${dateFromEl.val()} already exist!`);
+  } else if (!response.ok) {
+    throw new Error(`Unexpected error occured, ${response.status}`);
+  }
+}
+
 //displaying appearance details through modal/alert
 async function showAppearanceDetail(appearance) {
-  const result = Swal.fire({
-    title: `Check the details before ${isSingle ? "printing" : "adding"}!`,
-    html: appearanceDetails(appearance),
-    showCancelButton: true,
-    confirmButtonText: isSingle ? "Print" : "Add",
-  });
   try {
+    const result = await Swal.fire({
+      title: `Check the details before ${isSingle ? "printing" : "adding"}!`,
+      html: appearanceDetails(appearance),
+      showCancelButton: true,
+      confirmButtonText: isSingle ? "Print" : "Add",
+    });
+
     if (result.isConfirmed) {
+      await checkAppearanceIfAlreadyExist();
+      validateDates();
+
       if (isSingle) {
         appearances.push(appearance);
-        await submitFormToServer(`${postUrl}?appearanceType=single`, appearances);
+        await submitFormToServer(postUrls[0], appearances);
       } else {
         let reference = appearance.reference;
         let dateFrom = appearance.dateFrom;
@@ -90,9 +112,9 @@ async function showAppearanceDetail(appearance) {
                     <td>${deleteButton(dateFrom)}`;
         $("#appearances tbody").append(row);
         appearances.push(appearance);
-
-        if (!$(".button-container").length) {
-          inputSection.append(appearanceButtonContainer);
+        console.log(buttonContainer.addClass("hide").length);
+        if (buttonContainer.addClass("hide").length) {
+          buttonContainer.toggleClass("hide");
         }
       }
     }
@@ -105,13 +127,13 @@ async function showAppearanceDetail(appearance) {
 function getInputs() {
   let appearance = {
     visitor: visitor,
-    dateIssued: dateIssued.val(),
-    dateFrom: dateFrom.val(),
-    dateTo: dateTo.val(),
+    dateIssued: dateIssuedEl.val(),
+    dateFrom: dateFromEl.val(),
+    dateTo: dateToEl.val(),
     purpose: {
-      description: purpose.val(),
+      description: purposeEl.val(),
     },
-    reference: reference.val() != "" ? reference.val() : "N/A",
+    reference: referenceEl.val() != "" ? referenceEl.val() : "N/A",
   };
 
   return appearance;
@@ -138,7 +160,7 @@ async function submitFormToServer(url, object) {
       console.log(data);
       toast.fire({
         icon: "success",
-        title: `New appearance${data.length > 1 ? "s" : ""} for ${data[0].visitor.name} has been saved!`,
+        title: `New appearance${data.length > 1 ? "s" : ""} for ${fullName} has been saved!`,
       });
     });
 }
@@ -148,3 +170,15 @@ $(".btn-add").on("click", function (event) {
   showAppearanceDetail(getInputs());
   console.log(appearances);
 });
+
+function validateDates() {
+  let dateIssued = new Date(dateIssuedEl.val());
+  let dateFrom = new Date(dateFromEl.val());
+  let dateTo = new Date(dateToEl.val());
+
+  if (dateIssued < dateFrom || dateIssued < dateTo) {
+    throw new Error(`Date inputted in "From" field should be earlier than or equal to  ${dateIssuedEl.val()}`);
+  } else if (dateFrom > dateIssued) {
+    throw new Error(`Date inputted in "From" field should be earlier or equal to the date inputted in "To" field!`);
+  }
+}

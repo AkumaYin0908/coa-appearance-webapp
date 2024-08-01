@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout" xmlns="http://www.w3.org/1999/html">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="layout/layout"
+  xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Appearance Form</title>
 
@@ -21,62 +26,71 @@
 
       <div class="col-lg-8 col-md-8 align-self-center container-fluid my-5" id="appearanceForm">
         <div class="container border border-black p-3 bg-dark" data-bs-theme="dark">
-          <form id="appearanceForm">
-            <div class="container py-2 my-3 border-bottom border-secondary">
-              <h5 class="text-dark-emphasis ms-2">Certificate of Appearance for</h5>
-              <div class="visitor-details container">
-                <!--Visitor details here-->
-              </div>
-              <div class="input-section container">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <input type="hidden" id="appearanceId" />
+          <div class="container py-2 my-3 border-bottom border-secondary">
+            <h5 class="text-dark-emphasis ms-2">Certificate of Appearance for</h5>
+            <div class="visitor-details container">
+              <!--Visitor details here-->
+            </div>
+            <div class="input-section container">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <input type="hidden" id="appearanceId" />
 
-                      <div class="row">
-                        <div class="col">
-                          <div class="md-form form-floating mb-3 ui-front">
-                            <input type="text" name="dateIssued" class="form-control" id="dateIssued" placeholder="Date Issued" />
-                            <label class="text-secondary" for="dateIssued">Date Issued</label>
-                          </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="md-form form-floating mb-3 ui-front">
+                          <input
+                            type="text"
+                            name="dateIssued"
+                            class="form-control"
+                            id="dateIssued"
+                            placeholder="Date Issued" />
+                          <label class="text-secondary" for="dateIssued">Date Issued</label>
                         </div>
-                        <div class="col">
-                          <div class="md-form form-floating mb-3 ui-front">
-                            <input type="text" class="form-control" id="dateFrom" placeholder="From" />
-                            <label class="text-secondary" for="dateFrom">From</label>
-                          </div>
-                        </div>
-
-                        <div class="col">
-                          <div class="md-form form-floating mb-3 ui-front">
-                            <input type="text" class="form-control" id="dateTo" placeholder="To" />
-                            <label class="text-secondary" for="dateTo">To</label>
-                          </div>
-                        </div>
-
-                        <div class="col">
-                          <div class="md-form form-floating mb-3">
-                            <input type="text" class="form-control" id="reference" placeholder="Travel Order No." />
-                            <label class="text-secondary" for="reference">Travel Order No. </label>
-                          </div>
+                      </div>
+                      <div class="col">
+                        <div class="md-form form-floating mb-3 ui-front">
+                          <input type="text" class="form-control" id="dateFrom" placeholder="From" />
+                          <label class="text-secondary" for="dateFrom">From</label>
                         </div>
                       </div>
 
-                      <div class="md-form form-floating mb-3">
-                        <textarea class="form-control" required minlength="5" maxlength="1000" placeholder="State the purpose of appearance here." id="purpose" style="height: 100px"></textarea>
-                        <label class="text-secondary" for="purpose">Purpose</label>
+                      <div class="col">
+                        <div class="md-form form-floating mb-3 ui-front">
+                          <input type="text" class="form-control" id="dateTo" placeholder="To" />
+                          <label class="text-secondary" for="dateTo">To</label>
+                        </div>
                       </div>
+
+                      <div class="col">
+                        <div class="md-form form-floating mb-3">
+                          <input type="text" class="form-control" id="reference" placeholder="Travel Order No." />
+                          <label class="text-secondary" for="reference">Travel Order No. </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="md-form form-floating mb-3">
+                      <textarea
+                        class="form-control"
+                        required
+                        minlength="5"
+                        maxlength="1000"
+                        placeholder="State the purpose of appearance here."
+                        id="purpose"
+                        style="height: 100px"></textarea>
+                      <label class="text-secondary" for="purpose">Purpose</label>
                     </div>
                   </div>
                 </div>
-                <!-- Buttons here (Proceed and Cancel) -->
               </div>
+              <!-- Buttons here (Proceed and Cancel) -->
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
-    
 
     <th:block layout:fragment="script">
       <script th:inline="javascript">

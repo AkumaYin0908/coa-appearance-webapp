@@ -26,92 +26,90 @@
 
       <div class="col-lg-12 col-md-12 col-sm-12 align-self-center container-fluid my-5" id="appearanceForm">
         <div class="container-fluid border border-black p-3 bg-dark" data-bs-theme="dark">
-          <form id="appearanceForm">
-            <div class="container-fluid py-2 my-3 border-bottom border-secondary">
-              <h5 class="text-dark-emphasis mb-2 ms-2">Certificate of Appearance for</h5>
-              <div class="visitor-details container-fluid">
-                <!--Visitor details here-->
-              </div>
-              <div class="input-section container-fluid">
-                <div class="form-group">
-                  <input type="hidden" id="appearanceId" />
-                  <input type="hidden" name="appearanceType" id="appearanceType" />
-                </div>
-
-                <!-- <div class="row d-flex justify-content-center align-items-center"> -->
-                <div class="row">
-                  <div class="col-sm-12 col-md-2">
-                    <div class="md-form form-floating mb-1 ui-front" style="z-index: 0">
-                      <input
-                        type="text"
-                        name="dateIssued"
-                        class="form-control"
-                        id="dateIssued"
-                        placeholder="Date Issued" />
-                      <label class="text-secondary" for="dateIssued">Date Issued</label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-2">
-                    <div class="md-form form-floating mb-1 ui-front">
-                      <input type="text" class="form-control" id="dateFrom" placeholder="From" />
-                      <label class="text-secondary" for="dateFrom">From</label>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-12 col-md-2">
-                    <div class="md-form form-floating mb-1 ui-front">
-                      <input type="text" class="form-control" id="dateTo" placeholder="To" />
-                      <label class="text-secondary" for="dateTo">To</label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-2">
-                    <div class="md-form form-floating mb-1">
-                      <input type="text" class="form-control" id="reference" placeholder="Travel Order No." />
-                      <label class="text-secondary" for="reference">Travel Order No. </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-4">
-                    <div class="md-form form-floating mb-1">
-                      <input
-                        type="text"
-                        class="form-control"
-                        required
-                        minlength="5"
-                        maxlength="1000"
-                        placeholder="State the purpose of appearance here."
-                        id="purpose" />
-                      <label class="text-secondary" for="purpose">Purpose</label>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col text-center mt-3">
-                    <button class="btn-add btn btn-success">Add</button>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="card mt-4 mb-4">
-                    <div class="card-body">
-                      <div>
-                        <table id="appearances" class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Travel Order</th>
-                              <th scope="col">From</th>
-                              <th scope="col">To</th>
-                              <th scope="col">Purpose</th>
-                              <th schol="col">Action</th>
-                            </tr>
-                          </thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Buttons here (Proceed and Cancel) -->
-              </div>
+          <div class="container-fluid py-2 my-3 border-bottom border-secondary">
+            <h5 class="text-dark-emphasis mb-2 ms-2">Certificate of Appearance for</h5>
+            <div class="visitor-details container-fluid">
+              <!--Visitor details here-->
             </div>
-          </form>
+            <div class="input-section container-fluid">
+              <div class="form-group">
+                <input type="hidden" id="appearanceId" />
+                <input type="hidden" name="appearanceType" id="appearanceType" />
+              </div>
+
+              <!-- <div class="row d-flex justify-content-center align-items-center"> -->
+              <div class="row">
+                <div class="col-sm-12 col-md-2">
+                  <div class="md-form form-floating mb-1 ui-front" style="z-index: 0">
+                    <input
+                      type="text"
+                      name="dateIssued"
+                      class="form-control"
+                      id="dateIssued"
+                      placeholder="Date Issued" />
+                    <label class="text-secondary" for="dateIssued">Date Issued</label>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-2">
+                  <div class="md-form form-floating mb-1 ui-front">
+                    <input type="text" class="form-control" id="dateFrom" placeholder="From" />
+                    <label class="text-secondary" for="dateFrom">From</label>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-2">
+                  <div class="md-form form-floating mb-1 ui-front">
+                    <input type="text" class="form-control" id="dateTo" placeholder="To" />
+                    <label class="text-secondary" for="dateTo">To</label>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-2">
+                  <div class="md-form form-floating mb-1">
+                    <input type="text" class="form-control" id="reference" placeholder="Travel Order No." />
+                    <label class="text-secondary" for="reference">Travel Order No. </label>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                  <div class="md-form form-floating mb-1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      required
+                      minlength="5"
+                      maxlength="1000"
+                      placeholder="State the purpose of appearance here."
+                      id="purpose" />
+                    <label class="text-secondary" for="purpose">Purpose</label>
+                  </div>
+                </div>
+                <div class="col-sm-12 col text-center mt-3">
+                  <button class="btn-add btn btn-success">Add</button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="card mt-4 mb-4">
+                  <div class="card-body">
+                    <div>
+                      <table id="appearances" class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Travel Order</th>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Purpose</th>
+                            <th schol="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Buttons here (Proceed and Cancel) -->
+            </div>
+          </div>
         </div>
       </div>
     </div>

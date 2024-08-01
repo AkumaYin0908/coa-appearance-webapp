@@ -95,11 +95,11 @@ export const visitorDetails = function (visitor) {
                   </div>`;
 };
 
-export const appearanceButtonContainer = `<div class="button-container container p-3">
+export const appearanceButtonContainer = `<div class="button-container hide container p-3">
   <div class="d-flex justify-content-center">
     <div class="row">
       <div class="col-auto">
-        <button type ="submit" id="proceedButton" class="btn btn-primary">Proceed</button>
+        <button id="proceedButton" class="btn btn-primary">Proceed</button>
       </div>
 
       <div class="col">

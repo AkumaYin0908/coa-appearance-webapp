@@ -57,7 +57,6 @@ const renderDataTable = await $("#visitors").DataTable({
     {
       data: "address",
       render: function (data, type, row) {
-      console.log(data);
         return `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${
           data.province.name
         }`;
@@ -161,7 +160,6 @@ function editVisitor(id) {
 }
 
 function submitFormToServer(visitor) {
-console.log(visitor);
   const fullUrl = `${baseUrl}/visitors${isEdit ? "/" + visitor.id : ""}`;
   fetch(fullUrl, {
     method: isEdit ? "PUT" : "POST",
@@ -180,9 +178,10 @@ console.log(visitor);
       return response.json();
     })
     .then((data) => {
+      const fullName = `${data.firstName}${data.middleInitial === "N/A" ? " " : data.middleInitial}${visitor.lastName}`;
       toast.fire({
         icon: "success",
-        title: `${data["name"]}  has been ${isEdit ? "updated" : "saved"}!`,
+        title: `${fullName}  has been ${isEdit ? "updated" : "saved"}!`,
       });
       $("#visitorModal").modal("hide");
       resetVisitorModal();

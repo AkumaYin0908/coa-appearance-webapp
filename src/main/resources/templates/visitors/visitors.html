@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout" xmlns="http://www.w3.org/1999/html">
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="layout/layout"
+  xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Visitors</title>
 
@@ -64,7 +68,13 @@
       </div>
 
       <!-- Visitor Modal -->
-      <div class="modal fade" data-bs-theme="dark" data-bs-backdrop="static" id="visitorModal" role="dialog" tabindex="-1">
+      <div
+        class="modal fade"
+        data-bs-theme="dark"
+        data-bs-backdrop="static"
+        id="visitorModal"
+        role="dialog"
+        tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -79,19 +89,45 @@
                   <input type="hidden" id="id" />
                   <div class="row">
                     <div class="col md-form form-floating mb-3">
-                      <input type="text" class="form-control" id="courtesyTitle" required minlength="2" maxlength="5" placeholder="Courtesy Title" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="courtesyTitle"
+                        required
+                        minlength="2"
+                        maxlength="5"
+                        placeholder="Courtesy Title" />
                       <label class="text-secondary" for="courtesyTitle">Courtesy Title</label>
                     </div>
                     <div class="col md-form form-floating mb-3">
-                      <input type="text" class="form-control" id="firstName" required minlength="2" maxlength="40" placeholder="First Name" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        required
+                        minlength="2"
+                        maxlength="40"
+                        placeholder="First Name" />
                       <label class="text-secondary" for="firstName">First Name</label>
                     </div>
                     <div class="col md-form form-floating mb-3">
-                      <input type="text" class="form-control" id="middleInitial" required minlength="2" maxlength="3" placeholder="Middle Initial" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="middleInitial"
+                        maxlength="3"
+                        placeholder="Middle Initial" />
                       <label class="text-secondary" for="middleInitial">Middle Initial</label>
                     </div>
                     <div class="col md-form form-floating mb-3">
-                      <input type="text" class="form-control" id="lastName" required minlength="2" maxlength="30" placeholder="Last Name" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        required
+                        minlength="2"
+                        maxlength="30"
+                        placeholder="Last Name" />
                       <label class="text-secondary" for="lastName">Last Name</label>
                     </div>
                   </div>
@@ -100,11 +136,25 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col md-form form-floating mb-3">
-                      <input type="text" class="form-control" id="position" required minlength="" maxlength="100" placeholder="Position" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="position"
+                        required
+                        minlength=""
+                        maxlength="100"
+                        placeholder="Position" />
                       <label class="text-secondary" for="position">Position</label>
                     </div>
                     <div class="col md-form form-floating mb-3">
-                      <input type="text" class="form-control" id="agency" required minlength="5" maxlength="100" placeholder="Agency" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="agency"
+                        required
+                        minlength="5"
+                        maxlength="100"
+                        placeholder="Agency" />
                       <label class="text-secondary" for="agency">Agency</label>
                     </div>
                   </div>
