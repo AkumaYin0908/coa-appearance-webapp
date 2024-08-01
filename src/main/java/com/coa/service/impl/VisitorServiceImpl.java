@@ -130,6 +130,8 @@ public class VisitorServiceImpl implements VisitorService {
             addressRepository.save(address);
         }
 
+        visitor.setAddress(address);
+
 
         Visitor dbVisitor = visitorRepository.save(visitor);
 
@@ -187,7 +189,7 @@ public class VisitorServiceImpl implements VisitorService {
         }
 
 
-        address.addVisitor(visitor);
+        visitor.setAddress(address);
 
         visitorRepository.save(visitor);
 
