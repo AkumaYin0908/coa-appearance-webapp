@@ -13,25 +13,20 @@ const dateToEl = $("#dateTo");
 const purposeEl = $("#purpose");
 const referenceEl = $("#reference");
 const inputSection = $(".input-section");
-const buttonContainer = $("input-section .button-container");
+const appearanceTable = $("#appearances tbody")
 const appearances = [];
 const isSingle = appearanceType === "single";
 const visitorId = visitor.id;
 const url = `${baseUrl}/visitors/${visitorId}/appearances`;
 const postUrls = [`${url}?appearanceType=single`, `${url}?appearanceType=consolidated`];
-const fullName = `${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${
-  visitor.lastName
-}`;
+const fullName = `${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${visitor.lastName}`;
 //const appearanceTypeInput = $("#appearanceType");
-$(appearanceButtonContainer).appendTo(inputSection);
-console.log(buttonContainer === true);
-if (buttonContainer) {
-  if (appearanceType === "single") {
-    buttonContainer.removeClass("hide");
-  }
-}
 
-console.log(appearanceType);
+ $(appearanceButtonContainer).appendTo(inputSection);
+
+if (appearanceType === "single") {
+ $(".button-container").toggleClass("hide");
+}
 
 //displaying visitor details
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
@@ -62,8 +57,8 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
 
   console.log("Index of the deleted row: ", index);
   console.log(appearances);
-  if (appearances.length == 0) {
-    buttonContainer.toggleClass("hide");
+  if (appearances.length === 0) {
+    $(".button-container").toggleClass("hide");
   }
 });
 
@@ -110,12 +105,13 @@ async function showAppearanceDetail(appearance) {
                     <td>${dateTo}</td>
                     <td>${purpose}</td>
                     <td>${deleteButton(dateFrom)}`;
-        $("#appearances tbody").append(row);
+        appearanceTable.append(row);
         appearances.push(appearance);
-        console.log(buttonContainer.addClass("hide").length);
-        if (buttonContainer.addClass("hide").length) {
-          buttonContainer.toggleClass("hide");
+
+        if($(".button-container").addClass("hide").length){
+          $(".button-container").toggleClass("hide");
         }
+       
       }
     }
   } catch (error) {
@@ -162,6 +158,7 @@ async function submitFormToServer(url, object) {
         icon: "success",
         title: `New appearance${data.length > 1 ? "s" : ""} for ${fullName} has been saved!`,
       });
+      clearFields();
     });
 }
 
@@ -181,4 +178,18 @@ function validateDates() {
   } else if (dateFrom > dateIssued) {
     throw new Error(`Date inputted in "From" field should be earlier or equal to the date inputted in "To" field!`);
   }
+}
+
+function clearFields(){
+  purposeEl.val("");
+  referenceEl.val("");
+  datePicker();
+  appearances.length = 0;
+  console.log(appearanceTable.length);
+  if(appearanceTable.length > 1){
+
+    appearanceTable.empty();
+    $(".button-container").toggleClass("hide");
+  }
+  
 }
