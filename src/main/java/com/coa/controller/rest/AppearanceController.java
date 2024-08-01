@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -35,6 +36,13 @@ public class AppearanceController {
     public ResponseEntity<List<AppearanceResponse>> getByVisitorAndDateIssued(@PathVariable("id") Long id, @RequestParam("dateIssued") String strDateIssued) {
 
         return new ResponseEntity<>(appearanceService.findByVisitorAndDateIssued(id, strDateIssued), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/visitors/{id}/appearances", params = {"!dateIssued","dateFrom"})
+    public ResponseEntity<AppearanceResponse> getByVisitorAndDateFrom(@PathVariable("id") Long id, @RequestParam("dateFrom") String strDateFrom) {
+        Optional<AppearanceResponse> appearanceResponseOptional = appearanceService.findByVisitorAndDateFrom(id,strDateFrom);
+        return appearanceResponseOptional.map( appearanceResponse -> ResponseEntity.status(HttpStatus.FOUND).body(appearanceResponse))
+                .orElseGet(()->ResponseEntity.noContent().build());
     }
 
 

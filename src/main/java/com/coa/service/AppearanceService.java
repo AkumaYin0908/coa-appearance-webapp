@@ -4,6 +4,7 @@ import com.coa.payload.request.AppearanceRequest;
 import com.coa.payload.response.AppearanceResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AppearanceService {
 
@@ -17,7 +18,7 @@ public interface AppearanceService {
 
     List<AppearanceResponse> findByVisitorAndDateIssued(Long id, String strDateIssued);
 
-    AppearanceResponse findByVisitorAndDateFrom(Long id, String strDateFrom);
+    Optional<AppearanceResponse> findByVisitorAndDateFrom(Long id, String strDateFrom);
 
     List<AppearanceResponse> findByPurpose(String description);
 

@@ -14,6 +14,7 @@ import com.coa.service.AppearanceService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,6 +31,8 @@ public class AppearanceServiceImpl implements AppearanceService {
     private final VisitorRepository visitorRepository;
     private final ModelMapper modelMapper;
     private final PurposeRepository purposeRepository;
+
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
 
 
@@ -66,26 +69,15 @@ public class AppearanceServiceImpl implements AppearanceService {
 //                .map(appearance -> modelMapper.map(appearance, AppearanceResponse.class))
 //                .toList();
 
-        return appearanceRepository.findByVisitorAndDateIssued(id, LocalDate.parse(strDateIssued))
+        return appearanceRepository.findByVisitorAndDateIssued(id, LocalDate.parse(strDateIssued,dateTimeFormatter))
                 .stream().map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
     }
 
     @Override
-    public AppearanceResponse findByVisitorAndDateFrom(Long id, String strDateFrom) {
-//        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
-//
-//        Appearance appearance = visitor.getAppearances()
-//                .stream()
-//                .filter(app -> app.getDateFrom().equals(LocalDate.parse(strDateFrom)))
-//                .findFirst()
-//                .orElseThrow(()->new ResourceNotFoundException("Appearance","dateFrom",LocalDate.parse(strDateFrom).format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))));
-//
-//        return modelMapper.map(appearance,AppearanceResponse.class);
+    public Optional<AppearanceResponse> findByVisitorAndDateFrom(Long id, String strDateFrom) {
 
-        Appearance appearance =  appearanceRepository.findByVisitorAndDateFrom(id, LocalDate.parse(strDateFrom))
-                .stream().findFirst().orElseThrow(()->new ResourceNotFoundException("Appearance","dateFrom",strDateFrom));
-
-        return modelMapper.map(appearance,AppearanceResponse.class);
+        return appearanceRepository.findByVisitorAndDateFrom(id, LocalDate.parse(strDateFrom,dateTimeFormatter))
+                .map(appearance -> modelMapper.map(appearance,AppearanceResponse.class));
 
     }
 
@@ -177,7 +169,7 @@ public class AppearanceServiceImpl implements AppearanceService {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         appearance.setDateIssued(LocalDate.parse(appearanceRequest.getDateIssued(),dateTimeFormatter));
         appearance.setDateFrom(LocalDate.parse(appearanceRequest.getDateFrom(),dateTimeFormatter));
-        appearance.setDateTo(LocalDate.parse(appearanceRequest.getDateTo()));
+        appearance.setDateTo(LocalDate.parse(appearanceRequest.getDateTo(),dateTimeFormatter));
 
         Purpose purpose = purposeRepository.findByDescription(appearanceRequest.getPurpose().getDescription())
                 .orElse(new Purpose(appearanceRequest.getPurpose().getDescription()));
