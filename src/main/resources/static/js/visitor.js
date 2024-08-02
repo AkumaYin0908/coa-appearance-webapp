@@ -48,18 +48,21 @@ const renderDataTable = await $("#visitors").DataTable({
     {
       data: null,
       render: function (data, type, row, meta) {
-        return `${row.firstName}${row.middleInitial === "N/A" ? " " : row.middleInitial}${row.lastName}`;
+        return `${row.firstName} ${row.middleInitial === "N/A" ? "" : row.middleInitial + " "}${row.lastName}`;
       },
-      // width : "20%"
+      width: "15%",
     },
     { data: "position.title" },
-    { data: "agency.name" },
+    {
+      data: "agency",
+      render: function (data, type, row) {
+        return `${row.agency == null ? "N/A" : data.name}`;
+      },
+    },
     {
       data: "address",
       render: function (data, type, row) {
-        return `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${
-          data.province.name
-        }`;
+        return `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${data.province.name}`;
       },
     },
     {
@@ -71,6 +74,7 @@ const renderDataTable = await $("#visitors").DataTable({
         ${deleteButton(data)}
         </div>`;
       },
+      width: "12%",
     },
   ],
   processing: true,
@@ -110,9 +114,12 @@ function submitForm() {
     position: {
       title: positionEl.val(),
     },
-    agency: {
-      name: agencyEl.val(),
-    },
+    agency:
+      agencyEl.val() === "N/A" || agencyEl.val() === ""
+        ? null
+        : {
+            name: agencyEl.val(),
+          },
     address: {
       barangay: barangayEl.val()
         ? {
@@ -178,7 +185,7 @@ function submitFormToServer(visitor) {
       return response.json();
     })
     .then((data) => {
-      const fullName = `${data.firstName}${data.middleInitial === "N/A" ? " " : data.middleInitial}${visitor.lastName}`;
+      const fullName = `${data.firstName} ${data.middleInitial === "N/A" ? "" : data.middleInitial + " "}${visitor.lastName}`;
       toast.fire({
         icon: "success",
         title: `${fullName}  has been ${isEdit ? "updated" : "saved"}!`,
