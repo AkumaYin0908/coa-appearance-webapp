@@ -13,7 +13,7 @@ const dateToEl = $("#dateTo");
 const purposeEl = $("#purpose");
 const referenceEl = $("#reference");
 const inputSection = $(".input-section");
-const appearanceTable = $("#appearances tbody")
+const appearanceTable = $("#appearances tbody");
 const appearances = [];
 const isSingle = appearanceType === "single";
 const visitorId = visitor.id;
@@ -22,10 +22,10 @@ const postUrls = [`${url}?appearanceType=single`, `${url}?appearanceType=consoli
 const fullName = `${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${visitor.lastName}`;
 //const appearanceTypeInput = $("#appearanceType");
 
- $(appearanceButtonContainer).appendTo(inputSection);
+$(appearanceButtonContainer).appendTo(inputSection);
 
 if (appearanceType === "single") {
- $(".button-container").toggleClass("hide");
+  $(".button-container").toggleClass("hide");
 }
 
 //displaying visitor details
@@ -33,7 +33,7 @@ $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
 datePicker();
 
-$("#proceedButton").on("click", function (event) {
+$("#proceedButton").on("click", async function (event) {
   event.preventDefault();
   if (isSingle) {
     showAppearanceDetail(getInputs());
@@ -41,7 +41,7 @@ $("#proceedButton").on("click", function (event) {
     if (appearances.length == 0) {
       alert("Error", "No appearance has been added yet!", "error");
     } else {
-      submitFormToServer(postUrls[1], appearances);
+      await submitFormToServer(postUrls[1], appearances);
     }
   }
 });
@@ -108,10 +108,9 @@ async function showAppearanceDetail(appearance) {
         appearanceTable.append(row);
         appearances.push(appearance);
 
-        if($(".button-container").addClass("hide").length){
+        if ($(".button-container").addClass("hide").length) {
           $(".button-container").toggleClass("hide");
         }
-       
       }
     }
   } catch (error) {
@@ -135,31 +134,57 @@ function getInputs() {
   return appearance;
 }
 
+async function showCertificate(appearanceType, templateNo, object) {
+  try {
+    const response = await fetch(`${baseUrl}/${appearanceType}-certificate/${templateNo}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(object),
+    });
+
+    if (!response.ok) {
+      return response.json().then((data) => {
+        throw new Error(data.message);
+      });
+    }
+  } catch (error) {
+    alert("Error", error.message, "error");
+  }
+}
+
 //saving objects to database
 async function submitFormToServer(url, object) {
-  await fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(object),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        return response.json().then((data) => {
-          throw new Error(data.message);
-        });
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      toast.fire({
-        icon: "success",
-        title: `New appearance${data.length > 1 ? "s" : ""} for ${fullName} has been saved!`,
-      });
-      clearFields();
+  });
+
+  await showCertificate(
+    appearanceType,
+    1,
+    response.json().then((data) => {
+      appearanceType === "single" ? data[0] : data;
+    }),
+  );
+
+  if (!response.ok) {
+    return response.json().then((data) => {
+      throw new Error(data.message);
     });
+  } else {
+    const data = response.json();
+    toast.fire({
+      icon: "success",
+      title: `New appearance${data.length > 1 ? "s" : ""} for ${fullName} has been saved!`,
+    });
+
+    clearFields();
+  }
 }
 
 $(".btn-add").on("click", function (event) {
@@ -180,16 +205,14 @@ function validateDates() {
   }
 }
 
-function clearFields(){
+function clearFields() {
   purposeEl.val("");
   referenceEl.val("");
   datePicker();
   appearances.length = 0;
   console.log(appearanceTable.length);
-  if(appearanceTable.length > 1){
-
+  if (appearanceTable.length > 1) {
     appearanceTable.empty();
     $(".button-container").toggleClass("hide");
   }
-  
 }
