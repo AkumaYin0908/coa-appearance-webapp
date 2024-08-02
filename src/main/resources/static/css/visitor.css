@@ -5,3 +5,7 @@ form#createAppearance {
 form #searchName {
   margin-top: 3px;
 }
+
+#actionButton {
+  display: inline-block;
+}
