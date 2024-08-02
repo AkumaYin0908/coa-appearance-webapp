@@ -89,10 +89,13 @@ public class VisitorServiceImpl implements VisitorService {
 
         position.addVisitor(visitor);
 
-        Agency agency = agencyRepository.findByName(visitorRequest.getAgency().getName())
-                .orElseGet(() -> agencyRepository.save(new Agency(visitorRequest.getAgency().getName())));
-
-        agency.addVisitor(visitor);
+        if(visitorRequest.getAgency() != null){
+            Agency agency = agencyRepository.findByName(visitorRequest.getAgency().getName())
+                    .orElseGet(() -> agencyRepository.save(new Agency(visitorRequest.getAgency().getName())));
+            agency.addVisitor(visitor);
+        }else{
+            visitor.setAgency(null);
+        }
 
 
 //        AddressRequest addressRequest = visitorRequest.getAddress();
@@ -164,10 +167,16 @@ public class VisitorServiceImpl implements VisitorService {
 
         position.addVisitor(visitor);
 
-        Agency agency = agencyRepository.findByName(visitorRequest.getAgency().getName())
-                .orElseGet(() -> agencyRepository.save(new Agency(visitorRequest.getAgency().getName())));
+        if(visitorRequest.getAgency() != null){
+            Agency agency = agencyRepository.findByName(visitorRequest.getAgency().getName())
+                    .orElseGet(() -> agencyRepository.save(new Agency(visitorRequest.getAgency().getName())));
+            agency.addVisitor(visitor);
+        }else{
+            visitor.setAgency(null);
+        }
 
-        agency.addVisitor(visitor);
+
+
 
         AddressRequest addressRequest = visitorRequest.getAddress();
         Address address= null;
