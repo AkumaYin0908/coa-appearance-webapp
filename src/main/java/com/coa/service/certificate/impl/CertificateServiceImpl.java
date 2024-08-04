@@ -1,13 +1,17 @@
 package com.coa.service.certificate.impl;
 
+import com.coa.exceptions.rest.ResourceNotFoundException;
 import com.coa.payload.request.AppearanceRequest;
+import com.coa.payload.request.VisitorRequest;
+import com.coa.payload.request.address.AddressRequest;
 import com.coa.payload.response.AgencyResponse;
-import com.coa.payload.response.AppearanceResponse;
-import com.coa.payload.response.VisitorResponse;
 import com.coa.payload.response.address.AddressResponse;
+import com.coa.repository.AppearanceRepository;
 import com.coa.service.certificate.CertificateService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -24,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -31,18 +36,20 @@ import java.util.Map;
 public class CertificateServiceImpl implements CertificateService {
 
 
+    private final AppearanceRepository appearanceRepository;
     private final ModelMapper modelMapper;
+
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
 
     //https://www.webscale.com/engineering-education/how-to-generate-reports-in-a-spring-boot-app-leveraging-jaspersoft/
-    private JasperPrint getJasperPrint(AppearanceResponse appearanceResponse, String resourceLocation) throws JRException, IOException{
-        File file = ResourceUtils.getFile(resourceLocation);
-        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+    private JasperPrint getJasperPrint(AppearanceRequest appearanceRequest, InputStream inputStream) throws JRException, IOException{
+        JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
 
-        Map<String, Object> parameters = map(appearanceResponse);
+        Map<String, Object> parameters = map(appearanceRequest);
 
         InputStream logoInput = getClass().getResourceAsStream("static/images/logo.png");
-        InputStream headingInput = getClass().getResourceAsStream("static/images/name heading.png");
+        InputStream headingInput = getClass().getResourceAsStream("static/images/coa_heading.png");
 
         parameters.put("logo",logoInput);
         parameters.put("heading",headingInput);
@@ -51,40 +58,40 @@ public class CertificateServiceImpl implements CertificateService {
         return jasperPrint;
     }
 
-    private Map<String, Object> map(AppearanceResponse appearanceResponse) {
+    private Map<String, Object> map(AppearanceRequest appearanceRequest) {
         Map<String, Object> parameters = new HashMap<>();
 
-        VisitorResponse visitorResponse = appearanceResponse.getVisitor();
-        AddressResponse addressResponse = visitorResponse.getAddress();
+       VisitorRequest visitorRequest = appearanceRequest.getVisitor();
+        AddressRequest addressResponse = visitorRequest.getAddress();
 
 
-        String dateOfTravel = getFormattedDateRange(appearanceResponse.getDateFrom(), appearanceResponse.getDateTo());
+        String dateOfTravel = getFormattedDateRange(appearanceRequest.getDateFrom(), appearanceRequest.getDateTo());
 
 
-        String fullName = String.format("%s%s%s", visitorResponse.getFirstName(),
-                visitorResponse.getMiddleInitial().equalsIgnoreCase("n/a") ? " " : visitorResponse.getMiddleInitial() + ". ",
-                visitorResponse.getLastName());
+        String fullName = String.format("%s%s%s", visitorRequest.getFirstName(),
+                visitorRequest.getMiddleInitial().equalsIgnoreCase("n/a") ? " " : visitorRequest.getMiddleInitial() + ". ",
+                visitorRequest.getLastName());
 
         String fullAddress = String.format("%s%s, %s",addressResponse.getBarangay() == null ? "": String.format("%s, ",addressResponse.getBarangay().getName()),
                 addressResponse.getMunicipality().getName(), addressResponse.getProvince().getName());
 
-        String office = visitorResponse.getAgency() == null ? fullAddress : visitorResponse.getAgency().getName();
+        String office = visitorRequest.getAgency() == null ? fullAddress : visitorRequest.getAgency().getName();
 
-        LocalDate dateIssued = LocalDate.parse(appearanceResponse.getDateIssued());
+        LocalDate dateIssued = LocalDate.parse(appearanceRequest.getDateIssued(),dateTimeFormatter);
 
-        parameters.put("courtesyTitle",visitorResponse.getCourtesyTitle().getTitle());
+        parameters.put("courtesyTitle",visitorRequest.getCourtesyTitle().getTitle());
         parameters.put("fullName",fullName);
-        parameters.put("position",visitorResponse.getPosition().getTitle());
+        parameters.put("position",visitorRequest.getPosition().getTitle());
         parameters.put("office",office);
         parameters.put("dateOfTravel",dateOfTravel);
-        parameters.put("purpose", appearanceResponse.getPurpose().getDescription());
-        parameters.put("reference",appearanceResponse.getReference());
+        parameters.put("purpose", appearanceRequest.getPurpose().getDescription());
+        parameters.put("reference",appearanceRequest.getReference());
         parameters.put("day",getDayWithOrdinal(dateIssued.getDayOfMonth()));
         parameters.put("month", String.format("%s%s",dateIssued.getMonth().toString().charAt(0),
                 dateIssued.getMonth().toString().toLowerCase().substring(1)));
 
         parameters.put("year",dateIssued.getYear());
-        parameters.put("lastName",visitorResponse.getLastName());
+        parameters.put("lastName",visitorRequest.getLastName());
 
         return parameters;
 
@@ -92,20 +99,21 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public String generateSingleCertificate(AppearanceRequest appearanceRequest,int templateNo) throws JRException, IOException {
-        String resourceLocation = String.format("classpath: /static/certificates/CA_Template_%d.jrxml",templateNo);
+    public String generateSingleCertificate(Long templateNo, AppearanceRequest appearanceRequest) throws JRException, IOException {
 
-        AppearanceResponse appearanceResponse = modelMapper.map(appearanceRequest,AppearanceResponse.class);
-        JasperPrint jasperPrint = getJasperPrint(appearanceResponse,resourceLocation);
+       InputStream inputStream = getClass().getResourceAsStream("/static/certificates/CA_Template_1.jrxml");
+
+        JasperPrint jasperPrint = getJasperPrint(appearanceRequest,inputStream);
 
         String fileName = "certificate.pdf";
         Path uploadPath = getUploadPath("pdf",jasperPrint,fileName);
-        return String.format("%s/%s",uploadPath.toString(),fileName);
+        return getPdfFileLink(uploadPath.toString());
     }
 
     private Path getUploadPath(String fileFormat, JasperPrint jasperPrint, String fileName) throws IOException, JRException{
         String uploadDir = StringUtils.cleanPath("./generated-certificates");
         Path uploadPath = Paths.get(uploadDir);
+        System.out.println(uploadDir);
 
         if(!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);
@@ -119,17 +127,20 @@ public class CertificateServiceImpl implements CertificateService {
         return uploadPath;
 
     }
+    private String getPdfFileLink(String uploadPath){
+        return String.format("%s/%s",uploadPath,"certificate.pdf");
+    }
 
     private String getFormattedDateRange(String strDateFrom, String strDateTo) {
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
         DateTimeFormatter dateFromFormat = DateTimeFormatter.ofPattern("MMMM d");
         DateTimeFormatter dateToFormat = DateTimeFormatter.ofPattern("d, yyyy");
 
-        LocalDate dateFrom = LocalDate.parse(strDateFrom);
-        System.out.println(dateFrom);
-        LocalDate dateTo = LocalDate.parse(strDateTo);
-        System.out.println(dateTo);
+        LocalDate dateFrom = LocalDate.parse(strDateFrom,dateTimeFormatter);
+
+        LocalDate dateTo = LocalDate.parse(strDateTo,dateTimeFormatter);
+
         String firstDate = "";
         String lastDate = "";
 

@@ -41,7 +41,11 @@ $("#proceedButton").on("click", async function (event) {
     if (appearances.length == 0) {
       alert("Error", "No appearance has been added yet!", "error");
     } else {
-      await submitFormToServer(postUrls[1], appearances);
+      try {
+        await submitFormToServer(postUrls[1], appearances);
+      } catch (error) {
+        alert("Error", error.message, "error");
+      }
     }
   }
 });
@@ -135,23 +139,27 @@ function getInputs() {
 }
 
 async function showCertificate(appearanceType, templateNo, object) {
-  try {
-    const response = await fetch(`${baseUrl}/${appearanceType}-certificate/${templateNo}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(object),
-    });
+  const response = await fetch(`${baseUrl}/${appearanceType}-certificate/${templateNo}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(object),
+  });
 
-    if (!response.ok) {
-      return response.json().then((data) => {
-        throw new Error(data.message);
-      });
-    }
-  } catch (error) {
-    alert("Error", error.message, "error");
+
+
+  if (!response.ok) {
+    return response.json().then((data) => {
+      throw new Error(data.message);
+    });
   }
+
+  const responseData = await response.json();
+  
+
+  window.open(responseData.fileLink, "_blank");
 }
 
 //saving objects to database
@@ -164,20 +172,13 @@ async function submitFormToServer(url, object) {
     body: JSON.stringify(object),
   });
 
-  await showCertificate(
-    appearanceType,
-    1,
-    response.json().then((data) => {
-      appearanceType === "single" ? data[0] : data;
-    }),
-  );
-
   if (!response.ok) {
     return response.json().then((data) => {
       throw new Error(data.message);
     });
   } else {
-    const data = response.json();
+    await showCertificate(appearanceType, 1, object);
+    const data = await response.json();
     toast.fire({
       icon: "success",
       title: `New appearance${data.length > 1 ? "s" : ""} for ${fullName} has been saved!`,
@@ -190,7 +191,7 @@ async function submitFormToServer(url, object) {
 $(".btn-add").on("click", function (event) {
   event.preventDefault();
   showAppearanceDetail(getInputs());
-  console.log(appearances);
+  // console.log(appearances);
 });
 
 function validateDates() {
