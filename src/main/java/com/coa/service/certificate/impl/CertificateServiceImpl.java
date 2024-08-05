@@ -48,8 +48,8 @@ public class CertificateServiceImpl implements CertificateService {
 
         Map<String, Object> parameters = map(appearanceRequest);
 
-        InputStream logoInput = getClass().getResourceAsStream("static/images/logo.png");
-        InputStream headingInput = getClass().getResourceAsStream("static/images/coa_heading.png");
+        InputStream logoInput = getClass().getResourceAsStream("/static/images/logo.png");
+        InputStream headingInput = getClass().getResourceAsStream("/static/images/coa_heading.png");
 
         parameters.put("logo",logoInput);
         parameters.put("heading",headingInput);
@@ -90,7 +90,7 @@ public class CertificateServiceImpl implements CertificateService {
         parameters.put("month", String.format("%s%s",dateIssued.getMonth().toString().charAt(0),
                 dateIssued.getMonth().toString().toLowerCase().substring(1)));
 
-        parameters.put("year",dateIssued.getYear());
+        parameters.put("year",String.valueOf(dateIssued.getYear()));
         parameters.put("lastName",visitorRequest.getLastName());
 
         return parameters;
