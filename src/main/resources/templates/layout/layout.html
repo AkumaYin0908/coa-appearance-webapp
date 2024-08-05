@@ -9,7 +9,12 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/css/styles.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/css/dtable.css}" />
 
     <!--Bootstrap CSS-->
     <link
@@ -23,8 +28,13 @@
       rel="stylesheet" />
 
     <!--Google Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro&display=swap"
       rel="stylesheet" />
@@ -40,9 +50,13 @@
       th:href="@{/jqueryui/jquery-ui.css}" />
 
     <!-- DataTables CSS -->
-    <link th:href="@{/datatables/datatables.css}" rel="stylesheet" />
+    <link
+      th:href="@{/datatables/datatables.css}"
+      rel="stylesheet" />
 
-    <link rel="stylesheet" th:href="@{/css/icons.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/css/icons.css}" />
 
     <title layout:title-pattern="$CONTENT_TITLE"></title>
   </head>
@@ -55,7 +69,9 @@
     </section>
 
     <section>
-      <div id="main-content" layout:fragment="content"></div>
+      <div
+        id="main-content"
+        layout:fragment="content"></div>
     </section>
 
     <!-- &lt;!&ndash;Font Awesome&ndash;&gt;-->
@@ -80,10 +96,12 @@
       type="text/javascript"></script>
 
     <!-- Sweet Alert -->
-    <script
-      th:src="@{/sweetalert2/node_modules/sweetalert2/dist/sweetalert2.js}"></script>
+    <script th:src="@{/sweetalert2/node_modules/sweetalert2/dist/sweetalert2.js}"></script>
 
-    <script th:src="@{/js/index.js}" type="text/javascript" defer></script>
+    <script
+      th:src="@{/js/index.js}"
+      type="text/javascript"
+      defer></script>
 
     <th:block layout:fragment="script"></th:block>
   </body>
