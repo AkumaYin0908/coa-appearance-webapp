@@ -148,8 +148,6 @@ async function showCertificate(appearanceType, templateNo, object) {
     body: JSON.stringify(object),
   });
 
-
-
   if (!response.ok) {
     return response.json().then((data) => {
       throw new Error(data.message);
@@ -157,9 +155,8 @@ async function showCertificate(appearanceType, templateNo, object) {
   }
 
   const responseData = await response.json();
-  
 
-  window.open(responseData.fileLink, "_blank");
+  window.open(`${baseUrl}/${responseData.fileLink}`, "_blank");
 }
 
 //saving objects to database
