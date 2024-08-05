@@ -25,8 +25,7 @@
 	<pageHeader>
 		<band height="135" splitType="Stretch">
 			<image>
-				<reportElement x="170" y="16" width="280" height="100"
-					uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73" />
+				<reportElement x="200" y="42" width="220" height="41" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
 				<imageExpression><![CDATA[$P{heading}]]></imageExpression>
 			</image>
 			<staticText>
@@ -227,7 +226,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateOfTravel}]]></textFieldExpression>
 			</textField>
-			<!-- <textField>
+			<textField>
 				<reportElement x="53" y="230" width="490" height="30"
 					uuid="30ba817a-bcaf-4e9c-8b2d-749e775ebeb4" />
 				<textElement textAlignment="Justified" markup="styled">
@@ -235,7 +234,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Issued this " + "<style isBold = \"true\">" + $P{day} + "</style>" +  " day of " +  "<style isBold = \"true\">" + $P{month} + " " + $P{year} + "</style>" +  " upon the request of " + "<style isBold = \"true\">" + $P{courtesyTitle} + ". "  + " " +  $P{lastName} + " </style>."]]></textFieldExpression>
 
-			</textField> -->
+			</textField>
 			<staticText>
 				<reportElement x="53" y="159" width="90" height="20"
 					uuid="72a52fd5-4754-4357-8d21-d91251f02368" />
