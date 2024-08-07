@@ -1,93 +1,27 @@
 "use strict";
 
-import { baseUrl } from "./modules/baseUrl.js";
+import { baseUrl } from "./modules/base-url.js";
 import { loadAddress } from "./ph-address-selector.js";
-import { newButton, editButton, deleteButton, addressContent, errorContent } from "./modules/htmlContent.js";
+import { addressContent, errorContent } from "./modules/html-content.js";
 import { showAppearanceChoices } from "./modules/appearance-type.js";
-import { fetchVisitor } from "./modules/visitor-manager.js";
 import { toast, alert } from "./modules/alerts.js";
+import { visitorTableObject } from "./modules/table-object.js";
 
-let fullUrl = `${baseUrl}/visitors`;
-
-const modalHeader = $("div.modal-header");
-const modalBody = $("div.modal-body");
-const addressContainer = $("#visitorForm #address");
+const idEl = $("#id");
+const addressContainer = $("#address");
 const courtesyTitleEl = $("#courtesyTitle");
 const firstNameEl = $("#firstName");
 const middleInitEl = $("#middleInitial");
 const lastNameEl = $("#lastName");
-
 const positionEl = $("#position");
 const agencyEl = $("#agency");
 
-let visitorId = 0;
+//let visitorId = 0;
 
 //state
 let isEdit = false;
 
-let toolBar = $("<div></div>");
-toolBar.html(`<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Add</button>
-<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
-<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>
-<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Print</button>`);
-
-const renderDataTable = await $("#visitors").DataTable({
-  responsive: true,
-  layout: {
-    topStart: toolBar,
-  },
-  language: {
-    lengthMenu: "Show _MENU_ entries",
-  },
-  ajax: {
-    url: fullUrl,
-    dataSrc: "",
-  },
-  columnDefs: [
-    {
-      visible: false,
-      targets: [0, 1, 2, 3],
-    },
-  ],
-  columns: [
-    { data: "id" },
-    { data: "firstName" },
-    { data: "middleInitial" },
-    { data: "lastName" },
-    {
-      data: null,
-      render: function (data, type, row, meta) {
-        return `${row.firstName} ${row.middleInitial === "N/A" ? "" : row.middleInitial + " "}${row.lastName}`;
-      },
-      width: "15%",
-    },
-    { data: "position.title" },
-    {
-      data: "agency",
-      render: function (data, type, row) {
-        return `${row.agency == null ? "N/A" : data.name}`;
-      },
-    },
-    {
-      data: "address",
-      render: function (data, type, row) {
-        return `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${data.province.name}`;
-      },
-    },
-    {
-      data: "id",
-      render: function (data, type, row) {
-        return `<div id = "actionButton">
-        ${newButton(data)}
-        ${editButton(data)}
-        ${deleteButton(data)}
-        </div>`;
-      },
-      width: "12%",
-    },
-  ],
-  processing: true,
-});
+const renderDataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
 
 $("#visitors").on("click", "a.btn-new", function () {
   let id = $(this).data("key");
@@ -98,7 +32,8 @@ $("#visitors").on("click", "a.btn-edit", function (event) {
   event.preventDefault();
   isEdit = true;
   displayTitle(isEdit);
-  editVisitor($(this).data("key"));
+  let id = $(this).data("key");
+  editVisitor(id);
 });
 
 $("#visitors").on("click", "a.btn-delete", function (event) {
@@ -113,7 +48,7 @@ function submitForm() {
   const regionEl = $("#address #region-text");
 
   let visitor = {
-    id: visitorId,
+    id: idEl.val(),
     courtesyTitle: {
       title: courtesyTitleEl.val(),
     },
@@ -154,12 +89,20 @@ function submitForm() {
   submitFormToServer(visitor);
 }
 
-function editVisitor(id) {
-  fetchVisitor(id)
+async function editVisitor(id) {
+  let fullUrl = `${baseUrl}/visitors/${id}`;
+  await fetch(fullUrl)
+    .then((response) => {
+      if (response.status !== 302) {
+        return response.json().then((data) => {
+          throw new Error(data.message);
+        });
+      }
+      return response.json();
+    })
     .then((data) => {
       $(addressContent).prependTo(addressContainer);
-      console.log(data);
-      visitorId = id;
+      idEl.val(data.id);
       courtesyTitleEl.val(data.courtesyTitle.title);
       firstNameEl.val(data.firstName);
       middleInitEl.val(data.middleInitial);
@@ -205,6 +148,7 @@ function submitFormToServer(visitor) {
     })
     .catch((error) => {
       if ($("#errorContainer").length === 0) {
+        const modalBody = $("div.modal-body");
         $(errorContent(error)).prependTo(modalBody);
       }
     });
@@ -213,7 +157,6 @@ function submitFormToServer(visitor) {
 $("#addVisitorButton").on("click", function (event) {
   event.preventDefault();
   displayTitle(isEdit);
-  console.log(isEdit);
   loadAddress(null);
   $(addressContent).prependTo(addressContainer);
   $("#visitorModal").modal("show");
@@ -248,6 +191,7 @@ $("#visitorForm").submit(function (event) {
 
 function displayTitle(isEdit) {
   if ($("h5.modal-title").length === 0) {
+    const modalHeader = $("div.modal-header");
     $(`<h5 class="modal-title text-light">${isEdit ? "Edit" : "New"} Visitor</h5>`).prependTo(modalHeader);
   }
 }
