@@ -1,6 +1,7 @@
 package com.coa.payload.response;
 
 
+import com.coa.payload.Reportable;
 import com.coa.payload.request.AgencyRequest;
 import com.coa.payload.request.address.AddressRequest;
 import com.coa.payload.response.address.AddressResponse;
@@ -13,7 +14,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VisitorResponse {
+public class VisitorResponse implements Reportable {
 
     private Long id;
     private  CourtesyTitleResponse courtesyTitle;

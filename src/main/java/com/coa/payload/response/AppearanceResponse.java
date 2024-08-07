@@ -2,6 +2,7 @@ package com.coa.payload.response;
 
 
 import com.coa.model.Agency;
+import com.coa.payload.Reportable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppearanceResponse {
+public class AppearanceResponse implements Reportable {
 
     private Long id;
     private VisitorResponse visitor;
