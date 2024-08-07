@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="layout/layout"
-  xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout" xmlns="http://www.w3.org/1999/html">
   <head>
     <title>Visitors</title>
 
-    <link
-      rel="stylesheet"
-      th:href="@{/css/visitor.css}" />
+    <link rel="stylesheet" th:href="@{/css/visitor.css}" />
   </head>
   <body>
     <div layout:fragment="content">
@@ -46,13 +40,11 @@
             <button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Add</button>
           </div>
         </div> -->
-        <hr />
+        <!-- <hr /> -->
 
         <div class="row justify-content-md-center">
           <div class="col-md-10 table-responsive-sm table-responsive-md">
-            <table
-              class="table table-striped table-bordered"
-              id="visitors">
+            <table class="table table-striped table-bordered" id="visitors">
               <thead class="table-dark">
                 <tr>
                   <th scope="col">No</th>
@@ -72,151 +64,59 @@
       </div>
 
       <!-- Visitor Modal -->
-      <div
-        class="modal fade"
-        data-bs-theme="dark"
-        data-bs-backdrop="static"
-        id="visitorModal"
-        role="dialog"
-        tabindex="-1">
-        <div
-          class="modal-dialog modal-dialog-centered modal-xl"
-          role="document">
+      <div class="modal fade" data-bs-theme="dark" data-bs-backdrop="static" id="visitorModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <!--Modal Title Here-->
-              <button
-                id="closeModalButton"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"></button>
+              <button id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="visitorForm">
-              <div class="modal-body ui-front">
-                <!--Error Message Here-->
-
-                <div class="form-group">
-                  <input
-                    type="hidden"
-                    id="id" />
-                  <div class="row">
-                    <div class="col md-form form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="courtesyTitle"
-                        required
-                        minlength="2"
-                        maxlength="5"
-                        placeholder="Courtesy Title" />
-                      <label
-                        class="text-secondary"
-                        for="courtesyTitle"
-                        >Courtesy Title</label
-                      >
-                    </div>
-                    <div class="col md-form form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="firstName"
-                        required
-                        minlength="2"
-                        maxlength="40"
-                        placeholder="First Name" />
-                      <label
-                        class="text-secondary"
-                        for="firstName"
-                        >First Name</label
-                      >
-                    </div>
-                    <div class="col md-form form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="middleInitial"
-                        maxlength="3"
-                        placeholder="Middle Initial" />
-                      <label
-                        class="text-secondary"
-                        for="middleInitial"
-                        >Middle Initial</label
-                      >
-                    </div>
-                    <div class="col md-form form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="lastName"
-                        required
-                        minlength="2"
-                        maxlength="30"
-                        placeholder="Last Name" />
-                      <label
-                        class="text-secondary"
-                        for="lastName"
-                        >Last Name</label
-                      >
-                    </div>
-                  </div>
+            <div class="modal-body ui-front">
+              <!--Error Message Here-->
+              <input type="hidden" id="id" />
+              <div class="row">
+                <div class="col mb-3 text-on-input">
+                  <label for="courtesyTitle" class="text-light">Courtesy Title</label>
+                  <input type="text" class="form-control" id="courtesyTitle" required minlength="2" maxlength="5" placeholder="e.g. Mr" />
                 </div>
-
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col md-form form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="position"
-                        required
-                        minlength=""
-                        maxlength="100"
-                        placeholder="Position" />
-                      <label
-                        class="text-secondary"
-                        for="position"
-                        >Position</label
-                      >
-                    </div>
-                    <div class="col md-form form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="agency"
-                        required
-                        minlength="5"
-                        maxlength="100"
-                        placeholder='Put "N/A" if not applicable' />
-                      <label
-                        class="text-secondary"
-                        for="agency"
-                        >Agency/Office</label
-                      >
-                    </div>
-                  </div>
+                <div class="col mb-3 text-on-input">
+                  <label for="firstName" class="text-light">First Name</label>
+                  <input type="text" class="form-control" id="firstName" required minlength="2" maxlength="40" placeholder="e.g. Juan" />
                 </div>
+                <div class="col mb-3 text-on-input">
+                  <label for="middleInitial" class="text-light">Middle Initial</label>
+                  <input type="text" class="form-control" id="middleInitial" maxlength="3" placeholder="e.g.G(Leave blank if not applicable)" />
+                </div>
+                <div class="col mb-3 text-on-input">
+                  <label for="lastName" class="text-light">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" required minlength="2" maxlength="30" placeholder="e.g.Dela Cruz" />
+                </div>
+              </div>
 
-                <!--ADDRESS-->
-                <div id="address"></div>
+              <div class="row">
+                <div class="col mb-3 text-on-input">
+                  <label for="position" class="text-light">Position</label>
+                  <input type="text" class="form-control" id="position" required minlength="" maxlength="100" placeholder="e.g.Administrative Assistant II" />
+                </div>
+                <div class="col mb-3 text-on-input">
+                  <label for="courtesyTitle" class="text-light">Agency/Office</label>
+                  <input type="text" class="form-control" id="agency" required minlength="5" maxlength="100" placeholder="e.g.Municipal Mayor's Office(Leave blank if not applicable)" />
+                </div>
               </div>
-              <div class="modal-footer">
-                <button
-                  id="saveButton"
-                  class="btn btn-primary">
-                  Save
-                </button>
-              </div>
-            </form>
+
+              <!--ADDRESS-->
+
+              <div id="address"></div>
+            </div>
+            <div class="modal-footer">
+              <button id="saveButton" class="btn btn-primary">Save</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <th:block layout:fragment="script">
-      <!-- <script th:src="@{/js/ph-address-selector.js}" type="module"></script> -->
-      <script
-        th:src="@{/js/visitor.js}"
-        type="module"
-        defer></script>
+      <script th:src="@{/js/visitor.js}" type="module" defer></script>
     </th:block>
   </body>
 </html>
