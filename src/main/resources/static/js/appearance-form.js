@@ -1,9 +1,8 @@
 "use strict";
 //import { datePickerSetting } from "./modules/date.js";
-import { datePicker } from "./modules/datepicker.js";
-import { visitorDetails, deleteButton, appearanceButtonContainer } from "./modules/htmlContent.js";
-import { baseUrl } from "./modules/baseUrl.js";
-import { appearanceDetails } from "./modules/htmlContent.js";
+import { datePicker } from "./modules/date-picker.js";
+import { visitorDetails, deleteButton, appearanceButtonContainer, appearanceDetails } from "./modules/html-content.js";
+import { baseUrl } from "./modules/base-url.js";
 import { toast, alert } from "./modules/alerts.js";
 
 const visitorDetailContainer = $(".visitor-details");
