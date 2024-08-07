@@ -1,67 +1,75 @@
 "use strict";
 
-import { showMessage, hideModal } from "./modules/modal.js";
+import { baseUrl } from "./modules/base-url.js";
+import { toast, alert } from "./modules/alerts.js";
+import { leaderTableObject } from "./modules/table-object.js";
 
-$(document).ready(function () {
-  $("#leaderButton").addClass("active");
+const nameEl = $("#name");
+const positionEl = $("#position");
+const inChargeEl = $("#inCharge");
 
-  showMessage("addModalMessageHolder", "addLeaderModal");
+// import { showMessage, hideModal } from "./modules/modal.js";
 
-  showMessage("editModalMessageHolder", "editLeaderModal");
+// $(document).ready(function () {
+//   $("#leaderButton").addClass("active");
 
-  $(".btn-delete").on("click", function (event) {
-    event.preventDefault();
-    let link = $(this);
+//   showMessage("addModalMessageHolder", "addLeaderModal");
 
-    let leaderName = link.attr("leaderName");
-    $("#btnYes").attr("href", link.attr("href"));
-    $("#confirmText").html(
-      "Do you want to delete <strong>" + leaderName + "</strong>?"
-    );
-    $("#deleteLeaderModal").modal("show");
-  });
+//   showMessage("editModalMessageHolder", "editLeaderModal");
 
-  $("#addLeaderButton").on("click", function (event) {
-    event.preventDefault();
-    $("#leaderInCharge").prop("checked", true);
+//   $(".btn-delete").on("click", function (event) {
+//     event.preventDefault();
+//     let link = $(this);
 
-    $("#addLeaderModal").modal("show");
-  });
+//     let leaderName = link.attr("leaderName");
+//     $("#btnYes").attr("href", link.attr("href"));
+//     $("#confirmText").html(
+//       "Do you want to delete <strong>" + leaderName + "</strong>?"
+//     );
+//     $("#deleteLeaderModal").modal("show");
+//   });
 
-  const clearAddModal = function () {
-    $("#leaderId").val("");
-    $("#leaderName").val("");
-    $("#leaderPosition").val("");
-  };
+//   $("#addLeaderButton").on("click", function (event) {
+//     event.preventDefault();
+//     $("#leaderInCharge").prop("checked", true);
 
-  hideModal("addModalCloseButton", "addModalDiv", clearAddModal);
+//     $("#addLeaderModal").modal("show");
+//   });
 
-  hideModal("editModalCloseButton", "editModalDiv");
+//   const clearAddModal = function () {
+//     $("#leaderId").val("");
+//     $("#leaderName").val("");
+//     $("#leaderPosition").val("");
+//   };
 
-  $(".btn-edit").on("click", function (event) {
-    event.preventDefault();
+//   hideModal("addModalCloseButton", "addModalDiv", clearAddModal);
 
-    let leader = $(this);
+//   hideModal("editModalCloseButton", "editModalDiv");
 
-    $("#editLeaderId").val(leader.attr("leaderId"));
-    $("#editLeaderName").val(leader.attr("leaderName"));
-    $("#editLeaderPosition").val(leader.attr("leaderPosition"));
+//   $(".btn-edit").on("click", function (event) {
+//     event.preventDefault();
 
-    let inCharge = leader.attr("leaderInCharge") === "true";
-    $("#editLeaderInCharge").prop("checked", inCharge);
+//     let leader = $(this);
 
-    $("#editLeaderModal").modal("show");
-  });
+//     $("#editLeaderId").val(leader.attr("leaderId"));
+//     $("#editLeaderName").val(leader.attr("leaderName"));
+//     $("#editLeaderPosition").val(leader.attr("leaderPosition"));
 
-  $("#btnClear").on("click", function (event) {
-    event.preventDefault();
-    $("#searchName").text("");
+//     let inCharge = leader.attr("leaderInCharge") === "true";
+//     $("#editLeaderInCharge").prop("checked", inCharge);
 
-    window.location.href = "/settings/leaders";
-  });
+//     $("#editLeaderModal").modal("show");
+//   });
 
-  $("#pageSize").on("change", function (event) {
-    event.preventDefault();
-    $("#searchForm").submit();
-  });
-});
+//   $("#btnClear").on("click", function (event) {
+//     event.preventDefault();
+//     $("#searchName").text("");
+
+//     window.location.href = "/settings/leaders";
+//   });
+
+//   $("#pageSize").on("change", function (event) {
+//     event.preventDefault();
+//     $("#searchForm").submit();
+//   });
+// });
