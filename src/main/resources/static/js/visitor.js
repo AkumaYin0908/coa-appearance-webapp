@@ -25,8 +25,17 @@ let visitorId = 0;
 //state
 let isEdit = false;
 
+let toolBar = $("<div></div>");
+toolBar.html(`<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Add</button>
+<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
+<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>
+<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Print</button>`);
+
 const renderDataTable = await $("#visitors").DataTable({
   responsive: true,
+  layout: {
+    topStart: toolBar,
+  },
   language: {
     lengthMenu: "Show _MENU_ entries",
   },
