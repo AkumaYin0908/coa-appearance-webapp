@@ -1,8 +1,8 @@
 import { baseUrl } from "./base-url.js";
-import { newButton, editButton, deleteButton } from "./html-content.js";
+import { setActiveButton, newButton, editButton, deleteButton } from "./html-content.js";
 
 let toolBar = $("<div></div>");
-toolBar.html(`<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Add</button>
+toolBar.html(`<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>
 <button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
 <button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>
 <button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Print</button>`);
@@ -80,6 +80,7 @@ export const leaderTableObject = function (url) {
     columns: [
       { data: "id" },
       { data: "name" },
+      { data: "position" },
       {
         data: "inCharge",
         render: function (data, type, row) {
@@ -90,7 +91,7 @@ export const leaderTableObject = function (url) {
         data: "id",
         render: function (data, type, row) {
           return `<div id = "actionButton">
-          ${newButton(data)}
+          ${setActiveButton(data)}
           ${editButton(data)}
           ${deleteButton(data)}
           </div>`;
