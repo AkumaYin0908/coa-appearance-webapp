@@ -1,7 +1,7 @@
 import { baseUrl } from "./base-url.js";
 
-export const addressContent = ` <div class="row text-on-input border pt-3">
-<label class="text-light address-label">Address</label>
+export const addressContent = ` <div class="row text-on-input mt-3 m-1 border pt-3">
+<label class="text-secondary border-label">Address</label>
 <div class="col mb-3">
   <select name="region" class="form-control" id="region"></select>
   <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region" />
@@ -32,6 +32,11 @@ export const editButton = function (data) {
 export const deleteButton = function (data) {
   return ` <a data-key = ${data} class = "btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span>
         </a>`;
+};
+
+export const setActiveButton = function (data) {
+  return ` <a data-key = ${data} class = "btn-assign btn btn-sm btn-success"><span class = "label-new">Assign</span>
+  </a>`;
 };
 
 export const errorContent = function (error) {
@@ -98,3 +103,10 @@ export const appearanceButtonContainer = `<div class="button-container hide cont
     </div>
   </div>
 </div>`;
+
+export function displayTitle(isEdit, entityType) {
+  if ($("h5.modal-title").length === 0) {
+    const modalHeader = $("div.modal-header");
+    $(`<h5 class="modal-title text-light">${isEdit ? "Edit" : "New"} ${entityType}</h5>`).prependTo(modalHeader);
+  }
+}
