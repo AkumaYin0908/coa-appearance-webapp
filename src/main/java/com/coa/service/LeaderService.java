@@ -5,6 +5,7 @@ import com.coa.payload.response.LeaderResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface LeaderService {
 
@@ -16,7 +17,7 @@ public interface LeaderService {
 
     List<Map<Long,String>> findNames();
 
-    LeaderResponse findByStatus(boolean inCharge);
+    Optional<LeaderResponse> findByStatus(boolean inCharge);
 
     LeaderResponse updateStatus(boolean inCharge, Long id);
 
