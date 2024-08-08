@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +38,13 @@ public class LeaderController {
     @GetMapping("/names")
     public ResponseEntity<List<Map<Long,String>>>getLeaderNames(){
         return new ResponseEntity<>(leaderService.findNames(),HttpStatus.OK);
+    }
+
+    @GetMapping(params = {"!name","inCharge"})
+    public ResponseEntity<LeaderResponse>getLeaderByStatus(@RequestParam boolean inCharge){
+        Optional<LeaderResponse> leaderResponseOptional = leaderService.findByStatus(inCharge);
+        return leaderResponseOptional.map(leaderResponse -> ResponseEntity.status(HttpStatus.FOUND).body(leaderResponse))
+                .orElseGet(()->ResponseEntity.noContent().build());
     }
 
     @PostMapping
