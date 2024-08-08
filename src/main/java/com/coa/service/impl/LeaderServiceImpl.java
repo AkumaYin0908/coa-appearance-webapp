@@ -30,14 +30,14 @@ public class LeaderServiceImpl implements LeaderService {
 
     @Override
     public LeaderResponse findById(Long id) {
-        Leader leader = leaderRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Leader","id",id));
-        return modelMapper.map(leader,LeaderResponse.class);
+        Leader leader = leaderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Leader", "id", id));
+        return modelMapper.map(leader, LeaderResponse.class);
     }
 
     @Override
     public LeaderResponse findByName(String name) {
-      Leader leader = leaderRepository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Leader","name",name));
-      return modelMapper.map(leader,LeaderResponse.class);
+        Leader leader = leaderRepository.findByName(name).orElseThrow(() -> new ResourceNotFoundException("Leader", "name", name));
+        return modelMapper.map(leader, LeaderResponse.class);
     }
 
     @Override
@@ -46,45 +46,44 @@ public class LeaderServiceImpl implements LeaderService {
     }
 
     @Override
-    public LeaderResponse findByStatus(boolean inCharge) {
-       Leader leader = leaderRepository.findByStatus(inCharge).orElseThrow(()->new ResourceNotFoundException("Leader","inCharge",String.valueOf(inCharge)));
+    public Optional<LeaderResponse> findByStatus(boolean inCharge) {
 
-       return modelMapper.map(leader,LeaderResponse.class);
+        return leaderRepository.findByStatus(inCharge).map(leader -> modelMapper.map(leader, LeaderResponse.class));
     }
 
     @Override
     @Transactional
     public LeaderResponse updateStatus(boolean inCharge, Long id) {
-        Leader leader = leaderRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Leader","id",id));
+        Leader leader = leaderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Leader", "id", id));
         leader.setInCharge(inCharge);
 
         leaderRepository.save(leader);
-        return modelMapper.map(leader,LeaderResponse.class);
+        return modelMapper.map(leader, LeaderResponse.class);
     }
 
     @Override
     public LeaderResponse save(LeaderRequest leaderRequest) {
         Optional<Leader> leaderOptional = leaderRepository.findByName(leaderRequest.getName());
 
-        if(leaderOptional.isPresent()){
-            throw new AlreadyExistException("Leader","name");
+        if (leaderOptional.isPresent()) {
+            throw new AlreadyExistException("Leader", "name");
         }
 
-        Leader leader = modelMapper.map(leaderRequest,Leader.class);
+        Leader leader = modelMapper.map(leaderRequest, Leader.class);
 
-        Leader dbLeader=leaderRepository.save(leader);
+        Leader dbLeader = leaderRepository.save(leader);
 
-        return modelMapper.map(dbLeader,LeaderResponse.class);
+        return modelMapper.map(dbLeader, LeaderResponse.class);
     }
 
     @Override
     public LeaderResponse update(Long id, LeaderRequest leaderRequest) {
-        Leader leader = leaderRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Leader","id",id));
+        Leader leader = leaderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Leader", "id", id));
 
         Optional<Leader> leaderOptional = leaderRepository.findByName(leaderRequest.getName());
 
-        if(leaderOptional.isPresent() && !leaderOptional.get().getId().equals(id)){
-            throw new AlreadyExistException("Leader","name");
+        if (leaderOptional.isPresent() && !leaderOptional.get().getId().equals(id)) {
+            throw new AlreadyExistException("Leader", "name");
         }
         leader.setName(leaderRequest.getName());
         leader.setPosition(leaderRequest.getPosition());
