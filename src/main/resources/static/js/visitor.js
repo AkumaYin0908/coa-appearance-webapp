@@ -2,7 +2,7 @@
 
 import { baseUrl } from "./modules/base-url.js";
 import { loadAddress } from "./ph-address-selector.js";
-import { addressContent, errorContent } from "./modules/html-content.js";
+import { addressContent, errorContent, displayTitle } from "./modules/html-content.js";
 import { showAppearanceChoices } from "./modules/appearance-type.js";
 import { toast, alert } from "./modules/alerts.js";
 import { visitorTableObject } from "./modules/table-object.js";
@@ -16,6 +16,8 @@ const lastNameEl = $("#lastName");
 const positionEl = $("#position");
 const agencyEl = $("#agency");
 
+const entityType = "Visitor";
+
 //let visitorId = 0;
 
 //state
@@ -23,6 +25,7 @@ let isEdit = false;
 
 const renderDataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
 
+/*BUTTON LISTENER */
 $("#visitors").on("click", "a.btn-new", function () {
   let id = $(this).data("key");
   showAppearanceChoices(baseUrl, id);
@@ -31,7 +34,7 @@ $("#visitors").on("click", "a.btn-new", function () {
 $("#visitors").on("click", "a.btn-edit", function (event) {
   event.preventDefault();
   isEdit = true;
-  displayTitle(isEdit);
+  displayTitle(isEdit, entityType);
   let id = $(this).data("key");
   editVisitor(id);
 });
@@ -40,6 +43,29 @@ $("#visitors").on("click", "a.btn-delete", function (event) {
   event.preventDefault();
   deleteVisitor($(this).data("key"));
 });
+
+$("#addButton").on("click", function (event) {
+  event.preventDefault();
+  displayTitle(isEdit, entityType);
+  loadAddress(null);
+  $(addressContent).prependTo(addressContainer);
+  $("#visitorModal").modal("show");
+});
+
+$("#closeModalButton").on("click", function (event) {
+  event.preventDefault();
+  resetVisitorModal();
+});
+
+$("#saveButton").on("click", function (event) {
+  submitForm();
+});
+
+$("#visitorForm").submit(function (event) {
+  event.preventDefault();
+});
+
+/* FUNCTIONS */
 
 function submitForm() {
   const barangayEl = $("#address #barangay-text");
@@ -118,9 +144,9 @@ async function editVisitor(id) {
     });
 }
 
-function submitFormToServer(visitor) {
+async function submitFormToServer(visitor) {
   const fullUrl = `${baseUrl}/visitors${isEdit ? "/" + visitor.id : ""}`;
-  fetch(fullUrl, {
+  await fetch(fullUrl, {
     method: isEdit ? "PUT" : "POST",
     headers: {
       "Content-Type": "application/json",
@@ -154,20 +180,9 @@ function submitFormToServer(visitor) {
     });
 }
 
-$("#addVisitorButton").on("click", function (event) {
-  event.preventDefault();
-  displayTitle(isEdit);
-  loadAddress(null);
-  $(addressContent).prependTo(addressContainer);
-  $("#visitorModal").modal("show");
-});
-
-$("#closeModalButton").on("click", function (event) {
-  event.preventDefault();
-  resetVisitorModal();
-});
-
 function resetVisitorModal() {
+  idEl.val("");
+  courtesyTitleEl.val("");
   firstNameEl.val("");
   middleInitEl.val("");
   lastNameEl.val("");
@@ -180,20 +195,6 @@ function resetVisitorModal() {
   isEdit = false;
 
   $("h5.modal-title").remove();
-}
-$("#saveButton").on("click", function (event) {
-  submitForm();
-});
-
-$("#visitorForm").submit(function (event) {
-  event.preventDefault();
-});
-
-function displayTitle(isEdit) {
-  if ($("h5.modal-title").length === 0) {
-    const modalHeader = $("div.modal-header");
-    $(`<h5 class="modal-title text-light">${isEdit ? "Edit" : "New"} Visitor</h5>`).prependTo(modalHeader);
-  }
 }
 
 function emptyAddressContainer() {
