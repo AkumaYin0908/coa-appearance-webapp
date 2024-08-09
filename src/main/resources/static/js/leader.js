@@ -3,13 +3,13 @@
 import { baseUrl } from "./modules/base-url.js";
 import { toast, alert } from "./modules/alerts.js";
 import { leaderTableObject } from "./modules/table-object.js";
-import { loadStatus } from "./modules/status-selector.js";
+
 import { displayTitle, errorContent } from "./modules/html-content.js";
 
 const idEl = $("#id");
 const nameEl = $("#name");
 const positionEl = $("#position");
-const inChargeEl = $("#inCharge-text");
+const inChargeEl = $("#inCharge");
 
 //state
 let isEdit = false;
@@ -18,7 +18,8 @@ const renderDataTable = await $("#leaders").DataTable(leaderTableObject(`${baseU
 /*BUTTON LISTENER */
 $("#addButton").on("click", async function (event) {
   event.preventDefault();
-  loadStatus(await checkInchargeLeader());
+  const hasInCharge = await checkInchargeLeader();
+  inChargeEl.text(hasInCharge ? "Inactive" : "Active");
   displayTitle(isEdit, "Leader");
   $("#leaderModal").modal("show");
 });
@@ -33,11 +34,8 @@ async function submitForm() {
     id: idEl.val(),
     name: nameEl.val(),
     position: positionEl.val(),
-    inCharge: inChargeEl.val() === "active" ? true : false,
+    inCharge: inChargeEl.text() === "Active" ? true : false,
   };
-  console.log(inChargeEl.val());
-  console.log(inChargeEl.val() === "active");
-
   await submitFormToServer(leader);
 }
 
@@ -75,25 +73,16 @@ async function submitFormToServer(leader) {
 }
 
 async function checkInchargeLeader() {
-  try {
-    const response = await fetch(`${baseUrl}/leaders?inCharge=true`);
+  const response = await fetch(`${baseUrl}/leaders?inCharge=true`);
 
-    if (!response.ok) {
-      throw new Error(`Unexpected error occured, ${response.status}`);
-    }
-
-    console.log(response.status === 302);
-    return response.status === 302;
-  } catch (error) {
-    (error) => alert("Error", error.message, "error");
-  }
+  return response.status === 302;
 }
 
 function resetLeaderModal() {
   idEl.val("");
   nameEl.val("");
   positionEl.val("");
-  loadStatus();
+  inChargeEl.text("");
   isEdit = false;
   if ($("#errorContainer").length > 0) {
     $("#errorContainer").remove();
