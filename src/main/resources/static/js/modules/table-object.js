@@ -96,6 +96,7 @@ export const leaderTableObject = function (url) {
           ${deleteButton(data)}
           </div>`;
         },
+        width: "15%",
       },
     ],
     processing: true,
