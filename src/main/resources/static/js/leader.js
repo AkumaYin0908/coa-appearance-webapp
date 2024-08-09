@@ -10,7 +10,7 @@ const idEl = $("#id");
 const nameEl = $("#name");
 const positionEl = $("#position");
 const inChargeEl = $("#inCharge");
-
+const entityType = "Leader";
 //state
 let isEdit = false;
 
@@ -20,11 +20,19 @@ $("#addButton").on("click", async function (event) {
   event.preventDefault();
   const hasInCharge = await checkInchargeLeader();
   inChargeEl.text(hasInCharge ? "Inactive" : "Active");
-  displayTitle(isEdit, "Leader");
+  displayTitle(isEdit, entityType);
   $("#leaderModal").modal("show");
 });
 $("#saveButton").on("click", function (event) {
   submitForm();
+});
+
+$("#leaders").on("click", "a.btn-edit", function (event) {
+  event.preventDefault();
+  isEdit = true;
+  displayTitle(isEdit, entityType);
+  let id = $(this).data("key");
+  editLeader(id);
 });
 
 /* FUNCTIONS */
@@ -70,6 +78,25 @@ async function submitFormToServer(leader) {
         $(errorContent(error)).prependTo(modalBody);
       }
     });
+}
+
+async function editLeader(id) {
+  let fullUrl = `${baseUrl}/leaders/${id}`;
+  await fetch(fullUrl)
+    .then((response) => {
+      if (response.status !== 302) {
+        return response.json().then((data) => new Error(data.message));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      idEl.val(data.id);
+      nameEl.val(data.name);
+      positionEl.val(data.position);
+      inChargeEl.text(data.inCharge ? "Active" : "Inactive");
+      $("#leaderModal").modal("show");
+    })
+    .catch((error) => alert("Error", error.message, "error"));
 }
 
 async function checkInchargeLeader() {
