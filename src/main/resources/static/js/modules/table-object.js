@@ -91,7 +91,7 @@ export const leaderTableObject = function (url) {
         data: "id",
         render: function (data, type, row) {
           return `<div id = "actionButton">
-          ${setActiveButton(data)}
+          ${setActiveButton(data, row)}
           ${editButton(data)}
           ${deleteButton(data)}
           </div>`;
