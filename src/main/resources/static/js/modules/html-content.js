@@ -34,8 +34,8 @@ export const deleteButton = function (data) {
         </a>`;
 };
 
-export const setActiveButton = function (data) {
-  return ` <a data-key = ${data} class = "btn-assign btn btn-sm btn-success"><span class = "label-new">Assign</span>
+export const setActiveButton = function (data, row) {
+  return ` <a data-key = ${data} class = "btn-assign btn btn-sm btn-${row.inCharge ? "danger" : "success"}"><span class = "label-new">${row.inCharge ? "Revoke" : "Assign"}</span>
   </a>`;
 };
 
