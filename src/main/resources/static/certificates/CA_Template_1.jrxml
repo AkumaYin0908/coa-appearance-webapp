@@ -1,67 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version
-6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-	name="CA_Template_1" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20"
-	rightMargin="20" topMargin="20" bottomMargin="20" uuid="5457ab4f-065b-4efa-841b-8f6798a729ca">
-	<parameter name="courtesyTitle" class="java.lang.String" />
-	<parameter name="fullName" class="java.lang.String" />
-	<parameter name="position" class="java.lang.String" />
-	<parameter name="office" class="java.lang.String" />
-	<parameter name="dateOfTravel" class="java.lang.String" />
-	<parameter name="purpose" class="java.lang.String" />
-	<parameter name="reference" class="java.lang.String" />
-	<parameter name="day" class="java.lang.String" />
-	<parameter name="month" class="java.lang.String" />
-	<parameter name="year" class="java.lang.String" />
-	<parameter name="lastName" class="java.lang.String" />
-	<parameter name="logo" class="java.io.InputStream" />
-	<parameter name="heading" class="java.io.InputStream" />
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CA_Template1" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5457ab4f-065b-4efa-841b-8f6798a729ca">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="courtesyTitle" class="java.lang.String"/>
+	<parameter name="fullName" class="java.lang.String"/>
+	<parameter name="position" class="java.lang.String"/>
+	<parameter name="office" class="java.lang.String"/>
+	<parameter name="dateOfTravel" class="java.lang.String"/>
+	<parameter name="purpose" class="java.lang.String"/>
+	<parameter name="reference" class="java.lang.String"/>
+	<parameter name="day" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.String"/>
+	<parameter name="lastName" class="java.lang.String"/>
+	<parameter name="leaderName" class="java.lang.String"/>
+	<parameter name="leaderPosition" class="java.lang.String"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="heading" class="java.io.InputStream"/>
 	<background>
-		<band splitType="Stretch" />
+		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="135" splitType="Stretch">
 			<image>
-				<reportElement x="200" y="42" width="220" height="41" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
+				<reportElement x="170" y="16" width="280" height="100" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
 				<imageExpression><![CDATA[$P{heading}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="140" y="87" width="372" height="28"
-					uuid="e6823ee6-3d10-413f-aa7d-6c0cd34df269" />
+				<reportElement x="140" y="87" width="372" height="28" uuid="e6823ee6-3d10-413f-aa7d-6c0cd34df269"/>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="14" />
+					<font fontName="Times New Roman" size="14" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Team 1 - Local Government Sector, Oriental Mindoro Province]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="72" width="160" height="20"
-					uuid="8daea0d3-df3f-4509-97ef-27370e3dce92" />
+				<reportElement x="240" y="72" width="160" height="20" uuid="8daea0d3-df3f-4509-97ef-27370e3dce92"/>
 				<textElement>
-					<font fontName="Times New Roman" size="14" isBold="false" />
+					<font fontName="Times New Roman" size="14" isBold="false" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Region Office No. IV - B]]></text>
 			</staticText>
 			<image>
-				<reportElement x="59" y="37" width="80" height="82"
-					uuid="c26fa732-d540-429f-9c00-9d03f27b58c0" />
+				<reportElement x="59" y="37" width="80" height="82" uuid="c26fa732-d540-429f-9c00-9d03f27b58c0"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="165" y="103" width="300" height="20"
-					uuid="c153833e-538e-4e32-9d56-7c55d2a59cdf" />
+				<reportElement x="165" y="103" width="300" height="20" uuid="c153833e-538e-4e32-9d56-7c55d2a59cdf"/>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="14" />
+					<font fontName="Times New Roman" size="14" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Provincial Capitol Complex, Camilmil, Calapan City]]></text>
 			</staticText>
 			<line>
-				<reportElement x="40" y="134" width="490" height="1"
-					uuid="43e8e0d5-7d5b-4634-bb79-727d042ded79" />
+				<reportElement x="40" y="134" width="490" height="1" uuid="43e8e0d5-7d5b-4634-bb79-727d042ded79"/>
 				<graphicElement>
-					<pen lineWidth="2.0" />
+					<pen lineWidth="2.0"/>
 				</graphicElement>
 			</line>
 		</band>
@@ -69,239 +62,242 @@
 	<detail>
 		<band height="87" splitType="Stretch">
 			<staticText>
-				<reportElement x="131" y="23" width="331" height="28"
-					uuid="4d9ba13f-0cd9-4f11-951e-54e128440fd3" />
+				<reportElement x="131" y="23" width="331" height="28" uuid="4d9ba13f-0cd9-4f11-951e-54e128440fd3"/>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="16" isBold="true" />
+					<font fontName="Times New Roman" size="16" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[CERTIFICATE OF APPEARANCE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="36" y="52" width="509" height="31"
-					uuid="45fe531f-c4bb-46f3-8218-73c01e10c1b8" />
+				<reportElement x="36" y="52" width="509" height="31" uuid="45fe531f-c4bb-46f3-8218-73c01e10c1b8"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[	This is to certify that the following personnel appeared in COA-Provincial Capitol Complex, Camilmil, Calapan City, Oriental Mindoro.]]></text>
 			</staticText>
 		</band>
-		<band height="264">
+		<band height="341">
 			<staticText>
-				<reportElement x="51" y="8" width="92" height="20"
-					uuid="02d44f33-fd1d-4cc3-bfa9-216ef15713d4" />
+				<reportElement x="51" y="8" width="92" height="20" uuid="02d44f33-fd1d-4cc3-bfa9-216ef15713d4"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="142" y="8" width="10" height="20"
-					uuid="45b8a498-cc8d-44aa-84a4-fc71b6929bfb" />
+				<reportElement x="142" y="8" width="10" height="20" uuid="45b8a498-cc8d-44aa-84a4-fc71b6929bfb"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="52" y="38" width="90" height="20"
-					uuid="9f378f89-0094-4a31-b909-a9d7a5815222" />
+				<reportElement x="52" y="38" width="90" height="20" uuid="9f378f89-0094-4a31-b909-a9d7a5815222"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Posiiton Title]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="143" y="38" width="10" height="20"
-					uuid="29a95bf2-0a40-46d2-80ba-898cc38b58f6" />
+				<reportElement x="143" y="38" width="10" height="20" uuid="29a95bf2-0a40-46d2-80ba-898cc38b58f6"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="52" y="68" width="90" height="20"
-					uuid="34bb6e12-9394-4d1e-9815-5b0401995827" />
+				<reportElement x="52" y="68" width="90" height="20" uuid="34bb6e12-9394-4d1e-9815-5b0401995827"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Office/Agency]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="143" y="68" width="10" height="20"
-					uuid="19cc916c-44ba-4115-b5a3-7ecff66ce40d" />
+				<reportElement x="143" y="68" width="10" height="20" uuid="19cc916c-44ba-4115-b5a3-7ecff66ce40d"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="53" y="98" width="90" height="20"
-					uuid="8e1f4134-83c5-4581-af13-684c3e09d7df" />
+				<reportElement x="53" y="98" width="90" height="20" uuid="8e1f4134-83c5-4581-af13-684c3e09d7df"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Date of Travel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="144" y="98" width="10" height="20"
-					uuid="b4d51a00-60fb-4ccc-b20d-d9ca2181ec6c" />
+				<reportElement x="144" y="98" width="10" height="20" uuid="b4d51a00-60fb-4ccc-b20d-d9ca2181ec6c"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="53" y="129" width="90" height="20"
-					uuid="bd43d18f-31c1-40ba-abd9-ad5f25094795" />
+				<reportElement x="53" y="129" width="90" height="20" uuid="bd43d18f-31c1-40ba-abd9-ad5f25094795"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Purpose]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="144" y="129" width="10" height="20"
-					uuid="b9e3f6b2-db2a-4767-b071-40df666cac27" />
+				<reportElement x="144" y="129" width="10" height="20" uuid="b9e3f6b2-db2a-4767-b071-40df666cac27"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="160" y="8" width="381" height="20"
-					uuid="2ed85f0e-5696-4264-aeca-2f8fc5b3c234" />
+				<reportElement mode="Opaque" x="160" y="8" width="381" height="20" uuid="2ed85f0e-5696-4264-aeca-2f8fc5b3c234"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.25" />
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000" />
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fullName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="160" y="38" width="381" height="20"
-					uuid="3c25dabe-f62e-40f9-9253-4584bc1e84af" />
+				<reportElement mode="Opaque" x="160" y="38" width="381" height="20" uuid="3c25dabe-f62e-40f9-9253-4584bc1e84af"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.25" />
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000" />
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{position}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="160" y="68" width="381" height="20"
-					uuid="c3c27a86-e0c0-40c3-b1d1-35447c4000e4" />
+				<reportElement mode="Opaque" x="160" y="68" width="381" height="20" uuid="c3c27a86-e0c0-40c3-b1d1-35447c4000e4"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.25" />
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000" />
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{office}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="160" y="98" width="381" height="20"
-					uuid="beb5250f-acbc-4ba6-b21d-8aabbcdc6290" />
+				<reportElement mode="Opaque" x="160" y="98" width="381" height="20" uuid="beb5250f-acbc-4ba6-b21d-8aabbcdc6290"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.25" />
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000" />
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dateOfTravel}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="53" y="230" width="490" height="30"
-					uuid="30ba817a-bcaf-4e9c-8b2d-749e775ebeb4" />
+				<reportElement x="53" y="211" width="490" height="30" uuid="30ba817a-bcaf-4e9c-8b2d-749e775ebeb4"/>
 				<textElement textAlignment="Justified" markup="styled">
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Issued this " + "<style isBold = \"true\">" + $P{day} + "</style>" +  " day of " +  "<style isBold = \"true\">" + $P{month} + " " + $P{year} + "</style>" +  " upon the request of " + "<style isBold = \"true\">" + $P{courtesyTitle} + ". "  + " " +  $P{lastName} + " </style>."]]></textFieldExpression>
-
+				<textFieldExpression><![CDATA["Issued this " + "<style isBold = \"true\">" + $P{day} + "</style>" +  " day of " +  "<style isBold = \"true\">" + $P{month} + " " + $P{year} + "</style>" +  " upon request of " + "<style isBold = \"true\">" + $P{courtesyTitle} + ". "  + " " +  $P{lastName} + "</style>."]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="53" y="159" width="90" height="20"
-					uuid="72a52fd5-4754-4357-8d21-d91251f02368" />
+				<reportElement x="53" y="159" width="90" height="20" uuid="72a52fd5-4754-4357-8d21-d91251f02368"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Travel Order No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="144" y="159" width="10" height="20"
-					uuid="21ad8b7b-4e6a-4696-a0e0-ca5c96726365" />
+				<reportElement x="144" y="159" width="10" height="20" uuid="21ad8b7b-4e6a-4696-a0e0-ca5c96726365"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="161" y="129" width="381" height="20"
-					uuid="61f03739-36f3-4e05-b263-c219bce99903" />
+				<reportElement mode="Opaque" x="161" y="129" width="381" height="20" uuid="61f03739-36f3-4e05-b263-c219bce99903"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.25" />
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000" />
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{purpose}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="161" y="159" width="381" height="20"
-					uuid="3111c39e-5ffd-4833-89b5-494cf0423754" />
+				<reportElement mode="Opaque" x="161" y="159" width="381" height="20" uuid="3111c39e-5ffd-4833-89b5-494cf0423754"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.25" />
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
-					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000" />
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000" />
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{reference}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement mode="Opaque" x="304" y="300" width="241" height="20" uuid="af8cc73a-b872-4e1e-b479-8f4c6e1fd6a8"/>
+				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{leaderName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement mode="Opaque" x="304" y="314" width="241" height="20" uuid="7b8f0fce-08cc-4d75-93a0-af23a4a81f1f"/>
+				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{leaderPosition} + "/Audit Team Leader"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="176" splitType="Stretch">
+		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement x="30" y="94" width="100" height="20"
-					uuid="5da6fc60-ebcb-4ddb-8c5b-82224a6e4ee8" />
+				<reportElement x="30" y="0" width="100" height="20" uuid="5da6fc60-ebcb-4ddb-8c5b-82224a6e4ee8"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Received by:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="30" y="150" width="170" height="1"
-					uuid="442df4d8-fb36-4c0e-917c-e8010ee09240" />
+				<reportElement x="30" y="52" width="170" height="1" uuid="442df4d8-fb36-4c0e-917c-e8010ee09240"/>
 			</line>
 			<staticText>
-				<reportElement x="61" y="150" width="100" height="20"
-					uuid="ecb92b49-c087-4276-acc9-82cef1ddd177" />
+				<reportElement x="61" y="56" width="100" height="20" uuid="ecb92b49-c087-4276-acc9-82cef1ddd177"/>
 				<textElement>
-					<font fontName="Times New Roman" size="12" />
+					<font fontName="Times New Roman" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Signature and date]]></text>
 			</staticText>
