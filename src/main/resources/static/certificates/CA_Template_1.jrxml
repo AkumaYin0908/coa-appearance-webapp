@@ -23,7 +23,7 @@
 	<pageHeader>
 		<band height="135" splitType="Stretch">
 			<image>
-				<reportElement x="170" y="16" width="280" height="100" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
+				<reportElement x="166" y="36" width="280" height="40" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
 				<imageExpression><![CDATA[$P{heading}]]></imageExpression>
 			</image>
 			<staticText>
