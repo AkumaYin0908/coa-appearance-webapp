@@ -5,8 +5,10 @@ import com.coa.payload.request.AppearanceRequest;
 import com.coa.payload.request.VisitorRequest;
 import com.coa.payload.request.address.AddressRequest;
 import com.coa.payload.response.AgencyResponse;
+import com.coa.payload.response.LeaderResponse;
 import com.coa.payload.response.address.AddressResponse;
 import com.coa.repository.AppearanceRepository;
+import com.coa.service.LeaderService;
 import com.coa.service.certificate.CertificateService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
@@ -38,6 +40,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     private final AppearanceRepository appearanceRepository;
     private final ModelMapper modelMapper;
+    private  final LeaderService leaderService;
 
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
@@ -93,6 +96,12 @@ public class CertificateServiceImpl implements CertificateService {
         parameters.put("year",String.valueOf(dateIssued.getYear()));
         parameters.put("lastName",visitorRequest.getLastName());
 
+        LeaderResponse leaderResponse = leaderService.findByStatus(true)
+                .map(leader ->modelMapper.map(leader,LeaderResponse.class)).orElseThrow(()->new ResourceNotFoundException("Leader","inCharge","true"));
+
+        parameters.put("leaderName",leaderResponse.getName());
+        parameters.put("leaderPosition",leaderResponse.getPosition());
+
         return parameters;
 
 
@@ -113,7 +122,7 @@ public class CertificateServiceImpl implements CertificateService {
     private Path getUploadPath(String fileFormat, JasperPrint jasperPrint, String fileName) throws IOException, JRException{
         String uploadDir = StringUtils.cleanPath("./generated-certificates");
         Path uploadPath = Paths.get(uploadDir);
-        System.out.println(uploadDir);
+
 
         if(!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);
