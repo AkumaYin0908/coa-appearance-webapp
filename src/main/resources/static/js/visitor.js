@@ -16,10 +16,8 @@ const middleInitEl = $("#middleInitial");
 const lastNameEl = $("#lastName");
 const positionEl = $("#position");
 const agencyEl = $("#agency");
-
 const entityType = "Visitor";
 
-//let visitorId = 0;
 
 //state
 let isEdit = false;
@@ -60,11 +58,8 @@ $("#closeModalButton").on("click", function (event) {
 });
 
 $("#saveButton").on("click", function (event) {
-  submitForm();
-});
-
-$("#visitorForm").submit(function (event) {
   event.preventDefault();
+  submitForm();
 });
 
 /* FUNCTIONS */
