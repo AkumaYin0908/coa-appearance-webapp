@@ -18,8 +18,8 @@ const renderDataTable = await $("#leaders").DataTable(leaderTableObject(`${baseU
 /*BUTTON LISTENER */
 $("#addButton").on("click", async function (event) {
   event.preventDefault();
-  const hasInCharge = await checkInchargeLeader();
-  inChargeEl.text(hasInCharge ? "Inactive" : "Active");
+  const data = await checkInchargeLeader();
+  inChargeEl.text(data?.inCharge ? "Inactive" : "Active");
   displayTitle(isEdit, entityType);
   $("#leaderModal").modal("show");
 });
@@ -35,8 +35,68 @@ $("#leaders").on("click", "a.btn-edit", function (event) {
   editLeader(id);
 });
 
-/* FUNCTIONS */
+$("#leaders").on("click", "a.btn-assign", async function (event) {
+  event.preventDefault();
+  let row = $(this).closest("tr");
+  let name = renderDataTable.row(row).data().name;
+  let inCharge = renderDataTable.row(row).data().inCharge;
+  let id = $(this).data("key");
+  try {
+    const data = await checkInchargeLeader();
+    const result = await displayDialog(inCharge, name);
 
+    if (result.isConfirmed) {
+      if (data?.inCharge && !inCharge) {
+        await assignLeader(data.id, false);
+        await assignLeader(id, true);
+      } else if (inCharge) {
+        await assignLeader(id, false);
+      } else {
+        await assignLeader(id, true);
+      }
+      await alert("Success", `${name} assigned as Leader!`, "success");
+      renderDataTable.ajax.reload();
+    }
+  } catch (error) {
+    console.log(error);
+    alert("Error", error.message, "error");
+  }
+});
+
+/* FUNCTIONS */
+async function displayDialog(inCharge, name) {
+  const confirmDialog = await Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+  });
+
+  return await confirmDialog.fire({
+    title: `${inCharge ? "Revoke" : "Assign"} ${name} as a leader`,
+    text: "Are you sure about this?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+  });
+}
+async function assignLeader(id, bool) {
+  const response = await fetch(`${baseUrl}/leaders/${id}/${bool}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    return response.json().then((data) => {
+      throw new Error(data.message);
+    });
+  }
+
+  return await response.json();
+}
 async function submitForm() {
   let leader = {
     id: idEl.val(),
@@ -101,8 +161,10 @@ async function editLeader(id) {
 
 async function checkInchargeLeader() {
   const response = await fetch(`${baseUrl}/leaders?inCharge=true`);
-
-  return response.status === 302;
+  if (response.status === 302) {
+    return response.json();
+  }
+  return null;
 }
 
 function resetLeaderModal() {
