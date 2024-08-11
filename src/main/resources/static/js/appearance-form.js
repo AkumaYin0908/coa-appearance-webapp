@@ -3,7 +3,7 @@
 import { datePicker } from "./modules/date-picker.js";
 import { visitorDetails, deleteButton, appearanceButtonContainer, appearanceDetails } from "./modules/html-content.js";
 import { baseUrl } from "./modules/base-url.js";
-import { toast, alert } from "./modules/alerts.js";
+import { toast, alert } from "./modules/popups.js";
 
 const visitorDetailContainer = $(".visitor-details");
 const dateIssuedEl = $("#dateIssued");
