@@ -1,10 +1,10 @@
 "use strict";
 
 import { baseUrl } from "./modules/base-url.js";
-import { toast, alert } from "./modules/alerts.js";
+import { toast, alert, openConfirmDialog } from "./modules/popups.js";
 import { leaderTableObject } from "./modules/table-object.js";
-
 import { displayTitle, errorContent } from "./modules/html-content.js";
+import DialogDetails from "./modules/DialogDetails.js";
 
 const idEl = $("#id");
 const nameEl = $("#name");
@@ -14,7 +14,8 @@ const entityType = "Leader";
 //state
 let isEdit = false;
 
-const renderDataTable = await $("#leaders").DataTable(leaderTableObject(`${baseUrl}/leaders`));
+const dataTable = await $("#leaders").DataTable(leaderTableObject(`${baseUrl}/leaders`));
+
 /*BUTTON LISTENER */
 $("#addButton").on("click", async function (event) {
   event.preventDefault();
@@ -43,7 +44,8 @@ $("#leaders").on("click", "a.btn-assign", async function (event) {
   let id = $(this).data("key");
   try {
     const data = await checkInchargeLeader();
-    const result = await displayDialog(inCharge, name);
+    const dialogDetails = new DialogDetails(`${inCharge ? "Revoke" : "Assign"} ${name} as a leader`, "Are you sure about this?", "question");
+    const result = await openConfirmDialog(dialogDetails);
 
     if (result.isConfirmed) {
       if (data?.inCharge && !inCharge) {
@@ -64,23 +66,6 @@ $("#leaders").on("click", "a.btn-assign", async function (event) {
 });
 
 /* FUNCTIONS */
-async function displayDialog(inCharge, name) {
-  const confirmDialog = await Swal.mixin({
-    customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
-    },
-  });
-
-  return await confirmDialog.fire({
-    title: `${inCharge ? "Revoke" : "Assign"} ${name} as a leader`,
-    text: "Are you sure about this?",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Yes",
-    cancelButtonText: "No",
-  });
-}
 async function assignLeader(id, bool) {
   const response = await fetch(`${baseUrl}/leaders/${id}/${bool}`, {
     method: "PUT",
