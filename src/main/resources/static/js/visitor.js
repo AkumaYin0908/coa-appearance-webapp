@@ -27,7 +27,8 @@ let isEdit = false;
 const dataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
 
 /*BUTTON LISTENER */
-$("#visitors").on("click", "a.btn-new", function () {
+$("#visitors").on("click", "a.btn-new", function (event) {
+  event.preventDefault();
   let id = $(this).data("key");
   showAppearanceChoices(baseUrl, id);
 });
