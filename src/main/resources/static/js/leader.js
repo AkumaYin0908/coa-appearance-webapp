@@ -24,6 +24,7 @@ $("#addButton").on("click", async function (event) {
   displayTitle(isEdit, entityType);
   $("#leaderModal").modal("show");
 });
+
 $("#saveButton").on("click", function (event) {
   submitForm();
 });
@@ -39,8 +40,8 @@ $("#leaders").on("click", "a.btn-edit", function (event) {
 $("#leaders").on("click", "a.btn-assign", async function (event) {
   event.preventDefault();
   let row = $(this).closest("tr");
-  let name = renderDataTable.row(row).data().name;
-  let inCharge = renderDataTable.row(row).data().inCharge;
+  let name = dataTable.row(row).data().name;
+  let inCharge = dataTable.row(row).data().inCharge;
   let id = $(this).data("key");
   try {
     const data = await checkInchargeLeader();
@@ -57,12 +58,16 @@ $("#leaders").on("click", "a.btn-assign", async function (event) {
         await assignLeader(id, true);
       }
       await alert("Success", `${name} assigned as Leader!`, "success");
-      renderDataTable.ajax.reload();
+      dataTable.ajax.reload();
     }
   } catch (error) {
-    console.log(error);
     alert("Error", error.message, "error");
   }
+});
+
+$("#leaders").on("click", "a.btn-delete", function (event) {
+  event.preventDefault();
+  deleteLeader($(this).data("key"));
 });
 
 /* FUNCTIONS */
@@ -82,6 +87,7 @@ async function assignLeader(id, bool) {
 
   return await response.json();
 }
+
 async function submitForm() {
   let leader = {
     id: idEl.val(),
@@ -115,7 +121,7 @@ async function submitFormToServer(leader) {
       });
       $("#leaderModal").modal("hide");
       resetLeaderModal();
-      renderDataTable.ajax.reload();
+      dataTable.ajax.reload();
     })
     .catch((error) => {
       if ($("#errorContainer").length === 0) {
@@ -162,6 +168,38 @@ function resetLeaderModal() {
     $("#errorContainer").remove();
   }
   $("h5.modal-title").remove();
+}
+
+async function deleteLeader(id) {
+  const dialogDetails = new DialogDetails("Are you sure?", "You won't be able to revert this!", "warning", "Yes, delete it!");
+
+  const result = await openConfirmDialog(dialogDetails);
+
+  if (result.isConfirmed) {
+    const data = await checkInchargeLeader();
+    if (data !== null && data.id === id && data.inCharge) {
+      alert("Error", "You cannot delete currently assigned leader!", "error");
+    } else {
+      await fetch(`${baseUrl}/leaders/${id}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((data) => {
+              throw new Error(data.message);
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert("Deleted!", data.message, "success");
+          dataTable.ajax.reload();
+        })
+        .catch((error) => {
+          alert("Error", error.message, "error");
+        });
+    }
+  }
 }
 
 // import { showMessage, hideModal } from "./modules/modal.js";
