@@ -4,8 +4,9 @@ import { baseUrl } from "./modules/base-url.js";
 import { loadAddress } from "./ph-address-selector.js";
 import { addressContent, errorContent, displayTitle } from "./modules/html-content.js";
 import { showAppearanceChoices } from "./modules/appearance-type.js";
-import { toast, alert } from "./modules/alerts.js";
+import { toast, alert, openConfirmDialog } from "./modules/popups.js";
 import { visitorTableObject } from "./modules/table-object.js";
+import DialogDetails from "./modules/DialogDetails.js";
 
 const idEl = $("#id");
 const addressContainer = $("#address");
@@ -23,7 +24,7 @@ const entityType = "Visitor";
 //state
 let isEdit = false;
 
-const renderDataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
+const dataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
 
 /*BUTTON LISTENER */
 $("#visitors").on("click", "a.btn-new", function () {
@@ -170,7 +171,7 @@ async function submitFormToServer(visitor) {
       });
       $("#visitorModal").modal("hide");
       resetVisitorModal();
-      renderDataTable.ajax.reload();
+      dataTable.ajax.reload();
     })
     .catch((error) => {
       if ($("#errorContainer").length === 0) {
@@ -203,37 +204,31 @@ function emptyAddressContainer() {
   }
 }
 
-function deleteVisitor(id) {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      let fullUrl = `${baseUrl}/visitors/${id}`;
+async function deleteVisitor(id) {
+  const dialogDetails = new DialogDetails("Are you sure?", "You won't be able to revert this!", "warning", "Yes, delete it!");
 
-      fetch(fullUrl, {
-        method: "DELETE",
+  const result = await openConfirmDialog(dialogDetails);
+
+  if (result.isConfirmed) {
+    let fullUrl = `${baseUrl}/visitors/${id}`;
+
+    await fetch(fullUrl, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            throw new Error(data.message);
+          });
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            return response.json().then((data) => {
-              throw new Error(data.message);
-            });
-          }
-          return response.json();
-        })
-        .then((data) => {
-          alert("Deleted!", data.message, "success");
-          renderDataTable.ajax.reload();
-        })
-        .catch((error) => {
-          alert("Error", error.message, "error");
-        });
-    }
-  });
+      .then((data) => {
+        alert("Deleted!", data.message, "success");
+        dataTable.ajax.reload();
+      })
+      .catch((error) => {
+        alert("Error", error.message, "error");
+      });
+  }
 }
