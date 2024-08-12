@@ -23,7 +23,7 @@
 	<pageHeader>
 		<band height="135" splitType="Stretch">
 			<image>
-				<reportElement x="166" y="36" width="280" height="40" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
+				<reportElement x="166" y="34" width="280" height="40" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
 				<imageExpression><![CDATA[$P{heading}]]></imageExpression>
 			</image>
 			<staticText>
@@ -267,7 +267,7 @@
 				<textFieldExpression><![CDATA[$P{leaderName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement mode="Opaque" x="304" y="314" width="241" height="20" uuid="7b8f0fce-08cc-4d75-93a0-af23a4a81f1f"/>
+				<reportElement mode="Opaque" x="304" y="318" width="241" height="20" uuid="7b8f0fce-08cc-4d75-93a0-af23a4a81f1f"/>
 				<box topPadding="3" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.25"/>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
