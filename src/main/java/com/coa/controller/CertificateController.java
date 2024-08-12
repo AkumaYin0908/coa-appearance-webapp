@@ -22,8 +22,8 @@ public class CertificateController {
 
     @PostMapping("/single-certificate/{templateNo}")
     @ResponseBody
-    public Map<String, String> generateSingleCertificate(@PathVariable("templateNo") Long templateNo, @RequestBody List<AppearanceRequest> appearanceRequests) throws JRException, IOException {
-        String fileLink = certificateService.generateSingleCertificate(templateNo, appearanceRequests.get(0));
+    public Map<String, String> generateCertificate(@PathVariable("templateNo") Long templateNo,@RequestParam("appearanceType")String appearanceType, @RequestBody List<AppearanceRequest> appearanceRequests) throws JRException, IOException {
+        String fileLink = certificateService.generateCertificate(templateNo,appearanceType, appearanceRequests);
 
 
         Map<String, String> response = new HashMap<>();
