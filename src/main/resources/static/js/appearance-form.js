@@ -138,7 +138,7 @@ function getInputs() {
 }
 
 async function showCertificate(appearanceType, templateNo, object) {
-  const response = await fetch(`${baseUrl}/${appearanceType}-certificate/${templateNo}`, {
+  const response = await fetch(`${baseUrl}/${appearanceType}-certificate/${templateNo}?appearanceType=${appearanceType}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
