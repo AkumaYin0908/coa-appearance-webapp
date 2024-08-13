@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
@@ -32,5 +34,45 @@ public class AppearanceRequest {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public String getFormattedDateRange() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+        DateTimeFormatter dateFromFormat = DateTimeFormatter.ofPattern("MMMM d");
+        DateTimeFormatter dateToFormat = DateTimeFormatter.ofPattern("d, yyyy");
+
+        System.out.println(this.dateFrom);
+
+        LocalDate dateFrom = LocalDate.parse(this.dateFrom,dateTimeFormatter);
+        LocalDate dateTo = LocalDate.parse(this.dateTo,dateTimeFormatter);
+
+        String firstDate = "";
+        String lastDate = "";
+
+        String formattedDateRange = "";
+
+        LocalDate[] dates = {dateFrom, dateTo};
+
+        if (dateFrom.getYear() == dateTo.getYear()) {
+            if (dateFrom.getMonth().equals(dateTo.getMonth())) {
+                if (dateFrom.equals(dateTo)) {
+                    formattedDateRange = dateTimeFormatter.format(dateFrom);
+                } else {
+                    firstDate = dateFromFormat.format(dates[0]);
+                    lastDate = dateToFormat.format(dates[1]);
+                    formattedDateRange = String.format("%s - %s", firstDate, lastDate);
+                }
+            } else {
+                firstDate = dateFromFormat.format(dates[0]);
+                lastDate = dateTimeFormatter.format(dates[1]);
+                formattedDateRange = String.format("%s - %s", firstDate, lastDate);
+            }
+        } else {
+            firstDate = dateTimeFormatter.format(dates[0]);
+            lastDate = dateTimeFormatter.format(dates[1]);
+            formattedDateRange = String.format("%s - %s", firstDate, lastDate);
+        }
+
+        return formattedDateRange;
     }
 }
