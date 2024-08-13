@@ -148,8 +148,8 @@
 					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Dataset2" uuid="a6e3808f-fa76-4480-a97a-7e32497db87d">
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<datasetRun uuid="ffddc4dd-714c-4db5-beab-d30ea9a1bccc">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="90" uuid="6b157e97-36ed-4319-84d4-d3345bd0ecf0">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
