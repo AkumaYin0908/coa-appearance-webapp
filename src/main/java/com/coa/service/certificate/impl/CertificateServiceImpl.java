@@ -49,22 +49,17 @@ public class CertificateServiceImpl implements CertificateService {
     private JasperPrint getJasperPrint(List<AppearanceRequest> appearanceRequests, String appearanceType, InputStream inputStream) throws JRException, IOException {
         JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
         Map<String, Object> parameters = new HashMap<>();
-        List<AppearanceResponse> appearanceResponses = null;
 
+        JRBeanCollectionDataSource jrBeanCollectionDataSource = null;
         this.putVisitorDetails(parameters, appearanceRequests.get(0).getVisitor());
         this.putDateIssuedDetails(parameters, appearanceRequests.get(0).getDateIssued());
 
         if (appearanceType.equalsIgnoreCase("single")) {
-            AppearanceResponse appearanceResponse = modelMapper.map(appearanceRequests.get(0), AppearanceResponse.class);
-            parameters.put("dateOfTravel", appearanceResponse.getFormattedDateRange());
-            parameters.put("purpose", appearanceResponse.getPurpose().getDescription());
-            parameters.put("reference", appearanceResponse.getReference());
+            parameters.put("dateOfTravel", appearanceRequests.get(0).getFormattedDateRange());
+            parameters.put("purpose", appearanceRequests.get(0).getPurpose().getDescription());
+            parameters.put("reference", appearanceRequests.get(0).getReference());
         } else if(appearanceType.equalsIgnoreCase("consolidated")) {
-            appearanceResponses = new ArrayList<>();
-            for(AppearanceRequest appearanceRequest : appearanceRequests){
-                AppearanceResponse appearanceResponse = modelMapper.map(appearanceRequest, AppearanceResponse.class);
-                appearanceResponses.add(appearanceResponse);
-            }
+            jrBeanCollectionDataSource = new JRBeanCollectionDataSource(appearanceRequests);
         }
 
         InputStream logoInput = getClass().getResourceAsStream("/static/images/logo.png");
@@ -75,11 +70,10 @@ public class CertificateServiceImpl implements CertificateService {
 
         LeaderResponse leaderResponse = leaderService.findByStatus(true)
                 .map(leader -> modelMapper.map(leader, LeaderResponse.class)).orElseThrow(() -> new ResourceNotFoundException("Leader", "inCharge", "true"));
-
         parameters.put("leaderName", leaderResponse.getName());
         parameters.put("leaderPosition", leaderResponse.getPosition());
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,appearanceResponses == null ?  new JREmptyDataSource() : new JRBeanCollectionDataSource(appearanceResponses));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,jrBeanCollectionDataSource == null ?  new JREmptyDataSource() : jrBeanCollectionDataSource);
         return jasperPrint;
     }
 
