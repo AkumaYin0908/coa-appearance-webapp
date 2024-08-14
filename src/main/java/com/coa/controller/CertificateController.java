@@ -20,7 +20,7 @@ public class CertificateController {
     private final CertificateService certificateService;
 
 
-    @PostMapping("/single-certificate/{templateNo}")
+    @PostMapping("/certificate/{templateNo}")
     @ResponseBody
     public Map<String, String> generateCertificate(@PathVariable("templateNo") Long templateNo,@RequestParam("appearanceType")String appearanceType, @RequestBody List<AppearanceRequest> appearanceRequests) throws JRException, IOException {
         String fileLink = certificateService.generateCertificate(templateNo,appearanceType, appearanceRequests);
