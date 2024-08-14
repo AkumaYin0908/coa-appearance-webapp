@@ -53,7 +53,7 @@ public class CertificateServiceImpl implements CertificateService {
 
         this.putVisitorDetails(parameters, appearanceRequests.get(0).getVisitor());
         this.putDateIssuedDetails(parameters, appearanceRequests.get(0).getDateIssued());
-        System.out.println(appearanceType);
+
 
         if (appearanceType.equalsIgnoreCase("single")) {
             parameters.put("dateOfTravel", appearanceRequests.get(0).getFormattedDateRange());
