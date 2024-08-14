@@ -50,16 +50,18 @@ public class CertificateServiceImpl implements CertificateService {
         JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
         Map<String, Object> parameters = new HashMap<>();
 
-        JRBeanCollectionDataSource jrBeanCollectionDataSource = null;
+
         this.putVisitorDetails(parameters, appearanceRequests.get(0).getVisitor());
         this.putDateIssuedDetails(parameters, appearanceRequests.get(0).getDateIssued());
+        System.out.println(appearanceType);
 
         if (appearanceType.equalsIgnoreCase("single")) {
             parameters.put("dateOfTravel", appearanceRequests.get(0).getFormattedDateRange());
             parameters.put("purpose", appearanceRequests.get(0).getPurpose().getDescription());
             parameters.put("reference", appearanceRequests.get(0).getReference());
         } else if(appearanceType.equalsIgnoreCase("consolidated")) {
-            jrBeanCollectionDataSource = new JRBeanCollectionDataSource(appearanceRequests);
+            JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(appearanceRequests);
+            parameters.put("appearances",jrBeanCollectionDataSource);
         }
 
         InputStream logoInput = getClass().getResourceAsStream("/static/images/logo.png");
@@ -73,7 +75,8 @@ public class CertificateServiceImpl implements CertificateService {
         parameters.put("leaderName", leaderResponse.getName());
         parameters.put("leaderPosition", leaderResponse.getPosition());
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,jrBeanCollectionDataSource == null ?  new JREmptyDataSource() : jrBeanCollectionDataSource);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,new JREmptyDataSource());
         return jasperPrint;
     }
 
