@@ -138,7 +138,7 @@ function getInputs() {
 }
 
 async function showCertificate(appearanceType, templateNo, object) {
-  const response = await fetch(`${baseUrl}/${appearanceType}-certificate/${templateNo}?appearanceType=${appearanceType}`, {
+  const response = await fetch(`${baseUrl}/certificate/${templateNo}?appearanceType=${appearanceType}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -156,6 +156,7 @@ async function showCertificate(appearanceType, templateNo, object) {
   const responseData = await response.json();
 
   window.open(`${baseUrl}/${responseData.fileLink}`, "_blank");
+  console.log(response.fileLink);
 }
 
 //saving objects to database
