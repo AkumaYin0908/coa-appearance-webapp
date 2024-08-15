@@ -19,7 +19,6 @@ const visitorId = visitor.id;
 const url = `${baseUrl}/visitors/${visitorId}/appearances`;
 const postUrls = [`${url}?appearanceType=single`, `${url}?appearanceType=consolidated`];
 const fullName = `${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${visitor.lastName}`;
-//const appearanceTypeInput = $("#appearanceType");
 
 $(appearanceButtonContainer).appendTo(inputSection);
 
@@ -27,11 +26,11 @@ if (appearanceType === "single") {
   $(".button-container").toggleClass("hide");
 }
 
-//displaying visitor details
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
 datePicker();
 
+/*BUTTON LISTENER */
 $("#proceedButton").on("click", async function (event) {
   event.preventDefault();
   if (isSingle) {
@@ -65,9 +64,15 @@ $("#appearances").on("click", "a.btn-delete", function (event) {
   }
 });
 
-// $("#appearanceForm").submit(function(event){
-//    event.preventDefault();
-// });
+$(".btn-add").on("click", function (event) {
+  event.preventDefault();
+  showAppearanceDetail(getInputs());
+  // console.log(appearances);
+});
+
+/* FUNCTIONS */
+
+//displaying visitor details
 
 async function checkAppearanceIfAlreadyExist() {
   const response = await fetch(`${url}?dateFrom=${dateFromEl.val()}`);
@@ -184,12 +189,6 @@ async function submitFormToServer(url, object) {
     clearFields();
   }
 }
-
-$(".btn-add").on("click", function (event) {
-  event.preventDefault();
-  showAppearanceDetail(getInputs());
-  // console.log(appearances);
-});
 
 function validateDates() {
   let dateIssued = new Date(dateIssuedEl.val());
