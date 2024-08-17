@@ -2,7 +2,7 @@
 
 import { baseUrl } from "./modules/base-url.js";
 import { appearanceTableObject } from "./modules/table-object.js";
-import { visitorDetails, editButton } from "./modules/html-content.js";
+import { visitorDetails } from "./modules/html-content.js";
 
 const visitorDetailContainer = $(".visitor-details");
 const dataTable = await $("#appearances").DataTable(appearanceTableObject(`${baseUrl}/visitors/${visitor.id}/appearances`));
