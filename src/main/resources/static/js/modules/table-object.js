@@ -1,17 +1,18 @@
 import { baseUrl } from "./base-url.js";
-import { setActiveButton, newButton, editButton, deleteButton } from "./html-content.js";
+import { setActiveButton, newButton, editButton, deleteButton, historyButton,exportButtons,addButton } from "./html-content.js";
 
 let toolBar = $("<div></div>");
-toolBar.html(`<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>
-<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
-<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>
-<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Print</button>`);
+
+function getToolBar(buttons){
+  toolBar.html(buttons);
+  return toolBar;
+}
 
 export const visitorTableObject = function (url) {
   return {
     responsive: true,
     layout: {
-      topStart: toolBar,
+      topStart: getToolBar(`${addButton}${exportButtons}`),
     },
     //   language: {
     //     lengthMenu: "Show _MENU_ entries",
@@ -23,7 +24,7 @@ export const visitorTableObject = function (url) {
     columnDefs: [
       {
         visible: false,
-        targets: [1, 2, 3],
+        targets: [0, 1, 2],
       },
     ],
     columns: [
@@ -57,9 +58,10 @@ export const visitorTableObject = function (url) {
           ${newButton(data)}
           ${editButton(data)}
           ${deleteButton(data)}
+          ${historyButton(data)}
           </div>`;
         },
-        width: "12%",
+        width: "15%",
       },
     ],
     processing: true,
@@ -70,7 +72,7 @@ export const leaderTableObject = function (url) {
   return {
     responsive: true,
     layout: {
-      topStart: toolBar,
+      topStart: getToolBar(`${addButton}${exportButtons}`),
     },
     ajax: {
       url: url,
@@ -101,29 +103,31 @@ export const leaderTableObject = function (url) {
   };
 };
 
-export const appearanceTableObject = function(url){
+export const appearanceTableObject = function (url) {
   return {
     responsive: true,
-    layout:{
-      topStart: toolBar
+    layout: {
+      topStart: getToolBar(`${exportButtons}`),
     },
     ajax: {
       url: url,
       dataSrc: "",
     },
     columns: [
-      {data: "dateIssued"},
-      {data: "dateFrom"},
-      {data: "dateTo"},
-      {data: "purpose.description"},
-      {data: "id",
-      render: function (data, type, row){
-        return `<div id = "actionButton">     
+      { data: "dateIssued" },
+      { data: "dateFrom" },
+      { data: "dateTo" },
+      { data: "purpose.description" },
+      {
+        data: "id",
+        render: function (data, type, row) {
+          return `<div id = "actionButton">     
           ${editButton(data)}
-          </div>`
+          ${printButton(data)}
+          </div>`;
+        },
+        width: "15%",
       },
-      width: "15%"
-      }
-    ]
-  }
-}
+    ],
+  };
+};
