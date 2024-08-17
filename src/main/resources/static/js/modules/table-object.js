@@ -23,11 +23,10 @@ export const visitorTableObject = function (url) {
     columnDefs: [
       {
         visible: false,
-        targets: [0, 1, 2, 3],
+        targets: [1, 2, 3],
       },
     ],
     columns: [
-      { data: "id" },
       { data: "firstName" },
       { data: "middleInitial" },
       { data: "lastName" },
@@ -78,7 +77,6 @@ export const leaderTableObject = function (url) {
       dataSrc: "",
     },
     columns: [
-      { data: "id" },
       { data: "name" },
       { data: "position" },
       {
@@ -102,3 +100,30 @@ export const leaderTableObject = function (url) {
     processing: true,
   };
 };
+
+export const appearanceTableObject = function(url){
+  return {
+    responsive: true,
+    layout:{
+      topStart: toolBar
+    },
+    ajax: {
+      url: url,
+      dataSrc: "",
+    },
+    columns: [
+      {data: "dateIssued"},
+      {data: "dateFrom"},
+      {data: "dateTo"},
+      {data: "purpose.description"},
+      {data: "id",
+      render: function (data, type, row){
+        return `<div id = "actionButton">     
+          ${editButton(data)}
+          </div>`
+      },
+      width: "15%"
+      }
+    ]
+  }
+}
