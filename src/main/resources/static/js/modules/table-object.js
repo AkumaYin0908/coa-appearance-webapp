@@ -1,18 +1,23 @@
 import { baseUrl } from "./base-url.js";
-import { setActiveButton, newButton, editButton, deleteButton, historyButton,exportButtons,addButton } from "./html-content.js";
+import { setActiveButton, newButton, editButton, deleteButton, historyButton, exportButtons, addButton, printButton } from "./html-content.js";
 
 let toolBar = $("<div></div>");
 
-function getToolBar(buttons){
+function getToolBar(buttons) {
   toolBar.html(buttons);
   return toolBar;
+}
+
+function getLongDate(date) {
+  const dateFormatSetting = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(date).toLocaleDateString("EN-US", dateFormatSetting);
 }
 
 export const visitorTableObject = function (url) {
   return {
     responsive: true,
     layout: {
-      topStart: getToolBar(`${addButton}${exportButtons}`),
+      topStart: getToolBar(`${addButton} ${exportButtons}`),
     },
     //   language: {
     //     lengthMenu: "Show _MENU_ entries",
@@ -25,6 +30,10 @@ export const visitorTableObject = function (url) {
       {
         visible: false,
         targets: [0, 1, 2],
+      },
+      {
+        className: "dt-head-center",
+        targets: "_all",
       },
     ],
     columns: [
@@ -78,6 +87,12 @@ export const leaderTableObject = function (url) {
       url: url,
       dataSrc: "",
     },
+    columnDefs: [
+      {
+        className: "dt-head-center",
+        targets: "_all",
+      },
+    ],
     columns: [
       { data: "name" },
       { data: "position" },
@@ -113,15 +128,36 @@ export const appearanceTableObject = function (url) {
       url: url,
       dataSrc: "",
     },
+    columnDefs: [
+      {
+        className: "dt-head-center",
+        targets: "_all",
+      },
+    ],
     columns: [
-      { data: "dateIssued" },
-      { data: "dateFrom" },
-      { data: "dateTo" },
+      {
+        data: "dateIssued",
+        render: function (data, type, row) {
+          return getLongDate(data);
+        },
+      },
+      {
+        data: "dateFrom",
+        render: function (data, type, row) {
+          return getLongDate(data);
+        },
+      },
+      {
+        data: "dateTo",
+        render: function (data, type, row) {
+          return getLongDate(data);
+        },
+      },
       { data: "purpose.description" },
       {
         data: "id",
         render: function (data, type, row) {
-          return `<div id = "actionButton">     
+          return `<div id = "actionButton" class="text-center">     
           ${editButton(data)}
           ${printButton(data)}
           </div>`;
