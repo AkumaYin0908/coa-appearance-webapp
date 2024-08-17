@@ -27,9 +27,20 @@ public class AppearancePageController {
             model.addAttribute("appearanceType",appearanceType);
         }catch (Exception ex){
             redirectAttributes.addFlashAttribute("error",ex.getMessage());
-            System.out.println(ex.getMessage());
             return "redirect:/visitor-page";
         }
             return String.format("appearances/%s-appearance",appearanceType);
+    }
+
+    @GetMapping(value = "/visitors/{id}/appearances/appearance-history",params = "!dateIssued")
+    public String showAppearanceHistory(@PathVariable("id")Long id, Model model, RedirectAttributes redirectAttributes){
+        try{
+            VisitorResponse visitor = visitorService.findById(id);
+            model.addAttribute("visitor", visitor);
+        }catch (Exception ex){
+            redirectAttributes.addFlashAttribute("error",ex.getMessage());
+            return "redirect:/visitor-page";
+        }
+        return "appearances/appearance-history";
     }
 }
