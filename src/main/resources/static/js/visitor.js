@@ -21,7 +21,7 @@ const entityType = "Visitor";
 
 //state
 let isEdit = false;
-
+ 
 const dataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
 
 /*BUTTON LISTENER */
@@ -60,6 +60,11 @@ $("#closeModalButton").on("click", function (event) {
 $("#saveButton").on("click", function (event) {
   event.preventDefault();
   submitForm();
+});
+
+$("#visitors").on("click","a.btn-history",function(event){
+  let id = $(this).data("key");
+  window.location.href = `${baseUrl}/visitors/${id}/appearances/appearance-history`;
 });
 
 /* FUNCTIONS */
