@@ -2,7 +2,7 @@
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout" xmlns="http://www.w3.org/1999/html">
   <head>
-    <title>Appearance Form</title>
+    <title>Appearance History</title>
   </head>
   <body>
     <div layout:fragment="content">
@@ -24,11 +24,11 @@
         });
       </script> -->
 
-      <div class="col-lg-8 col-md-8 align-self-center container-fluid my-5" id="appearanceForm">
-        <div class="container border border-black p-3 bg-dark" data-bs-theme="dark">
+      <div class="col-lg-8 col-md-8 align-self-center container-fluid my-5" id="appearanceHistory">
+        <div class="container border border-black p-3 bg-dark">
           <div class="container py-2 my-3">
             <div class="container mb-4">
-              <a type="button" class="btn btn-primary"> <span class="material-symbols-outlined material-icons">arrow_back_ios_new</span>Return </a>
+              <a class="link-primary"><span class="material-symbols-outlined">arrow_back_ios_new</span>Return</a>
             </div>
             <h5 class="text-dark-emphasis ms-2" style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-weight: 700">Appearance History of</h5>
             <div class="visitor-details container">
@@ -36,7 +36,7 @@
             </div>
             <hr class="text-secondary" />
             <div class="row justify-content-md-center">
-              <div class="col-lg-12 col-md-12 table-responsive-sm table-responsive-lg">
+              <div class="col-lg-12 col-md-12 table-responsive-sm table-responsive-lg text-light">
                 <table class="table table-striped table-bordered" id="appearances">
                   <thead class="table-dark">
                     <tr>
