@@ -1,105 +1,116 @@
 "use strict";
-import { showMessage, hideModal } from "./modules/modal.js";
-import { datePickerSetting } from "./modules/date.js";
 
-$(document).ready(function () {
-  showMessage("editModalMessageHolder", "editVisitorModal");
+import { baseUrl } from "./modules/base-url.js";
+import { appearanceTableObject } from "./modules/table-object.js";
+import { visitorDetails, editButton } from "./modules/html-content.js";
 
-  $(".btn-delete").on("click", function (event) {
-    event.preventDefault();
-    link = $(this);
+const visitorDetailContainer = $(".visitor-details");
+const dataTable = await $("#appearances").DataTable(appearanceTableObject(`${baseUrl}/visitors/${visitor.id}/appearances`));
 
-    visitorName = link.attr("visitorName");
-    $("#btnYes").attr("href", link.attr("href"));
-    $("#confirmText").html(
-      "Do you want to delete <strong>" + visitorName + "</strong>?"
-    );
-    $("#deleteVisitorModal").modal("show");
-  });
 
-  hideModal("editModalCloseButton", "editModalDiv");
+$(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
-  $(".btn-edit").on("click", function (event) {
-    event.preventDefault();
-    let appearance = $(this);
+// import { showMessage, hideModal } from "./modules/modal.js";
+// import { datePickerSetting } from "./modules/date.js";
 
-    $("#editAppearanceId").val(appearance.attr("appearanceId"));
-    $("#editAppearanceDateIssued").val(appearance.attr("appearanceDateIssued"));
-    $("#editAppearanceDateFrom").val(appearance.attr("appearanceDateFrom"));
-    $("#editAppearanceDateTo").val(appearance.attr("appearanceDateTo"));
-    $("#editAppearancePurpose").val(appearance.attr("appearancePurpose"));
+// $(document).ready(function () {
+//   showMessage("editModalMessageHolder", "editVisitorModal");
 
-    $("#editAppearanceModal").modal("show");
-  });
+//   $(".btn-delete").on("click", function (event) {
+//     event.preventDefault();
+//     link = $(this);
 
-  $("#editAppearanceDateIssued").datepicker(
-    $.extend({
-      altFormat: "yy-mm-dd",
-      dateFormat: "MM dd, yy",
-    })
-  );
+//     visitorName = link.attr("visitorName");
+//     $("#btnYes").attr("href", link.attr("href"));
+//     $("#confirmText").html(
+//       "Do you want to delete <strong>" + visitorName + "</strong>?"
+//     );
+//     $("#deleteVisitorModal").modal("show");
+//   });
 
-  $(function () {
-    let dateFormat = "MM dd, yy",
-      dateFrom = $("#editAppearanceDateFrom")
-        .datepicker(datePickerSetting)
-        .on("change", function () {
-          dateTo.datepicker("option", "minDate", getDate(this));
-        }),
-      dateTo = $("#editAppearanceDateTo").datepicker(datePickerSetting);
+//   hideModal("editModalCloseButton", "editModalDiv");
 
-    function getDate(element) {
-      let date;
-      try {
-        date = $.datepicker.parseDate(dateFormat, element.value);
-      } catch (error) {
-        date = null;
-      }
-      return date;
-    }
-  });
+//   $(".btn-edit").on("click", function (event) {
+//     event.preventDefault();
+//     let appearance = $(this);
 
-  $("#btnClear").on("click", function (event) {
-    event.preventDefault();
+//     $("#editAppearanceId").val(appearance.attr("appearanceId"));
+//     $("#editAppearanceDateIssued").val(appearance.attr("appearanceDateIssued"));
+//     $("#editAppearanceDateFrom").val(appearance.attr("appearanceDateFrom"));
+//     $("#editAppearanceDateTo").val(appearance.attr("appearanceDateTo"));
+//     $("#editAppearancePurpose").val(appearance.attr("appearancePurpose"));
 
-    $("#searchPurpose").text("");
+//     $("#editAppearanceModal").modal("show");
+//   });
 
-    $("#month").text("Select Month");
+//   $("#editAppearanceDateIssued").datepicker(
+//     $.extend({
+//       altFormat: "yy-mm-dd",
+//       dateFormat: "MM dd, yy",
+//     })
+//   );
 
-    $("#year").text("Select Year");
+//   $(function () {
+//     let dateFormat = "MM dd, yy",
+//       dateFrom = $("#editAppearanceDateFrom")
+//         .datepicker(datePickerSetting)
+//         .on("change", function () {
+//           dateTo.datepicker("option", "minDate", getDate(this));
+//         }),
+//       dateTo = $("#editAppearanceDateTo").datepicker(datePickerSetting);
 
-    visitorId = $(this).attr("visitorId");
+//     function getDate(element) {
+//       let date;
+//       try {
+//         date = $.datepicker.parseDate(dateFormat, element.value);
+//       } catch (error) {
+//         date = null;
+//       }
+//       return date;
+//     }
+//   });
 
-    window.location.href = "/appearances/" + visitorId + "/appearance-history";
-  });
+//   $("#btnClear").on("click", function (event) {
+//     event.preventDefault();
 
-  $("#pageSize").on("change", function (event) {
-    event.preventDefault();
-    $("#searchForm").submit();
-  });
+//     $("#searchPurpose").text("");
 
-  $("#month").on("change", function (event) {
-    event.preventDefault();
-    $("#searchForm").submit();
-  });
+//     $("#month").text("Select Month");
 
-  $("#year").on("change", function (event) {
-    event.preventDefault();
-    $("#searchForm").submit();
-  });
+//     $("#year").text("Select Year");
 
-  let checkPrint = $(".chk-print");
+//     visitorId = $(this).attr("visitorId");
 
-  checkPrint.on("click", function () {
-    if ($(this).is(":checked")) {
-      $("#btnPrintChecked").show();
-      console.log(checkPrint.val());
-    } else {
-      $("#btnPrintChecked").hide();
-    }
-  });
+//     window.location.href = "/appearances/" + visitorId + "/appearance-history";
+//   });
 
-  $("#btnPrintChecked").on("click", function (event) {
-    $("#appearances").submit();
-  });
-});
+//   $("#pageSize").on("change", function (event) {
+//     event.preventDefault();
+//     $("#searchForm").submit();
+//   });
+
+//   $("#month").on("change", function (event) {
+//     event.preventDefault();
+//     $("#searchForm").submit();
+//   });
+
+//   $("#year").on("change", function (event) {
+//     event.preventDefault();
+//     $("#searchForm").submit();
+//   });
+
+//   let checkPrint = $(".chk-print");
+
+//   checkPrint.on("click", function () {
+//     if ($(this).is(":checked")) {
+//       $("#btnPrintChecked").show();
+//       console.log(checkPrint.val());
+//     } else {
+//       $("#btnPrintChecked").hide();
+//     }
+//   });
+
+//   $("#btnPrintChecked").on("click", function (event) {
+//     $("#appearances").submit();
+//   });
+// });
