@@ -34,10 +34,27 @@ export const deleteButton = function (data) {
         </a>`;
 };
 
+export const printButton = function (data) {
+  return ` <a data-key = ${data} class = "btn-print btn btn-sm btn-success"><span class="material-symbols-outlined">print</span>
+        </a>`;
+};
+
+export const historyButton = function (data) {
+  return ` <a data-key = ${data} class = "btn-history btn btn-sm btn-info"><span class="material-symbols-outlined">history</span>
+        </a>`;
+};
+
+
 export const setActiveButton = function (data, row) {
   return ` <a data-key = ${data} class = "btn-assign btn btn-sm btn-${row.inCharge ? "danger" : "success"}"><span class = "label-new">${row.inCharge ? "Revoke" : "Assign"}</span>
   </a>`;
 };
+
+export const exportButtons =`<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
+<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>
+<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Print</button>`
+
+export const addButton =`<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>`;
 
 export const errorContent = function (error) {
   return `<div id = "errorContainer" class="col-xs-auto">
