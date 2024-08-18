@@ -41,8 +41,8 @@ public class AppearanceRequest {
         DateTimeFormatter dateFromFormat = DateTimeFormatter.ofPattern("MMMM d");
         DateTimeFormatter dateToFormat = DateTimeFormatter.ofPattern("d, yyyy");
 
-        LocalDate dateFrom = LocalDate.parse(this.dateFrom,dateTimeFormatter);
-        LocalDate dateTo = LocalDate.parse(this.dateTo,dateTimeFormatter);
+        LocalDate dateFrom = LocalDate.parse(this.dateFrom);
+        LocalDate dateTo = LocalDate.parse(this.dateTo);
 
         String firstDate = "";
         String lastDate = "";
