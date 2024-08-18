@@ -3,10 +3,10 @@
 import { baseUrl } from "./modules/base-url.js";
 import { appearanceTableObject } from "./modules/table-object.js";
 import { visitorDetails } from "./modules/html-content.js";
+import { showCertificate } from "./modules/certificate-generator.js";
 
 const visitorDetailContainer = $(".visitor-details");
 const dataTable = await $("#appearances").DataTable(appearanceTableObject(`${baseUrl}/visitors/${visitor.id}/appearances`));
-
 
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
@@ -17,7 +17,14 @@ dataTable.on("select deselect", function () {
   console.log(selectedRows);
   $("#editButton").prop("disabled", selectedRows === 0 || selectedRows > 1);
   $("#printButton").prop("disabled", selectedRows === 0);
-  console.log(dataTable.row({selected:true}).data());
+});
+
+$("#printButton").on("click",async function(event){
+    const appearances = dataTable.rows({selected:true}).data().toArray();
+    let appearanceType = appearances.length > 1 ? "consolidated" : "single";
+    const dateIssued = moment(new Date()).format("YYYY-MM-DD");
+    appearances[0].dateIssued = dateIssued;
+    await showCertificate(appearanceType,1,appearances);
 });
 
 /**FUNCTIONS */
