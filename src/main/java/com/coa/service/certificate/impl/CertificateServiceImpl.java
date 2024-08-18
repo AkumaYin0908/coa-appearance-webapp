@@ -64,10 +64,9 @@ public class CertificateServiceImpl implements CertificateService {
         }
 
         InputStream logoInput = getClass().getResourceAsStream("/static/images/logo.png");
-        InputStream headingInput = getClass().getResourceAsStream("/static/images/coa_heading.png");
 
         parameters.put("logo", logoInput);
-        parameters.put("heading", headingInput);
+
 
         LeaderResponse leaderResponse = leaderService.findByStatus(true)
                 .map(leader -> modelMapper.map(leader, LeaderResponse.class)).orElseThrow(() -> new ResourceNotFoundException("Leader", "inCharge", "true"));
