@@ -10,6 +10,17 @@ const dataTable = await $("#appearances").DataTable(appearanceTableObject(`${bas
 
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 
+
+/*EVENT LISTENER */
+dataTable.on("select deselect", function () {
+  let selectedRows = dataTable.rows({ selected: true }).count();
+  console.log(selectedRows);
+  $("#editButton").prop("disabled", selectedRows === 0 || selectedRows > 1);
+  $("#printButton").prop("disabled", selectedRows === 0);
+  console.log(dataTable.row({selected:true}).data());
+});
+
+/**FUNCTIONS */
 // import { showMessage, hideModal } from "./modules/modal.js";
 // import { datePickerSetting } from "./modules/date.js";
 
