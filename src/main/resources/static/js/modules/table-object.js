@@ -1,5 +1,6 @@
 import { baseUrl } from "./base-url.js";
-import { setActiveButton, newButton, editButton, deleteButton, historyButton, exportButtons, addButton, printButton } from "./html-content.js";
+import { setActiveButton, newButton, updateButton, deleteButton, historyButton, exportButtons, addButton, printButton,editButton } from "./html-content.js";
+import { getLongDate } from "./date.js";
 
 let toolBar = $(`<div></div>`);
 
@@ -8,10 +9,7 @@ function getToolBar(buttons) {
   return toolBar;
 }
 
-function getLongDate(date) {
-  const dateFormatSetting = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(date).toLocaleDateString("EN-US", dateFormatSetting);
-}
+
 
 export const visitorTableObject = function (url) {
   return {
@@ -65,7 +63,7 @@ export const visitorTableObject = function (url) {
         render: function (data, type, row) {
           return `<div id = "actionButton">
           ${newButton(data)}
-          ${editButton(data)}
+          ${updateButton(data)}
           ${deleteButton(data)}
           ${historyButton(data)}
           </div>`;
@@ -107,7 +105,7 @@ export const leaderTableObject = function (url) {
         render: function (data, type, row) {
           return `<div id = "actionButton">
           ${setActiveButton(data, row)}
-          ${editButton(data)}
+          ${updateButton(data)}
           ${deleteButton(data)}
           </div>`;
         },
@@ -136,13 +134,8 @@ export const appearanceTableObject = function (url) {
         className: "dt-head-center",
         targets: "_all",
       },
-      {
-        visible: false,
-        targets: [0],
-      },
     ],
     columns: [
-      { data: "id" },
       {
         data: "dateIssued",
         render: function (data, type, row) {
