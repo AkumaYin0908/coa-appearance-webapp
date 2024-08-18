@@ -17,26 +17,21 @@
 	<parameter name="leaderName" class="java.lang.String"/>
 	<parameter name="leaderPosition" class="java.lang.String"/>
 	<parameter name="logo" class="java.io.InputStream"/>
-	<parameter name="heading" class="java.io.InputStream"/>
 	<parameter name="appearances" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="231" splitType="Stretch">
-			<image>
-				<reportElement x="166" y="34" width="280" height="40" uuid="0642d1c3-a89d-4fd5-8e03-3c077dc07d73"/>
-				<imageExpression><![CDATA[$P{heading}]]></imageExpression>
-			</image>
 			<staticText>
-				<reportElement x="140" y="87" width="372" height="28" uuid="e6823ee6-3d10-413f-aa7d-6c0cd34df269"/>
+				<reportElement x="137" y="87" width="372" height="28" uuid="e6823ee6-3d10-413f-aa7d-6c0cd34df269"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="14" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Team 1 - Local Government Sector, Oriental Mindoro Province]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="72" width="160" height="20" uuid="8daea0d3-df3f-4509-97ef-27370e3dce92"/>
+				<reportElement x="243" y="72" width="160" height="20" uuid="8daea0d3-df3f-4509-97ef-27370e3dce92"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" isBold="false" isItalic="false"/>
 				</textElement>
@@ -47,11 +42,31 @@
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="165" y="103" width="300" height="20" uuid="c153833e-538e-4e32-9d56-7c55d2a59cdf"/>
+				<reportElement x="172" y="103" width="300" height="20" uuid="c153833e-538e-4e32-9d56-7c55d2a59cdf"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="14" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Provincial Capitol Complex, Camilmil, Calapan City]]></text>
+			</staticText>
+			<line>
+				<reportElement x="40" y="134" width="490" height="1" uuid="43e8e0d5-7d5b-4634-bb79-727d042ded79"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="191" y="53" width="278" height="24" uuid="75a2c9f2-b819-4ff9-a374-ffbee468db71"/>
+				<textElement>
+					<font fontName="Trajan" size="18" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[COMMISSION ON AUDIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="39" width="205" height="20" uuid="53518109-89af-4f30-9e8e-1e716e30ce09"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[REPUBLIC OF THE PHILIPPINES]]></text>
 			</staticText>
 			<line>
 				<reportElement x="40" y="134" width="490" height="1" uuid="43e8e0d5-7d5b-4634-bb79-727d042ded79"/>
