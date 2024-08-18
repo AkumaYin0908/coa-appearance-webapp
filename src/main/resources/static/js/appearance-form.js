@@ -76,7 +76,7 @@ $(".btn-add").on("click", function (event) {
 //displaying visitor details
 
 async function checkAppearanceIfAlreadyExist() {
-  const response = await fetch(`${url}?dateFrom=${dateFromEl.val()}`);
+  const response = await fetch(`${url}?dateFrom=${moment(new Date(dateFromEl.val())).format("YYYY-MM-DD")}`);
 
   if (response.status === 302) {
     throw new Error(`Appearance issued on ${dateFromEl.val()} already exist!`);
@@ -104,8 +104,8 @@ async function showAppearanceDetail(appearance) {
         await submitFormToServer(postUrls[0], appearances);
       } else {
         let reference = appearance.reference;
-        let dateFrom = appearance.dateFrom;
-        let dateTo = appearance.dateTo;
+        let dateFrom = moment(appearance.dateFrom).format("LL");
+        let dateTo = moment(appearance.dateTo).format("LL");
         let purpose = appearance.purpose.description;
 
         let row = `<tr id = "${dateFrom}">;
@@ -131,9 +131,9 @@ async function showAppearanceDetail(appearance) {
 function getInputs() {
   let appearance = {
     visitor: visitor,
-    dateIssued: dateIssuedEl.val(),
-    dateFrom: dateFromEl.val(),
-    dateTo: dateToEl.val(),
+    dateIssued: moment(new Date(dateIssuedEl.val())).format("YYYY-MM-DD"),
+    dateFrom: moment(new Date(dateIssuedEl.val())).format("YYYY-MM-DD"),
+    dateTo: moment(new Date(dateIssuedEl.val())).format("YYYY-MM-DD"),
     purpose: {
       description: purposeEl.val(),
     },
@@ -142,8 +142,6 @@ function getInputs() {
 
   return appearance;
 }
-
-
 
 //saving objects to database
 async function submitFormToServer(url, object) {
