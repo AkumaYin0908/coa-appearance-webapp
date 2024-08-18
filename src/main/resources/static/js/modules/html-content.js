@@ -24,10 +24,10 @@ export const newButton = function (data) {
   return ` <a data-key = ${data} class = "btn-new btn btn-sm btn-success"><span class = "label-new">New</span>
         </a>`;
 };
-// export const editButton = function (data) {
-//   return `<a data-key = ${data} class = "btn-edit btn btn-sm btn-warning"><span class="material-symbols-outlined">edit</span>
-//         </a>`;
-// };
+export const updateButton = function (data) {
+  return `<a data-key = ${data} class = "btn-edit btn btn-sm btn-warning"><span class="material-symbols-outlined">edit</span>
+        </a>`;
+};
 
 export const deleteButton = function (data) {
   return ` <a data-key = ${data} class = "btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span>
@@ -44,20 +44,19 @@ export const historyButton = function (data) {
         </a>`;
 };
 
-
 export const setActiveButton = function (data, row) {
   return ` <a data-key = ${data} class = "btn-assign btn btn-sm btn-${row.inCharge ? "danger" : "success"}"><span class = "label-new">${row.inCharge ? "Revoke" : "Assign"}</span>
   </a>`;
 };
 
-export const exportButtons =`<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
-<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>`
+export const exportButtons = `<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
+<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>`;
 
-export const printButton = `<button type="button" id="printButton" class="btn btn-sm btn-success" disabled>Print</button>`
+export const printButton = `<button type="button" id="printButton" class="btn btn-sm btn-success" disabled>Print</button>`;
 
-export const editButton = `<button type="button" id="editButton" class="btn btn-sm btn-success" disabled>Edit</button>`
+export const editButton = `<button type="button" id="editButton" class="btn btn-sm btn-success" disabled>Edit</button>`;
 
-export const addButton =`<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>`;
+export const addButton = `<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>`;
 
 export const errorContent = function (error) {
   return `<div id = "errorContainer" class="col-xs-auto">
@@ -77,15 +76,15 @@ export const appearanceDetails = function (appearance) {
           </tr>
           <tr>
             <td class = "col-1 text-start">Date Issued</td>
-            <td class = "col-2">${appearance.dateIssued}</td>
+            <td class = "col-2">${moment(appearance.dateIssued).format("LL")}</td>
           </tr>
           <tr>
             <td class = "col-1 text-start">Date From</td>
-            <td class = "col-2">${appearance.dateFrom}</td>
+            <td class = "col-2">${moment(appearance.dateFrom).format("LL")}</td>
           </tr>
           <tr>
             <td class = "col-1 text-start">Date to</td>
-            <td class = "col-2">${appearance.dateTo}</td>
+            <td class = "col-2">${moment(appearance.dateTo).format("LL")}</td>
           </tr>
             <tr>
             <td class = "col-1 text-start">Purpose</td>
