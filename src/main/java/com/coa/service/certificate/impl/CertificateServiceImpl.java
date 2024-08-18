@@ -42,7 +42,6 @@ public class CertificateServiceImpl implements CertificateService {
     private final ModelMapper modelMapper;
     private final LeaderService leaderService;
 
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
 
     //https://www.webscale.com/engineering-education/how-to-generate-reports-in-a-spring-boot-app-leveraging-jaspersoft/
@@ -101,7 +100,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     private void putDateIssuedDetails(Map<String, Object> parameters, String strDateIssued) {
-        LocalDate dateIssued = LocalDate.parse(strDateIssued, dateTimeFormatter);
+        LocalDate dateIssued = LocalDate.parse(strDateIssued);
         parameters.put("day", getDayWithOrdinal(dateIssued.getDayOfMonth()));
         parameters.put("month", String.format("%s%s", dateIssued.getMonth().toString().charAt(0),
                 dateIssued.getMonth().toString().toLowerCase().substring(1)));
