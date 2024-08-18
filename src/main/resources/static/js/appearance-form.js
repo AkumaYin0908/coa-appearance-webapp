@@ -4,6 +4,7 @@ import { datePicker } from "./modules/date-picker.js";
 import { visitorDetails, deleteButton, appearanceButtonContainer, appearanceDetails } from "./modules/html-content.js";
 import { baseUrl } from "./modules/base-url.js";
 import { toast, alert } from "./modules/popups.js";
+import { showCertificate } from "./modules/certificate-generator.js";
 
 const visitorDetailContainer = $(".visitor-details");
 const dateIssuedEl = $("#dateIssued");
@@ -142,27 +143,7 @@ function getInputs() {
   return appearance;
 }
 
-async function showCertificate(appearanceType, templateNo, object) {
-  const response = await fetch(`${baseUrl}/certificate/${templateNo}?appearanceType=${appearanceType}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(object),
-  });
 
-  if (!response.ok) {
-    return response.json().then((data) => {
-      throw new Error(data.message);
-    });
-  }
-
-  const responseData = await response.json();
-
-  window.open(`${baseUrl}/${responseData.fileLink}`, "_blank");
-  console.log(response.fileLink);
-}
 
 //saving objects to database
 async function submitFormToServer(url, object) {
