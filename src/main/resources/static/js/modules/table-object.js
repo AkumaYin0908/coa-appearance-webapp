@@ -1,7 +1,7 @@
 import { baseUrl } from "./base-url.js";
 import { setActiveButton, newButton, editButton, deleteButton, historyButton, exportButtons, addButton, printButton } from "./html-content.js";
 
-let toolBar = $("<div></div>");
+let toolBar = $(`<div></div>`);
 
 function getToolBar(buttons) {
   toolBar.html(buttons);
@@ -121,8 +121,11 @@ export const leaderTableObject = function (url) {
 export const appearanceTableObject = function (url) {
   return {
     responsive: true,
+    select: {
+      style: "multi",
+    },
     layout: {
-      topStart: getToolBar(`${exportButtons}`),
+      topStart: getToolBar(`${exportButtons} ${editButton} ${printButton}`),
     },
     ajax: {
       url: url,
@@ -133,8 +136,13 @@ export const appearanceTableObject = function (url) {
         className: "dt-head-center",
         targets: "_all",
       },
+      {
+        visible: false,
+        targets: [0],
+      },
     ],
     columns: [
+      { data: "id" },
       {
         data: "dateIssued",
         render: function (data, type, row) {
@@ -154,16 +162,6 @@ export const appearanceTableObject = function (url) {
         },
       },
       { data: "purpose.description" },
-      {
-        data: "id",
-        render: function (data, type, row) {
-          return `<div id = "actionButton" class="text-center">     
-          ${editButton(data)}
-          ${printButton(data)}
-          </div>`;
-        },
-        width: "15%",
-      },
     ],
   };
 };
