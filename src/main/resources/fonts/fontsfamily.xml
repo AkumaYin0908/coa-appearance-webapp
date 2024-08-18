@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<fontFamilies>
+    <fontFamily name="Times New Roman">
+        <normal><![CDATA[fonts/timesnewroman/times_new_roman.ttf]]></normal>
+        <bold><![CDATA[fonts/timesnewroman/times_new_roman_bold.ttf]]></bold>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+    <fontFamily name="Trajan">
+        <normal><![CDATA[fonts/trajan/TrajanPro-Regular.ttf]]></normal>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+</fontFamilies>
