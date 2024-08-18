@@ -32,7 +32,7 @@ public class AppearanceServiceImpl implements AppearanceService {
     private final ModelMapper modelMapper;
     private final PurposeRepository purposeRepository;
 
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+
 
 
 
@@ -69,14 +69,14 @@ public class AppearanceServiceImpl implements AppearanceService {
 //                .map(appearance -> modelMapper.map(appearance, AppearanceResponse.class))
 //                .toList();
 
-        return appearanceRepository.findByVisitorAndDateIssued(id, LocalDate.parse(strDateIssued,dateTimeFormatter))
+        return appearanceRepository.findByVisitorAndDateIssued(id, LocalDate.parse(strDateIssued))
                 .stream().map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
     }
 
     @Override
     public Optional<AppearanceResponse> findByVisitorAndDateFrom(Long id, String strDateFrom) {
 
-        return appearanceRepository.findByVisitorAndDateFrom(id, LocalDate.parse(strDateFrom,dateTimeFormatter))
+        return appearanceRepository.findByVisitorAndDateFrom(id, LocalDate.parse(strDateFrom))
                 .map(appearance -> modelMapper.map(appearance,AppearanceResponse.class));
 
     }
@@ -166,10 +166,9 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
     public void map(Appearance appearance, AppearanceRequest appearanceRequest) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-        appearance.setDateIssued(LocalDate.parse(appearanceRequest.getDateIssued(),dateTimeFormatter));
-        appearance.setDateFrom(LocalDate.parse(appearanceRequest.getDateFrom(),dateTimeFormatter));
-        appearance.setDateTo(LocalDate.parse(appearanceRequest.getDateTo(),dateTimeFormatter));
+        appearance.setDateIssued(LocalDate.parse(appearanceRequest.getDateIssued()));
+        appearance.setDateFrom(LocalDate.parse(appearanceRequest.getDateFrom()));
+        appearance.setDateTo(LocalDate.parse(appearanceRequest.getDateTo()));
 
         Purpose purpose = purposeRepository.findByDescription(appearanceRequest.getPurpose().getDescription())
                 .orElse(new Purpose(appearanceRequest.getPurpose().getDescription()));
