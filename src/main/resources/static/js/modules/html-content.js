@@ -24,20 +24,20 @@ export const newButton = function (data) {
   return ` <a data-key = ${data} class = "btn-new btn btn-sm btn-success"><span class = "label-new">New</span>
         </a>`;
 };
-export const editButton = function (data) {
-  return `<a data-key = ${data} class = "btn-edit btn btn-sm btn-warning"><span class="material-symbols-outlined">edit</span>
-        </a>`;
-};
+// export const editButton = function (data) {
+//   return `<a data-key = ${data} class = "btn-edit btn btn-sm btn-warning"><span class="material-symbols-outlined">edit</span>
+//         </a>`;
+// };
 
 export const deleteButton = function (data) {
   return ` <a data-key = ${data} class = "btn-delete btn btn-sm btn-danger"><span class="material-symbols-outlined">delete</span>
         </a>`;
 };
 
-export const printButton = function (data) {
-  return ` <a data-key = ${data} class = "btn-print btn btn-sm btn-success"><span class="material-symbols-outlined">print</span>
-        </a>`;
-};
+// export const printButton = function (data) {
+//   return ` <a data-key = ${data} class = "btn-print btn btn-sm btn-success"><span class="material-symbols-outlined">print</span>
+//         </a>`;
+// };
 
 export const historyButton = function (data) {
   return ` <a data-key = ${data} class = "btn-history btn btn-sm btn-info"><span class="material-symbols-outlined">history</span>
@@ -51,8 +51,11 @@ export const setActiveButton = function (data, row) {
 };
 
 export const exportButtons =`<button type="button" id="exportToPdf" class="btn btn-sm btn-success">PDF</button>
-<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>
-<button type="button" id="addVisitorButton" class="btn btn-sm btn-success">Print</button>`
+<button type="button" id="exportToExcel" class="btn btn-sm btn-success">Excel</button>`
+
+export const printButton = `<button type="button" id="printButton" class="btn btn-sm btn-success" disabled>Print</button>`
+
+export const editButton = `<button type="button" id="editButton" class="btn btn-sm btn-success" disabled>Edit</button>`
 
 export const addButton =`<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>`;
 
