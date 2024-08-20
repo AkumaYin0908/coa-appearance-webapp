@@ -112,12 +112,10 @@ public class AppearanceServiceImpl implements AppearanceService {
 
     @Override
     @Transactional
-    public AppearanceResponse save(Long id, AppearanceRequest appearanceRequest) {
+    public AppearanceResponse save(AppearanceRequest appearanceRequest) {
 
-        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
 
         Appearance appearance = new Appearance();
-        appearance.setVisitor(visitor);
 
         map(appearance, appearanceRequest);
 
@@ -129,13 +127,12 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
-    public List<AppearanceResponse> saveAll(Long id, List<AppearanceRequest> appearanceRequests) {
+    public List<AppearanceResponse> saveAll(List<AppearanceRequest> appearanceRequests) {
         List<Appearance> appearances = new ArrayList<>();
-        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
 
         for (AppearanceRequest appearanceRequest : appearanceRequests) {
             Appearance appearance = new Appearance();
-            appearance.setVisitor(visitor);
+
 
             map(appearance, appearanceRequest);
             appearances.add(appearance);
@@ -150,10 +147,8 @@ public class AppearanceServiceImpl implements AppearanceService {
     @Override
     @Transactional
     public AppearanceResponse update(Long id, AppearanceRequest appearanceRequest) {
-        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
-
         Appearance appearance = appearanceRepository.findById(appearanceRequest.getId()).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
-        appearance.setVisitor(visitor);
+
         map(appearance, appearanceRequest);
 
         appearanceRepository.save(appearance);
@@ -168,6 +163,8 @@ public class AppearanceServiceImpl implements AppearanceService {
 
 
     public void map(Appearance appearance, AppearanceRequest appearanceRequest) {
+        Visitor visitor = modelMapper.map(appearanceRequest.getVisitor(),Visitor.class);
+        appearance.setVisitor(visitor);
         appearance.setDateIssued(LocalDate.parse(appearanceRequest.getDateIssued()));
         appearance.setDateFrom(LocalDate.parse(appearanceRequest.getDateFrom()));
         appearance.setDateTo(LocalDate.parse(appearanceRequest.getDateTo()));
