@@ -1,6 +1,8 @@
 package com.coa.exceptions.rest;
 
 import com.coa.payload.response.APIResponse;
+import jakarta.persistence.NonUniqueResultException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -45,6 +47,11 @@ public class GlobalExceptionHandler {
             message = "Unable to delete because this item is associated with other entities";
         }
         return new ResponseEntity<>(new APIResponse(message,false), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NonUniqueResultException.class, IncorrectResultSizeDataAccessException.class})
+    public ResponseEntity<APIResponse> handleNonUniqueResultException(){
+        return new ResponseEntity<>(new APIResponse("Error occured due to duplicate entries! Find duplicate entries and delete/remove one of them!",false),HttpStatus.BAD_REQUEST);
     }
 
 
