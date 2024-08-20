@@ -58,6 +58,8 @@ export const editButton = `<button type="button" id="editButton" class="btn btn-
 
 export const addButton = `<button type="button" id="addButton" class="btn btn-sm btn-success">Add</button>`;
 
+export const removeButton = `<button type="button" id="removeButton" class="btn btn-sm btn-danger" disabled>Remove</button>`;
+
 export const errorContent = function (error) {
   return `<div id = "errorContainer" class="col-xs-auto">
                     <div class="alert alert-danger col-xs-auto">
