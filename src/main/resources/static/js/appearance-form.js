@@ -132,8 +132,8 @@ function getInputs() {
   let appearance = {
     visitor: visitor,
     dateIssued: moment(new Date(dateIssuedEl.val())).format("YYYY-MM-DD"),
-    dateFrom: moment(new Date(dateIssuedEl.val())).format("YYYY-MM-DD"),
-    dateTo: moment(new Date(dateIssuedEl.val())).format("YYYY-MM-DD"),
+    dateFrom: moment(new Date(dateFromEl.val())).format("YYYY-MM-DD"),
+    dateTo: moment(new Date(dateToEl.val())).format("YYYY-MM-DD"),
     purpose: {
       description: purposeEl.val(),
     },
