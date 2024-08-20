@@ -38,15 +38,15 @@ public class AppearanceController {
         return new ResponseEntity<>(appearanceService.findByVisitorAndDateIssued(id, strDateIssued), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/visitors/{id}/appearances", params = {"!dateIssued","dateFrom"})
+    @GetMapping(value = "/visitors/{id}/appearances", params = {"!dateIssued", "dateFrom"})
     public ResponseEntity<AppearanceResponse> getByVisitorAndDateFrom(@PathVariable("id") Long id, @RequestParam("dateFrom") String strDateFrom) {
-        Optional<AppearanceResponse> appearanceResponseOptional = appearanceService.findByVisitorAndDateFrom(id,strDateFrom);
-        return appearanceResponseOptional.map( appearanceResponse -> ResponseEntity.status(HttpStatus.FOUND).body(appearanceResponse))
-                .orElseGet(()->ResponseEntity.noContent().build());
+        Optional<AppearanceResponse> appearanceResponseOptional = appearanceService.findByVisitorAndDateFrom(id, strDateFrom);
+        return appearanceResponseOptional.map(appearanceResponse -> ResponseEntity.status(HttpStatus.FOUND).body(appearanceResponse))
+                .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
 
-    @GetMapping(value = "/appearances", params = {"description","!dateIssued"})
+    @GetMapping(value = "/appearances", params = {"description", "!dateIssued"})
     public ResponseEntity<List<AppearanceResponse>> getByPurpose(@RequestParam(value = "description", required = false) String description) {
 
         return new ResponseEntity<>(appearanceService.findByPurpose(description), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class AppearanceController {
 //        return new ResponseEntity<>(appearanceService.save(id, appearanceRequest), HttpStatus.CREATED);
 //    }
 
-    @PostMapping(value = "/visitors/{id}/appearances",params = "!dateIssued")
+    @PostMapping(value = "/visitors/{id}/appearances", params = "!dateIssued")
     public ResponseEntity<List<AppearanceResponse>> saveAppearances(@PathVariable("id") Long id, @RequestBody List<AppearanceRequest> appearanceRequests,
                                                                     @RequestParam("appearanceType") String appearanceType) {
         if (appearanceType.equals("single")) {
