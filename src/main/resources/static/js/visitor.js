@@ -18,10 +18,9 @@ const positionEl = $("#position");
 const agencyEl = $("#agency");
 const entityType = "Visitor";
 
-
 //state
 let isEdit = false;
- 
+
 const dataTable = await $("#visitors").DataTable(visitorTableObject(`${baseUrl}/visitors`));
 
 /*BUTTON LISTENER */
@@ -57,19 +56,19 @@ $("#closeModalButton").on("click", function (event) {
   resetVisitorModal();
 });
 
-$("#saveButton").on("click", function (event) {
+$("#saveButton").on("click", async function (event) {
   event.preventDefault();
-  submitForm();
+  await submitForm();
 });
 
-$("#visitors").on("click","a.btn-history",function(event){
+$("#visitors").on("click", "a.btn-history", function (event) {
   let id = $(this).data("key");
   window.location.href = `${baseUrl}/visitors/${id}/appearances/appearance-history`;
 });
 
 /* FUNCTIONS */
 
-function submitForm() {
+async function submitForm() {
   const barangayEl = $("#address #barangay-text");
   const municipalityEl = $("#address #city-text");
   const provinceEl = $("#address #province-text");
@@ -114,7 +113,7 @@ function submitForm() {
     },
   };
 
-  submitFormToServer(visitor);
+  await submitFormToServer(visitor);
 }
 
 async function editVisitor(id) {
