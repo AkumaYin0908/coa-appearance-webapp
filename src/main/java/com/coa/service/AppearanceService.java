@@ -30,9 +30,9 @@ public interface AppearanceService {
 
     AppearanceResponse findByReference(String reference);
 
-    AppearanceResponse save(Long id, AppearanceRequest appearanceRequest);
+    AppearanceResponse save(AppearanceRequest appearanceRequest);
 
-    List<AppearanceResponse> saveAll(Long id, List<AppearanceRequest> appearanceRequests);
+    List<AppearanceResponse> saveAll(List<AppearanceRequest> appearanceRequests);
 
     AppearanceResponse update(Long id, AppearanceRequest appearanceRequest);
 
