@@ -150,8 +150,10 @@ public class AppearanceServiceImpl implements AppearanceService {
     @Override
     @Transactional
     public AppearanceResponse update(Long id, AppearanceRequest appearanceRequest) {
-        Appearance appearance = appearanceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Appearance", "id", id));
+        Visitor visitor = visitorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
 
+        Appearance appearance = appearanceRepository.findById(appearanceRequest.getId()).orElseThrow(() -> new ResourceNotFoundException("Visitor", "id", id));
+        appearance.setVisitor(visitor);
         map(appearance, appearanceRequest);
 
         appearanceRepository.save(appearance);
