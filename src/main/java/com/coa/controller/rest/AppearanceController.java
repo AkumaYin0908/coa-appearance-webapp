@@ -67,18 +67,18 @@ public class AppearanceController {
 //        return new ResponseEntity<>(appearanceService.save(id, appearanceRequest), HttpStatus.CREATED);
 //    }
 
-    @PostMapping(value = "/visitors/{id}/appearances", params = "!dateIssued")
-    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@PathVariable("id") Long id, @RequestBody List<AppearanceRequest> appearanceRequests,
+    @PostMapping(value = "/appearances")
+    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@RequestBody List<AppearanceRequest> appearanceRequests,
                                                                     @RequestParam("appearanceType") String appearanceType) {
         if (appearanceType.equals("single")) {
-            return new ResponseEntity<>(List.of(appearanceService.save(id, appearanceRequests.get(0))), HttpStatus.CREATED);
+            return new ResponseEntity<>(List.of(appearanceService.save(appearanceRequests.get(0))), HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(appearanceService.saveAll(id, appearanceRequests), HttpStatus.CREATED);
+            return new ResponseEntity<>(appearanceService.saveAll(appearanceRequests), HttpStatus.CREATED);
         }
 
     }
 
-    @PutMapping("/visitors/{id}/appearances")
+    @PutMapping("/appearances/{id}")
     public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id") Long id, @RequestBody AppearanceRequest appearanceRequest) {
         return new ResponseEntity<>(appearanceService.update(id, appearanceRequest), HttpStatus.CREATED);
     }
