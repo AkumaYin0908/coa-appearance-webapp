@@ -17,7 +17,7 @@ const appearanceTable = $("#appearances tbody");
 const appearances = [];
 const isSingle = appearanceType === "single";
 const visitorId = visitor.id;
-const url = `${baseUrl}/visitors/${visitorId}/appearances`;
+const url = `${baseUrl}/appearances`;
 const postUrls = [`${url}?appearanceType=single`, `${url}?appearanceType=consolidated`];
 const fullName = `${visitor.firstName}${visitor.middleInitial === "N/A" ? " " : visitor.middleInitial}${visitor.lastName}`;
 
@@ -76,7 +76,7 @@ $(".btn-add").on("click", function (event) {
 //displaying visitor details
 
 async function checkAppearanceIfAlreadyExist() {
-  const response = await fetch(`${url}?dateFrom=${moment(new Date(dateFromEl.val())).format("YYYY-MM-DD")}`);
+  const response = await fetch(`${baseUrl}/visitors/${visitorId}/appearances?dateFrom=${moment(new Date(dateFromEl.val())).format("YYYY-MM-DD")}`);
 
   if (response.status === 302) {
     throw new Error(`Appearance issued on ${dateFromEl.val()} already exist!`);
