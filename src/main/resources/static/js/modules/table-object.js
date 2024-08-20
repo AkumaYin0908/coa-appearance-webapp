@@ -1,5 +1,5 @@
 import { baseUrl } from "./base-url.js";
-import { setActiveButton, newButton, updateButton, deleteButton, historyButton, exportButtons, addButton, printButton,editButton } from "./html-content.js";
+import { setActiveButton, newButton, updateButton, deleteButton, historyButton, exportButtons, addButton, printButton,editButton, removeButton } from "./html-content.js";
 import { getLongDate } from "./date.js";
 
 let toolBar = $(`<div></div>`);
@@ -123,7 +123,7 @@ export const appearanceTableObject = function (url) {
       style: "multi",
     },
     layout: {
-      topStart: getToolBar(`${exportButtons} ${editButton} ${printButton}`),
+      topStart: getToolBar(`${exportButtons} ${editButton} ${printButton} ${removeButton}`),
     },
     ajax: {
       url: url,
