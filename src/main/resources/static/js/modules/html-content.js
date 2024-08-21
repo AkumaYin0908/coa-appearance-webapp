@@ -131,3 +131,7 @@ export function displayTitle(isEdit, entityType) {
     $(`<h5 class="modal-title text-light">${isEdit ? "Edit" : "New"} ${entityType}</h5>`).prependTo(modalHeader);
   }
 }
+
+export const displayCurrentLeader = function (leader) {
+  return `<span class="h3 mt-1">${leader==null? "No active leader!": leader.name}</span>`
+};
