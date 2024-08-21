@@ -5,7 +5,7 @@ import { appearanceTableObject } from "./modules/table-object.js";
 import { visitorDetails, displayTitle, errorContent } from "./modules/html-content.js";
 import { showCertificate } from "./modules/certificate-generator.js";
 import { datePicker } from "./modules/date-picker.js";
-import { openConfirmDialog, toast } from "./modules/popups.js";
+import { openConfirmDialog, toast,alert } from "./modules/popups.js";
 import DialogDetails from "./modules/DialogDetails.js";
 
 const visitorDetailContainer = $(".visitor-details");
@@ -19,6 +19,8 @@ const dataTable = await $("#appearances").DataTable(appearanceTableObject(`${bas
 const entityType = "Appearance";
 $(visitorDetails(visitor)).prependTo(visitorDetailContainer);
 datePicker();
+
+$("#return").prop("href",`${baseUrl}/visitor-page`);
 
 /*EVENT LISTENER */
 dataTable.on("select deselect", function () {
