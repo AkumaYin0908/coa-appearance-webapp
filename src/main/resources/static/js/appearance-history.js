@@ -29,6 +29,8 @@ dataTable.on("select deselect", function () {
   $("#editButton").prop("disabled", selectedRows === 0 || selectedRows > 1);
   $("#removeButton").prop("disabled", selectedRows === 0 || selectedRows > 1);
   $("#printButton").prop("disabled", selectedRows === 0);
+   const appearances = dataTable.rows({ selected: true }).data().toArray();
+   console.log(appearances);
 });
 
 $("#printButton").on("click", async function (event) {
