@@ -27,6 +27,11 @@ public class AppearanceController {
         return new ResponseEntity<>(appearanceService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/appearances/DESC")
+    public ResponseEntity<List<AppearanceResponse>> getAppearanceOrderByDateIssuedDESC(){
+        return new ResponseEntity<>(appearanceService.findAppearanceOrderByDateIssuedDESC(),HttpStatus.OK);
+    }
+
     @GetMapping(value = "/visitors/{id}/appearances", params = "!dateIssued")
     public ResponseEntity<List<AppearanceResponse>> getByVisitor(@PathVariable("id") Long id) {
         return new ResponseEntity<>(appearanceService.findByVisitor(id), HttpStatus.OK);
