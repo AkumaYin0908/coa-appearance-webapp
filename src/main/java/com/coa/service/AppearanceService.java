@@ -12,6 +12,8 @@ public interface AppearanceService {
 
     AppearanceResponse findById(Long id);
 
+    List<AppearanceResponse> findAppearanceOrderByDateIssuedDESC();
+
     List<AppearanceResponse> findAll();
 
     List<AppearanceResponse> findByVisitor(Long id);
