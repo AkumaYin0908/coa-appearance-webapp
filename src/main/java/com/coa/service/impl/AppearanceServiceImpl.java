@@ -43,6 +43,12 @@ public class AppearanceServiceImpl implements AppearanceService {
     }
 
     @Override
+    public List<AppearanceResponse> findAppearanceOrderByDateIssuedDESC() {
+        return appearanceRepository.findAppearanceOrderByDateIssuedDESC().stream()
+                .map(appearance -> modelMapper.map(appearance,AppearanceResponse.class)).toList();
+    }
+
+    @Override
     public List<AppearanceResponse> findAll() {
         return appearanceRepository.findAll().stream()
                 .map(appearance -> modelMapper.map(appearance, AppearanceResponse.class)).toList();
