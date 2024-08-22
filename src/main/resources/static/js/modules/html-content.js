@@ -135,3 +135,7 @@ export function displayTitle(isEdit, entityType) {
 export const displayCurrentLeader = function (leader) {
   return `<span class="h3 mt-1">${leader==null? "No active leader!": leader.name}</span>`
 };
+
+export const settingsButtonSection = `<div class="d-flex justify-content-end mt-2 mb-0">
+              <a type="button" id="changeLeaderButton" class="text-primary"><span class="material-symbols-outlined">settings</span> Change Leader</a>
+            </div>`
