@@ -41,26 +41,25 @@
       <div class="mt-5">
         <div class="search-div card mt-5 mb-5 bg-secondary">
           <div class="card-body search-container">
-              <input id="searchText" type="text" placeholder="Create new appearance for...." name="searchName" />
-              <button type="submit" name="direction" value="dashboard">
+            <div class="search-bar">
+              <input id="search" type="text" placeholder="Create new appearance for...." name="searchName" />
+              <button type="submit" value="dashboard">
                 <span class="material-symbols-outlined">search</span>
               </button>
+            </div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-body">
-            <div class="leader-label p-0 text-center text-light bg-success">
+            <div class="leader-label-div p-0 text-center text-light bg-success">
               <span>Current Leader</span>
             </div>
-            <div class="leader-name text-center bg-dark text-light my-1 p-1">
-              <span th:if="${leader !=null}" class="h3 mt-1" th:text="${leader.name}"></span>
-             
+            <div class="leader-name-div text-center bg-dark text-light my-1 p-1">
+              <!--Leader Name Here-->
             </div>
             <hr class="m-0 p-0 border border-secondary border-1 opacity-50" />
-            <div th:if="${leader !=null}" class="d-flex justify-content-end mt-2 mb-0">
-              <a type="button" id="changeLeaderButton" class="text-primary"><span class="material-symbols-outlined">settings</span> Change Leader</a>
-            </div>
+            <!--Settings Button Here-->
           </div>
         </div>
 
@@ -73,13 +72,18 @@
         <div id="appearanceTable" class="card mt-4 mb-4">
           <div class="p-1 mt-3 bg-dark">Appearance History</div>
           <div class="card-body">
-            <table class="table" id="history">
+            <table class="table" id="appearanceHistory">
               <thead>
                 <tr>
-                  <th scope="col">No</th>
                   <th scope="col">Date Issued</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Agency</th>
+                  <th scope="col">Courtesy Title</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Middle Initial</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Office/Agency</th>
+                  <th scope="col">Date From</th>
+                  <th scope="col">Date To</th>
                   <th scope="col">Date Appeared</th>
                   <th scope="col">Purpose</th>
                 </tr>
