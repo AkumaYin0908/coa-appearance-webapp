@@ -1,5 +1,5 @@
 import { baseUrl } from "./base-url.js";
-import { setActiveButton, newButton, updateButton, deleteButton, historyButton, exportButtons, addButton, printButton,editButton, removeButton } from "./html-content.js";
+import { setActiveButton, newButton, updateButton, deleteButton, historyButton, exportButtons, addButton, printButton, editButton, removeButton } from "./html-content.js";
 import { getLongDate } from "./date.js";
 
 let toolBar = $(`<div></div>`);
@@ -8,8 +8,6 @@ function getToolBar(buttons) {
   toolBar.html(buttons);
   return toolBar;
 }
-
-
 
 export const visitorTableObject = function (url) {
   return {
@@ -154,6 +152,59 @@ export const appearanceTableObject = function (url) {
           return getLongDate(data);
         },
       },
+      { data: "purpose.description" },
+    ],
+  };
+};
+
+export const appearanceHistoryTableObject = function (url) {
+  return {
+    responsive: true,
+    ordering: false,
+    layout: {
+      topStart: null,
+      topEnd: null,
+      bottomStart: null,
+    },
+    ajax: {
+      url: url,
+      dataSrc: "",
+    },
+
+    columnDefs: [
+      {
+        visible: false,
+        targets: [1],
+      },
+    ],
+    columns: [
+      {
+        data: "dateIssued",
+        render: function (data, type, row) {
+          return getLongDate(data);
+        },
+      },
+      { data: "visitor" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          const visitor = row.visitor;
+          return `${visitor.courtesyTitle.title === "Mr" || visitor.courtesyTitle.title === "Ms" ? "" : visitor.courtesyTitle.title + "."} ${visitor.firstName} ${visitor.middleInitial === "N/A" ? "" : visitor.middleInitial + " "}${visitor.lastName}`;
+        },
+        width: "15%",
+      },
+      {
+        data: null,
+        render: function (data, type, row) {
+          const visitor = row.visitor;
+          const address = visitor.address;
+          const fullAddress = `${address.barangay == null ? "" : address.barangay.name + ","} ${address.municipality.name}, ${address.province.name}`;
+          const agency = visitor.agency;
+
+          return `${agency == null ? fullAddress : agency.name}`;
+        },
+      },
+      { data: "formattedDateRange" },
       { data: "purpose.description" },
     ],
   };
