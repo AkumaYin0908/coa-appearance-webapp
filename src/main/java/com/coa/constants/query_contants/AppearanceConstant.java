@@ -2,6 +2,8 @@ package com.coa.constants.query_contants;
 
 public interface AppearanceConstant {
 
+    String FIND_APPEARANCE_ORDER_BY_DATE_ISSUED_DESC = "select * from appearance order by date_issued desc";
+
     String FIND_BY_VISITOR = "select * from appearance where visitor = ?";
 
     String FIND_VISITOR_BY_NAME = "select * from appearance  where visitor.name = ?";
