@@ -2,11 +2,10 @@ package com.coa.service.certificate.impl;
 
 import com.coa.exceptions.rest.ResourceNotFoundException;
 import com.coa.payload.request.AppearanceRequest;
-import com.coa.payload.request.VisitorRequest;
-import com.coa.payload.request.address.AddressRequest;
-import com.coa.payload.response.AgencyResponse;
+
 import com.coa.payload.response.AppearanceResponse;
 import com.coa.payload.response.LeaderResponse;
+import com.coa.payload.response.VisitorResponse;
 import com.coa.payload.response.address.AddressResponse;
 import com.coa.repository.AppearanceRepository;
 import com.coa.service.LeaderService;
@@ -14,24 +13,16 @@ import com.coa.service.certificate.CertificateService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 
 @Service
 @RequiredArgsConstructor
@@ -49,17 +40,20 @@ public class CertificateServiceImpl implements CertificateService {
         JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
         Map<String, Object> parameters = new HashMap<>();
 
+        List<AppearanceResponse> appearanceResponses = appearanceRequests.stream()
+                .map(appearanceRequest -> modelMapper.map(appearanceRequest,AppearanceResponse.class)).toList();
 
-        this.putVisitorDetails(parameters, appearanceRequests.get(0).getVisitor());
-        this.putDateIssuedDetails(parameters, appearanceRequests.get(0).getDateIssued());
+
+        this.putVisitorDetails(parameters, appearanceResponses.get(0).getVisitor());
+        this.putDateIssuedDetails(parameters, appearanceResponses.get(0).getDateIssued());
 
 
         if (appearanceType.equalsIgnoreCase("single")) {
-            parameters.put("dateOfTravel", appearanceRequests.get(0).getFormattedDateRange());
-            parameters.put("purpose", appearanceRequests.get(0).getPurpose().getDescription());
-            parameters.put("reference", appearanceRequests.get(0).getReference());
+            parameters.put("dateOfTravel", appearanceResponses.get(0).getFormattedDateRange());
+            parameters.put("purpose", appearanceResponses.get(0).getPurpose().getDescription());
+            parameters.put("reference", appearanceResponses.get(0).getReference());
         } else if(appearanceType.equalsIgnoreCase("consolidated")) {
-            JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(appearanceRequests);
+            JRBeanCollectionDataSource jrBeanCollectionDataSource = new JRBeanCollectionDataSource(appearanceResponses);
             parameters.put("appearances",jrBeanCollectionDataSource);
         }
 
@@ -78,24 +72,24 @@ public class CertificateServiceImpl implements CertificateService {
         return jasperPrint;
     }
 
-    public void putVisitorDetails(Map<String, Object> parameters, VisitorRequest visitorRequest) {
-        AddressRequest addressResponse = visitorRequest.getAddress();
-        String fullName = String.format("%s%s%s", visitorRequest.getFirstName(),
-                visitorRequest.getMiddleInitial().equalsIgnoreCase("n/a") ? " " : visitorRequest.getMiddleInitial() + ". ",
-                visitorRequest.getLastName());
+    public void putVisitorDetails(Map<String, Object> parameters, VisitorResponse visitorResponse) {
+        AddressResponse addressResponse = visitorResponse.getAddress();
+        String fullName = String.format("%s%s%s", visitorResponse.getFirstName(),
+                visitorResponse.getMiddleInitial().equalsIgnoreCase("n/a") ? " " : visitorResponse.getMiddleInitial() + ". ",
+                visitorResponse.getLastName());
 
         String fullAddress = String.format("%s%s, %s", addressResponse.getBarangay() == null ? "" : String.format("%s, ", addressResponse.getBarangay().getName()),
                 addressResponse.getMunicipality().getName(), addressResponse.getProvince().getName());
 
-        String office = visitorRequest.getAgency() == null ? fullAddress : visitorRequest.getAgency().getName();
+        String office = visitorResponse.getAgency() == null ? fullAddress : visitorResponse.getAgency().getName();
 
-        parameters.put("courtesyTitle", visitorRequest.getCourtesyTitle().getTitle());
+        parameters.put("courtesyTitle", visitorResponse.getCourtesyTitle().getTitle());
         parameters.put("fullName", fullName);
 
-        parameters.put("position", visitorRequest.getPosition().getTitle());
+        parameters.put("position", visitorResponse.getPosition().getTitle());
         parameters.put("office", office);
 
-        parameters.put("lastName", visitorRequest.getLastName());
+        parameters.put("lastName", visitorResponse.getLastName());
     }
 
     private void putDateIssuedDetails(Map<String, Object> parameters, String strDateIssued) {
