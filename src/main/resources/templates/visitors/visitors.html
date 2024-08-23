@@ -64,7 +64,59 @@
         </div>
       </div>
 
-      
+      <!-- Visitor Modal -->
+      <div class="modal fade" data-bs-theme="dark" data-bs-backdrop="static" id="visitorModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <!--Modal Title Here-->
+              <button id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ui-front">
+              <!--Error Message Here-->
+              <div class="row border m-1 pt-3">
+                <input type="hidden" id="id" />
+                <div class="row">
+                  <div class="col mb-3 text-on-input">
+                    <label for="courtesyTitle" class="text-secondary">Courtesy Title</label>
+                    <input type="text" class="form-control" id="courtesyTitle" placeholder="e.g. Mr" />
+                  </div>
+                  <div class="col mb-3 text-on-input">
+                    <label for="firstName" class="text-secondary">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="e.g. Juan" />
+                  </div>
+                  <div class="col mb-3 text-on-input">
+                    <label for="middleInitial" class="text-secondary">Middle Initial</label>
+                    <input type="text" class="form-control" id="middleInitial" placeholder="e.g.G(Leave blank if not applicable)" />
+                  </div>
+                  <div class="col mb-3 text-on-input">
+                    <label for="lastName" class="text-secondary">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="e.g.Dela Cruz" />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col mb-3 text-on-input">
+                    <label for="position" class="text-secondary">Position/Designation</label>
+                    <input type="text" class="form-control" id="position" placeholder="e.g.Administrative Assistant II" />
+                  </div>
+                  <div class="col mb-3 text-on-input">
+                    <label for="courtesyTitle" class="text-secondary">Agency/Office</label>
+                    <input type="text" class="form-control" id="agency" placeholder="e.g.Municipal Mayor's Office(Leave blank if not applicable)" />
+                  </div>
+                </div>
+              </div>
+
+              <!--ADDRESS-->
+
+              <div id="address"></div>
+            </div>
+            <div class="modal-footer">
+              <button id="saveButton" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <th:block layout:fragment="script">
       <script th:src="@{/js/visitor.js}" type="module" defer></script>
