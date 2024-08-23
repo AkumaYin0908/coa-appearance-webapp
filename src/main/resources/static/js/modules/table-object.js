@@ -210,3 +210,36 @@ export const appearanceHistoryTableObject = function (url) {
     ],
   };
 };
+
+export const leaderNamesTableObject = function (url) {
+  return {
+    responsive: true,
+    paging: false,
+    ordering: false,
+    scrollY: 300,
+    scrollX: true,
+    scroller: true,
+    select: true,
+    layout: {
+      topStart: null,
+      topEnd: null,
+      bottomStart: null,
+      bottomEnd: null,
+    },
+    ajax: {
+      url: url,
+      dataSrc: "",
+    },
+    columnDefs: [
+      {
+        className: "dt-head-center",
+        targets: "_all",
+      },
+    ],
+    columns: [
+      {
+        data: "name",
+      },
+    ],
+  };
+};
