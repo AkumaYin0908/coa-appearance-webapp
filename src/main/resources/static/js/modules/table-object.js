@@ -159,6 +159,7 @@ export const appearanceTableObject = function (url) {
 
 export const appearanceHistoryTableObject = function (url) {
   return {
+    pageLength: 10,
     responsive: true,
     ordering: false,
     layout: {
