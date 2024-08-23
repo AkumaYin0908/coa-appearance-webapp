@@ -1,7 +1,7 @@
 import { baseUrl } from "./base-url.js";
 
 export const addressContent = ` <div class="row text-on-input mt-3 m-1 border pt-3">
-<label class="text-secondary border-label">Address</label>
+<span class="text-secondary border-label">Address</span>
 <div class="col mb-3">
   <select name="region" class="form-control" id="region"></select>
   <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region" />
@@ -136,6 +136,6 @@ export const displayCurrentLeader = function (leader) {
   return `<span class="h3 mt-1">${leader==null? "No active leader!": leader.name}</span>`
 };
 
-export const settingsButtonSection = `<div class="d-flex justify-content-end mt-2 mb-0">
-              <a type="button" id="changeLeaderButton" class="text-primary"><span class="material-symbols-outlined">settings</span> Change Leader</a>
+export const settingsButton = `<div class="d-flex justify-content-end mt-2 mb-0">
+              <button id="changeLeaderButton" class="btn btn-link"><span class="material-symbols-outlined">settings</span> Change Leader</button>
             </div>`
