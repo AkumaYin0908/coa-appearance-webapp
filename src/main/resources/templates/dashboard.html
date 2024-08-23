@@ -88,6 +88,35 @@
         </div>
       </div>
 
+      <!-- Change Leader Modal -->
+      <div class="modal fade" data-bs-theme="dark" data-bs-backdrop="static" id="leaderModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <!--Modal Title Here-->
+              <button id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!--Error Message Here-->
+              <div class="row border m-1 pt-3">
+                <div class="col-md-12 col-lg-12 table-responsive-sm table-responsive-md">
+                  <table class="table table-striped table-bordered" id="leaderNames">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">Name</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="selectButton" class="btn btn-primary" disabled>Select</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Visitor Modal -->
       <div class="modal fade" data-bs-theme="dark" data-bs-backdrop="static" id="visitorModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
