@@ -89,9 +89,6 @@ div button#addButton {
   width: 100%;
 }
 
-#changeLeaderButton {
-  text-decoration: none;
-}
 
 div.new-visitor {
   box-shadow: 1px 1px 3px rgb(66, 62, 62);
