@@ -77,7 +77,7 @@ export const leaderTableObject = function (url) {
   return {
     responsive: true,
     layout: {
-      topStart: getToolBar(`${addButton}${exportButtons}`),
+      topStart: getToolBar(`${addButton} ${exportButtons}`),
     },
     ajax: {
       url: url,
