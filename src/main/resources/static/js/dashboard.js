@@ -1,12 +1,15 @@
 "use strict";
 
 import { baseUrl } from "./modules/base-url.js";
-import { appearanceHistoryTableObject } from "./modules/table-object.js";
+import { appearanceHistoryTableObject, leaderNamesTableObject } from "./modules/table-object.js";
 import { loadAddress } from "./ph-address-selector.js";
 import { addressContent, errorContent, displayTitle, displayCurrentLeader, settingsButton } from "./modules/html-content.js";
 import { toast, alert, openConfirmDialog } from "./modules/popups.js";
 
 const dataTable = await $("#appearance").DataTable(appearanceHistoryTableObject(`${baseUrl}/appearances/DESC`));
+const leaderNameDataTable = $("#leaderNames").DataTable(leaderNamesTableObject(`${baseUrl}/leaders/names`));
+// $("#container").css("display", "block");
+// leaderNameDataTable.columns.adjust().draw();
 
 const idEl = $("#id");
 const addressContainer = $("#address");
@@ -21,12 +24,11 @@ const leaderNameSection = $(".leader-name-div");
 const settingsButtonSection = $(".leader-section");
 const entityType = "Visitor";
 
-
 const leader = await checkInchargeLeader();
 leaderNameSection.append(displayCurrentLeader(leader));
 
-if(leader !== null){
-    settingsButtonSection.append(settingsButton);
+if (leader !== null) {
+  settingsButtonSection.append(settingsButton);
 }
 
 /*BUTTON LISTENER */
@@ -46,6 +48,20 @@ $("#closeModalButton").on("click", function (event) {
 $("#saveButton").on("click", async function (event) {
   event.preventDefault();
   await getInputs();
+});
+
+$("#changeLeaderButton").on("click", function (event) {
+  event.preventDefault();
+  if ($("#leaderModal h5.modal-title").length === 0) {
+    const modalHeader = $("#leaderModal div.modal-header");
+    $(`<h5 class="modal-title text-light">Change ${entityType}</h5>`).prependTo(modalHeader);
+  }
+  $("#leaderModal").modal("show");
+});
+
+leaderNameDataTable.on("select deselect", function (event) {
+  event.preventDefault();
+  $("#selectButton").prop("disabled", !(leaderNameDataTable.row({ selected: true }).count()));
 });
 
 /* FUNCTIONS */
