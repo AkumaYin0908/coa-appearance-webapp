@@ -1,5 +1,7 @@
 "use strict";
 
+import { baseUrl } from "./modules/base-url.js";
+
 let buttons = $("li a");
 
 buttons.on("click", function () {
@@ -16,3 +18,7 @@ $(".sub-button").on("click", function () {
   $(this).next(".sub-menu").slideToggle();
   $(this).find(".dropdown").toggleClass("rotate");
 });
+
+$("#dashboardButton").prop("href",`${baseUrl}/dashboard`);
+$("#visitorButton").prop("href",`${baseUrl}/visitor-page`);
+$("#leaderButton").prop("href",`${baseUrl}/settings/leader-page`);
