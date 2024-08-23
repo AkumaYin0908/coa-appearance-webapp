@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DashboardPageController {
 
 
-    @GetMapping(value={"/","/dashboard"})
+    @GetMapping(value={"","/dashboard"})
     public String showDashboard(){
         return "dashboard";
     }
