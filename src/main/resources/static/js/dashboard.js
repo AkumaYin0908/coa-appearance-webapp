@@ -61,7 +61,23 @@ $("#changeLeaderButton").on("click", function (event) {
 
 leaderNameDataTable.on("select deselect", function (event) {
   event.preventDefault();
-  $("#selectButton").prop("disabled", !(leaderNameDataTable.row({ selected: true }).count()));
+  $("#selectButton").prop("disabled", !leaderNameDataTable.row({ selected: true }).count());
+});
+
+$("#selectButton").on("click", async function (event) {
+  try {
+    const currentLeader = await checkInchargeLeader();
+    const selectedLeader = leaderNameDataTable.row({ selected: true }).data();
+
+    await assignLeader(currentLeader.id, false);
+    await assignLeader(selectedLeader.id, true);
+    alert("Changed!", `${selectedLeader.name} assigned as Leader!`, "success");
+    $(".leader-name-div span").text(selectedLeader.name);
+    $("#leaderModal").modal("hide");
+    leaderNameDataTable.row({ selected: true }).deselect();
+  } catch (error) {
+    alert("Error", error.message, "error");
+  }
 });
 
 /* FUNCTIONS */
