@@ -9,7 +9,7 @@ import { visitorTableObject } from "./modules/table-object.js";
 import DialogDetails from "./modules/DialogDetails.js";
 
 const idEl = $("#id");
-const addressContainer = $("#address");
+const addressContainer = $("#addressSection");
 const courtesyTitleEl = $("#courtesyTitle");
 const firstNameEl = $("#firstName");
 const middleInitEl = $("#middleInitial");
@@ -51,6 +51,15 @@ $("#addButton").on("click", function (event) {
   $("#visitorModal").modal("show");
 });
 
+$("#addressSection").on("change", "#address", function (event) {
+  event.preventDefault();
+  $("#barangay").prop("disabled", $(this).is(":checked"));
+  $("#city").prop("disabled", $(this).is(":checked"));
+  $("#province").prop("disabled", $(this).is(":checked"));
+  $("#region").prop("disabled", $(this).is(":checked"));
+  console.log($(this).is(":checked"));
+});
+
 $("#closeModalButton").on("click", function (event) {
   event.preventDefault();
   resetVisitorModal();
@@ -69,10 +78,10 @@ $("#visitors").on("click", "a.btn-history", function (event) {
 /* FUNCTIONS */
 
 async function submitForm() {
-  const barangayEl = $("#address #barangay-text");
-  const municipalityEl = $("#address #city-text");
-  const provinceEl = $("#address #province-text");
-  const regionEl = $("#address #region-text");
+  const barangayEl = $("#addressSection #barangay-text");
+  const municipalityEl = $("#addressSection #city-text");
+  const provinceEl = $("#addressSection #province-text");
+  const regionEl = $("#addressSection #region-text");
 
   let visitor = {
     id: idEl.val(),
@@ -91,7 +100,7 @@ async function submitForm() {
         : {
             name: agencyEl.val(),
           },
-    address: {
+    address: $("#address").is(":checked") ? null :  {
       barangay: barangayEl.val()
         ? {
             code: barangayEl.attr("code"),
