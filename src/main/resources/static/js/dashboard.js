@@ -122,26 +122,28 @@ async function getInputs() {
         : {
             name: agencyEl.val(),
           },
-    address: $("#address").is(":checked") ? null :{
-      barangay: barangayEl.val()
-        ? {
-            code: barangayEl.attr("code"),
-            name: barangayEl.val(),
-          }
-        : null,
-      municipality: {
-        code: municipalityEl.attr("code"),
-        name: municipalityEl.val(),
-      },
-      province: {
-        code: provinceEl.attr("code"),
-        name: provinceEl.val(),
-      },
-      region: {
-        code: regionEl.attr("code"),
-        name: regionEl.val(),
-      },
-    },
+    address: $("#address").is(":checked")
+      ? null
+      : {
+          barangay: barangayEl.val()
+            ? {
+                code: barangayEl.attr("code"),
+                name: barangayEl.val(),
+              }
+            : null,
+          municipality: {
+            code: municipalityEl.attr("code"),
+            name: municipalityEl.val(),
+          },
+          province: {
+            code: provinceEl.attr("code"),
+            name: provinceEl.val(),
+          },
+          region: {
+            code: regionEl.attr("code"),
+            name: regionEl.val(),
+          },
+        },
   };
 
   await submitFormToServer(visitor);
