@@ -47,13 +47,13 @@ export const visitorTableObject = function (url) {
       {
         data: "agency",
         render: function (data, type, row) {
-          return `${row.agency == null ? "N/A" : data.name}`;
+          return `${row.agency === null ? "N/A" : data.name}`;
         },
       },
       {
         data: "address",
         render: function (data, type, row) {
-          return `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${data.province.name}`;
+          return row.address === null ? "N/A" : `${data.barangay == null ? "" : data.barangay.name + ","} ${data.municipality.name}, ${data.province.name}`;
         },
       },
       {
