@@ -1,24 +1,34 @@
 import { baseUrl } from "./base-url.js";
 
-export const addressContent = ` <div class="row text-on-input mt-3 m-1 border pt-3">
-<span class="text-secondary border-label">Address</span>
-<div class="col mb-3">
-  <select name="region" class="form-control" id="region"></select>
-  <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region" />
-</div>
-<div class="col mb-3">
-  <select name="province" class="form-control" id="province"></select>
-  <input type="hidden" class="form-control" name="province_text" id="province-text" required placeholder="Province" />
-</div>
-<div class="col mb-3">
-  <select name="city" class="form-control" id="city"></select>
-  <input type="hidden" class="form-control" name="city_text" id="city-text" required placeholder="City" />
-</div>
-<div class="col mb-3">
-  <select name="barangay" class="form-control" id="barangay"></select>
-  <input type="hidden" class="form-control" name="barangay_text" id="barangay-text" placeholder="Barangay(ignore if not applicable)" />
-</div>
-</div>`;
+export const addressContent = ` 
+              
+                 <div class="row text-on-input mt-3 m-1 border pt-3">
+                  <label class="text-secondary border-label">Address</label>
+                  <div class="row mx-auto">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="address" />
+                    <span class="form-check-label text-secondary" for="address">No address provided</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <select name="region" class="form-control" id="region"></select>
+                      <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region" />
+                    </div>
+                    <div class="col mb-3">
+                      <select name="province" class="form-control" id="province"></select>
+                      <input type="hidden" class="form-control" name="province_text" id="province-text" required placeholder="Province" />
+                    </div>
+                    <div class="col mb-3">
+                      <select name="city" class="form-control" id="city"></select>
+                      <input type="hidden" class="form-control" name="city_text" id="city-text" required placeholder="City" />
+                    </div>
+                    <div class="col mb-3">
+                      <select name="barangay" class="form-control" id="barangay"></select>
+                      <input type="hidden" class="form-control" name="barangay_text" id="barangay-text" placeholder="Barangay(ignore if not applicable)" />
+                    </div>
+                  </div>
+                </div>`;
 
 export const newButton = function (data) {
   return ` <a data-key = ${data} class = "btn-new btn btn-sm btn-success"><span class = "label-new">New</span>
@@ -133,9 +143,9 @@ export function displayTitle(isEdit, entityType) {
 }
 
 export const displayCurrentLeader = function (leader) {
-  return `<span class="h3 mt-1">${leader==null? "No active leader!": leader.name}</span>`
+  return `<span class="h3 mt-1">${leader == null ? "No active leader!" : leader.name}</span>`;
 };
 
 export const settingsButton = `<div class="d-flex justify-content-end mt-2 mb-0">
               <button id="changeLeaderButton" class="btn btn-link"><span class="material-symbols-outlined">settings</span> Change Leader</button>
-            </div>`
+            </div>`;
