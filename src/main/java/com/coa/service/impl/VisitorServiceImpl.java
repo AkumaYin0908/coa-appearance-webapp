@@ -113,27 +113,31 @@ public class VisitorServiceImpl implements VisitorService {
 //        addressRepository.save(address);
 //
 //        address.addVisitor(visitor);
-
-        AddressRequest addressRequest = visitorRequest.getAddress();
-        Address address= null;
-        Optional<Address> addressOptional = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
-                addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode());
-
-        if(addressOptional.isPresent()){
-            address = addressMapper.mapToModel(addressRequest);
+        if(visitorRequest.getAddress() == null){
+            visitor.setAddress(null);
         }else{
-            address = addressMapper.mapToModel(addressRequest);
-            if (address.getBarangay() != null) {
-                barangayRepository.save(address.getBarangay());
+            AddressRequest addressRequest = visitorRequest.getAddress();
+            Address address= null;
+            Optional<Address> addressOptional = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
+                    addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode());
+
+            if(addressOptional.isPresent()){
+                address = addressMapper.mapToModel(addressRequest);
+            }else{
+                address = addressMapper.mapToModel(addressRequest);
+                if (address.getBarangay() != null) {
+                    barangayRepository.save(address.getBarangay());
+                }
+
+                municipalityRepository.save(address.getMunicipality());
+                provinceRepository.save(address.getProvince());
+                regionRepository.save(address.getRegion());
+                addressRepository.save(address);
             }
 
-            municipalityRepository.save(address.getMunicipality());
-            provinceRepository.save(address.getProvince());
-            regionRepository.save(address.getRegion());
-            addressRepository.save(address);
+            visitor.setAddress(address);
         }
 
-        visitor.setAddress(address);
 
 
         Visitor dbVisitor = visitorRepository.save(visitor);
@@ -178,27 +182,30 @@ public class VisitorServiceImpl implements VisitorService {
 
 
 
-        AddressRequest addressRequest = visitorRequest.getAddress();
-        Address address= null;
-        Optional<Address> addressOptional = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
-                        addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode());
-
-        if(addressOptional.isPresent()){
-            address = addressMapper.mapToModel(addressRequest);
+        if(visitorRequest.getAddress() == null){
+            visitor.setAddress(null);
         }else{
-            address = addressMapper.mapToModel(addressRequest);
-            if (address.getBarangay() != null) {
-                barangayRepository.save(address.getBarangay());
+            AddressRequest addressRequest = visitorRequest.getAddress();
+            Address address= null;
+            Optional<Address> addressOptional = addressRepository.findByCodes(addressRequest.getBarangay() == null ? null : addressRequest.getBarangay().getCode(),
+                    addressRequest.getMunicipality().getCode(), addressRequest.getProvince().getCode(), addressRequest.getRegion().getCode());
+
+            if(addressOptional.isPresent()){
+                address = addressMapper.mapToModel(addressRequest);
+            }else{
+                address = addressMapper.mapToModel(addressRequest);
+                if (address.getBarangay() != null) {
+                    barangayRepository.save(address.getBarangay());
+                }
+
+                municipalityRepository.save(address.getMunicipality());
+                provinceRepository.save(address.getProvince());
+                regionRepository.save(address.getRegion());
+                addressRepository.save(address);
             }
 
-            municipalityRepository.save(address.getMunicipality());
-            provinceRepository.save(address.getProvince());
-            regionRepository.save(address.getRegion());
-            addressRepository.save(address);
+            visitor.setAddress(address);
         }
-
-
-        visitor.setAddress(address);
 
         visitorRepository.save(visitor);
 
