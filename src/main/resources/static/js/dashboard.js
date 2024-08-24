@@ -12,7 +12,7 @@ const leaderNameDataTable = $("#leaderNames").DataTable(leaderNamesTableObject(`
 // leaderNameDataTable.columns.adjust().draw();
 
 const idEl = $("#id");
-const addressContainer = $("#address");
+const addressContainer = $("#addressSection");
 const courtesyTitleEl = $("#courtesyTitle");
 const firstNameEl = $("#firstName");
 const middleInitEl = $("#middleInitial");
@@ -38,6 +38,15 @@ $("#addButton").on("click", function (event) {
   loadAddress(null);
   $(addressContent).prependTo(addressContainer);
   $("#visitorModal").modal("show");
+});
+
+$("#addressSection").on("change", "#address", function (event) {
+  event.preventDefault();
+  $("#barangay").prop("disabled", $(this).is(":checked"));
+  $("#city").prop("disabled", $(this).is(":checked"));
+  $("#province").prop("disabled", $(this).is(":checked"));
+  $("#region").prop("disabled", $(this).is(":checked"));
+  console.log($(this).is(":checked"));
 });
 
 $("#closeModalButton").on("click", function (event) {
@@ -113,7 +122,7 @@ async function getInputs() {
         : {
             name: agencyEl.val(),
           },
-    address: {
+    address: $("#address").is(":checked") ? null :{
       barangay: barangayEl.val()
         ? {
             code: barangayEl.attr("code"),
@@ -139,7 +148,7 @@ async function getInputs() {
 }
 
 async function submitFormToServer(visitor) {
-  const fullUrl = `${baseUrl}/visitors}`;
+  const fullUrl = `${baseUrl}/visitors`;
   await fetch(fullUrl, {
     method: "POST",
     headers: {
