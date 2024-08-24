@@ -1,5 +1,8 @@
 package com.coa.payload.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,10 @@ import java.util.Objects;
 public class PositionRequest {
 
     private Long id;
+
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+(?:-[a-zA-Z0-9 ]+)?$", message = "numbers and any special characters(except hyphen) is not allowed!")
+    @NotBlank(message = "position is required")
+    @Size(min = 2,max = 20,message = "position title must be between {min} and {max} characters long")
     private String title;
 
     @Override

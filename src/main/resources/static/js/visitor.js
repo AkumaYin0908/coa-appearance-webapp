@@ -89,7 +89,7 @@ async function submitForm() {
       title: courtesyTitleEl.val(),
     },
     firstName: firstNameEl.val(),
-    middleInitial: middleInitEl.val() ? middleInitEl.val() : "N/A",
+    middleInitial: middleInitEl.val(),
     lastName: lastNameEl.val(),
     position: {
       title: positionEl.val(),
@@ -123,7 +123,7 @@ async function submitForm() {
           },
         },
   };
-
+  console.log(visitor);
   await submitFormToServer(visitor);
 }
 
@@ -169,7 +169,16 @@ async function submitFormToServer(visitor) {
     .then((response) => {
       if (!response.ok) {
         return response.json().then((data) => {
-          throw new Error(data.message);
+          let message = "";
+          if(data?.message){
+            message = data.message;
+          }else{
+            const errorMessages = Object.entries(data)
+            .map(([fieldName, message])=>`${fieldName}: ${message}`)
+            .join('\n');
+            message = errorMessages;
+          }
+          throw new Error(message);
         });
       }
       return response.json();
@@ -189,6 +198,7 @@ async function submitFormToServer(visitor) {
         const modalBody = $("div.modal-body");
         $(errorContent(error)).prependTo(modalBody);
       }
+      console.log(error);
     });
 }
 

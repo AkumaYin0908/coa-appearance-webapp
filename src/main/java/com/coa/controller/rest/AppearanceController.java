@@ -5,6 +5,7 @@ import com.coa.payload.request.AppearanceRequest;
 import com.coa.payload.response.APIResponse;
 import com.coa.payload.response.AppearanceResponse;
 import com.coa.service.AppearanceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +74,7 @@ public class AppearanceController {
 //    }
 
     @PostMapping(value = "/appearances")
-    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@RequestBody List<AppearanceRequest> appearanceRequests,
+    public ResponseEntity<List<AppearanceResponse>> saveAppearances(@Valid @RequestBody List<AppearanceRequest> appearanceRequests,
                                                                     @RequestParam("appearanceType") String appearanceType) {
         if (appearanceType.equals("single")) {
             return new ResponseEntity<>(List.of(appearanceService.save(appearanceRequests.get(0))), HttpStatus.CREATED);
@@ -84,7 +85,7 @@ public class AppearanceController {
     }
 
     @PutMapping("/appearances/{id}")
-    public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id") Long id, @RequestBody AppearanceRequest appearanceRequest) {
+    public ResponseEntity<AppearanceResponse> updateAppearance(@PathVariable("id") Long id,@Valid @RequestBody AppearanceRequest appearanceRequest) {
         return new ResponseEntity<>(appearanceService.update(id, appearanceRequest), HttpStatus.CREATED);
     }
 

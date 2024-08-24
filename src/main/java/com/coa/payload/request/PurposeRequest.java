@@ -1,6 +1,9 @@
 package com.coa.payload.request;
 
 
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +16,9 @@ import java.util.Objects;
 public class PurposeRequest {
 
     private Long id;
+
+    @NotBlank(message = "position is required")
+    @Size(min = 5,max = 100,message = "purpose must be between {min} and {max} characters long")
     private String description;
 
     @Override

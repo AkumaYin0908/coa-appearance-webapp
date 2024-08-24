@@ -4,6 +4,7 @@ import com.coa.payload.request.VisitorRequest;
 import com.coa.payload.response.APIResponse;
 import com.coa.payload.response.VisitorResponse;
 import com.coa.service.VisitorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,12 +47,12 @@ public class VisitorController {
     }
 
     @PostMapping
-    public ResponseEntity<VisitorResponse> saveVisitor(@RequestBody VisitorRequest visitorRequest){
+    public ResponseEntity<VisitorResponse> saveVisitor(@Valid @RequestBody VisitorRequest visitorRequest){
         return new ResponseEntity<>(visitorService.save(visitorRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VisitorResponse> updateVisitor(@PathVariable("id")Long id, @RequestBody VisitorRequest visitorRequest){
+    public ResponseEntity<VisitorResponse> updateVisitor(@PathVariable("id")Long id,@Valid @RequestBody VisitorRequest visitorRequest){
         return new ResponseEntity<>(visitorService.update(id,visitorRequest), HttpStatus.OK);
     }
 

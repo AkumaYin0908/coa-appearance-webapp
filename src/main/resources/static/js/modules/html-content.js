@@ -116,8 +116,8 @@ export const visitorDetails = function (visitor) {
                   </div>
                   <div class="col">
                     <h6 class="text-secondary mb-0" id="position">${visitor.position.title}</h6>
-                    ${visitor.agency == null ? "" : `<h6 class="text-secondary" id="agency">${visitor.agency.name}</h6>`}
-                    <h6 class="text-secondary" id="address">${address.barangay != null ? address.barangay.name + ", " : ""}${address.municipality.name}, ${address.province.name}</h6>
+                    ${visitor.agency === null ? "" : `<h6 class="text-secondary" id="agency">${visitor.agency.name}</h6>`}
+                    ${visitor.address === null ?"": `<h6 class="text-secondary" id="address">${address.barangay != null ? address.barangay.name + ", " : ""}${address.municipality.name}, ${address.province.name}</h6>`}
                   </div>`;
 };
 

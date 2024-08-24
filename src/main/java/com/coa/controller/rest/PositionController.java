@@ -4,6 +4,7 @@ import com.coa.payload.request.PositionRequest;
 import com.coa.payload.response.APIResponse;
 import com.coa.payload.response.PositionResponse;
 import com.coa.service.PositionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,12 +43,12 @@ public class PositionController {
     }
 
     @PostMapping
-    public ResponseEntity<PositionResponse> savePosition(@RequestBody PositionRequest positionRequest){
+    public ResponseEntity<PositionResponse> savePosition(@Valid @RequestBody PositionRequest positionRequest){
         return new ResponseEntity<>(positionService.save(positionRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PositionResponse> updatePosition(@PathVariable("id")Long id, @RequestBody PositionRequest positionRequest){
+    public ResponseEntity<PositionResponse> updatePosition(@PathVariable("id")Long id,@Valid @RequestBody PositionRequest positionRequest){
         return  new ResponseEntity<>(positionService.update(id,positionRequest), HttpStatus.OK);
     }
 

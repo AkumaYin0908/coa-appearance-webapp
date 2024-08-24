@@ -4,6 +4,7 @@ import com.coa.payload.request.PurposeRequest;
 import com.coa.payload.response.APIResponse;
 import com.coa.payload.response.PurposeResponse;
 import com.coa.service.PurposeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,12 @@ public class PurposeController {
     }
 
     @PostMapping
-    public ResponseEntity<PurposeResponse> savePurpose(@RequestBody PurposeRequest purposeRequest){
+    public ResponseEntity<PurposeResponse> savePurpose(@Valid  @RequestBody PurposeRequest purposeRequest){
         return new ResponseEntity<>(purposeService.save(purposeRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PurposeResponse> updatePurpose(@PathVariable("id") Long id, @RequestBody PurposeRequest purposeRequest){
+    public ResponseEntity<PurposeResponse> updatePurpose(@PathVariable("id") Long id,@Valid @RequestBody PurposeRequest purposeRequest){
         return new ResponseEntity<>(purposeService.update(id,purposeRequest), HttpStatus.OK);
     }
 

@@ -5,6 +5,7 @@ import com.coa.payload.request.LeaderRequest;
 import com.coa.payload.response.APIResponse;
 import com.coa.payload.response.LeaderResponse;
 import com.coa.service.LeaderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,12 +49,12 @@ public class LeaderController {
     }
 
     @PostMapping
-    public ResponseEntity<LeaderResponse> saveLeader(@RequestBody LeaderRequest leaderRequest){
+    public ResponseEntity<LeaderResponse> saveLeader(@Valid  @RequestBody LeaderRequest leaderRequest){
         return new ResponseEntity<>(leaderService.save(leaderRequest), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LeaderResponse> updateLeader(@PathVariable("id")Long id, @RequestBody LeaderRequest leaderRequest){
+    public ResponseEntity<LeaderResponse> updateLeader(@Valid @PathVariable("id")Long id, @RequestBody LeaderRequest leaderRequest){
         return new ResponseEntity<>(leaderService.update(id,leaderRequest), HttpStatus.OK);
     }
 
