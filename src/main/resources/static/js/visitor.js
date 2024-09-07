@@ -53,11 +53,10 @@ $("#addButton").on("click", function (event) {
 
 $("#addressSection").on("change", "#address", function (event) {
   event.preventDefault();
-  $("#barangay").prop("disabled", $(this).is(":checked"));
-  $("#city").prop("disabled", $(this).is(":checked"));
-  $("#province").prop("disabled", $(this).is(":checked"));
-  $("#region").prop("disabled", $(this).is(":checked"));
-  console.log($(this).is(":checked"));
+    $("#barangay").prop("disabled", $(this).is(":checked"));
+    $("#city").prop("disabled", $(this).is(":checked"));
+    $("#province").prop("disabled", $(this).is(":checked"));
+    $("#region").prop("disabled", $(this).is(":checked"));
 });
 
 $("#closeModalButton").on("click", function (event) {
@@ -170,12 +169,12 @@ async function submitFormToServer(visitor) {
       if (!response.ok) {
         return response.json().then((data) => {
           let message = "";
-          if(data?.message){
+          if (data?.message) {
             message = data.message;
-          }else{
+          } else {
             const errorMessages = Object.entries(data)
-            .map(([fieldName, message])=>`${fieldName}: ${message}`)
-            .join('\n');
+              .map(([fieldName, message]) => `${fieldName}: ${message}`)
+              .join("\n");
             message = errorMessages;
           }
           throw new Error(message);
@@ -253,3 +252,4 @@ async function deleteVisitor(id) {
       });
   }
 }
+
