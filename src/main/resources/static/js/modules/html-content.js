@@ -6,26 +6,26 @@ export const addressContent = `
                   <label class="text-secondary border-label">Address</label>
                   <div class="row mx-auto">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="address" />
+                    <input class="form-check-input" type="checkbox" value="" id="address" checked/>
                     <span class="form-check-label text-secondary" for="address">No address provided</span>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col mb-3">
-                      <select name="region" class="form-control" id="region"></select>
-                      <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region" />
+                      <select name="region" class="form-control" id="region" disabled></select>
+                      <input type="hidden" class="form-control" name="region_text" id="region-text" required placeholder="Region"/>
                     </div>
                     <div class="col mb-3">
-                      <select name="province" class="form-control" id="province"></select>
-                      <input type="hidden" class="form-control" name="province_text" id="province-text" required placeholder="Province" />
+                      <select name="province" class="form-control" id="province" disabled></select>
+                      <input type="hidden" class="form-control" name="province_text" id="province-text" required placeholder="Province"/>
                     </div>
                     <div class="col mb-3">
-                      <select name="city" class="form-control" id="city"></select>
-                      <input type="hidden" class="form-control" name="city_text" id="city-text" required placeholder="City" />
+                      <select name="city" class="form-control" id="city" disabled></select>
+                      <input type="hidden" class="form-control" name="city_text" id="city-text" required placeholder="City"/>
                     </div>
                     <div class="col mb-3">
-                      <select name="barangay" class="form-control" id="barangay"></select>
-                      <input type="hidden" class="form-control" name="barangay_text" id="barangay-text" placeholder="Barangay(ignore if not applicable)" />
+                      <select name="barangay" class="form-control" id="barangay" disabled></select>
+                      <input type="hidden" class="form-control" name="barangay_text" id="barangay-text" placeholder="Barangay(ignore if not applicable)"/>
                     </div>
                   </div>
                 </div>`;
