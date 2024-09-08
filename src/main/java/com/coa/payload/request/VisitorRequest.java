@@ -2,6 +2,7 @@ package com.coa.payload.request;
 
 
 import com.coa.payload.request.address.AddressRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -19,7 +20,7 @@ public class VisitorRequest {
 
     private Long id;
 
-    @NotNull(message = "courtesy title is required")
+    @Valid
     private CourtesyTitleRequest courtesyTitle;
 
     @Pattern(regexp = "^[a-zA-Z ]+(?:-[a-zA-Z ]+)?$", message = "numbers and any special characters(except hyphen) is not allowed!")
@@ -37,7 +38,9 @@ public class VisitorRequest {
     private String lastName;
 
 
+    @Valid
     private PositionRequest position;
+
     private AgencyRequest agency;
     private AddressRequest address;
 
