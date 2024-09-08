@@ -18,7 +18,7 @@ public class PurposeRequest {
     private Long id;
 
     @NotBlank(message = "position is required")
-    @Size(min = 5,max = 100,message = "purpose must be between {min} and {max} characters long")
+    @Size(min = 5,max = 250,message = "purpose must be between {min} and {max} characters long")
     private String description;
 
     @Override

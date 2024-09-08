@@ -18,7 +18,7 @@ public class PositionRequest {
 
     @Pattern(regexp = "^[a-zA-Z0-9 ]+(?:-[a-zA-Z0-9 ]+)?$", message = "numbers and any special characters(except hyphen) is not allowed!")
     @NotBlank(message = "position is required")
-    @Size(min = 2,max = 20,message = "position title must be between {min} and {max} characters long")
+    @Size(min = 2,max = 50,message = "position title must be between {min} and {max} characters long")
     private String title;
 
     @Override
